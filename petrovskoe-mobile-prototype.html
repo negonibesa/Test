@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Петровское — мобильный прототип приложения</title>
+<style>
+  /* ============================================================
+     Refined Design System — теплые нейтралы, serif-заголовки
+     ============================================================ */
+  :root {
+    --bg: #fbf6ee;
+    --surface: #fffdf8;
+    --surface-warm: #f1e3cf;
+    --fg: #201914;
+    --fg-2: #4c4037;
+    --muted: #7a6d63;
+    --meta: #9b5b32;
+    --border: #ded2c3;
+    --border-soft: #eee4d7;
+    --accent: #9b5b32;
+    --accent-on: #ffffff;
+    --accent-hover: color-mix(in oklab, var(--accent), black 8%);
+    --accent-active: color-mix(in oklab, var(--accent), black 14%);
+    --success: #4f8a4f;
+    --warn: #c9822f;
+    --danger: #b33a3a;
+    --type-club: #AF52DE;
+    --type-rental: #c9822f;
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: Inter, system-ui, sans-serif;
+    --font-mono: "SF Mono", ui-monospace, Menlo, monospace;
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 17px;
+    --text-lg: 20px;
+    --text-xl: 28px;
+    --text-2xl: 42px;
+    --text-3xl: 64px;
+    --text-4xl: 88px;
+    --leading-body: 1.62;
+    --leading-tight: 1;
+    --tracking-display: -0.025em;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --section-y-desktop: 112px;
+    --section-y-tablet: 80px;
+    --section-y-phone: 56px;
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-pill: 9999px;
+    --elev-flat: none;
+    --elev-ring: 0 0 0 1px var(--border);
+    --elev-raised: none;
+    --focus-ring: 0 0 0 4px rgba(155, 91, 50, 0.24);
+    --motion-fast: 150ms;
+    --motion-base: 240ms;
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --stage: #1a1512;
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  button {
+    font-family: inherit;
+    font-size: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  html, body {
+    background: var(--stage);
+    color: var(--fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .icon { display: block; width: 1em; height: 1em; }
+
+  /* ============ СЦЕНА ============ */
+  .stage {
+    min-height: 100vh;
+    padding: 48px 24px 64px;
+    background: var(--stage);
+    overflow-x: hidden;
+  }
+
+  .caption-row {
+    max-width: 1440px;
+    margin: 0 auto 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8E8E96;
+  }
+  .caption-row .brand {
+    color: #c9a87c;
+  }
+  .caption-row .brand em { font-style: normal; color: rgba(201,168,124,0.45); }
+
+  .phones-row {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 48px 56px;
+  }
+
+  .phone-cell { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .phone-cell .ph-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #6E6E76;
+  }
+  .phone-cell .ph-label b { color: #c9a87c; font-weight: 500; }
+
+  /* ============ ТЕЛЕФОН ============ */
+  .phone {
+    width: 414px;
+    height: 868px;
+    background: linear-gradient(160deg, #2a2a2c, #000 34%, #0a0a0c 68%, #1d1d20);
+    border-radius: 52px;
+    padding: 12px;
+    position: relative;
+  }
+  .screen {
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    border-radius: 41px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .island {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 126px;
+    height: 36px;
+    background: #000;
+    border-radius: 19px;
+    z-index: 60;
+  }
+  .screen-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+  .screen-body::-webkit-scrollbar { display: none; }
+
+  .status {
+    flex: none;
+    height: 54px;
+    padding: 15px 30px 0 34px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 5;
+  }
+  .status .time {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .status .s-icons { display: flex; align-items: center; gap: 6px; }
+  .status .s-icons svg { display: block; }
+
+  /* ============ КАРТОЧКА СОБЫТИЯ ============ */
+  .ecard {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+  }
+  .ecard-bar { flex: none; width: 4px; align-self: stretch; background: var(--type, var(--accent)); }
+  .ecard-in { flex: 1; min-width: 0; padding: 16px; }
+
+  .e-row1 { display: flex; align-items: center; gap: 7px; }
+  .e-icon { flex: none; width: 24px; height: 24px; color: var(--muted); display: grid; place-items: center; }
+  .e-icon svg { width: 24px; height: 24px; }
+  .e-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--fg);
+    line-height: 1.25;
+  }
+  .type-badge {
+    flex: none;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .status-txt { flex: none; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .menu-btn {
+    flex: none;
+    border: 0;
+    background: transparent;
+    padding: 4px 2px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+  }
+  .menu-btn svg { width: 20px; height: 20px; }
+
+  .e-row2 { margin-top: 7px; font-size: 13px; color: var(--muted); }
+  .e-row3 {
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--fg);
+  }
+  .e-row3 .yours { flex: none; font-weight: 600; color: var(--fg); }
+
+  .e-row4 {
+    margin-top: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .avatar-stack { display: flex; align-items: center; }
+  .avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--muted);
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--surface);
+    margin-left: -8px;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .avatar svg { width: 12px; height: 12px; }
+  .avatar-more {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .extra {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .extra svg { width: 14px; height: 14px; flex: none; }
+
+  .e-actions { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--bg); }
+  .e-action {
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 4px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .e-action svg { width: 14px; height: 14px; flex: none; }
+  .e-action.danger { color: var(--danger); }
+
+  /* ============ ГЛАВНАЯ ============ */
+  .home-body { padding: 4px 16px 20px; }
+
+  .home-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 6px;
+  }
+  .home-head .avatar { border: 0; margin: 0; width: 40px; height: 40px; background: var(--border); }
+  .home-head .avatar svg { width: 26px; height: 26px; }
+  .greet { flex: 1; min-width: 0; }
+  .greet h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; font-family: var(--font-display); }
+  .greet p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .greet p svg { width: 13px; height: 13px; color: var(--warn); vertical-align: -2px; }
+  .head-icons { display: flex; gap: 4px; }
+  .hicon {
+    width: 36px; height: 36px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    display: grid;
+    place-items: center;
+    position: relative;
+    cursor: pointer;
+  }
+  .hicon svg { width: 21px; height: 21px; }
+  .hicon .badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--danger);
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+  }
+
+  .sec { margin-top: 20px; }
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .sec-head h2 { font-size: 17px; font-weight: 700; flex: 1; font-family: var(--font-display); }
+  .sec-head .link {
+    font-size: 13px; color: var(--accent); font-weight: 500; white-space: nowrap;
+    border: 0; background: transparent; padding: 4px 0; cursor: pointer;
+  }
+  .sec-head .link:hover { text-decoration: underline; }
+  .sec-head .gear {
+    border: 0; background: transparent; color: var(--muted);
+    width: 28px; height: 28px; cursor: pointer; display: grid; place-items: center;
+  }
+  .sec-head .gear svg { width: 19px; height: 19px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px 12px;
+  }
+  .stat-card .num { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-family: var(--font-display); }
+  .stat-card .lab { font-size: 12.5px; color: var(--fg); margin-top: 2px; line-height: 1.3; }
+  .stat-card .ex { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .stat-card .ex svg { width: 13px; height: 13px; vertical-align: -2px; }
+
+  .acc-group { margin-bottom: 8px; }
+  .acc-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 2px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .acc-head .day { font-size: 16px; font-weight: 700; flex: 1; text-align: left; color: var(--fg); font-family: var(--font-display); }
+  .acc-head .chev {
+    width: 26px; height: 26px;
+    color: var(--muted);
+    transition: transform 0.2s var(--ease);
+  }
+  .acc-head .chev svg { width: 18px; height: 18px; }
+  .acc-group.open .acc-head .chev { transform: rotate(90deg); }
+  .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.26s var(--ease); }
+  .acc-group.open .acc-body { max-height: 620px; }
+  .acc-body .ecard { margin-bottom: 8px; }
+  .acc-body .ecard:last-child { margin-bottom: 10px; }
+
+  .gto-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .gto-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+  .gto-top .gto-t { font-size: 17px; font-weight: 700; font-family: var(--font-display); }
+  .gto-top .gto-v { font-size: 14px; font-weight: 700; color: var(--accent); }
+  .gto-track { height: 8px; border-radius: 4px; background: var(--bg); overflow: hidden; }
+  .gto-fill { height: 100%; border-radius: 4px; background: var(--accent); width: 67%; }
+  .gto-items { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .gto-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--fg);
+    padding: 5px 9px;
+    background: var(--bg);
+    border-radius: 999px;
+  }
+  .gto-chip .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .gto-chip.done .dot { background: var(--success); }
+  .gto-chip.pending .dot { background: var(--warn); }
+  .gto-chip.none .dot { background: var(--border); }
+  .gto-chip.done { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(142,142,147,0.6); }
+
+  .club-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  .club-row .cicon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--muted);
+    display: grid; place-items: center;
+  }
+  .club-row .cicon svg { width: 20px; height: 20px; }
+  .club-row .cname { flex: 1; font-size: 15px; font-weight: 600; }
+  .club-row .cmembers { font-size: 13px; color: var(--muted); }
+  .club-row .chev { color: var(--border); }
+  .club-row .chev svg { width: 18px; height: 18px; }
+
+  /* ============ ТАББАР ============ */
+  .tabs {
+    flex: none;
+    display: flex;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(18px);
+    border-top: 0.5px solid rgba(60,60,67,0.16);
+    padding: 6px 8px 26px;
+    z-index: 5;
+  }
+  .tab {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 3px 0;
+    color: var(--muted);
+  }
+  .tab svg { width: 22px; height: 22px; }
+  .tab span { font-size: 10px; font-weight: 500; }
+  .tab.active { color: var(--accent); }
+
+  /* ============ НАСТРОЙКА ЛЕНТЫ ============ */
+  .fs-body { padding: 0 16px 24px; }
+  .navbar {
+    flex: none;
+    height: 46px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+  }
+  .navbar .back {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--accent);
+    width: 44px; height: 44px;
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .navbar .back svg { width: 22px; height: 22px; }
+  .navbar .nav-title { font-size: 17px; font-weight: 700; font-family: var(--font-display); }
+
+  .fs-desc { padding: 10px 2px 16px; }
+  .fs-desc .fs-q { font-size: 15px; color: var(--fg); font-weight: 500; }
+  .fs-desc .fs-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  .fs-group-label {
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 4px 16px 6px;
+    margin: 0 -16px;
+  }
+  .fs-list { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .fs-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    cursor: pointer;
+  }
+  .fs-row + .fs-row { border-top: 0.5px solid rgba(60,60,67,0.12); }
+  .fs-row .ficon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: grid; place-items: center;
+    flex: none;
+  }
+  .fs-row .ficon svg { width: 20px; height: 20px; }
+  .fs-row .fname { flex: 1; min-width: 0; }
+  .fs-row .fname .t { font-size: 15px; font-weight: 500; }
+  .fs-row .fname .s { font-size: 12px; color: var(--muted); margin-top: 1px; }
+
+  .switch {
+    flex: none;
+    width: 51px; height: 31px;
+    border-radius: 16px;
+    border: 0;
+    background: #E9E9EB;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.15s var(--ease);
+  }
+  .switch .knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 27px; height: 27px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    transition: transform 0.15s var(--ease);
+  }
+  .switch.on { background: var(--success); }
+  .switch.on .knob { transform: translateX(20px); }
+
+  .fs-note { font-size: 12.5px; color: var(--muted); padding: 14px 4px 0; line-height: 1.45; }
+
+  /* ============ КАРТОЧКА + МЕНЮ ============ */
+  .cm-body { padding: 0 16px 24px; position: relative; }
+  .cm-body .ecard { margin-bottom: 10px; }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s var(--ease);
+    z-index: 30;
+  }
+
+  .menu {
+    position: absolute;
+    top: 48px;
+    right: 14px;
+    width: 224px;
+    background: var(--surface);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    padding: 8px;
+    z-index: 40;
+    opacity: 0;
+    transform: scale(0.94) translateY(4px);
+    transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+    pointer-events: none;
+  }
+  .menu .mi {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--fg);
+    text-align: left;
+    padding: 11px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .menu .mi:hover { background: var(--bg); }
+  .menu .mi .memoji { width: 20px; flex: none; display: grid; place-items: center; }
+  .menu .mi .memoji svg { width: 18px; height: 18px; }
+  .menu .mi.danger { color: var(--danger); }
+  .menu .md { height: 1px; background: rgba(60,60,67,0.14); margin: 6px 4px; }
+
+  .screen.menu-open .overlay { opacity: 1; pointer-events: auto; }
+  .screen.menu-open .menu { opacity: 1; transform: none; pointer-events: auto; }
+
+  /* ============ СОСТОЯНИЯ УПРАВЛЕНИЯ ============ */
+  .hicon:hover { color: var(--fg); }
+  .hicon:active { transform: scale(0.9); }
+  .menu-btn:hover { color: var(--fg); }
+  .menu-btn:active { transform: scale(0.92); }
+  .acc-head:hover .day { color: var(--accent); }
+  .acc-head:active { opacity: 0.6; }
+  .gear:hover { color: var(--fg); }
+  .gear:active { transform: rotate(20deg); }
+  .back:active { opacity: 0.5; }
+  .tab:hover { color: var(--accent); }
+  .tab:active { opacity: 0.6; }
+  .e-action:hover { text-decoration: underline; }
+  .e-action:active { opacity: 0.6; }
+  .switch:hover .knob { box-shadow: 0 3px 8px rgba(0,0,0,0.28); }
+  .switch:active { filter: brightness(0.96); }
+
+  .e-action.done { color: var(--success); pointer-events: none; }
+  .e-action.done.danger { color: var(--danger); }
+  .e-action.off { color: var(--muted); opacity: 0.5; pointer-events: none; }
+
+  /* ============ АДАПТИВ СЦЕНЫ ============ */
+  @media (max-width: 900px) { .caption-row { flex-direction: column; align-items: flex-start; gap: 6px; } }
+  @media (max-width: 480px) {
+    .stage { padding: 28px 6px 48px; }
+    .phone { transform: scale(0.74); transform-origin: top center; margin-bottom: -232px; }
+    .phone-cell .ph-label { transform: scale(0.8); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 3.5h7v4.6a3.5 3.5 0 0 1-7 0V3.5Z"></path><path d="M6 4H4.4v1.3A3.2 3.2 0 0 0 7.6 8.6"></path><path d="M18 4h1.6v1.3a3.2 3.2 0 0 1-3.2 3.3"></path><path d="M12 11.6V14"></path><path d="M8.4 20.5h7.2"></path><path d="M10.2 20.5v-2.2M13.8 20.5v-2.2"></path></symbol>
+    <symbol id="i-run" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12.2" cy="5" r="2.3"></circle><path d="M9.2 20.5l2-5.6-3-1.4 1.3-2.3c1-1.8 3.2-2.4 4.8-1.3l1.9 2.4 3.6-.6"></path><path d="M11 9l2 2.3"></path></symbol>
+    <symbol id="i-person3" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="7" cy="7" r="2.1"></circle><path d="M3.2 18.2c.3-2.7 1.8-4.1 3.8-4.1s3.5 1.4 3.8 4.1Z"></path><circle cx="17" cy="7" r="2.1"></circle><path d="M13.2 18.2c.3-2.7 1.8-4.1 3.8-4.1s3.5 1.4 3.8 4.1Z"></path><circle cx="12" cy="9.4" r="2.1"></circle><path d="M8.1 20.8c.3-2.6 1.7-3.9 3.9-3.9s3.6 1.3 3.9 3.9Z"></path></g></symbol>
+    <symbol id="i-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"></circle><path d="M12 3.6v16.8M4.6 9l14.8 6M4.6 15l14.8-6"></path></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.2"></circle><path d="M15.6 15.6 20 20"></path></symbol>
+    <symbol id="i-qrscan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.4"></rect><circle cx="12" cy="12" r="4.6"></circle><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"></circle></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.6a6 6 0 0 1 12 0c0 4.7 1.6 5.6 1.6 5.6H4.4S6 14.3 6 9.6Z"></path><path d="M10.3 18.6a1.9 1.9 0 0 0 3.4 0"></path></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.4 10.4 12 4l7.6 6.4v9.1a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1Z"></path><path d="M9.6 20.5v-5.6h4.8v5.6"></path></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.4" y="5.2" width="15.2" height="15" rx="2.4"></rect><path d="M4.4 9.8h15.2M8.6 3.4v3.4M15.4 3.4v3.4"></path></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.6c-4.6 0-8.4 3.1-8.4 7s1.2 4.4 3 5.6l-.7 3 3.3-1.6c.9.2 1.8.3 2.8.3 4.6 0 8.4-3.1 8.4-7s-3.8-7-8.4-7Z"></path></symbol>
+    <symbol id="i-person" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="9.2" r="3.4"></circle><path d="M5.4 19.6c1-3.4 3.5-5 6.6-5s5.6 1.6 6.6 5Z"></path></g></symbol>
+    <symbol id="i-person-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"></circle><circle cx="12" cy="9.6" r="2.6" fill="currentColor" stroke="none"></circle><path d="M7 17.6c.8-2.5 2.7-3.7 5-3.7s4.2 1.2 5 3.7Z" fill="currentColor" stroke="none"></path></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="4.6" y="4.6" width="5.4" height="5.4" rx="1" fill="currentColor" stroke="none"></rect><rect x="14" y="4.6" width="5.4" height="5.4" rx="1" fill="currentColor" stroke="none"></rect><rect x="4.6" y="14" width="5.4" height="5.4" rx="1" fill="currentColor" stroke="none"></rect><path d="M14 14v5.4M19.4 14v5.4M16.7 14h1M16.7 17h1M16.7 19.4h1"></path></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.6 5.4 8 12l6.6 6.6"></path></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.4 5.4 16 12l-6.6 6.6"></path></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 9v6M16.4 9v6M3.6 10.2v3.6M20.4 10.2v3.6M12 8.6v6.8M7.6 12h8.8"></path></symbol>
+    <symbol id="i-swim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 9.4c1.6-1.4 3.2-1.4 4.8 0s3.2 1.4 4.8 0 3.2-1.4 4.8 0"></path><path d="M3.6 14.6c1.6-1.4 3.2-1.4 4.8 0s3.2 1.4 4.8 0 3.2-1.4 4.8 0"></path><path d="M3.6 19c1.6-1.4 3.2-1.4 4.8 0s3.2 1.4 4.8 0 3.2-1.4 4.8 0"></path></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.4"></circle><path d="M12 3.2v2.2M12 18.6v2.2M3.2 12h2.2M18.6 12h2.2M5.9 5.9l1.6 1.6M16.5 16.5l1.6 1.6M18.1 5.9l-1.6 1.6M7.5 16.5l-1.6 1.6"></path></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.9 14.7 8.7l6.3.9-4.6 4.4 1.1 6.2L12 17.4l-5.5 2.8 1.1-6.2L3 9.6l6.3-.9L12 2.9Z" fill="currentColor" stroke="none"></path></symbol>
+    <symbol id="i-medal" viewBox="0 0 24 24"><circle cx="12" cy="15.4" r="4.4" fill="currentColor" stroke="none"></circle><path d="M9 11.8 7.4 3.6h3.2L12 9.4M15 11.8l1.6-8.2h-3.2L12 9.4" fill="currentColor" stroke="none"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 12.8 9.8 17.8 19.2 6.2"></path></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"></path></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5.2" y="3.8" width="13.6" height="16.4" rx="2.2"></rect><path d="M8.6 8.6h6.8M8.6 12.2h6.8M8.6 15.8h4.2"></path></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.2" cy="12" r="2.4"></circle><circle cx="17.8" cy="6.4" r="2.4"></circle><circle cx="17.8" cy="17.6" r="2.4"></circle><path d="M8.5 10.8 15.4 7.4M8.5 13.2l6.9 3.4"></path></symbol>
+    <symbol id="i-ellipsis" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"></circle><circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"></circle></symbol>
+  </defs>
+</svg>
+
+<main class="stage" data-od-id="showcase-stage">
+  <div class="caption-row" data-od-id="showcase-caption">
+    <span>HI-FI PROTOTYPE · IPHONE · 390×844</span>
+    <span class="brand">ПЕТРОВСКОЕ <em>· СПОРТКЛУБ</em></span>
+  </div>
+
+  <div class="phones-row">
+
+    <!-- ================= ТЕЛЕФОН 1 — ГЛАВНАЯ ================= -->
+    <div class="phone-cell">
+      <div class="phone">
+        <div class="screen" data-od-id="phone-home">
+          <div class="island"></div>
+          <div class="status">
+            <span class="time">9:41</span>
+            <span class="s-icons">
+              <svg width="17" height="11" viewBox="0 0 17 11" aria-hidden="true">
+                <rect x="0" y="7" width="3" height="4" rx="1" fill="#1C1C1E"></rect>
+                <rect x="4.5" y="5" width="3" height="6" rx="1" fill="#1C1C1E"></rect>
+                <rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="#1C1C1E"></rect>
+                <rect x="13.5" y="0" width="3" height="11" rx="1" fill="#1C1C1E"></rect>
+              </svg>
+              <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true">
+                <path d="M8 9.2h.01" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"></path>
+                <path d="M5.2 6.5a4.2 4.2 0 0 1 5.6 0M2.8 4a8.4 8.4 0 0 1 10.4 0" fill="none" stroke="#1C1C1E" stroke-width="1.6" stroke-linecap="round"></path>
+              </svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true">
+                <rect x="0.6" y="1" width="20" height="10" rx="2.6" fill="none" stroke="#1C1C1E" stroke-width="1.1"></rect>
+                <rect x="2.2" y="2.6" width="14" height="6.8" rx="1.2" fill="#1C1C1E"></rect>
+                <rect x="22" y="4.4" width="1.7" height="3.2" rx="0.8" fill="#1C1C1E"></rect>
+              </svg>
+            </span>
+          </div>
+
+          <div class="screen-body home-body">
+            <header class="home-head" data-od-id="home-header">
+              <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person-circle"></use></svg></span>
+              <div class="greet">
+                <h1 style="font-size: 28px; font-weight: 700; color: var(--fg);">Привет, Александр!</h1>
+                <p><svg class="icon" aria-hidden="true"><use href="#i-star"></use></svg> 2 340 баллов</p>
+              </div>
+              <div class="head-icons">
+                <button class="hicon" aria-label="Поиск"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg></button>
+                <button class="hicon" aria-label="Сканировать QR" data-od-id="home-qr"><svg class="icon" aria-hidden="true"><use href="#i-qrscan"></use></svg></button>
+                <button class="hicon" aria-label="Уведомления"><svg class="icon" aria-hidden="true"><use href="#i-bell"></use></svg><span class="badge">3</span></button>
+              </div>
+            </header>
+
+            <section class="sec" data-od-id="home-stats">
+              <div class="sec-head"><h2>Статистика за неделю</h2></div>
+                <div class="stat-grid">
+                <div class="stat-card" data-od-id="stat-card-training"><div class="num" style="color:#007AFF">7</div><div class="lab">Тренировок</div><div class="ex">+3 за неделю</div></div>
+                <div class="stat-card" data-od-id="stat-card-achievements"><div class="num" style="color:#FF9500">5</div><div class="lab">Достижений</div><div class="ex"><svg class="icon" aria-hidden="true"><use href="#i-medal"></use></svg></div></div>
+                <div class="stat-card" data-od-id="stat-card-progress"><div class="num" style="color:#34C759">92%</div><div class="lab">Прогресс</div><div class="ex">к цели</div></div>
+                <div class="stat-card" data-od-id="stat-card-minutes"><div class="num" style="color:#FF2D55">245</div><div class="lab">минут</div><div class="ex">активности</div></div>
+                <div class="stat-card" data-od-id="stat-card-friends"><div class="num" style="color:#AF52DE">6</div><div class="lab">Друзей</div><div class="ex">онлайн</div></div>
+                <div class="stat-card" data-od-id="stat-card-level"><div class="num" style="color:var(--fg)">15</div><div class="lab">Уровень</div><div class="ex"><svg class="icon" aria-hidden="true"><use href="#i-medal"></use></svg></div></div>
+              </div>
+            </section>
+
+            <section class="sec" data-od-id="home-events">
+              <div class="sec-head">
+                <h2>Ближайшие записи</h2>
+                <button class="gear" aria-label="Настройки ленты"><svg class="icon" aria-hidden="true"><use href="#i-gear"></use></svg></button>
+                <button class="link" type="button">Все записи →</button>
+              </div>
+
+              <div class="acc-group open" data-od-id="acc-today">
+                <button class="acc-head" aria-expanded="true"><span class="day">Сегодня</span><span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span></button>
+                <div class="acc-body">
+                  <article class="ecard" data-od-id="event-card-cup" style="--type:#007AFF">
+                    <span class="ecard-bar"></span>
+                    <div class="ecard-in">
+                      <div class="e-row1">
+                        <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg></span>
+                        <span class="e-title">Летний Кубок Петровского</span>
+                        <span class="type-badge">Ивент</span>
+                        <span class="status-txt" style="color:#007AFF">Открыта</span>
+                        <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                      </div>
+                      <div class="e-row2">Сегодня 10:00 · Стадион</div>
+                      <div class="e-row3"><span>5 друзей идут</span><span class="yours">Вы записаны</span></div>
+                      <div class="e-row4">
+                        <span class="avatar-stack">
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar-more">+1 друг</span>
+                        </span>
+                        <span class="extra" style="color:var(--muted)">Турнирная сетка за 1 день</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="ecard" data-od-id="event-card-training" style="--type:#34C759">
+                    <span class="ecard-bar"></span>
+                    <div class="ecard-in">
+                      <div class="e-row1">
+                        <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-run"></use></svg></span>
+                        <span class="e-title">Силовая с Ивановым М.</span>
+                        <span class="type-badge">Моя</span>
+                        <span class="status-txt" style="color:#34C759">Подтверждено</span>
+                        <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                      </div>
+                      <div class="e-row2">Сегодня 18:00 · Спортзал</div>
+                      <div class="e-row3"><span>Тренер: Иванов М.</span></div>
+                      <div class="e-actions"><button class="e-action" data-act="complete"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> Отметить выполнение</button></div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="acc-group" data-od-id="acc-tomorrow">
+                <button class="acc-head" aria-expanded="false"><span class="day">Завтра</span><span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span></button>
+                <div class="acc-body">
+                  <article class="ecard" data-od-id="event-card-coach" style="--type:#FF9500">
+                    <span class="ecard-bar"></span>
+                    <div class="ecard-in">
+                      <div class="e-row1">
+                        <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-run"></use></svg></span>
+                        <span class="e-title">Программа от Петровой А.</span>
+                        <span class="type-badge">С тренером</span>
+                        <span class="status-txt" style="color:#FF9500">Ожидает</span>
+                        <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                      </div>
+                      <div class="e-row2">Завтра 10:00 · Зал йоги</div>
+                      <div class="e-row3"><span>Тренер: Петрова А.</span></div>
+                      <div class="e-actions"><button class="e-action" data-act="confirm"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg> Подтвердить</button><button class="e-action danger" data-act="reject"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg> Отклонить</button></div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="acc-group" data-od-id="acc-june-15">
+                <button class="acc-head" aria-expanded="false"><span class="day">15 июня</span><span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span></button>
+                <div class="acc-body">
+                  <article class="ecard" data-od-id="event-card-rental" style="--type:#FF2D55">
+                    <span class="ecard-bar"></span>
+                    <div class="ecard-in">
+                      <div class="e-row1">
+                        <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg></span>
+                        <span class="e-title">Футбол с друзьями</span>
+                        <span class="type-badge">Аренда</span>
+                        <span class="status-txt" style="color:#34C759">Подтверждено</span>
+                        <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                      </div>
+                      <div class="e-row2">15 июня 14:00 · Арена</div>
+                      <div class="e-row3"><span>3 из 5 друзей подтвердили</span></div>
+                      <div class="e-row4">
+                        <span class="avatar-stack">
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar-more">+2 друга</span>
+                        </span>
+                        <span class="extra"><svg class="icon" aria-hidden="true"><use href="#i-qr"></use></svg>QR-код</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="acc-group" data-od-id="acc-june-22">
+                <button class="acc-head" aria-expanded="false"><span class="day">22 июня</span><span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span></button>
+                <div class="acc-body">
+                  <article class="ecard" data-od-id="event-card-run" style="--type:#AF52DE">
+                    <span class="ecard-bar"></span>
+                    <div class="ecard-in">
+                      <div class="e-row1">
+                        <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-person3"></use></svg></span>
+                        <span class="e-title">Совместная пробежка</span>
+                        <span class="type-badge">Клуб</span>
+                        <span class="status-txt" style="color:#007AFF">Открыта</span>
+                        <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                      </div>
+                      <div class="e-row2">22 июня 10:00 · Парк</div>
+                      <div class="e-row3"><span>12 участников клуба</span><span class="yours">Вы идете</span></div>
+                      <div class="e-row4">
+                        <span class="avatar-stack">
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                          <span class="avatar-more">+8 участников</span>
+                        </span>
+                        <span class="extra"><svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>Клубный чат</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section class="sec" data-od-id="home-gto">
+              <div class="sec-head"><h2>ГТО Прогресс</h2><button class="link" type="button">Подробнее →</button></div>
+              <div class="gto-card">
+                <div class="gto-top"><span class="gto-t">Нормы ГТО</span><span class="gto-v">67%</span></div>
+                <div class="gto-track"><div class="gto-fill"></div></div>
+                <div class="gto-items">
+                  <span class="gto-chip done"><span class="dot"></span>Бег</span>
+                  <span class="gto-chip done"><span class="dot"></span>Подтягивания</span>
+                  <span class="gto-chip pending"><span class="dot"></span>Плавание</span>
+                  <span class="gto-chip none"><span class="dot"></span>Лыжи</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="sec" data-od-id="home-clubs">
+              <div class="sec-head"><h2>Мои клубы</h2><button class="link" type="button">Все клубы →</button></div>
+              <div class="club-row" data-od-id="club-runners">
+                <span class="cicon"><svg class="icon" aria-hidden="true"><use href="#i-run"></use></svg></span>
+                <span class="cname">Бегуны</span><span class="cmembers">156 уч.</span>
+                <span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span>
+              </div>
+              <div class="club-row" data-od-id="club-strong">
+                <span class="cicon"><svg class="icon" aria-hidden="true"><use href="#i-dumbbell"></use></svg></span>
+                <span class="cname">Силачи</span><span class="cmembers">89 уч.</span>
+                <span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span>
+              </div>
+              <div class="club-row" data-od-id="club-swimmers">
+                <span class="cicon"><svg class="icon" aria-hidden="true"><use href="#i-swim"></use></svg></span>
+                <span class="cname">Пловцы</span><span class="cmembers">203 уч.</span>
+                <span class="chev"><svg class="icon" aria-hidden="true"><use href="#i-chev-right"></use></svg></span>
+              </div>
+            </section>
+          </div>
+
+          <nav class="tabs" data-od-id="home-tabbar" aria-label="Основная навигация">
+            <button class="tab active" aria-label="Главная"><svg class="icon" aria-hidden="true"><use href="#i-house"></use></svg><span>Главная</span></button>
+            <button class="tab" aria-label="Календарь"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg><span>Календарь</span></button>
+            <button class="tab" aria-label="Чат"><svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg><span>Чат</span></button>
+            <button class="tab" aria-label="Сообщество"><svg class="icon" aria-hidden="true"><use href="#i-person3"></use></svg><span>Сообщество</span></button>
+            <button class="tab" aria-label="Профиль"><svg class="icon" aria-hidden="true"><use href="#i-person-circle"></use></svg><span>Профиль</span></button>
+          </nav>
+        </div>
+      </div>
+      <span class="ph-label">01 · <b>Главная</b></span>
+    </div>
+
+    <!-- ================= ТЕЛЕФОН 2 — НАСТРОЙКА ЛЕНТЫ ================= -->
+    <div class="phone-cell">
+      <div class="phone">
+        <div class="screen" data-od-id="phone-feed-settings">
+          <div class="island"></div>
+          <div class="status">
+            <span class="time">9:41</span>
+            <span class="s-icons">
+              <svg width="17" height="11" viewBox="0 0 17 11" aria-hidden="true">
+                <rect x="0" y="7" width="3" height="4" rx="1" fill="#1C1C1E"></rect><rect x="4.5" y="5" width="3" height="6" rx="1" fill="#1C1C1E"></rect><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="#1C1C1E"></rect><rect x="13.5" y="0" width="3" height="11" rx="1" fill="#1C1C1E"></rect>
+              </svg>
+              <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true">
+                <path d="M8 9.2h.01" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"></path><path d="M5.2 6.5a4.2 4.2 0 0 1 5.6 0M2.8 4a8.4 8.4 0 0 1 10.4 0" fill="none" stroke="#1C1C1E" stroke-width="1.6" stroke-linecap="round"></path>
+              </svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true">
+                <rect x="0.6" y="1" width="20" height="10" rx="2.6" fill="none" stroke="#1C1C1E" stroke-width="1.1"></rect><rect x="2.2" y="2.6" width="14" height="6.8" rx="1.2" fill="#1C1C1E"></rect><rect x="22" y="4.4" width="1.7" height="3.2" rx="0.8" fill="#1C1C1E"></rect>
+              </svg>
+            </span>
+          </div>
+
+          <div class="navbar">
+            <button class="back" aria-label="Назад"><svg class="icon" aria-hidden="true"><use href="#i-chev-left"></use></svg></button>
+            <span class="nav-title">Настройка ленты</span>
+          </div>
+
+          <div class="screen-body fs-body">
+            <div class="fs-desc">
+              <p class="fs-q">Какие события показывать на Главной?</p>
+              <p class="fs-sub">Календарь показывает всё</p>
+            </div>
+
+            <div class="fs-group-label">События на Главной</div>
+            <div class="fs-list" data-od-id="feed-settings-list">
+              <div class="fs-row" data-od-id="fs-row-global">
+                <span class="ficon" style="background:rgba(0,122,255,0.12);color:#007AFF"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg></span>
+                <span class="fname"><span class="t">Ивенты</span><span class="s">Турниры и соревнования</span></span>
+                <button class="switch on" role="switch" aria-checked="true" aria-label="Показывать ивенты" style="width: 32px; height: 24px;"><span class="knob"></span></button>
+              </div>
+              <div class="fs-row" data-od-id="fs-row-training">
+                <span class="ficon" style="background:rgba(52,199,89,0.14);color:#34C759"><svg class="icon" aria-hidden="true"><use href="#i-run"></use></svg></span>
+                <span class="fname"><span class="t">Мои тренировки</span><span class="s">Личные тренировки</span></span>
+                <button class="switch on" role="switch" aria-checked="true" aria-label="Показывать мои тренировки"><span class="knob"></span></button>
+              </div>
+              <div class="fs-row" data-od-id="fs-row-coach">
+                <span class="ficon" style="background:rgba(255,149,0,0.16);color:#FF9500"><svg class="icon" aria-hidden="true"><use href="#i-run"></use></svg></span>
+                <span class="fname"><span class="t">С тренером</span><span class="s">Программы от тренеров</span></span>
+                <button class="switch on" role="switch" aria-checked="true" aria-label="Показывать события с тренером"><span class="knob"></span></button>
+              </div>
+              <div class="fs-row" data-od-id="fs-row-club">
+                <span class="ficon" style="background:rgba(175,82,222,0.14);color:#AF52DE"><svg class="icon" aria-hidden="true"><use href="#i-person3"></use></svg></span>
+                <span class="fname"><span class="t">Клубы</span><span class="s">События клубов</span></span>
+                <button class="switch on" role="switch" aria-checked="true" aria-label="Показывать события клубов"><span class="knob"></span></button>
+              </div>
+              <div class="fs-row" data-od-id="fs-row-rental">
+                <span class="ficon" style="background:rgba(255,45,85,0.12);color:#FF2D55"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg></span>
+                <span class="fname"><span class="t">Аренда</span><span class="s">Аренда площадок</span></span>
+                <button class="switch on" role="switch" aria-checked="true" aria-label="Показывать аренду"><span class="knob"></span></button>
+              </div>
+            </div>
+
+            <p class="fs-note">Изменения применяются сразу. Календарь показывает все записи независимо от этих настроек.</p>
+          </div>
+        </div>
+      </div>
+      <span class="ph-label">02 · <b>Настройка ленты</b></span>
+    </div>
+
+    <!-- ================= ТЕЛЕФОН 3 — КАРТОЧКА + МЕНЮ ================= -->
+    <div class="phone-cell">
+      <div class="phone">
+        <div class="screen menu-open" data-od-id="phone-event-card">
+          <div class="island"></div>
+          <div class="status">
+            <span class="time">9:41</span>
+            <span class="s-icons">
+              <svg width="17" height="11" viewBox="0 0 17 11" aria-hidden="true">
+                <rect x="0" y="7" width="3" height="4" rx="1" fill="#1C1C1E"></rect><rect x="4.5" y="5" width="3" height="6" rx="1" fill="#1C1C1E"></rect><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="#1C1C1E"></rect><rect x="13.5" y="0" width="3" height="11" rx="1" fill="#1C1C1E"></rect>
+              </svg>
+              <svg width="16" height="11" viewBox="0 0 16 11" aria-hidden="true">
+                <path d="M8 9.2h.01" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"></path><path d="M5.2 6.5a4.2 4.2 0 0 1 5.6 0M2.8 4a8.4 8.4 0 0 1 10.4 0" fill="none" stroke="#1C1C1E" stroke-width="1.6" stroke-linecap="round"></path>
+              </svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true">
+                <rect x="0.6" y="1" width="20" height="10" rx="2.6" fill="none" stroke="#1C1C1E" stroke-width="1.1"></rect><rect x="2.2" y="2.6" width="14" height="6.8" rx="1.2" fill="#1C1C1E"></rect><rect x="22" y="4.4" width="1.7" height="3.2" rx="0.8" fill="#1C1C1E"></rect>
+              </svg>
+            </span>
+          </div>
+
+          <div class="navbar">
+            <button class="back" aria-label="Назад"><svg class="icon" aria-hidden="true"><use href="#i-chev-left"></use></svg></button>
+            <span class="nav-title">Ближайшие записи</span>
+          </div>
+
+          <div class="screen-body cm-body">
+            <article class="ecard" data-od-id="event-card-cup-menu" style="--type:#007AFF">
+              <span class="ecard-bar"></span>
+              <div class="ecard-in" style="border-color: rgb(255, 255, 255);">
+                <div class="e-row1">
+                  <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg></span>
+                  <span class="e-title">Летний Кубок Петровского</span>
+                  <span class="type-badge">Ивент</span>
+                  <span class="status-txt" style="color:#007AFF">Открыта</span>
+                  <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                </div>
+                <div class="e-row2">Сегодня 10:00 · Стадион</div>
+                <div class="e-row3"><span>5 друзей идут</span><span class="yours">Вы записаны</span></div>
+                <div class="e-row4">
+                  <span class="avatar-stack">
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar-more">+1 друг</span>
+                  </span>
+                  <span class="extra" style="color:var(--muted)">Турнирная сетка за 1 день</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="ecard" data-od-id="event-card-run-club" style="--type:#AF52DE">
+              <span class="ecard-bar"></span>
+              <div class="ecard-in">
+                <div class="e-row1">
+                  <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-person3"></use></svg></span>
+                  <span class="e-title">Совместная пробежка</span>
+                  <span class="type-badge">Клуб</span>
+                  <span class="status-txt" style="color:#007AFF">Открыта</span>
+                  <button class="menu-btn" aria-label="Открыть меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                </div>
+                <div class="e-row2">22 июня 10:00 · Парк</div>
+                <div class="e-row3"><span>12 участников клуба</span><span class="yours">Вы идете</span></div>
+                <div class="e-row4">
+                  <span class="avatar-stack">
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar-more">+8 участников</span>
+                  </span>
+                  <span class="extra"><svg class="icon" aria-hidden="true"><use href="#i-chat"></use></svg>Клубный чат</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="ecard" data-od-id="event-card-rental-qr" style="--type:#FF2D55">
+              <span class="ecard-bar"></span>
+              <div class="ecard-in">
+                <div class="e-row1">
+                  <span class="e-icon"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg></span>
+                  <span class="e-title">Футбол с друзьями</span>
+                  <span class="type-badge">Аренда</span>
+                  <span class="status-txt" style="color:#34C759">Подтверждено</span>
+                  <button class="menu-btn" aria-label="Меню события"><svg class="icon" aria-hidden="true"><use href="#i-ellipsis"></use></svg></button>
+                </div>
+                <div class="e-row2">15 июня 14:00 · Арена</div>
+                <div class="e-row3"><span>3 из 5 друзей подтвердили</span></div>
+                <div class="e-row4">
+                  <span class="avatar-stack">
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar"><svg class="icon" aria-hidden="true"><use href="#i-person"></use></svg></span>
+                    <span class="avatar-more">+2 друга</span>
+                  </span>
+                  <span class="extra"><svg class="icon" aria-hidden="true"><use href="#i-qr"></use></svg>QR-код</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="overlay menu-dismiss"></div>
+            <div class="menu" data-od-id="event-menu" role="menu" aria-label="Меню события">
+              <button class="mi" role="menuitem"><span class="memoji"><svg class="icon" aria-hidden="true"><use href="#i-doc"></use></svg></span>Подробнее</button>
+              <button class="mi" role="menuitem"><span class="memoji"><svg class="icon" aria-hidden="true"><use href="#i-share"></use></svg></span>Поделиться</button>
+              <button class="mi" role="menuitem"><span class="memoji"><svg class="icon" aria-hidden="true"><use href="#i-person3"></use></svg></span>Участники</button>
+              <button class="mi" role="menuitem"><span class="memoji"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg></span>Турнирная сетка</button>
+              <div class="md"></div>
+              <button class="mi danger" role="menuitem"><span class="memoji"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></span>Отказаться</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="ph-label">03 · <b>Карточка + меню</b></span>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function closeMenus() {
+      document.querySelectorAll('.screen.menu-open').forEach(function (s) { s.classList.remove('menu-open'); });
+    }
+
+    document.addEventListener('click', function (e) {
+      var head = e.target.closest('.acc-head');
+      if (head) {
+        var grp = head.parentElement;
+        grp.classList.toggle('open');
+        head.setAttribute('aria-expanded', grp.classList.contains('open') ? 'true' : 'false');
+        return;
+      }
+
+      var mbtn = e.target.closest('.menu-btn');
+      if (mbtn) {
+        var scr = mbtn.closest('.screen');
+        if (scr.classList.contains('menu-open')) { scr.classList.remove('menu-open'); }
+        else { closeMenus(); scr.classList.add('menu-open'); }
+        return;
+      }
+
+      if (e.target.closest('.menu-dismiss')) { closeMenus(); return; }
+      if (e.target.closest('.menu')) {
+        if (e.target.closest('.mi')) closeMenus();
+        return;
+      }
+
+      var sw = e.target.closest('.switch');
+      if (sw) { sw.classList.toggle('on'); sw.setAttribute('aria-checked', sw.classList.contains('on') ? 'true' : 'false'); return; }
+
+      var act = e.target.closest('.e-action');
+      if (act && !act.classList.contains('done') && !act.classList.contains('off')) {
+        if (act.dataset.act === 'complete') {
+          act.classList.add('done');
+          act.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Выполнено';
+        } else if (act.dataset.act === 'confirm') {
+          act.classList.add('done');
+          act.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-check"/></svg> Подтверждено';
+          var rej = act.parentElement.querySelector('[data-act="reject"]');
+          if (rej) rej.classList.add('off');
+        } else if (act.dataset.act === 'reject') {
+          act.classList.add('done', 'danger');
+          act.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-x"/></svg> Отклонено';
+          var conf = act.parentElement.querySelector('[data-act="confirm"]');
+          if (conf) conf.classList.add('off');
+        }
+        return;
+      }
+
+      var tab = e.target.closest('.tab');
+      if (tab) {
+        var bar = tab.closest('.tabs');
+        bar.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenus();
+    });
+  })();
+</script>
+
+
+</body></html>

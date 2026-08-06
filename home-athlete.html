@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<title>Петровское СП — главный экран · Спортсмен</title>
+<style>
+:root {
+  /* ─── Surface (3 levels) ────────────────────────────────────────── */
+  --bg: #ffffff;
+  --surface: #f5f5f7;
+  --surface-warm: #fbfbfd;
+
+  /* ─── Foreground ramp (4 levels) ───────────────────────────────── */
+  --fg: #1d1d1f;
+  --fg-2: #424245;
+  --muted: #6e6e73;
+  --meta: #86868b;
+
+  /* ─── Border (2 levels) ────────────────────────────────────────── */
+  --border: #d2d2d7;
+  --border-soft: #e8e8ed;
+
+  /* ─── Accent ────────────────────────────────────────────────────── */
+  --accent: #0071e3;
+  --accent-on: #ffffff;
+  --accent-hover: #0077ed;
+  --accent-active: #0066cc;
+
+  /* ─── Semantic ──────────────────────────────────────────────────── */
+  --success: #16a34a;
+  --warn:    #eab308;
+  --danger:  #dc2626;
+
+  /* ─── Typography ────────────────────────────────────────────────── */
+  --font-display:
+    "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:
+    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:
+    "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 17px;
+  --text-lg:   21px;
+  --text-xl:   28px;
+  --text-2xl:  40px;
+
+  --leading-body:  1.47;
+  --leading-tight: 1.05;
+  --tracking-display: -0.015em;
+
+  /* ─── Spacing ───────────────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+
+  /* ─── Radius ────────────────────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   18px;
+  --radius-pill: 980px;
+
+  /* ─── Elevation (3 levels) ──────────────────────────────────────── */
+  --elev-flat:   none;
+  --elev-ring:   0 0 0 1px var(--border);
+  --elev-raised: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  /* ─── Focus ring ────────────────────────────────────────────────── */
+  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+
+  /* ─── Motion ────────────────────────────────────────────────────── */
+  --motion-fast:   150ms;
+  --motion-base:   220ms;
+  --ease-standard: cubic-bezier(0.28, 0, 0.22, 1);
+
+  /* ─── Layout ────────────────────────────────────────────────────── */
+  --container-max:            1024px;
+  --container-gutter-desktop: 22px;
+  --container-gutter-tablet:  18px;
+  --container-gutter-phone:   16px;
+}
+
+/* ── Тип и статус события ──────────────────────────────────────────── */
+:root {
+  --type-me:      #34c759;
+  --type-trainer: #ff9500;
+  --type-event:   #007aff;
+  --type-club:    #af52de;
+  --type-rental:  #ff2d55;
+}
+:root {
+  --st-confirmed: #34c759;
+  --st-pending:   #ff9500;
+  --st-open:      #007aff;
+  --st-done:      #8e8e93;
+  --st-cancelled: #ff3b30;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+.app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 0 calc(96px + env(safe-area-inset-bottom));
+  min-height: 100vh;
+}
+
+/* ── Шапка ─────────────────────────────────────────────────────────── */
+.hd {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 28px 16px 20px;
+}
+@media (min-width: 560px) { .hd { padding: 40px 24px 24px; } }
+.avatar {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent-on);
+  background: var(--accent);
+  box-shadow: var(--elev-raised);
+}
+.hd-txt { flex: 1; min-width: 0; }
+.eyebrow {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.15;
+}
+.hd .sub {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.hd-acts { display: flex; gap: 8px; flex: none; }
+.icon-btn {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.icon-btn::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.icon-btn:hover { background: var(--surface); }
+.icon-btn:active { background: var(--border-soft); }
+.icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.icon-btn svg { width: 18px; height: 18px; }
+
+/* ── Тело ──────────────────────────────────────────────────────────── */
+.body { padding: 0 16px; }
+@media (min-width: 560px) { .body { padding: 0 24px; } }
+
+/* ── Статы недели ──────────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (min-width: 560px) { .stats { gap: 12px; } }
+.stat {
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+}
+.stat-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.stat-label svg { width: 13px; height: 13px; color: var(--fg-2); }
+.stat-value {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.stat-value small { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.stat-sub { margin-top: 5px; font-size: 12px; line-height: 1.4; color: var(--muted); }
+
+/* ── Цель ──────────────────────────────────────────────────────────── */
+.swipe-container {
+  position: relative;
+  margin-top: 24px;
+}
+.goal {
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 18px 18px 16px;
+}
+.goal-top { display: flex; align-items: center; gap: 10px; }
+.goal-ic {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: color-mix(in oklab, var(--accent), var(--fg) 15%);
+  background: color-mix(in srgb, var(--accent) 13%, var(--bg));
+}
+.goal-ic svg { width: 18px; height: 18px; }
+.goal-top .ev-menu { margin-left: auto; }
+.goal-title { margin: 12px 0 0; font-size: 21px; font-weight: 600; letter-spacing: -0.011em; }
+.goal-bar {
+  margin-top: 14px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  overflow: hidden;
+}
+.goal-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  width: 0;
+  transition: width 0.6s var(--ease-standard);
+}
+.goal-progress-label { margin: 8px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+
+/* ── Свайп цели ────────────────────────────────────────────────────── */
+.swipe-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--swipe-w, 178px);
+  display: flex;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.sw-act {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 0;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.sw-act svg { width: 18px; height: 18px; }
+.sw-act-edit { background: var(--accent); }
+.sw-act-share { background: var(--st-pending); }
+.sw-act:focus-visible { outline: none; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.85); }
+.swipe-card {
+  transition: transform var(--motion-base) var(--ease-standard);
+  will-change: transform;
+}
+.swipe-card.swiped { transform: translateX(calc(-1 * var(--swipe-w, 178px))); }
+@media (prefers-reduced-motion: reduce) { .swipe-card { transition: none; } }
+
+/* ── События ───────────────────────────────────────────────────────── */
+.sec {
+  margin-top: 30px;
+}
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 0 2px 12px;
+}
+.sec-head h2 {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+.sec-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: none;
+  min-height: 44px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+.sec-all:hover { color: var(--accent-hover); }
+.sec-all:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
+.sec-all svg { width: 12px; height: 12px; }
+.cards { display: grid; gap: 12px; }
+.empty {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 16px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.empty b { display: block; font-size: 15px; font-weight: 600; color: var(--fg-2); margin-bottom: 3px; }
+
+.ev-card {
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 14px 14px 12px;
+  animation: rise 0.5s var(--ease-standard) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ev-card { animation: none; } }
+.ev-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+}
+.ev-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.ev-title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.011em;
+}
+.ev-title.s-done, .ev-title.s-cancelled { color: var(--muted); }
+.ev-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--c), var(--fg) 40%);
+  background: color-mix(in srgb, var(--c) 13%, var(--bg));
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+}
+.ev-badge-status .ev-bdot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.ev-menu {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--surface-warm);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.ev-menu::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.ev-menu:hover { background: var(--surface); }
+.ev-menu:active { background: var(--border-soft); }
+.ev-menu:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ev-menu svg { width: 16px; height: 16px; }
+.ev-meta { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.ev-meta b { font-weight: 600; color: var(--fg-2); }
+
+/* ── Шит меню ──────────────────────────────────────────────────────── */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-standard);
+  z-index: 40;
+  pointer-events: none;
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) translateY(105%);
+  transition: transform var(--motion-base) var(--ease-standard);
+  width: 100%;
+  max-width: 700px;
+  background: var(--surface-warm);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 10px 16px calc(16px + env(safe-area-inset-bottom));
+  z-index: 50;
+}
+.sheet.open { transform: translateX(-50%) translateY(0); }
+@media (min-width: 560px) {
+  .sheet { bottom: 24px; border-radius: var(--radius-lg); box-shadow: 0 24px 60px rgba(0,0,0,0.24); }
+}
+.sheet-grab { width: 40px; height: 5px; border-radius: var(--radius-pill); background: var(--border); margin: 0 auto 12px; }
+.sheet-head { display: flex; align-items: center; gap: 8px; padding: 4px 4px 8px; }
+.sheet-head .ev-dot { width: 8px; height: 8px; }
+.sheet-title { margin: 0; flex: 1; min-width: 0; font-size: 15px; font-weight: 600; letter-spacing: -0.011em; }
+.sheet-list { display: grid; gap: 2px; max-height: 46vh; overflow: auto; }
+.sheet-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  border-radius: var(--radius-md);
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.sheet-item:hover { background: var(--surface); }
+.sheet-item:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sheet-item.is-off { cursor: default; opacity: 0.45; }
+.sheet-item.is-off:hover { background: none; }
+.sheet-ic {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: color-mix(in oklab, var(--accent), var(--fg) 15%);
+  background: color-mix(in srgb, var(--accent) 13%, var(--bg));
+}
+.sheet-item.is-off .sheet-ic { color: var(--meta); background: var(--surface); }
+.sheet-ic svg { width: 18px; height: 18px; }
+.sheet-it { flex: 1; min-width: 0; }
+.sheet-il { display: block; font-size: 15px; font-weight: 500; color: var(--fg); }
+.sheet-ih { display: block; font-size: 12px; line-height: 1.35; color: var(--meta); margin-top: 1px; }
+.sheet-cancel {
+  margin-top: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--fg-2);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px;
+  cursor: pointer;
+}
+.sheet-cancel:hover { background: var(--border-soft); }
+.sheet-cancel:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Таб-бар ───────────────────────────────────────────────────────── */
+.tabbar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 700px;
+  background: color-mix(in srgb, var(--surface-warm) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border-soft);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  z-index: 30;
+}
+.tab {
+  position: relative;
+  border: 0;
+  background: none;
+  text-decoration: none;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 6px 0;
+  color: var(--meta);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+.tab svg { width: 21px; height: 21px; }
+.tab.is-on { color: var(--accent); }
+.tab:not(.is-on):active { color: var(--fg-2); }
+.tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  z-index: 70;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  background: var(--fg);
+  color: var(--surface-warm);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+
+body.no-scroll { overflow: hidden; }
+</style>
+</head>
+<body data-od-id="home-athlete">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5L20 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 6-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 7H19v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3.6h-4l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.4-1c.5.4 1.1.8 1.7 1l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-edit" viewBox="0 0 24 24"><path d="M4 20l4.5-1L19.5 8a2.1 2.1 0 0 0-3-3L5.5 15.5 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M7 6.5l.8 12a1.5 1.5 0 0 0 1.5 1.4h5.4a1.5 1.5 0 0 0 1.5-1.4l.8-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10.5v6M14 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8c-1.3 0-2.6-.3-3.7-.8L4 20l1.3-4.3A8 8 0 1 1 20 11.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-share" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-grid" viewBox="0 0 24 24"><path d="M4 8.5L12 3l8 5.5v7L12 21l-8-5.5v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8.5l8 5.5 8-5.5M12 14v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.1" fill="currentColor"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd" data-od-id="home-header">
+    <div class="avatar" aria-hidden="true">И</div>
+    <div class="hd-txt">
+      <div class="eyebrow">Петровское СП</div>
+      <h1>Привет, Иван</h1>
+      <p class="sub">Спортсмен · плавание, лёгкая атлетика</p>
+    </div>
+    <div class="hd-acts">
+      <button class="icon-btn" data-toast="Настройки откроются в следующей итерации" aria-label="Настройки"><svg aria-hidden="true"><use href="#ic-gear"/></svg></button>
+      <button class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg></button>
+    </div>
+  </header>
+
+  <main class="body">
+    <section class="stats" data-od-id="home-stats">
+      <div class="stat">
+        <div class="stat-label"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировок</div>
+        <div class="stat-value">2<small> / 3</small></div>
+        <div class="stat-sub">на этой неделе</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label"><svg aria-hidden="true"><use href="#ic-clock"/></svg>Часов</div>
+        <div class="stat-value">3,5</div>
+        <div class="stat-sub">активной работы</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label"><svg aria-hidden="true"><use href="#ic-cal"/></svg>Подряд</div>
+        <div class="stat-value">3</div>
+        <div class="stat-sub">дня с тренировкой</div>
+      </div>
+    </section>
+
+    <div class="swipe-container" data-od-id="goal-swipe">
+      <div class="swipe-actions">
+        <button class="sw-act sw-act-edit" data-goal-act="edit" tabindex="-1"><svg><use href="#ic-edit"/></svg>Изменить</button>
+        <button class="sw-act sw-act-share" data-goal-act="share" tabindex="-1"><svg><use href="#ic-share"/></svg>Поделиться</button>
+      </div>
+      <section class="goal swipe-card" data-od-id="home-goal">
+        <div class="goal-top">
+          <span class="goal-ic" aria-hidden="true"><svg><use href="#ic-target"/></svg></span>
+          <button class="ev-menu" data-menu="goal" aria-label="Меню цели «Сдать нормы ГТО»"><svg><use href="#ic-dots"/></svg></button>
+        </div>
+        <h3 class="goal-title">Сдать нормы ГТО</h3>
+        <div class="goal-bar" id="goal-bar" role="progressbar" aria-label="Прогресс цели" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="goal-fill" id="goal-fill"></div></div>
+        <p class="goal-progress-label" id="goal-progress-label"><span id="goal-pct">0%</span> — выполнено 2 из 5 упражнений</p>
+      </section>
+    </div>
+
+    <section class="sec" data-od-id="home-events">
+      <div class="sec-head">
+        <h2>Ближайшие события</h2>
+        <a class="sec-all" href="events-system.html">Все события<svg aria-hidden="true"><use href="#ic-chev"/></svg></a>
+      </div>
+      <div class="cards" id="list"></div>
+    </section>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Меню действий">
+  <div class="sheet-grab"></div>
+  <div class="sheet-head">
+    <span class="ev-dot" id="sheet-dot" style="--c: var(--type-me)"></span>
+    <h3 class="sheet-title" id="sheet-title"></h3>
+    <span class="ev-badge" id="sheet-badge" style="--c: var(--type-me)">Моя</span>
+  </div>
+  <div class="sheet-list" id="sheet-list"></div>
+  <button class="sheet-cancel" id="sheet-cancel">Отмена</button>
+</div>
+
+<nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
+  <button class="tab is-on" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg>Главная</button>
+  <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><svg aria-hidden="true"><use href="#ic-events"/></svg>Расписание</a>
+  <button class="tab" data-toast="Тренировки — в следующей итерации" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировки</button>
+  <button class="tab" data-toast="Профиль — в следующей итерации" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg>Профиль</button>
+</nav>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var TYPES = {
+    me:      { label: 'Моя',        token: '--type-me' },
+    trainer: { label: 'С тренером', token: '--type-trainer' },
+    event:   { label: 'Ивент',      token: '--type-event' },
+    club:    { label: 'Клуб',       token: '--type-club' },
+    rental:  { label: 'Аренда',     token: '--type-rental' }
+  };
+  var STATUSES = {
+    confirmed: { label: 'Подтверждено', token: '--st-confirmed' },
+    pending:   { label: 'Ожидает',      token: '--st-pending' },
+    open:      { label: 'Открыта',      token: '--st-open' },
+    done:      { label: 'Завершено',    token: '--st-done' },
+    cancelled: { label: 'Отменено',     token: '--st-cancelled' }
+  };
+
+  var state = {
+    entities: [
+      {
+        id: 'str-today', type: 'me', title: 'Силовая тренировка', status: 'confirmed',
+        day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал', trainer: null
+      },
+      {
+        id: 'str-coach', type: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending',
+        day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2'
+      },
+      {
+        id: 'cup', type: 'event', title: 'Летний Кубок Петровского', status: 'open',
+        day: 'Сб, 16 авг', time: '10:00 – 18:00', place: 'Стадион «Центральный»',
+        enrolled: true, bracket: true
+      }
+    ]
+  };
+
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, 2200);
+  }
+
+  function getEntity(id) {
+    var out = null;
+    state.entities.forEach(function (e) { if (e.id === id) out = e; });
+    return out;
+  }
+  function setStatus(id, status) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.status = status;
+    render();
+    toast('Статус обновлён: «' + STATUSES[status].label + '»');
+  }
+  function notPast(e) { return e.status !== 'done' && e.status !== 'cancelled'; }
+
+  function actionsFor(e) {
+    var act = function (icon, label, ok, hint, run) { return { icon: icon, label: label, ok: ok, hint: hint, run: run }; };
+    var list = [];
+    if (e.type === 'me') {
+      list = [
+        act('edit', 'Редактировать', notPast(e), 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
+        act('x', 'Отменить', notPast(e), 'Доступно до завершения', function () { setStatus(e.id, 'cancelled'); }),
+        act('share', 'Поделиться', true, null, function () { toast('Ссылка на тренировку скопирована'); }),
+        e.trainer
+          ? act('chat', 'Изменить тренера', true, null, function () { toast('Список тренеров откроется в полной версии'); })
+          : act('plus', 'Добавить тренера', notPast(e), 'Тренер ещё не назначен', function () { toast('Список тренеров откроется в полной версии'); }),
+        act('trash', 'Удалить', notPast(e), 'Доступно до завершения', function () {
+          state.entities = state.entities.filter(function (x) { return x.id !== e.id; });
+          render();
+          toast('Тренировка удалена');
+        })
+      ];
+    } else if (e.type === 'trainer') {
+      list = [
+        act('check', 'Подтвердить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'confirmed'); }),
+        act('x', 'Отклонить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'cancelled'); }),
+        act('chat', 'Написать тренеру', true, null, function () { toast('Чат с тренером откроется в полной версии'); }),
+        act('share', 'Поделиться', true, null, function () { toast('Ссылка на тренировку скопирована'); }),
+        act('x', 'Отменить', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
+      ];
+    } else if (e.type === 'event') {
+      list = [
+        act('plus', 'Записаться', e.status === 'open' && !e.enrolled, e.enrolled ? 'Вы уже записаны' : 'Только пока открыта регистрация', function () { e.enrolled = true; render(); toast('Вы записались'); }),
+        act('minus', 'Отказаться', !!e.enrolled, 'Вы ещё не записаны', function () { e.enrolled = false; render(); toast('Участие отменено'); }),
+        act('grid', 'Посмотреть сетку', !!e.bracket, 'Сетка появится после старта', function () { toast('Турнирная сетка откроется в полной версии'); }),
+        act('users', 'Кто идёт', true, null, function () { toast('Список участников — в полной версии'); }),
+        act('share', 'Поделиться', true, null, function () { toast('Ссылка на ивент скопирована'); }),
+        act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); })
+      ];
+    }
+    return list;
+  }
+
+  /* ── Оверлеи ─────────────────────────────────────────────────────── */
+  var scrim = document.getElementById('scrim');
+  var sheet = document.getElementById('sheet');
+  var sheetList = document.getElementById('sheet-list');
+  var sheetTitle = document.getElementById('sheet-title');
+  var sheetDot = document.getElementById('sheet-dot');
+  var sheetBadge = document.getElementById('sheet-badge');
+
+  function openOverlay() { scrim.classList.add('open'); document.body.classList.add('no-scroll'); }
+  function closeOverlay() {
+    scrim.classList.remove('open');
+    sheet.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  }
+
+  function goalActions() {
+    var act = function (icon, label, ok, hint, run) { return { icon: icon, label: label, ok: ok, hint: hint, run: run }; };
+    return [
+      act('edit', 'Изменить цель', true, null, function () { toast('Выбор цели откроется в полной версии'); }),
+      act('grid', 'Выбрать значок ГТО', true, null, function () { toast('Значки и ступени ГТО откроются в полной версии'); }),
+      act('share', 'Поделиться прогрессом', true, null, function () { toast('Ссылка на прогресс скопирована'); }),
+      act('trash', 'Сбросить прогресс', true, null, function () { resetGoal(); toast('Прогресс цели сброшен'); })
+    ];
+  }
+
+  function openMenu(id) {
+    var e = getEntity(id);
+    var type, items, title;
+    if (id === 'goal') {
+      title = 'Сдать нормы ГТО';
+      type = { token: '--accent', label: 'Цель' };
+      items = goalActions();
+    } else {
+      if (!e) return;
+      type = TYPES[e.type];
+      title = e.title;
+      items = actionsFor(e);
+    }
+    sheetTitle.textContent = title;
+    sheetDot.style.setProperty('--c', 'var(' + type.token + ')');
+    sheetBadge.style.setProperty('--c', 'var(' + type.token + ')');
+    sheetBadge.textContent = type.label;
+    sheetList.innerHTML = '';
+    items.forEach(function (a) {
+      var row = document.createElement('button');
+      row.className = 'sheet-item' + (a.ok ? '' : ' is-off');
+      row.innerHTML =
+        '<span class="sheet-ic"><svg><use href="#ic-' + a.icon + '"/></svg></span>' +
+        '<span class="sheet-it"><span class="sheet-il">' + a.label + '</span>' +
+        (a.ok ? '' : '<span class="sheet-ih">' + a.hint + '</span>') +
+        '</span>';
+      if (a.ok) {
+        row.addEventListener('click', function () { closeOverlay(); a.run(); });
+      } else if (a.hint) {
+        row.addEventListener('click', function () { toast(a.hint); });
+      }
+      sheetList.appendChild(row);
+    });
+    openOverlay();
+    sheet.classList.add('open');
+  }
+
+  /* ── Рендер ──────────────────────────────────────────────────────── */
+  function cardHTML(e, idx) {
+    var type = TYPES[e.type];
+    var status = STATUSES[e.status];
+    var past = e.status === 'done' || e.status === 'cancelled';
+    var enrolledNote = (e.type === 'event' || e.type === 'club') && e.enrolled ? ' · Вы записаны' : '';
+    return '<article class="ev-card" data-od-id="home-card-' + e.id + '" style="--i:' + idx + '">' +
+      '<header class="ev-top">' +
+        '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
+        '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + enrolledNote + '</h3>' +
+        '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+        '<span class="ev-badge ev-badge-status" style="--c: var(' + status.token + ')"><i class="ev-bdot"></i>' + status.label + '</span>' +
+        '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
+      '</header>' +
+      '<p class="ev-meta"><b>' + e.day + '</b> · ' + e.time + ' · ' + e.place + '</p>' +
+    '</article>';
+  }
+
+  function render() {
+    var box = document.getElementById('list');
+    box.innerHTML = '';
+    var i = 0;
+    state.entities.forEach(function (e) {
+      box.insertAdjacentHTML('beforeend', cardHTML(e, i++));
+    });
+    if (!box.children.length) {
+      box.insertAdjacentHTML('beforeend',
+        '<div class="empty" data-od-id="home-empty"><b>Событий пока нет</b>Они появятся здесь, когда вы запишетесь на тренировку</div>');
+    }
+  }
+
+  /* ── События ─────────────────────────────────────────────────────── */
+  var swipeTimer = null;
+  function closeSwipe() {
+    document.querySelectorAll('.swipe-card.swiped').forEach(function (c) { c.classList.remove('swiped'); });
+  }
+  function openSwipe(card) {
+    if (!card.parentNode.querySelector('.sw-act')) return;
+    closeSwipe();
+    card.classList.add('swiped');
+    clearTimeout(swipeTimer);
+    swipeTimer = setTimeout(closeSwipe, 3000);
+  }
+  (function setupGoalSwipe() {
+    var card = document.querySelector('.goal.swipe-card');
+    if (!card) return;
+    var startX = 0;
+    var startY = 0;
+    var dragging = false;
+    var onStart = function (ev) {
+      var t = ev.touches ? ev.touches[0] : ev;
+      startX = t.clientX;
+      startY = t.clientY;
+      dragging = true;
+    };
+    var onMove = function (ev) {
+      if (!dragging) return;
+      var t = ev.touches ? ev.touches[0] : ev;
+      var dx = t.clientX - startX;
+      var dy = t.clientY - startY;
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      if (Math.abs(dy) > Math.abs(dx)) { dragging = false; return; }
+      ev.preventDefault();
+      if (dx < -40) { openSwipe(card); dragging = false; }
+      else if (dx > 40) { closeSwipe(); dragging = false; }
+    };
+    var onEnd = function () { dragging = false; };
+    card.addEventListener('touchstart', onStart, { passive: true });
+    card.addEventListener('touchmove', onMove, { passive: false });
+    card.addEventListener('touchend', onEnd);
+    card.addEventListener('mousedown', onStart);
+    card.addEventListener('mousemove', onMove);
+    card.addEventListener('mouseup', onEnd);
+    card.addEventListener('mouseleave', onEnd);
+  })();
+
+  document.addEventListener('click', function (ev) {
+    if (!ev.target.closest('.swipe-card') && !ev.target.closest('.swipe-actions')) closeSwipe();
+
+    var goalAct = ev.target.closest('[data-goal-act]');
+    if (goalAct) {
+      closeSwipe();
+      toast(goalAct.getAttribute('data-goal-act') === 'edit'
+        ? 'Выбор цели откроется в полной версии'
+        : 'Ссылка на прогресс скопирована');
+      return;
+    }
+
+    var menuBtn = ev.target.closest('[data-menu]');
+    if (menuBtn) { openMenu(menuBtn.getAttribute('data-menu')); return; }
+
+    var toastBtn = ev.target.closest('[data-toast]');
+    if (toastBtn) { toast(toastBtn.getAttribute('data-toast')); return; }
+  });
+
+  scrim.addEventListener('click', closeOverlay);
+  document.getElementById('sheet-cancel').addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') closeOverlay();
+  });
+
+  /* ── Цель: анимация прогресса ────────────────────────────────────── */
+  var goalTarget = 35;
+  var goalFill = document.getElementById('goal-fill');
+  var goalPct = document.getElementById('goal-pct');
+  var goalBar = document.getElementById('goal-bar');
+  function setGoalPct(v) {
+    goalPct.textContent = v + '%';
+    goalBar.setAttribute('aria-valuenow', String(v));
+  }
+  function resetGoal() {
+    goalFill.style.width = '0%';
+    setGoalPct(0);
+  }
+  requestAnimationFrame(function () { goalFill.style.width = goalTarget + '%'; });
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setGoalPct(goalTarget);
+  } else {
+    var goalT0 = null;
+    function goalStep(ts) {
+      if (goalT0 === null) goalT0 = ts;
+      var p = Math.min((ts - goalT0) / 600, 1);
+      setGoalPct(Math.round((1 - Math.pow(1 - p, 3)) * goalTarget));
+      if (p < 1) requestAnimationFrame(goalStep);
+    }
+    requestAnimationFrame(goalStep);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

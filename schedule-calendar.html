@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<title>Петровское СП — расписание</title>
+<style>
+:root {
+  /* ─── Surface (3 levels) ────────────────────────────────────────── */
+  --bg: #ffffff;
+  --surface: #f5f5f7;
+  --surface-warm: #fbfbfd;
+
+  /* ─── Foreground ramp (4 levels) ───────────────────────────────── */
+  --fg: #1d1d1f;
+  --fg-2: #424245;
+  --muted: #6e6e73;
+  --meta: #86868b;
+
+  /* ─── Border (2 levels) ────────────────────────────────────────── */
+  --border: #d2d2d7;
+  --border-soft: #e8e8ed;
+
+  /* ─── Accent ────────────────────────────────────────────────────── */
+  --accent: #0071e3;
+  --accent-on: #ffffff;
+  --accent-hover: #0077ed;
+  --accent-active: #0066cc;
+
+  /* ─── Semantic ──────────────────────────────────────────────────── */
+  --success: #16a34a;
+  --warn:    #eab308;
+  --danger:  #dc2626;
+
+  /* ─── Typography ────────────────────────────────────────────────── */
+  --font-display:
+    "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:
+    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 17px;
+  --text-lg:   21px;
+  --text-xl:   28px;
+
+  --leading-body:  1.47;
+  --leading-tight: 1.05;
+  --tracking-display: -0.015em;
+
+  /* ─── Spacing ───────────────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+
+  /* ─── Radius ────────────────────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   18px;
+  --radius-pill: 980px;
+
+  /* ─── Elevation ─────────────────────────────────────────────────── */
+  --elev-flat:   none;
+  --elev-ring:   0 0 0 1px var(--border);
+  --elev-raised: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  /* ─── Focus ring ────────────────────────────────────────────────── */
+  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+
+  /* ─── Motion ────────────────────────────────────────────────────── */
+  --motion-fast:   150ms;
+  --motion-base:   220ms;
+  --ease-standard: cubic-bezier(0.28, 0, 0.22, 1);
+
+  /* ─── Layout ────────────────────────────────────────────────────── */
+  --container-max:            1024px;
+  --container-gutter-desktop: 22px;
+  --container-gutter-tablet:  18px;
+  --container-gutter-phone:   16px;
+}
+
+/* ── Единая система точек ─────────────────────────────────────────── */
+:root {
+  --type-me:      #34c759;
+  --type-trainer: #ff9500;
+  --type-event:   #007aff;
+  --type-club:    #af52de;
+  --type-rental:  #ff2d55;
+}
+:root {
+  --st-confirmed: #34c759;
+  --st-pending:   #ff9500;
+  --st-open:      #007aff;
+  --st-done:      #8e8e93;
+  --st-cancelled: #ff3b30;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+.app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 0 64px;
+  min-height: 100vh;
+}
+
+/* ── Шапка ─────────────────────────────────────────────────────────── */
+.hd {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 16px 16px;
+}
+@media (min-width: 560px) { .hd { padding: 36px 24px 20px; } }
+.back {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--fg-2);
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.back:hover { background: var(--surface); }
+.back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.back svg { width: 17px; height: 17px; transform: rotate(180deg); }
+.hd-txt { flex: 1; min-width: 0; }
+.eyebrow {
+  margin: 0 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.15;
+}
+.hd .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+
+.body { padding: 0 16px; }
+@media (min-width: 560px) { .body { padding: 0 24px; } }
+
+/* ── Фильтры-чипсы ────────────────────────────────────────────────── */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 2px 14px;
+}
+.chips::-webkit-scrollbar { display: none; }
+.chip {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.chip:hover { background: var(--surface-warm); }
+.chip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.chip.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+}
+.chip-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.chips + .chips { padding-top: 0; margin-top: -8px; }
+
+/* ── Статусы-переключатели ───────────────────────────────────────── */
+.stat-panel {
+  margin: 0 0 4px;
+  padding: 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+}
+.stat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.stat-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.stat-hint { font-size: 12px; color: var(--meta); }
+.stat-list { display: flex; flex-direction: column; }
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+}
+.stat-row + .stat-row { border-top: 1px solid var(--border-soft); }
+.stat-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.stat-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg);
+}
+.switch {
+  position: relative;
+  flex: none;
+  width: 46px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  background: var(--border);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.switch:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.switch .knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.switch.on { background: var(--st-confirmed); }
+.switch.on .knob { transform: translateX(18px); }
+
+/* ── Календарь ────────────────────────────────────────────────────── */
+.cal {
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 14px 10px 8px;
+}
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 10px;
+}
+.cal-month {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+.cal-nav {
+  display: flex;
+  gap: 6px;
+}
+.nav-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--surface-warm);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.nav-btn:hover { background: var(--surface); }
+.nav-btn:active { background: var(--border-soft); }
+.nav-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nav-btn svg { width: 16px; height: 16px; }
+.nav-btn.next svg { transform: rotate(180deg); }
+
+.cal-week,
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.cal-week { padding-bottom: 4px; }
+.cal-wd {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--meta);
+  padding: 6px 0;
+}
+.cal-cell {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  height: 52px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.cal-cell:hover { background: var(--surface); }
+.cal-cell:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.cal-cell.is-other { opacity: 0.4; }
+.cal-num {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg);
+}
+.cal-cell.is-today .cal-num {
+  background: var(--accent);
+  color: var(--accent-on);
+  font-weight: 600;
+}
+.cal-cell.is-sel .cal-num {
+  background: color-mix(in srgb, var(--accent) 18%, var(--bg));
+  color: var(--accent-active);
+  font-weight: 700;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.cal-cell.is-today.is-sel .cal-num {
+  background: var(--accent);
+  color: var(--accent-on);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, var(--bg));
+}
+.cal-dots {
+  display: flex;
+  gap: 2px;
+  height: 5px;
+}
+.cal-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+/* ── События дня ──────────────────────────────────────────────────── */
+.day {
+  margin-top: 20px;
+}
+.day-head { display: flex; align-items: baseline; gap: 10px; padding: 0 2px 10px; }
+.day-head h2 {
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+}
+.day-count { font-size: 13px; font-weight: 500; color: var(--meta); }
+.day-empty {
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 20px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.ev-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 12px 14px;
+  margin-top: 10px;
+  animation: rise 0.4s var(--ease-standard) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ev-row { animation: none; } }
+.ev-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.ev-main { flex: 1; min-width: 0; }
+.ev-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.011em;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ev-time {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.ev-badges { flex: none; display: flex; gap: 6px; }
+.ev-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: color-mix(in oklab, var(--c), var(--fg) 40%);
+  background: color-mix(in srgb, var(--c) 13%, var(--bg));
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+}
+.ev-badge .b-dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+
+/* ── Подвал ────────────────────────────────────────────────────────── */
+.foot {
+  margin: 40px 16px 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--meta);
+}
+@media (min-width: 560px) { .foot { margin: 48px 24px 0; } }
+.foot b { color: var(--fg-2); font-weight: 600; }
+</style>
+</head>
+<body data-od-id="schedule-calendar">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd" data-od-id="schedule-header">
+    <a class="back" href="home-athlete.html" aria-label="Назад на главный экран"><svg><use href="#ic-back"/></svg></a>
+    <div class="hd-txt">
+      <div class="eyebrow">Петровское СП</div>
+      <h1>Расписание</h1>
+      <p class="sub">Точки под числами — события дня · фильтры — по типу и статусу</p>
+    </div>
+  </header>
+
+  <main class="body">
+    <div class="chips" id="chips" data-od-id="filters"></div>
+    <section class="stat-panel" data-od-id="status-filters">
+      <div class="stat-head">
+        <span class="stat-title">Статусы</span>
+        <span class="stat-hint" id="status-hint">Все</span>
+      </div>
+      <div class="stat-list" id="status-list"></div>
+    </section>
+
+    <section class="cal" data-od-id="calendar">
+      <div class="cal-head">
+        <h2 class="cal-month" id="cal-month">Июнь 2026</h2>
+        <div class="cal-nav">
+          <button class="nav-btn" id="prev" aria-label="Предыдущий месяц"><svg><use href="#ic-back"/></svg></button>
+          <button class="nav-btn next" id="next" aria-label="Следующий месяц"><svg><use href="#ic-next"/></svg></button>
+        </div>
+      </div>
+      <div class="cal-week" id="week"></div>
+      <div class="cal-grid" id="grid"></div>
+    </section>
+
+    <section class="day" data-od-id="day-panel">
+      <div class="day-head">
+        <h2 id="day-title">Выберите день</h2>
+        <span class="day-count" id="day-count"></span>
+      </div>
+      <div id="day-list"></div>
+    </section>
+
+    <footer class="foot" data-od-id="schedule-footer">
+      <b>Точки</b> · 4px под числом, цвет = тип события; если типов несколько — показываются все.<br>
+      <b>Фильтры</b> · по типу — чипсы, по статусу — переключатели; работают вместе (И).<br>
+      <b>Статусы</b> · выключите лишние, чтобы показать только нужные события.
+    </footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
+  var TYPES = {
+    me:      { label: 'Тренировка', token: '--type-me' },
+    trainer: { label: 'С тренером', token: '--type-trainer' },
+    event:   { label: 'Ивент',      token: '--type-event' },
+    club:    { label: 'Клуб',       token: '--type-club' },
+    rental:  { label: 'Аренда',     token: '--type-rental' }
+  };
+  var TYPE_ORDER = ['me', 'trainer', 'rental', 'club', 'event'];
+  var STATUSES = {
+    confirmed: { label: 'Подтверждено', token: '--st-confirmed' },
+    pending:   { label: 'Ожидает',      token: '--st-pending' },
+    open:      { label: 'Открыта',      token: '--st-open' },
+    done:      { label: 'Завершено',    token: '--st-done' },
+    cancelled: { label: 'Отменено',     token: '--st-cancelled' }
+  };
+
+  var FILTERS = [
+    { id: 'all',     label: 'Все',         token: '--st-done' },
+    { id: 'me',      label: 'Тренировки',  token: '--type-me' },
+    { id: 'trainer', label: 'С тренером',  token: '--type-trainer' },
+    { id: 'rental',  label: 'Аренда',      token: '--type-rental' },
+    { id: 'club',    label: 'Клубы',       token: '--type-club' },
+    { id: 'event',   label: 'Ивенты',      token: '--type-event' }
+  ];
+
+  var STATUS_ORDER = ['pending', 'confirmed', 'open', 'done', 'cancelled'];
+
+  var EVENTS = [
+    { y: 2026, m: 5, d: 15, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 16, type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 18, type: 'club',    title: 'Вечерняя пробежка клуба',     time: '19:00 – 20:30', place: 'Парк Победы',      status: 'open' },
+    { y: 2026, m: 5, d: 20, type: 'event',   title: 'Летний Кубок Петровского',    time: '10:00 – 18:00', place: 'Стадион «Центральный»', status: 'open' },
+    { y: 2026, m: 5, d: 21, type: 'me',      title: 'Тренировка по плаванию',      time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 21, type: 'event',   title: 'Турнир по бадминтону',        time: '14:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
+    { y: 2026, m: 5, d: 22, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 23, type: 'me',      title: 'Лёгкая атлетика',             time: '07:30 – 09:00', place: 'Стадион',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 24, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 25, type: 'me',      title: 'Плавание',                    time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 26, type: 'me',      title: 'Кросс',                       time: '19:00 – 20:00', place: 'Парк',             status: 'confirmed' },
+    { y: 2026, m: 5, d: 27, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 28, type: 'me',      title: 'Лёгкая атлетика',             time: '08:00 – 09:30', place: 'Стадион',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 28, type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 30, type: 'trainer', title: 'ГТО: силовая подготовка',     time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'pending' },
+    { y: 2026, m: 6, d: 3,  type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
+    { y: 2026, m: 6, d: 5,  type: 'event',   title: 'Кубок района',                time: '11:00 – 16:00', place: 'Стадион',          status: 'open' },
+    { y: 2026, m: 6, d: 12, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 6, d: 19, type: 'club',    title: 'Клубный турнир',              time: '15:00 – 18:00', place: 'Спорткомплекс',    status: 'open' },
+    { y: 2026, m: 6, d: 26, type: 'event',   title: 'Итоги сезона',                time: '12:00 – 15:00', place: 'ДК «Петровское»', status: 'open' },
+    { y: 2026, m: 6, d: 26, type: 'me',      title: 'Тренировка',                  time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 7, d: 9,  type: 'club',    title: 'Вечерняя пробежка',           time: '19:00 – 20:30', place: 'Парк',             status: 'open' },
+    { y: 2026, m: 7, d: 23, type: 'event',   title: 'Турнир по бадминтону',        time: '12:00 – 17:00', place: 'Спорткомплекс',    status: 'open' }
+  ];
+
+  var now = new Date();
+  var state = {
+    viewY: 2026,
+    viewM: 5,
+    filter: 'all',
+    statusOn: { pending: true, confirmed: true, open: true, done: true, cancelled: true },
+    selected: { y: 2026, m: 5, d: 15 }
+  };
+
+  /* ── Данные ──────────────────────────────────────────────────────── */
+  function eventsFor(y, m, d) {
+    return EVENTS.filter(function (e) { return e.y === y && e.m === m && e.d === d; });
+  }
+  function visibleEvents(y, m, d) {
+    return eventsFor(y, m, d).filter(function (e) {
+      return (state.filter === 'all' || e.type === state.filter) &&
+             !!state.statusOn[e.status];
+    });
+  }
+  function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+  function firstOffset(y, m) { return (new Date(y, m, 1).getDay() + 6) % 7; }
+
+  /* ── Фильтры ─────────────────────────────────────────────────────── */
+  function allStatusesOn() {
+    return STATUS_ORDER.every(function (s) { return !!state.statusOn[s]; });
+  }
+  function anyStatusOn() {
+    return STATUS_ORDER.some(function (s) { return !!state.statusOn[s]; });
+  }
+  function refreshViews() {
+    if (state.selected) {
+      var evs = visibleEvents(state.selected.y, state.selected.m, state.selected.d);
+      if (!evs.length) state.selected = null;
+    }
+    renderChips();
+    renderStatusSwitches();
+    renderCalendar();
+    renderDay();
+  }
+  function renderChips() {
+    var box = document.getElementById('chips');
+    box.innerHTML = '';
+    FILTERS.forEach(function (f) {
+      var b = document.createElement('button');
+      b.className = 'chip' + (state.filter === f.id ? ' is-on' : '');
+      b.style.setProperty('--c', 'var(' + f.token + ')');
+      b.innerHTML = '<span class="chip-dot"></span>' + f.label;
+      b.addEventListener('click', function () {
+        state.filter = f.id;
+        refreshViews();
+      });
+      box.appendChild(b);
+    });
+  }
+  function renderStatusSwitches() {
+    var box = document.getElementById('status-list');
+    box.innerHTML = '';
+    var master = document.createElement('div');
+    master.className = 'stat-row';
+    master.innerHTML =
+      '<span class="stat-dot" style="--c: var(--st-done)" aria-hidden="true"></span>' +
+      '<span class="stat-name">Все</span>';
+    var ms = document.createElement('button');
+    ms.className = 'switch' + (allStatusesOn() ? ' on' : '');
+    ms.setAttribute('role', 'switch');
+    ms.setAttribute('aria-checked', allStatusesOn() ? 'true' : 'false');
+    ms.setAttribute('aria-label', 'Все статусы');
+    ms.innerHTML = '<span class="knob"></span>';
+    ms.addEventListener('click', function () {
+      var on = !allStatusesOn();
+      STATUS_ORDER.forEach(function (s) { state.statusOn[s] = on; });
+      refreshViews();
+    });
+    master.appendChild(ms);
+    box.appendChild(master);
+
+    STATUS_ORDER.forEach(function (s) {
+      var st = STATUSES[s];
+      var row = document.createElement('div');
+      row.className = 'stat-row';
+      row.innerHTML =
+        '<span class="stat-dot" style="--c: var(' + st.token + ')" aria-hidden="true"></span>' +
+        '<span class="stat-name">' + st.label + '</span>';
+      var sw = document.createElement('button');
+      sw.className = 'switch' + (state.statusOn[s] ? ' on' : '');
+      sw.setAttribute('role', 'switch');
+      sw.setAttribute('aria-checked', state.statusOn[s] ? 'true' : 'false');
+      sw.setAttribute('aria-label', st.label);
+      sw.innerHTML = '<span class="knob"></span>';
+      (function (key) {
+        sw.addEventListener('click', function () {
+          state.statusOn[key] = !state.statusOn[key];
+          refreshViews();
+        });
+      })(s);
+      row.appendChild(sw);
+      box.appendChild(row);
+    });
+
+    var hint = document.getElementById('status-hint');
+    if (allStatusesOn()) hint.textContent = 'Все';
+    else if (!anyStatusOn()) hint.textContent = 'Ничего не выбрано';
+    else {
+      var names = STATUS_ORDER.filter(function (s) { return state.statusOn[s]; })
+        .map(function (s) { return STATUSES[s].label; });
+      hint.textContent = names.join(', ');
+    }
+  }
+
+  /* ── Календарь ───────────────────────────────────────────────────── */
+  function renderCalendar() {
+    var y = state.viewY, m = state.viewM;
+    document.getElementById('cal-month').textContent = MONTHS[m] + ' ' + y;
+
+    var weekBox = document.getElementById('week');
+    weekBox.innerHTML = '';
+    ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].forEach(function (w) {
+      var d = document.createElement('div');
+      d.className = 'cal-wd';
+      d.textContent = w;
+      weekBox.appendChild(d);
+    });
+
+    var grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    var offset = firstOffset(y, m);
+    var dim = daysInMonth(y, m);
+    var prevDim = daysInMonth(y, m === 0 ? 11 : m - 1);
+    var prevY = m === 0 ? y - 1 : y;
+    var prevM = m === 0 ? 11 : m - 1;
+    var nextY = m === 11 ? y + 1 : y;
+    var nextM = m === 11 ? 0 : m + 1;
+
+    var total = Math.ceil((offset + dim) / 7) * 7;
+
+    for (var i = 0; i < total; i++) {
+      var cell = document.createElement('button');
+      cell.className = 'cal-cell';
+      cell.type = 'button';
+      var isOther = i < offset || i >= offset + dim;
+      var cy, cm, cd;
+      if (isOther) {
+        cy = i < offset ? prevY : nextY;
+        cm = i < offset ? prevM : nextM;
+        cd = i < offset ? prevDim - offset + i + 1 : i - offset - dim + 1;
+        cell.classList.add('is-other');
+      } else {
+        cy = y; cm = m; cd = i - offset + 1;
+      }
+
+      var evs = visibleEvents(cy, cm, cd);
+      var types = [];
+      TYPE_ORDER.forEach(function (t) {
+        if (evs.some(function (e) { return e.type === t; })) types.push(t);
+      });
+
+      var num = document.createElement('span');
+      num.className = 'cal-num';
+      num.textContent = cd;
+
+      cell.appendChild(num);
+
+      if (types.length) {
+        var dots = document.createElement('span');
+        dots.className = 'cal-dots';
+        types.slice(0, 3).forEach(function (t) {
+          var dot = document.createElement('i');
+          dot.className = 'cal-dot';
+          dot.style.setProperty('--c', 'var(' + TYPES[t].token + ')');
+          dots.appendChild(dot);
+        });
+        cell.appendChild(dots);
+      } else {
+        var pad = document.createElement('span');
+        pad.className = 'cal-dots';
+        cell.appendChild(pad);
+      }
+
+      var isToday = cy === now.getFullYear() && cm === now.getMonth() && cd === now.getDate();
+      var isSel = state.selected && state.selected.y === cy && state.selected.m === cm && state.selected.d === cd;
+      if (isToday) cell.classList.add('is-today');
+      if (isSel) cell.classList.add('is-sel');
+
+      cell.addEventListener('click', (function (cy, cm, cd, isOther) {
+        return function () {
+          if (isOther) { state.viewY = cy; state.viewM = cm; }
+          state.selected = { y: cy, m: cm, d: cd };
+          renderCalendar();
+          renderDay();
+        };
+      })(cy, cm, cd, isOther));
+
+      grid.appendChild(cell);
+    }
+  }
+
+  /* ── События дня ─────────────────────────────────────────────────── */
+  function renderDay() {
+    var title = document.getElementById('day-title');
+    var count = document.getElementById('day-count');
+    var list = document.getElementById('day-list');
+
+    if (!state.selected) {
+      title.textContent = 'Выберите день';
+      count.textContent = '';
+      list.innerHTML = '<div class="day-empty">Выберите день в календаре — здесь появятся события.</div>';
+      return;
+    }
+
+    var y = state.selected.y, m = state.selected.m, d = state.selected.d;
+    var date = new Date(y, m, d);
+    var label = date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
+    title.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+
+    var evs = visibleEvents(y, m, d);
+    count.textContent = evs.length ? (evs.length === 1 ? '1 событие' : evs.length + ' события') : '';
+
+    if (!evs.length) {
+      list.innerHTML = '<div class="day-empty">Событий нет' +
+        (state.filter !== 'all' || !allStatusesOn() ? ' по выбранным фильтрам' : '') + '.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    evs.forEach(function (e, i) {
+      var type = TYPES[e.type];
+      var status = STATUSES[e.status];
+      var row = document.createElement('div');
+      row.className = 'ev-row';
+      row.style.setProperty('--i', i);
+      row.innerHTML =
+        '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
+        '<div class="ev-main">' +
+          '<span class="ev-title">' + e.title + '</span>' +
+          '<span class="ev-time">' + e.time + ' · ' + e.place + '</span>' +
+        '</div>' +
+        '<div class="ev-badges">' +
+          '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+          (e.status === 'open'
+            ? ''
+            : '<span class="ev-badge" style="--c: var(' + status.token + ')"><i class="b-dot"></i>' + status.label + '</span>') +
+        '</div>';
+      list.appendChild(row);
+    });
+  }
+
+  /* ── Инициализация ───────────────────────────────────────────────── */
+  document.getElementById('prev').addEventListener('click', function () {
+    state.viewM--;
+    if (state.viewM < 0) { state.viewM = 11; state.viewY--; }
+    state.selected = null;
+    renderCalendar();
+    renderDay();
+  });
+  document.getElementById('next').addEventListener('click', function () {
+    state.viewM++;
+    if (state.viewM > 11) { state.viewM = 0; state.viewY++; }
+    state.selected = null;
+    renderCalendar();
+    renderDay();
+  });
+
+  renderChips();
+  renderStatusSwitches();
+  renderCalendar();
+  renderDay();
+})();
+</script>
+</body>
+</html>

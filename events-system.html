@@ -1,0 +1,1774 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<title>Петровское СП — система событий</title>
+<style>
+:root {
+  /* ─── Surface (3 levels) ────────────────────────────────────────── */
+  --bg: #ffffff;
+  --surface: #f5f5f7;
+  --surface-warm: #fbfbfd;
+
+  /* ─── Foreground ramp (4 levels) ───────────────────────────────── */
+  --fg: #1d1d1f;
+  --fg-2: #424245;
+  --muted: #6e6e73;
+  --meta: #86868b;
+
+  /* ─── Border (2 levels) ────────────────────────────────────────── */
+  --border: #d2d2d7;
+  --border-soft: #e8e8ed;
+
+  /* ─── Accent ────────────────────────────────────────────────────── */
+  --accent: #0071e3;
+  --accent-on: #ffffff;
+  --accent-hover: #0077ed;
+  --accent-active: #0066cc;
+
+  /* ─── Semantic ──────────────────────────────────────────────────── */
+  --success: #16a34a;
+  --warn:    #eab308;
+  --danger:  #dc2626;
+
+  /* ─── Typography ────────────────────────────────────────────────── */
+  --font-display:
+    "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body:
+    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:
+    "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+
+  --text-xs:   12px;
+  --text-sm:   14px;
+  --text-base: 17px;
+  --text-lg:   21px;
+  --text-xl:   28px;
+  --text-2xl:  40px;
+  --text-3xl:  56px;
+  --text-4xl:  80px;
+
+  --leading-body:  1.47;
+  --leading-tight: 1.05;
+
+  --tracking-display: -0.015em;
+
+  /* ─── Spacing ───────────────────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+
+  --section-y-desktop: 100px;
+  --section-y-tablet:  64px;
+  --section-y-phone:   40px;
+
+  /* ─── Radius ────────────────────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   18px;
+  --radius-pill: 980px;
+
+  /* ─── Elevation (3 levels) ──────────────────────────────────────── */
+  --elev-flat:   none;
+  --elev-ring:   0 0 0 1px var(--border);
+  --elev-raised: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+  /* ─── Focus ring ────────────────────────────────────────────────── */
+  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+
+  /* ─── Motion ────────────────────────────────────────────────────── */
+  --motion-fast:   150ms;
+  --motion-base:   220ms;
+  --ease-standard: cubic-bezier(0.28, 0, 0.22, 1);
+
+  /* ─── Layout ────────────────────────────────────────────────────── */
+  --container-max:            1024px;
+  --container-gutter-desktop: 22px;
+  --container-gutter-tablet:  18px;
+  --container-gutter-phone:   16px;
+}
+
+/* ── Токены каталога событий: тип ─────────────────────────────────── */
+:root {
+  --type-me:      #34c759;
+  --type-trainer: #ff9500;
+  --type-event:   #007aff;
+  --type-club:    #af52de;
+  --type-rental:  #ff2d55;
+}
+
+/* ── Токены каталога событий: статус ──────────────────────────────── */
+:root {
+  --st-confirmed: #34c759;
+  --st-pending:   #ff9500;
+  --st-open:      #007aff;
+  --st-done:      #8e8e93;
+  --st-cancelled: #ff3b30;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button { font-family: inherit; }
+
+.page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 16px 64px;
+}
+@media (min-width: 560px) {
+  .page { padding: 64px 24px 80px; }
+}
+
+/* ── Header ────────────────────────────────────────────────────────── */
+.hd { padding: 0 4px 24px; }
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.1;
+}
+.hd .sub {
+  margin: 10px 0 0;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.role-switch {
+  display: inline-flex;
+  gap: 2px;
+  margin-top: 14px;
+  padding: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+}
+.rs-btn {
+  border: 0;
+  background: transparent;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.rs-btn.is-active {
+  background: var(--bg);
+  color: var(--fg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+.rs-btn:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--accent); }
+
+/* ── Статус-легенда ────────────────────────────────────────────────── */
+.status-legend {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: min(320px, calc(100vw - 32px));
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+.status-legend-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-2);
+}
+.chip-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.chip--text { color: var(--c); }
+
+/* ── Фильтры-чипсы ─────────────────────────────────────────────────── */
+.fchips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: -8px -4px 6px;
+  padding: 4px 4px 12px;
+}
+.fchips::-webkit-scrollbar { display: none; }
+.fchip {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.fchip:hover { background: var(--surface-warm); }
+.fchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.fchip.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+}
+
+/* ── Список ────────────────────────────────────────────────────────── */
+.list { margin-top: 36px; }
+.group-label {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.cards { display: grid; gap: 12px; }
+.cards + .group-label { margin-top: 32px; }
+
+/* ── Карточка события ──────────────────────────────────────────────── */
+.ev-card {
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 14px 14px 12px;
+  animation: rise 0.45s var(--ease-standard) both;
+  animation-delay: calc(var(--i, 0) * 30ms);
+}
+.cards.anim-in .ev-card { animation: none; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.ev-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "title menu"
+    "badge badge";
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 6px;
+}
+.ev-title {
+  grid-area: title;
+  margin: 0;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.011em;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ev-title.s-done, .ev-title.s-cancelled { color: var(--muted); }
+
+.ev-badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: color-mix(in oklab, var(--c), var(--fg) 40%);
+  background: color-mix(in srgb, var(--c) 13%, var(--bg));
+  border-radius: 7px;
+  padding: 2px 7px;
+}
+.ev-badge-status .ev-bdot {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.ev-badge-status .ev-bdot-ico {
+  flex: none;
+  width: 11px;
+  height: 11px;
+}
+.ev-badge-status {
+  grid-area: badge;
+  justify-self: start;
+}
+.ev-badge-status.is-pending {
+  animation: pending-blink 1.6s var(--ease-standard) infinite;
+}
+@keyframes pending-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+
+.ev-menu {
+  grid-area: menu;
+  flex: none;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--surface-warm);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.ev-menu::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+}
+.ev-menu:hover { background: var(--surface); }
+.ev-menu:active { background: var(--border-soft); }
+.ev-menu:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.ev-menu svg { width: 16px; height: 16px; }
+
+.ev-meta {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.ev-meta b { font-weight: 600; color: var(--fg-2); }
+.ev-kind {
+  font-weight: 500;
+  color: var(--meta);
+}
+
+.ev-sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.ev-sub b { font-weight: 600; color: var(--fg-2); }
+.ev-foot {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  min-height: 26px;
+}
+.ev-avatars { display: flex; flex: none; }
+.ev-ava {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--c), var(--fg) 35%);
+  background: color-mix(in srgb, var(--c) 16%, var(--bg));
+  border: 2px solid var(--bg);
+}
+.ev-ava + .ev-ava { margin-left: -8px; }
+.ev-ava.is-you {
+  color: var(--accent-on);
+  background: var(--accent);
+}
+.ev-ava .ini { opacity: 0.6; }
+.ev-ava.is-you .ini { opacity: 1; }
+.ev-foot-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.ev-ok {
+  font-size: 13px;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--st-confirmed), var(--fg) 25%);
+}
+
+/* ── Свайп-действия ───────────────────────────────────────────────── */
+.swipe-container { position: relative; }
+.swipe-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  overflow: hidden;
+}
+.sw-act {
+  flex: 1 0 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 0;
+  color: var(--accent-on);
+  background: var(--sw, var(--accent));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: filter var(--motion-fast) var(--ease-standard);
+}
+.sw-act:hover { filter: brightness(1.08); }
+.sw-act:active { filter: brightness(0.95); }
+.sw-act:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--sw, var(--accent)), white 45%);
+}
+.sw-act svg { width: 20px; height: 20px; }
+.swipe-card {
+  position: relative;
+  touch-action: pan-y;
+  transition: transform var(--motion-base) var(--ease-standard);
+  will-change: transform;
+}
+.swipe-card.swiped { transform: translateX(calc(-1 * var(--swipe-w, 100px))); }
+
+/* ── Кнопки ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.btn svg { width: 15px; height: 15px; }
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-on);
+}
+.btn-accent:hover { background: var(--accent-hover); }
+.btn-accent:active { background: var(--accent-active); }
+.btn-ghost {
+  background: var(--surface-warm);
+  color: var(--fg-2);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--surface); }
+.btn-ghost:active { background: var(--border-soft); }
+
+/* ── Оверлеи: скрим, меню-дропдаун и модалки ──────────────────────── */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-base) var(--ease-standard);
+  z-index: 40;
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+
+.menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  max-width: 420px;
+  background: var(--bg);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.16);
+  padding: 10px 10px max(14px, env(safe-area-inset-bottom));
+  z-index: 50;
+  visibility: hidden;
+  transform: translateY(105%);
+  transition: transform var(--motion-base) var(--ease-standard),
+              visibility 0s linear var(--motion-base);
+  pointer-events: none;
+}
+.menu.open {
+  visibility: visible;
+  transform: none;
+  transition: transform var(--motion-base) var(--ease-standard);
+  pointer-events: auto;
+}
+.menu .m-grab {
+  width: 36px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+  margin: 2px auto 10px;
+}
+.menu .m-hdr { padding: 0 6px 2px; text-align: left; }
+.menu .m-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.011em;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.menu .m-sub {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.menu .md { height: 1px; background: var(--border-soft); margin: 10px 6px 8px; }
+.menu .mi {
+  width: 100%;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--fg);
+  text-align: left;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.menu .mi + .mi { margin-top: 2px; }
+.menu .mi:hover { background: var(--surface); }
+.menu .mi:active { background: var(--border-soft); }
+.menu .mi:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.menu .mi .m-ic {
+  flex: none;
+  width: 24px;
+  display: grid;
+  place-items: center;
+  color: var(--meta);
+}
+.menu .mi svg { width: 20px; height: 20px; }
+.menu .mi.danger { color: var(--danger); }
+.menu .mi.danger .m-ic { color: var(--danger); }
+
+.modal[hidden] { display: none; }
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 55;
+}
+.modal-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+  padding: 24px 20px 20px;
+  text-align: center;
+  animation: rise 0.35s var(--ease-standard) both;
+}
+.modal-card h3 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.011em; }
+.modal-sub { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.modal-body { margin-top: 18px; }
+.modal-hint { margin: 14px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+.qr-box {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  background: var(--bg);
+}
+.qr-box svg { width: 100%; height: 100%; display: block; }
+.people-list { display: grid; gap: 2px; text-align: left; }
+.people-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px;
+  border-radius: var(--radius-sm);
+}
+.people-row + .people-row { border-top: 1px solid var(--border-soft); }
+.people-name { font-size: 15px; font-weight: 500; color: var(--fg); }
+.people-name small { font-size: 12px; font-weight: 400; color: var(--meta); margin-left: 6px; }
+.inv-input {
+  width: 100%;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-warm);
+  padding: 10px 14px;
+  font-size: 15px;
+  color: var(--fg);
+}
+.inv-input::placeholder { color: var(--meta); }
+.inv-input:focus-visible { outline: none; box-shadow: var(--focus-ring); border-color: var(--border); }
+.inv-list { margin-top: 12px; display: grid; gap: 2px; text-align: left; }
+.inv-act {
+  margin-left: auto;
+  flex: none;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--fg);
+  padding: 6px 13px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.inv-act:hover { border-color: var(--border); }
+.inv-act.done {
+  border-color: transparent;
+  background: none;
+  color: var(--muted);
+  cursor: default;
+}
+.inv-empty { padding: 18px 0; font-size: 13px; color: var(--muted); text-align: center; }
+.time-options { display: grid; gap: 8px; }
+.time-opt {
+  width: 100%;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface-warm);
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg);
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+.time-opt:hover { border-color: var(--border); background: var(--surface); }
+.time-opt:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.lg-title {
+  margin: 16px 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.lg-title:first-child { margin-top: 0; }
+.modal .btn { width: 100%; justify-content: center; margin-top: 18px; }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  z-index: 70;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--fg);
+  color: var(--surface-warm);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast-ico { flex: none; font-size: 15px; line-height: 1; }
+.toast-body { display: grid; gap: 1px; min-width: 0; }
+.toast-sub { font-size: 12px; font-weight: 400; opacity: 0.88; }
+.toast-success { background: var(--st-confirmed); color: #fff; }
+.toast-error   { background: var(--st-cancelled); color: #fff; }
+.toast-warn    { background: var(--st-pending);   color: #fff; }
+.toast-info    { background: var(--st-open);      color: #fff; }
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+.toast.has-act { border-radius: 18px; padding: 8px 8px 8px 16px; }
+.toast-act {
+  flex: none;
+  border: 0;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.toast-act:hover { background: rgba(255, 255, 255, 0.32); }
+.toast-act:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6); }
+
+/* ── Подсказка свайпа (онбординг) ──────────────────────────────────── */
+.swipe-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 76px;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: 9px;
+  max-width: calc(100vw - 40px);
+  border: 0;
+  background: var(--fg);
+  color: var(--surface-warm);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  z-index: 65;
+}
+.swipe-hint.is-show { display: inline-flex; animation: toast-in 0.3s var(--ease-standard) both; }
+.swipe-hint svg { flex: none; width: 16px; height: 16px; }
+.swipe-hint .swh-chev {
+  color: var(--st-open);
+  transform: rotate(180deg);
+  animation: hint-slide 1.5s var(--ease-standard) infinite;
+}
+@keyframes hint-slide {
+  0% { transform: rotate(180deg) translateX(0); opacity: 1; }
+  60%, 100% { transform: rotate(180deg) translateX(-6px); opacity: 0.3; }
+}
+
+.swipe-card.shake { animation: shake-x 0.3s var(--ease-standard); }
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-1px); }
+}
+
+body.no-scroll { overflow: hidden; }
+
+/* ── Подвал ────────────────────────────────────────────────────────── */
+.foot {
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--meta);
+}
+.foot b { color: var(--fg-2); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-card, .swipe-card.shake, .ev-badge-status.is-pending { animation: none; }
+  .modal-card, .toast, .toast.hide { animation: none; }
+  .swipe-hint .swh-chev { animation: none; }
+  .menu { transition: none; }
+  .swipe-card { transition-duration: 1ms; }
+}
+</style>
+</head>
+<body data-od-id="events-system">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-edit" viewBox="0 0 24 24"><path d="M4 20l4.5-1L19.5 8a2.1 2.1 0 0 0-3-3L5.5 15.5 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M7 6.5l.8 12a1.5 1.5 0 0 0 1.5 1.4h5.4a1.5 1.5 0 0 0 1.5-1.4l.8-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10.5v6M14 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8c-1.3 0-2.6-.3-3.7-.8L4 20l1.3-4.3A8 8 0 1 1 20 11.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-share" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-grid" viewBox="0 0 24 24"><path d="M4 8.5L12 3l8 5.5v7L12 21l-8-5.5v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8.5l8 5.5 8-5.5M12 14v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-gear" viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3.6h-4l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.4-1c.5.4 1.1.8 1.7 1l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z" fill="currentColor"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5M12 7.6v.1" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="page">
+  <header class="hd" data-od-id="header">
+    <div class="eyebrow">Петровское СП · Справочник</div>
+    <h1>События</h1>
+    <p class="sub">Статус события — в бейдже на карточке (легенда статусов — внизу справа). Свайпните карточку влево — быстрые действия; «⋯» — полное меню.</p>
+    <div class="role-switch" role="group" aria-label="Ваша роль в клубе">
+      <button type="button" class="rs-btn is-active" data-role="admin" data-od-id="role-admin" aria-pressed="true">Админ клуба</button>
+      <button type="button" class="rs-btn" data-role="member" data-od-id="role-member" aria-pressed="false">Участник</button>
+    </div>
+  </header>
+
+  <main class="list" data-od-id="event-list">
+    <div class="fchips" id="filters" data-od-id="filters" role="group" aria-label="Фильтр по типу события"></div>
+    <h2 class="group-label">Ближайшие</h2>
+    <div class="cards" id="list-upcoming"></div>
+    <h2 class="group-label">Прошедшие</h2>
+    <div class="cards" id="list-past"></div>
+  </main>
+
+  <footer class="foot" data-od-id="footer">
+    <b>5 типов</b> · Индивидуальная тренировка, тренировка с тренером, глобальный ивент, клубное событие, аренда.<br>
+    <b>4 статуса</b> · подтверждено, ожидает (иконка часов), завершено, отменено.<br>
+    <b>Открытая запись</b> · без бейджа: о записи говорят кнопка «Записаться» и строка «· Вы записаны».<br>
+    <b>Свайп влево</b> — быстрые действия; карточка возвращается свайпом вправо, кликом мимо или сама через 3 секунды.<br>
+    <b>«⋯»</b> — полное меню действий; пункты зависят от типа и статуса.<br>
+    <b>Роль</b> · клубное событие создаёт админ клуба; участники договариваются в чате клуба (мини-приложение ВКонтакте).
+  </footer>
+</div>
+
+<aside class="status-legend" data-od-id="status-legend" aria-label="Легенда статусов события">
+  <span class="status-legend-title">Статус</span>
+  <div class="chips" id="legend-status"></div>
+</aside>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="menu" id="menu" role="menu" aria-label="Меню события"></div>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-card" id="modal-card"></div>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<button type="button" class="swipe-hint" id="swipe-hint">
+  <span>Свайпните карточку влево — быстрые действия</span>
+  <svg class="swh-chev" aria-hidden="true"><use href="#ic-chev"/></svg>
+</button>
+
+<script>
+(function () {
+  'use strict';
+
+  var TYPES = {
+    me:      { label: 'Индивидуальная', token: '--type-me' },
+    trainer: { label: 'С тренером', token: '--type-trainer' },
+    event:   { label: 'Ивент',      token: '--type-event' },
+    club:    { label: 'Клуб',       token: '--type-club' },
+    rental:  { label: 'Аренда',     token: '--type-rental' }
+  };
+  var STATUSES = {
+    confirmed: { label: 'Подтверждено', token: '--st-confirmed' },
+    pending:   { label: 'Ожидает',      token: '--st-pending' },
+    open:      { label: 'Открыта',      token: '--st-open', hide: true },
+    done:      { label: 'Завершено',    token: '--st-done' },
+    cancelled: { label: 'Отменено',     token: '--st-cancelled' }
+  };
+  var FILTERS = [
+    { id: 'all',     label: 'Все',        token: '--st-done' },
+    { id: 'me',      label: 'Индивидуальные', token: '--type-me' },
+    { id: 'trainer', label: 'С тренером', token: '--type-trainer' },
+    { id: 'event',   label: 'Ивенты',     token: '--type-event' },
+    { id: 'club',    label: 'Клубы',      token: '--type-club' },
+    { id: 'rental',  label: 'Аренда',     token: '--type-rental' }
+  ];
+
+  var state = {
+    filter: 'all',
+    entities: [
+      {
+        id: 'str-today', type: 'me', title: 'Силовая тренировка', status: 'confirmed',
+        day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал',
+        people: ['Вы', 'Игорь'], foot: 'Вы и ещё 1', trainer: null
+      },
+      {
+        id: 'swim', type: 'me', title: 'Плавание', status: 'confirmed',
+        day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»',
+        people: ['Вы'], foot: 'Индивидуальная тренировка', trainer: null
+      },
+      {
+        id: 'str-coach', type: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending',
+        day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2',
+        people: ['С'], foot: 'Тренер А. Соколов', coach: 'А. Соколов'
+      },
+      {
+        id: 'cup', type: 'event', title: 'Летний Кубок Петровского', status: 'open',
+        day: 'Сб, 16 авг', time: '10:00 – 18:00', place: 'Стадион «Центральный»',
+        people: ['Т', 'Л', 'М', 'К', 'В'], foot: '5 друзей идут', link: 'enrolled', bracket: true
+      },
+      {
+        id: 'club-run', type: 'club', title: 'Вечерняя пробежка клуба', status: 'open',
+        day: 'Вс, 17 авг', time: '19:00 – 20:30', place: 'Парк Победы',
+        people: ['Вы', 'Д', 'О', 'Н'], foot: '12 участников', link: 'org', club: 'Беговой клуб «Север»',
+        reschedule: ['Вт, 19 авг · 19:00 – 20:30', 'Чт, 21 авг · 18:30 – 20:00', 'Сб, 23 авг · 10:00 – 11:30']
+      },
+      {
+        id: 'club-yoga', type: 'club', title: 'Йога на свежем воздухе', status: 'open',
+        day: 'Пт, 22 авг', time: '09:00 – 10:00', place: 'Летняя площадка',
+        people: ['Л', 'М'], foot: '8 участников', link: 'open', club: 'Йога-клуб «Лотос»'
+      },
+      {
+        id: 'boat', type: 'event', title: 'Сплав на байдарках', status: 'open',
+        day: 'Сб, 23 авг', time: '09:00 – 15:00', place: 'Река Кудепста',
+        people: ['Л', 'М', 'К', 'В'], foot: 'Организует Андрей Волков', link: 'invited'
+      },
+      {
+        id: 'chess', type: 'event', title: 'Шахматный турнир клуба', status: 'open',
+        day: 'Вс, 24 авг', time: '12:00 – 16:00', place: 'Библиотека',
+        people: ['П', 'С', 'Д'], foot: '6 участников', link: 'none'
+      },
+      {
+        id: 'rental', type: 'rental', title: 'Аренда зала', status: 'confirmed',
+        day: 'Ср, 20 авг', time: '20:00 – 22:00', place: 'Зал № 1',
+        people: ['Вы', 'П', 'А', 'М'], foot: 'Вы и ещё 3',
+        reschedule: ['Чт, 21 авг · 20:00 – 22:00', 'Пт, 22 авг · 19:00 – 21:00', 'Сб, 23 авг · 12:00 – 14:00']
+      },
+      {
+        id: 'gto', type: 'trainer', title: 'ГТО: силовая подготовка', status: 'done',
+        day: 'Чт, 7 авг', time: '18:00 – 19:30', place: 'Тренажёрный зал',
+        people: ['С']
+      },
+      {
+        id: 'evening', type: 'me', title: 'Вечерняя тренировка', status: 'cancelled',
+        day: 'Пн, 4 авг', time: '19:00 – 20:00', place: 'Зал № 3',
+        people: ['Вы'], foot: 'Отменено вами'
+      },
+      {
+        id: 'str-pilates', type: 'trainer', title: 'Пилатес с тренером', status: 'pending',
+        day: 'Сб, 16 авг', time: '10:00 – 11:00', place: 'Зал № 1',
+        people: ['С'], foot: 'Тренер Е. Волкова', coach: 'Е. Волкова'
+      },
+      {
+        id: 'str-stretch', type: 'trainer', title: 'Стретчинг-группа', status: 'pending',
+        day: 'Вс, 17 авг', time: '12:00 – 13:00', place: 'Летняя площадка',
+        people: ['С', 'Е'], foot: 'Тренеры: И. Мельник и Е. Волкова', coach: 'И. Мельник'
+      }
+    ]
+  };
+
+  var role = 'admin';
+
+  var invitePool = [
+    { name: 'Андрей Волков', online: true,  friend: true },
+    { name: 'Мария Соколова', online: true,  friend: true },
+    { name: 'Екатерина Лебедева', online: true, friend: true },
+    { name: 'Павел Громов', online: false, friend: true },
+    { name: 'Дмитрий Орлов', online: true,  friend: false },
+    { name: 'Ольга Никитина', online: false, friend: false },
+    { name: 'Николай Савельев', online: false, friend: false },
+    { name: 'Ирина Мельник', online: false, friend: false }
+  ];
+
+  function notPast(e) { return e.status !== 'done' && e.status !== 'cancelled'; }
+  function started(e) { return !!(e.day && e.day.indexOf('Сегодня') === 0); }
+  var TOAST_TYPES = {
+    success: { icon: '✅', cls: 'toast-success', dur: 2600 },
+    error:   { icon: '❌', cls: 'toast-error',   dur: 3400 },
+    warn:    { icon: '⚠️', cls: 'toast-warn',    dur: 3000 },
+    info:    { icon: 'ℹ️', cls: 'toast-info',    dur: 2400 }
+  };
+  function toast(msg, type, sub, action) {
+    var conf = TOAST_TYPES[type] || TOAST_TYPES.info;
+    var wrap = document.getElementById('toasts');
+    while (wrap.children.length >= 2) wrap.removeChild(wrap.firstChild);
+    var t = document.createElement('div');
+    t.className = 'toast ' + conf.cls + (action ? ' has-act' : '');
+    var ico = document.createElement('span');
+    ico.className = 'toast-ico';
+    ico.textContent = conf.icon;
+    t.appendChild(ico);
+    var body = document.createElement('div');
+    body.className = 'toast-body';
+    var main = document.createElement('div');
+    main.textContent = msg;
+    body.appendChild(main);
+    if (sub) {
+      var s = document.createElement('div');
+      s.className = 'toast-sub';
+      s.textContent = sub;
+      body.appendChild(s);
+    }
+    t.appendChild(body);
+    if (action) {
+      var ab = document.createElement('button');
+      ab.type = 'button';
+      ab.className = 'toast-act';
+      ab.textContent = action.label;
+      ab.addEventListener('click', function () {
+        t.classList.add('hide');
+        setTimeout(function () { t.remove(); }, 260);
+        if (action.run) action.run();
+      });
+      t.appendChild(ab);
+    }
+    wrap.appendChild(t);
+    var dur = action ? 7000 : conf.dur;
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, dur);
+  }
+
+  var pendingNotified = false;
+  function pendingCards() {
+    return state.entities.filter(function (e) { return e.status === 'pending'; });
+  }
+  function shakePendingCards() {
+    pendingCards().forEach(function (e) {
+      var card = document.querySelector('[data-od-id="event-card-' + e.id + '"] .swipe-card');
+      if (!card) return;
+      card.classList.remove('shake');
+      void card.offsetWidth;
+      card.classList.add('shake');
+    });
+    setTimeout(function () {
+      document.querySelectorAll('.swipe-card.shake').forEach(function (c) { c.classList.remove('shake'); });
+    }, 400);
+  }
+  function notifyPending() {
+    if (pendingNotified) return;
+    var pending = pendingCards();
+    if (!pending.length) return;
+    pendingNotified = true;
+    var n = pending.length;
+    var noun = n === 1 ? 'событие' : (n >= 2 && n <= 4 ? 'события' : 'событий');
+    var verb = n === 1 ? 'ждёт' : 'ждут';
+    toast(n + ' ' + noun + ' ' + verb + ' подтверждения', 'warn', null, {
+      label: 'К ожидающим',
+      run: function () {
+        state.filter = 'all';
+        renderChips();
+        render();
+        var first = pendingCards();
+        if (!first.length) return;
+        var card = document.querySelector('[data-od-id="event-card-' + first[0].id + '"] .swipe-card');
+        if (card) {
+          setTimeout(function () {
+            var top = card.getBoundingClientRect().top + window.pageYOffset - window.innerHeight / 2;
+            window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+            shakePendingCards();
+          }, 50);
+        }
+      }
+    });
+    shakePendingCards();
+  }
+
+  function getEntity(id) {
+    var out = null;
+    state.entities.forEach(function (e) { if (e.id === id) out = e; });
+    return out;
+  }
+  function setStatus(id, status) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.status = status;
+    render();
+    if (status === 'confirmed') toast('Вы подтвердили тренировку', 'success');
+    else if (status === 'cancelled') toast('Тренировка отменена', 'warn');
+    else if (status === 'done') toast('Тренировка выполнена!', 'success');
+    else toast('Статус обновлён: «' + STATUSES[status].label + '»', 'info');
+  }
+  function removeEntity(id) {
+    state.entities = state.entities.filter(function (e) { return e.id !== id; });
+    render();
+    toast('Тренировка удалена', 'error', 'Её больше нет в вашем списке');
+  }
+  function join(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = 'enrolled';
+    render();
+    toast('Вы записались', 'success', '«' + e.title + '»');
+  }
+  function leave(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = e.status === 'open' ? 'open' : 'none';
+    render();
+    toast('Участие отменено', 'warn', 'Вы больше не идёте на это событие');
+  }
+  function acceptInvite(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = 'enrolled';
+    render();
+    toast('Вы приняли приглашение', 'success', '«' + e.title + '»');
+  }
+  function refuseInvite(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = 'none';
+    render();
+    toast('Приглашение отклонено', 'warn', '«' + e.title + '» больше не в вашей ленте');
+  }
+  function cancelClub(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.status = 'cancelled';
+    render();
+    toast('Тренировка клуба отменена', 'warn');
+  }
+  function openDoneConfirm(e) {
+    openOverlay();
+    modal.hidden = false;
+    modalCard.innerHTML =
+      '<h3>Завершить тренировку?</h3>' +
+      '<p class="modal-sub">' + e.title + ' · ' + e.day + ', ' + e.time + ' · ещё не наступила</p>' +
+      '<div class="modal-body"><p class="modal-hint">Тренировка ещё не началась. Вы действительно хотите завершить её раньше времени?</p></div>' +
+      '<button class="btn btn-accent" data-done-confirm>Отметить выполненной</button>' +
+      '<button class="btn btn-ghost" data-close>Пока нет</button>';
+    modalCard.querySelector('[data-done-confirm]').addEventListener('click', function () {
+      closeOverlay();
+      setStatus(e.id, 'done');
+    });
+  }
+
+  /* ── Действия по типам (меню «⋯») ───────────────────────────────── */
+  function myLink(e) { return e.link || 'org'; }
+  function actionsFor(e) {
+    var act = function (icon, label, ok, hint, run) { return { icon: icon, label: label, ok: ok, hint: hint, run: run }; };
+    var past = e.status === 'done' || e.status === 'cancelled';
+    var share = act('share', 'Поделиться', true, null, function () { toast('Ссылка на событие скопирована', 'success'); });
+    var who = act('users', 'Кто идёт', true, null, function () { openPeople(e, 'Кто идёт'); });
+    var list = [];
+    if (myLink(e) === 'invited' && !past) {
+      list = [
+        act('check', 'Принять', true, null, function () { acceptInvite(e.id); }),
+        act('x', 'Отклонить', true, null, function () { refuseInvite(e.id); }),
+        who, share
+      ];
+    } else if (myLink(e) === 'org') {
+      if (e.type === 'trainer') {
+        list = [
+          act('check', 'Подтвердить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'confirmed'); }),
+          act('x', 'Отклонить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'cancelled'); }),
+          act('chat', 'Написать тренеру', true, null, function () { toast('Чат с тренером откроется в мини-приложении ВКонтакте', 'info'); }),
+          share,
+          act('x', 'Отменить', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
+        ];
+      } else if (e.type === 'club') {
+        list = [
+          act('edit', 'Редактировать', !past, 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
+          act('users', 'Управлять участниками', !past, 'Доступно до завершения', function () { openPeople(e, 'Участники тренировки'); }),
+          act('plus', 'Пригласить', !past, 'Доступно до завершения', function () { openInvite(e); }),
+          act('qr', 'QR-код входа', !past, 'Доступно до завершения', function () { openQR(e); }),
+          act('clock', 'Изменить время', !past, 'Доступно до завершения', function () { openReschedule(e, 'Перенос тренировки'); }),
+          act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в мини-приложении ВКонтакте', 'info'); }),
+          share,
+          act('x', 'Отменить тренировку', !past, 'Доступно до завершения', function () { cancelClub(e.id); })
+        ];
+      } else if (e.type === 'rental') {
+        list = [
+          act('plus', 'Пригласить друзей', !past, 'До завершения аренды', function () { openInvite(e); }),
+          act('users', 'Управлять участниками', !past, 'До завершения аренды', function () { openPeople(e, 'Участники аренды'); }),
+          act('qr', 'Показать QR-код', !past, 'До завершения аренды', function () { openQR(e); }),
+          share,
+          act('x', 'Отменить аренду', !past, 'До завершения аренды', function () { setStatus(e.id, 'cancelled'); }),
+          act('clock', 'Изменить время', !past, 'До завершения аренды', function () { openReschedule(e); })
+        ];
+      } else if (e.type === 'event') {
+        list = [
+          act('grid', 'Посмотреть сетку', !!e.bracket, 'Сетка появится после старта', function () { toast('Турнирная сетка откроется в полной версии'); }),
+          who, share,
+          act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); })
+        ];
+      } else {
+        list = [
+          act('edit', 'Редактировать', !past, 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
+          e.trainer
+            ? act('user', 'Изменить тренера', true, null, function () { toast('Список тренеров откроется в полной версии'); })
+            : act('plus', 'Добавить тренера', !past, 'Тренер ещё не назначен', function () { toast('Список тренеров откроется в полной версии'); }),
+          act('x', 'Отменить', !past, 'Доступно до завершения', function () { setStatus(e.id, 'cancelled'); }),
+          share,
+          act('trash', 'Удалить', !past, 'Доступно до завершения', function () { removeEntity(e.id); })
+        ];
+      }
+    } else if (myLink(e) === 'enrolled') {
+      list = [
+        act('minus', 'Отказаться', !past, 'Вы больше не пойдёте', function () { leave(e.id); }),
+        who
+      ];
+      if (e.type === 'club') list.push(act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в мини-приложении ВКонтакте', 'info'); }));
+      if (e.type === 'event') {
+        list.push(act('grid', 'Посмотреть сетку', !!e.bracket, 'Сетка появится после старта', function () { toast('Турнирная сетка откроется в полной версии'); }));
+        list.push(act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); }));
+      }
+      if (e.type === 'rental') {
+        list.push(act('qr', 'Показать QR-код', !past, 'До завершения аренды', function () { openQR(e); }));
+      }
+      list.push(share);
+    } else if (myLink(e) === 'open' && !past) {
+      list = [
+        act('plus', 'Записаться', e.status === 'open', 'Только пока открыта регистрация', function () { join(e.id); }),
+        who
+      ];
+      if (e.type === 'club') list.push(act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в мини-приложении ВКонтакте', 'info'); }));
+      if (e.type === 'event') list.push(act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); }));
+      list.push(share);
+    }
+    if (role === 'admin' && e.type === 'club' && myLink(e) !== 'none') {
+      list.push(act('plus', 'Создать тренировку клуба', true, null, function () { createClubTraining(); }));
+    }
+    return list;
+  }
+
+  /* ── Быстрые действия (свайп влево) ──────────────────────────────── */
+  var SW = { blue: '#007aff', green: '#34c759', red: '#ff3b30' };
+  function swipeFor(e) {
+    var act = function (sw, icon, label, cmd) { return { sw: sw, icon: icon, label: label, cmd: cmd + ':' + e.id }; };
+    var past = e.status === 'done' || e.status === 'cancelled';
+    if (past || myLink(e) === 'none') return [];
+    var list = [];
+    if (myLink(e) === 'invited') {
+      list.push(act(SW.green, 'check', 'Принять', 'accept'));
+      list.push(act(SW.red, 'x', 'Отклонить', 'refuse'));
+    } else if (myLink(e) === 'org') {
+      if (e.type === 'me') {
+        list.push(act(SW.green, 'check', 'Отметить', started(e) ? 'done' : 'doneEarly'));
+        list.push(act(SW.blue, 'edit', 'Редактировать', 'edit'));
+      } else if (e.type === 'trainer') {
+        if (e.status === 'pending') {
+          list.push(act(SW.green, 'check', 'Подтвердить', 'confirm'));
+          list.push(act(SW.red, 'x', 'Отклонить', 'decline'));
+        }
+      } else if (e.type === 'club') {
+        list.push(act(SW.blue, 'qr', 'QR-код', 'qr'));
+        list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
+      } else if (e.type === 'rental') {
+        list.push(act(SW.blue, 'qr', 'QR-код', 'qr'));
+        list.push(act(SW.blue, 'info', 'Легенда', 'legend'));
+      }
+    } else if (myLink(e) === 'enrolled') {
+      list.push(act(SW.red, 'minus', 'Отказаться', 'leave'));
+      list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
+    } else if (myLink(e) === 'open' && e.status === 'open') {
+      list.push(act(SW.green, 'plus', 'Записаться', 'join'));
+      list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
+    }
+    return list;
+  }
+
+  /* ── Оверлеи ─────────────────────────────────────────────────────── */
+  var scrim = document.getElementById('scrim');
+  var menu = document.getElementById('menu');
+  var modal = document.getElementById('modal');
+  var modalCard = document.getElementById('modal-card');
+  var activeEntity = null;
+
+  function openOverlay() { scrim.classList.add('open'); document.body.classList.add('no-scroll'); }
+  function closeOverlay() {
+    scrim.classList.remove('open');
+    menu.classList.remove('open');
+    modal.hidden = true;
+    document.body.classList.remove('no-scroll');
+    activeEntity = null;
+  }
+
+  function openMenu(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    activeEntity = e;
+    var items = actionsFor(e);
+    var html = '<span class="m-grab" aria-hidden="true"></span>' +
+      '<div class="m-hdr"><p class="m-title">' + e.title + '</p>' +
+      '<p class="m-sub">' + e.day + ' · ' + e.time + ' · ' + e.place + '</p></div>' +
+      '<span class="md" aria-hidden="true"></span>';
+    items.forEach(function (a) {
+      var danger = a.ok && (a.icon === 'x' || a.icon === 'trash' || a.icon === 'minus');
+      html += '<button class="mi' + (danger ? ' danger' : '') + '" role="menuitem">' +
+        '<span class="m-ic"><svg><use href="#ic-' + a.icon + '"/></svg></span>' + a.label + '</button>';
+    });
+    menu.innerHTML = html;
+    menu.querySelectorAll('.mi').forEach(function (row, i) {
+      var a = items[i];
+      if (!a) return;
+      row.addEventListener('click', function () {
+        closeOverlay();
+        if (a.ok) a.run(); else if (a.hint) toast(a.hint, 'info');
+      });
+    });
+    openOverlay();
+    menu.classList.add('open');
+    var first = menu.querySelector('.mi');
+    if (first) setTimeout(function () { first.focus(); }, 60);
+  }
+
+  function openQR(e) {
+    openOverlay();
+    modal.hidden = false;
+    var cells = '';
+    var seed = 7;
+    function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed; }
+    var n = 21;
+    for (var y = 0; y < n; y++) {
+      for (var x = 0; x < n; x++) {
+        var finder = (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
+        var on = finder ? ((x % 4 === 0 || y % 4 === 0)) : (rnd() % 3 !== 0);
+        if (on) cells += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#1d1d1f"/>';
+      }
+    }
+    modalCard.innerHTML =
+      '<h3>QR-код входа</h3>' +
+      '<p class="modal-sub">' + e.title + ' · ' + e.day + ', ' + e.time + '</p>' +
+      '<div class="modal-body"><div class="qr-box"><svg viewBox="0 0 21 21" shape-rendering="crispEdges">' + cells + '</svg></div>' +
+      '<p class="modal-hint">Покажите код на входе, чтобы попасть на объект.</p></div>' +
+      '<button class="btn btn-accent" data-close>Готово</button>';
+  }
+
+  function openLegend() {
+    openOverlay();
+    modal.hidden = false;
+    var statusChips = Object.keys(STATUSES).filter(function (k) { return !STATUSES[k].hide; }).map(function (k) {
+      return '<span class="chip chip--text" style="--c: var(' + STATUSES[k].token + ')">' + STATUSES[k].label + '</span>';
+    }).join('');
+    var relChips = [
+      ['Вы организатор', 'var(--type-club)'],
+      ['Вы записаны', 'var(--st-confirmed)'],
+      ['Приглашение', 'var(--st-pending)'],
+      ['Запись открыта', 'var(--st-open)']
+    ].map(function (r) {
+      return '<span class="chip" style="--c: ' + r[1] + '"><span class="chip-dot"></span>' + r[0] + '</span>';
+    }).join('');
+    modalCard.innerHTML =
+      '<h3>Что означают бейджи</h3>' +
+      '<p class="modal-sub">Бейджи статуса на карточках события</p>' +
+      '<div class="modal-body" style="text-align:left">' +
+        '<p class="lg-title">Статус</p><div class="chips">' + statusChips + '</div>' +
+        '<p class="lg-title">Моя связь с событием</p><div class="chips">' + relChips + '</div>' +
+      '</div>' +
+      '<button class="btn btn-accent" data-close>Понятно</button>';
+  }
+
+  function openPeople(e, title) {
+    openOverlay();
+    modal.hidden = false;
+    var rows = e.people.map(function (p) {
+      var isYou = p === 'Вы';
+      var badge = isYou ? '<small>вы</small>' : '';
+      return '<div class="people-row"><span class="ev-ava' + (isYou ? ' is-you' : '') + '" style="--c: var(' + TYPES[e.type].token + ')"><span class="ini">' + p.charAt(0) + '</span></span>' +
+        '<span class="people-name">' + p + badge + '</span></div>';
+    }).join('');
+    modalCard.innerHTML =
+      '<h3>' + title + '</h3>' +
+      '<p class="modal-sub">' + e.title + '</p>' +
+      '<div class="modal-body"><div class="people-list">' + rows + '</div></div>' +
+      '<button class="btn btn-accent" data-close>Готово</button>';
+  }
+
+  function openInvite(e) {    openOverlay();
+    modal.hidden = false;
+    modalCard.innerHTML =
+      '<h3>Пригласить</h3>' +
+      '<p class="modal-sub">' + e.title + ' · ' + e.day + ', ' + e.time + '</p>' +
+      '<div class="modal-body">' +
+        '<input id="inv-search" class="inv-input" type="search" placeholder="Имя, телефон или email" autocomplete="off">' +
+        '<div class="inv-list" id="inv-list"></div>' +
+      '</div>' +
+      '<button class="btn btn-accent" data-close>Готово</button>';
+    var input = modalCard.querySelector('#inv-search');
+    var listEl = modalCard.querySelector('#inv-list');
+    function draw() {
+      var q = (input.value || '').trim().toLowerCase();
+      var out = invitePool.filter(function (p) {
+        return !q || p.name.toLowerCase().indexOf(q) >= 0;
+      });
+      listEl.innerHTML = out.map(function (p) {
+        var added = e.people.indexOf(p.name) >= 0;
+        var sub = p.friend ? '<small>друг</small>'
+          : (p.online ? '<small style="color:var(--st-confirmed)">в сети</small>' : '');
+        var act = added
+          ? '<button class="inv-act done" disabled>В списке</button>'
+          : '<button class="inv-act" data-add="' + invitePool.indexOf(p) + '">Добавить</button>';
+        return '<div class="people-row"><span class="ev-ava" style="--c: var(' + TYPES[e.type].token + ')"><span class="ini">' + p.name.charAt(0) + '</span></span>' +
+          '<span class="people-name">' + p.name + sub + '</span>' + act + '</div>';
+      }).join('') || '<div class="inv-empty">Никого не нашли</div>';
+    }
+    input.addEventListener('input', draw);
+    listEl.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('[data-add]');
+      if (!btn) return;
+      var p = invitePool[+btn.getAttribute('data-add')];
+      if (e.people.indexOf(p.name) >= 0) return;
+      e.people.push(p.name);
+      render();
+      draw();
+      toast('Вы пригласили ' + p.name.split(' ')[0], 'success');
+    });
+    draw();
+    setTimeout(function () { input.focus(); }, 50);
+  }
+
+  function openReschedule(e, title) {
+    openOverlay();
+    modal.hidden = false;
+    var opts = e.reschedule.map(function (t) {
+      return '<button class="time-opt" data-time="' + t.replace(/"/g, '&quot;') + '">' + t + '</button>';
+    }).join('');
+    modalCard.innerHTML =
+      '<h3>' + (title || 'Перенос аренды') + '</h3>' +
+      '<p class="modal-sub">' + e.title + ' · сейчас ' + e.day + ', ' + e.time + '</p>' +
+      '<div class="modal-body"><div class="time-options">' + opts + '</div></div>' +
+      '<button class="btn btn-ghost" data-close>Отмена</button>';
+    modalCard.querySelectorAll('.time-opt').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var parts = b.getAttribute('data-time').split(' · ');
+        e.day = parts[0];
+        e.time = parts[1] || parts[0];
+        closeOverlay();
+        render();
+        toast('Событие перенесено на ' + b.getAttribute('data-time'), 'info');
+      });
+    });
+  }
+
+  function createClubTraining() {
+    openOverlay();
+    modal.hidden = false;
+    var slots = [
+      { day: 'Пн, 25 авг', time: '18:30 – 20:00', place: 'Парк Победы' },
+      { day: 'Вт, 26 авг', time: '19:00 – 20:30', place: 'Набережная' },
+      { day: 'Чт, 28 авг', time: '18:00 – 19:00', place: 'Лесопарк' }
+    ];
+    var opts = slots.map(function (s) {
+      return '<button class="time-opt" data-club="' + s.day + '|' + s.time + '|' + s.place + '">' +
+        s.day + ' · ' + s.time +
+        '<br><span style="font-size:13px;font-weight:400;color:var(--muted)">' + s.place + '</span></button>';
+    }).join('');
+    modalCard.innerHTML =
+      '<h3>Создать тренировку клуба</h3>' +
+      '<p class="modal-sub">Инициативу создаёт админ клуба · участники договариваются в чате (мини-приложение ВКонтакте)</p>' +
+      '<div class="modal-body"><div class="time-options">' + opts + '</div></div>' +
+      '<button class="btn btn-ghost" data-close>Отмена</button>';
+    modalCard.querySelectorAll('.time-opt').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var p = b.getAttribute('data-club').split('|');
+        state.entities.push({
+          id: 'club-' + Math.floor(Math.random() * 1e6),
+          type: 'club', title: 'Тренировка клуба', status: 'open',
+          day: p[0], time: p[1], place: p[2],
+          people: ['Вы'], foot: '1 участник', link: 'org'
+        });
+        closeOverlay();
+        render();
+        toast('Тренировка клуба создана: ' + p[0] + ', ' + p[1], 'success');
+      });
+    });
+  }
+
+  /* ── Рендер карточек ─────────────────────────────────────────────── */
+  function avatarHTML(e, p) {
+    var isYou = p === 'Вы';
+    return '<span class="ev-ava' + (isYou ? ' is-you' : '') + '" style="--c: var(' + TYPES[e.type].token + ')" title="' + p + '"><span class="ini">' + p.charAt(0) + '</span></span>';
+  }
+
+  function cardHTML(e, idx) {
+    var type = TYPES[e.type];
+    var status = STATUSES[e.status];
+    var past = e.status === 'done' || e.status === 'cancelled';
+    var meta = '<span class="ev-kind">' + type.label + '</span> · <b>' + e.day + '</b> · ' + e.time + ' · ' + e.place;
+    var sub = (e.club ? '<b>' + e.club + '</b>' + (e.foot ? ' · ' : '') : '') + (e.foot || '');
+    var avatars = (e.people || []).map(function (p) { return avatarHTML(e, p); }).join('');
+    var swipes = swipeFor(e);
+    var swipeHTML = swipes.map(function (s) {
+      return '<button class="sw-act" tabindex="-1" style="--sw:' + s.sw + '" data-cmd="' + s.cmd + '" aria-label="' + s.label + '">' +
+        '<svg aria-hidden="true"><use href="#ic-' + s.icon + '"/></svg><span>' + s.label + '</span></button>';
+    }).join('');
+    var statusBadge = '';
+    var st = null;
+    if (past) st = { label: e.status === 'done' ? 'Завершено' : 'Отменено', color: 'var(' + status.token + ')' };
+    else if (myLink(e) === 'invited') st = { label: 'Приглашение', color: 'var(--st-pending)', pulse: true };
+    else if (e.status === 'pending' && e.type !== 'me') st = { label: 'Ожидает', color: 'var(--st-pending)', pulse: true };
+    else if (myLink(e) === 'enrolled') st = { label: 'Вы записаны', color: 'var(--st-confirmed)' };
+    else if (myLink(e) === 'org' && e.type !== 'me' && e.type !== 'trainer') st = { label: 'Вы организатор', color: 'var(--type-club)' };
+    else if (myLink(e) === 'open' && e.status === 'open') st = { label: 'Запись открыта', color: 'var(--st-open)' };
+    if (st) {
+      statusBadge = '<span class="ev-badge ev-badge-status' + (st.pulse ? ' is-pending' : '') + '" style="--c: ' + st.color + '">' +
+        (st.pulse ? '<svg class="ev-bdot-ico" aria-hidden="true"><use href="#ic-clock"/></svg>' : '<i class="ev-bdot"></i>') +
+        st.label + '</span>';
+    }
+    return '<div class="swipe-container" data-od-id="event-card-' + e.id + '">' +
+      '<div class="swipe-actions">' + swipeHTML + '</div>' +
+      '<div class="swipe-card" style="--swipe-w:' + (swipes.length * 84) + 'px; --i:' + idx + '">' +
+        '<article class="ev-card">' +
+          '<header class="ev-top">' +
+            '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3>' +
+            statusBadge +
+            '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
+          '</header>' +
+          '<p class="ev-meta">' + meta + '</p>' +
+          (sub ? '<p class="ev-sub">' + sub + '</p>' : '') +
+          '<footer class="ev-foot">' +
+            '<div class="ev-avatars">' + avatars + '</div>' +
+          '</footer>' +
+        '</article>' +
+      '</div>' +
+    '</div>';
+  }
+
+  /* ── Подсказка свайпа (онбординг) ────────────────────────────────── */
+  var swipeHintDismissed = sessionStorage.getItem('od-swipe-hint') === '1';
+  function dismissSwipeHint(persist) {
+    var hint = document.getElementById('swipe-hint');
+    if (!hint) return;
+    hint.classList.remove('is-show');
+    if (persist) {
+      swipeHintDismissed = true;
+      sessionStorage.setItem('od-swipe-hint', '1');
+    }
+  }
+  function maybeShowHint() {
+    if (swipeHintDismissed) return;
+    if (!document.querySelector('.swipe-container .sw-act')) return;
+    var hint = document.getElementById('swipe-hint');
+    if (!hint) return;
+    hint.classList.add('is-show');
+    hint.addEventListener('click', function () { dismissSwipeHint(true); });
+    setTimeout(function () { dismissSwipeHint(false); }, 9000);
+  }
+
+  var enterDone = false;
+  function render() {
+    var up = document.getElementById('list-upcoming');
+    var past = document.getElementById('list-past');
+    if (enterDone) {
+      up.classList.add('anim-in');
+      past.classList.add('anim-in');
+    } else {
+      enterDone = true;
+    }
+    up.innerHTML = '';
+    past.innerHTML = '';
+    var i = 0;
+    state.entities.forEach(function (e) {
+      if (myLink(e) === 'none') return;
+      if (state.filter !== 'all' && e.type !== state.filter) return;
+      var isPast = e.status === 'done' || e.status === 'cancelled';
+      (isPast ? past : up).insertAdjacentHTML('beforeend', cardHTML(e, i++));
+    });
+    if (!up.children.length) up.innerHTML = '<p class="ev-meta" style="padding:0 4px">По этому фильтру событий нет.</p>';
+    if (!past.children.length) past.innerHTML = '<p class="ev-meta" style="padding:0 4px">Прошедших событий нет.</p>';
+    setupSwipeCards();
+  }
+
+  /* ── Легенда статусов ────────────────────────────────────────────── */
+  function renderLegend() {
+    var ls = document.getElementById('legend-status');
+    ls.innerHTML = '';
+    Object.keys(STATUSES).forEach(function (k) {
+      if (STATUSES[k].hide) return;
+      ls.insertAdjacentHTML('beforeend',
+        '<span class="chip chip--text" style="--c: var(' + STATUSES[k].token + ')">' + STATUSES[k].label + '</span>');
+    });
+  }
+
+  /* ── Фильтры-чипсы ───────────────────────────────────────────────── */
+  function renderChips() {
+    var box = document.getElementById('filters');
+    box.innerHTML = '';
+    FILTERS.forEach(function (f) {
+      var b = document.createElement('button');
+      b.className = 'fchip' + (state.filter === f.id ? ' is-on' : '');
+      b.textContent = f.label;
+      b.addEventListener('click', function () {
+        state.filter = f.id;
+        renderChips();
+        render();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  /* ── Свайп-действия ──────────────────────────────────────────────── */
+  var swipeTimer = null;
+  function closeSwipe(card) {
+    if (card) { card.classList.remove('swiped'); return; }
+    document.querySelectorAll('.swipe-card.swiped').forEach(function (c) {
+      c.classList.remove('swiped');
+    });
+  }
+  function openSwipe(card) {
+    var container = card.parentNode;
+    if (!container || !container.querySelector('.sw-act')) return;
+    document.querySelectorAll('.swipe-card.swiped').forEach(function (c) {
+      if (c !== card) c.classList.remove('swiped');
+    });
+    card.classList.add('swiped');
+    dismissSwipeHint(true);
+    clearTimeout(swipeTimer);
+    swipeTimer = setTimeout(function () { closeSwipe(card); }, 3000);
+  }
+  function setupSwipeCards() {
+    document.querySelectorAll('.swipe-card').forEach(function (card) {
+      if (card.dataset.swipe) return;
+      card.dataset.swipe = '1';
+      var startX = 0;
+      var startY = 0;
+      var dragging = false;
+      var onStart = function (ev) {
+        var t = ev.touches ? ev.touches[0] : ev;
+        startX = t.clientX;
+        startY = t.clientY;
+        dragging = true;
+      };
+      var onMove = function (ev) {
+        if (!dragging) return;
+        var t = ev.touches ? ev.touches[0] : ev;
+        var dx = t.clientX - startX;
+        var dy = t.clientY - startY;
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        if (Math.abs(dy) > Math.abs(dx)) { dragging = false; return; }
+        ev.preventDefault();
+        if (dx < -40) { openSwipe(card); dragging = false; }
+        else if (dx > 40) { closeSwipe(card); dragging = false; }
+      };
+      var onEnd = function () { dragging = false; };
+      card.addEventListener('touchstart', onStart, { passive: true });
+      card.addEventListener('touchmove', onMove, { passive: false });
+      card.addEventListener('touchend', onEnd);
+      card.addEventListener('mousedown', onStart);
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseup', onEnd);
+      card.addEventListener('mouseleave', onEnd);
+    });
+  }
+
+  /* ── События ─────────────────────────────────────────────────────── */
+  document.addEventListener('click', function (ev) {
+    if (!ev.target.closest('.swipe-actions') && !ev.target.closest('.swipe-card')) closeSwipe();
+
+    var roleBtn = ev.target.closest('[data-role]');
+    if (roleBtn) {
+      role = roleBtn.getAttribute('data-role');
+      document.querySelectorAll('.rs-btn').forEach(function (b) {
+        var on = b === roleBtn;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on);
+      });
+      toast(role === 'admin'
+        ? 'Вы — админ клуба: создание событий клуба доступно'
+        : 'Вы — участник: события создаёт админ, вы договариваетесь в чате клуба', 'info');
+      return;
+    }
+
+    var menuBtn = ev.target.closest('[data-menu]');
+    if (menuBtn) { openMenu(menuBtn.getAttribute('data-menu')); return; }
+
+    var cmdBtn = ev.target.closest('[data-cmd]');
+    if (cmdBtn) {
+      var cmd = cmdBtn.getAttribute('data-cmd');
+      var parts = cmd.split(':');
+      var id = parts[1];
+      var e = getEntity(id);
+      if (!e) return;
+      if (parts[0] === 'confirm') setStatus(id, 'confirmed');
+      else if (parts[0] === 'decline') setStatus(id, 'cancelled');
+      else if (parts[0] === 'accept') acceptInvite(id);
+      else if (parts[0] === 'refuse') refuseInvite(id);
+      else if (parts[0] === 'join') join(id);
+      else if (parts[0] === 'leave') leave(id);
+      else if (parts[0] === 'done') setStatus(id, 'done');
+      else if (parts[0] === 'doneEarly') openDoneConfirm(e);
+      else if (parts[0] === 'qr') openQR(e);
+      else if (parts[0] === 'people') openPeople(e, 'Кто идёт');
+      else if (parts[0] === 'invite') openInvite(e);
+      else if (parts[0] === 'legend') openLegend();
+      else if (parts[0] === 'edit') toast('Редактирование откроется в полной версии', 'info');
+      else if (parts[0] === 'share') toast('Ссылка на событие скопирована', 'success');
+      else if (parts[0] === 'chat') toast('Чат откроется в мини-приложении ВКонтакте', 'info');
+      else if (parts[0] === 'link') toast('«' + e.link + '» откроется в полной версии', 'info');
+      if (ev.target.closest('.sw-act')) { closeSwipe(); dismissSwipeHint(true); }
+      return;
+    }
+
+    var closeBtn = ev.target.closest('[data-close]');
+    if (closeBtn) { closeOverlay(); return; }
+  });
+
+  scrim.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') closeOverlay();
+  });
+
+  renderLegend();
+  renderChips();
+  render();
+  setTimeout(maybeShowHint, 450);
+  setTimeout(notifyPending, 900);
+})();
+</script>
+</body>
+</html>
