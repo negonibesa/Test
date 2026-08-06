@@ -309,9 +309,17 @@ button { font-family: inherit; }
   column-gap: 10px;
   row-gap: 6px;
 }
-.ev-title {
+.ev-title-row {
   grid-area: title;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.ev-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.ev-title {
   margin: 0;
+  flex: 1 1 auto;
   min-width: 0;
   font-size: 17px;
   font-weight: 600;
@@ -397,10 +405,6 @@ button { font-family: inherit; }
   color: var(--muted);
 }
 .ev-meta b { font-weight: 600; color: var(--fg-2); }
-.ev-kind {
-  font-weight: 500;
-  color: var(--meta);
-}
 
 .ev-sub {
   margin: 4px 0 0;
@@ -418,6 +422,7 @@ button { font-family: inherit; }
   gap: 8px 10px;
   min-height: 26px;
 }
+.ev-foot .ev-badge { margin-left: auto; }
 .ev-avatars { display: flex; flex: none; }
 .ev-ava {
   flex: none;
@@ -1539,7 +1544,7 @@ body.no-scroll { overflow: hidden; }
     var type = TYPES[e.type];
     var status = STATUSES[e.status];
     var past = e.status === 'done' || e.status === 'cancelled';
-    var meta = '<span class="ev-kind">' + type.label + '</span> · <b>' + e.day + '</b> · ' + e.time + ' · ' + e.place;
+    var meta = '<b>' + e.day + '</b> · ' + e.time + ' · ' + e.place;
     var sub = (e.club ? '<b>' + e.club + '</b>' + (e.foot ? ' · ' : '') : '') + (e.foot || '');
     var avatars = (e.people || []).map(function (p) { return avatarHTML(e, p); }).join('');
     var swipes = swipeFor(e);
@@ -1565,7 +1570,10 @@ body.no-scroll { overflow: hidden; }
       '<div class="swipe-card" style="--swipe-w:' + (swipes.length * 84) + 'px; --i:' + idx + '">' +
         '<article class="ev-card">' +
           '<header class="ev-top">' +
-            '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3>' +
+            '<div class="ev-title-row">' +
+              '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
+              '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3>' +
+            '</div>' +
             statusBadge +
             '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
           '</header>' +
@@ -1573,6 +1581,7 @@ body.no-scroll { overflow: hidden; }
           (sub ? '<p class="ev-sub">' + sub + '</p>' : '') +
           '<footer class="ev-foot">' +
             '<div class="ev-avatars">' + avatars + '</div>' +
+            '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
           '</footer>' +
         '</article>' +
       '</div>' +

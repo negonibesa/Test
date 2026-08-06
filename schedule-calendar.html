@@ -111,7 +111,11 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-button { font-family: inherit; }
+button {
+  font-family: inherit;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
 a { color: inherit; }
 
 .app {
@@ -146,7 +150,7 @@ a { color: inherit; }
 .back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
 .back:hover { background: var(--surface); }
 .back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.back svg { width: 17px; height: 17px; transform: rotate(180deg); }
+.back svg { width: 17px; height: 17px; }
 .hd-txt { flex: 1; min-width: 0; }
 .eyebrow {
   margin: 0 0 3px;
@@ -166,6 +170,21 @@ a { color: inherit; }
 }
 .hd .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
 
+/* ── Липкая шапка с фильтрами ─────────────────────────────────────── */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding-bottom: 2px;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+}
+.sticky-top .hd { transition: padding-top var(--motion-base) var(--ease-standard), padding-bottom var(--motion-base) var(--ease-standard); }
+.sticky-top.is-stuck .hd { padding-top: 12px; padding-bottom: 10px; }
+@media (min-width: 560px) { .sticky-top.is-stuck .hd { padding-top: 14px; } }
+
 .body { padding: 0 16px; }
 @media (min-width: 560px) { .body { padding: 0 24px; } }
 
@@ -175,8 +194,9 @@ a { color: inherit; }
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 4px 2px 14px;
+  padding: 4px 16px 14px;
 }
+@media (min-width: 560px) { .chips { padding-left: 24px; padding-right: 24px; } }
 .chips::-webkit-scrollbar { display: none; }
 .chip {
   position: relative;
@@ -212,21 +232,117 @@ a { color: inherit; }
   border-radius: 50%;
   background: var(--c);
 }
-.chips + .chips { padding-top: 0; margin-top: -8px; }
-
-/* ── Статусы-переключатели ───────────────────────────────────────── */
-.stat-panel {
-  margin: 0 0 4px;
-  padding: 14px;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-lg);
-  background: var(--bg);
+/* ── Кнопка фильтра статусов (ghost) ─────────────────────────────── */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 12px;
 }
-.stat-head {
+@media (min-width: 560px) { .filter-row { padding-left: 24px; padding-right: 24px; } }
+.filter-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.filter-btn:hover { background: var(--surface-warm); border-color: var(--meta); }
+.filter-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.filter-btn .f-ic { width: 16px; height: 16px; color: var(--accent); }
+.filter-btn .f-chev { width: 13px; height: 13px; color: var(--meta); }
+.filter-btn .f-hint {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--meta);
+}
+/* ── Кнопка «Добавить» рядом с фильтром ───────────────────────────── */
+.add-btn {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  margin-left: auto;
+  padding: 0 16px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.add-btn::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.add-btn:hover { background: var(--surface-warm); border-color: var(--meta); }
+.add-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.add-btn svg { width: 17px; height: 17px; color: var(--accent); }
+
+/* ── Нижняя шторка статусов ──────────────────────────────────────── */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-base) var(--ease-standard);
+}
+.scrim.is-show { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  margin: 0 auto;
+  max-width: 700px;
+  max-height: 74vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.14);
+  padding: 8px 16px calc(18px + env(safe-area-inset-bottom));
+  transform: translateY(105%);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+.sheet.is-open { transform: translateY(0); }
+.sheet-grab {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  margin: 4px auto 6px;
+}
+.sheet-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  padding: 2px 2px 6px;
 }
 .stat-title {
   font-size: 12px;
@@ -235,13 +351,28 @@ a { color: inherit; }
   text-transform: uppercase;
   color: var(--meta);
 }
-.stat-hint { font-size: 12px; color: var(--meta); }
+.sheet-close {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.sheet-close:hover { background: var(--border-soft); }
+.sheet-close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sheet-close svg { width: 15px; height: 15px; }
 .stat-list { display: flex; flex-direction: column; }
 .stat-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 42px;
+  min-height: 44px;
 }
 .stat-row + .stat-row { border-top: 1px solid var(--border-soft); }
 .stat-dot {
@@ -283,6 +414,170 @@ a { color: inherit; }
 }
 .switch.on { background: var(--st-confirmed); }
 .switch.on .knob { transform: translateX(18px); }
+.sheet-done {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  height: 48px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.sheet-done:hover { background: var(--accent-hover); }
+.sheet-done:active { background: var(--accent-active); }
+.sheet-done:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Форма создания события ───────────────────────────────────────── */
+.add-form { display: grid; gap: 14px; padding-top: 4px; }
+.add-field { display: grid; gap: 6px; }
+.add-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.add-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-warm);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color var(--motion-fast) var(--ease-standard);
+}
+.add-input::placeholder { color: var(--meta); }
+.add-input:focus { outline: none; border-color: var(--accent); }
+.add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.add-types { display: flex; flex-wrap: wrap; gap: 8px; }
+.add-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.add-type:hover { background: var(--surface-warm); }
+.add-type:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.add-type.is-on {
+  background: var(--surface-warm);
+  border-color: var(--meta);
+  color: var(--fg);
+}
+.add-type .t-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.add-statuses { display: flex; flex-wrap: wrap; gap: 8px; }
+.add-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.add-status:hover { background: var(--surface-warm); }
+.add-status:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.add-status.is-on {
+  background: var(--surface-warm);
+  border-color: var(--meta);
+  color: var(--fg);
+}
+.add-status .s-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.add-save { margin-top: 4px; }
+
+/* ── FAB «Добавить событие» ───────────────────────────────────────── */
+.fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-on);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+.fab:hover { background: var(--accent-hover); }
+.fab:active { transform: scale(0.94); }
+.fab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.fab svg { width: 26px; height: 26px; }
+@media (min-width: 560px) { .fab { right: 24px; bottom: 24px; } }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
+  z-index: 80;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--fg);
+  color: var(--surface-warm);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
 
 /* ── Календарь ────────────────────────────────────────────────────── */
 .cal {
@@ -326,7 +621,6 @@ a { color: inherit; }
 .nav-btn:active { background: var(--border-soft); }
 .nav-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nav-btn svg { width: 16px; height: 16px; }
-.nav-btn.next svg { transform: rotate(180deg); }
 
 .cal-week,
 .cal-grid {
@@ -334,6 +628,7 @@ a { color: inherit; }
   grid-template-columns: repeat(7, 1fr);
 }
 .cal-week { padding-bottom: 4px; }
+.cal-grid { row-gap: 4px; }
 .cal-wd {
   text-align: center;
   font-size: 11px;
@@ -345,48 +640,57 @@ a { color: inherit; }
 }
 .cal-cell {
   position: relative;
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  gap: 3px;
-  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 46px;
+  height: 46px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--fg);
   cursor: pointer;
-  border-radius: var(--radius-md);
-  transition: background var(--motion-fast) var(--ease-standard);
+  transition: border-color var(--motion-fast) var(--ease-standard),
+              background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              box-shadow var(--motion-fast) var(--ease-standard);
 }
 .cal-cell:hover { background: var(--surface); }
+.cal-cell:hover { border-color: var(--meta); }
 .cal-cell:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .cal-cell.is-other { opacity: 0.4; }
 .cal-num {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--fg);
+  line-height: 1;
+  padding: 0 2px;
 }
-.cal-cell.is-today .cal-num {
-  background: var(--accent);
-  color: var(--accent-on);
-  font-weight: 600;
-}
-.cal-cell.is-sel .cal-num {
-  background: color-mix(in srgb, var(--accent) 18%, var(--bg));
+.cal-cell.is-today {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
   color: var(--accent-active);
-  font-weight: 700;
-  box-shadow: 0 0 0 2px var(--accent);
 }
-.cal-cell.is-today.is-sel .cal-num {
+.cal-cell.is-today .cal-num { font-weight: 600; }
+.cal-cell.is-sel {
   background: var(--accent);
+  border-color: var(--accent);
   color: var(--accent-on);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, var(--bg));
+}
+.cal-cell.is-sel .cal-num { font-weight: 700; }
+.cal-cell.is-today.is-sel {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, var(--bg));
 }
 .cal-dots {
   display: flex;
   gap: 2px;
-  height: 5px;
+  height: 6px;
+  align-items: center;
 }
 .cal-dot {
   width: 4px;
@@ -489,28 +793,39 @@ a { color: inherit; }
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chev-up" viewBox="0 0 24 24"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-sliders" viewBox="0 0 24 24"><path d="M4.5 7h15M4.5 12h15M4.5 17h15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="10" cy="7" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/><circle cx="15" cy="12" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="app">
-  <header class="hd" data-od-id="schedule-header">
-    <a class="back" href="home-athlete.html" aria-label="Назад на главный экран"><svg><use href="#ic-back"/></svg></a>
-    <div class="hd-txt">
-      <div class="eyebrow">Петровское СП</div>
-      <h1>Расписание</h1>
-      <p class="sub">Точки под числами — события дня · фильтры — по типу и статусу</p>
+  <div class="sticky-top" data-od-id="sticky-filters">
+    <header class="hd" data-od-id="schedule-header">
+      <a class="back" href="home-athlete.html" aria-label="Назад на главный экран"><svg><use href="#ic-back"/></svg></a>
+      <div class="hd-txt">
+        <div class="eyebrow">Петровское СП</div>
+        <h1>Расписание</h1>
+        <p class="sub">Точки под числами — события дня · фильтры — по типу и статусу</p>
+      </div>
+    </header>
+
+    <div class="chips" id="chips" data-od-id="filters"></div>
+    <div class="filter-row">
+      <button type="button" class="filter-btn" id="filter-open" data-od-id="status-filter-open" aria-haspopup="dialog" aria-expanded="false">
+        <svg class="f-ic" aria-hidden="true"><use href="#ic-sliders"/></svg>
+        <span>Статусы</span>
+        <span class="f-hint" id="status-hint">Все</span>
+        <svg class="f-chev" aria-hidden="true"><use href="#ic-chev-up"/></svg>
+      </button>
+      <button type="button" class="add-btn" id="add-row" data-od-id="add-event-row" aria-haspopup="dialog" aria-expanded="false">
+        <svg aria-hidden="true"><use href="#ic-plus"/></svg>
+        <span>Добавить</span>
+      </button>
     </div>
-  </header>
+  </div>
 
   <main class="body">
-    <div class="chips" id="chips" data-od-id="filters"></div>
-    <section class="stat-panel" data-od-id="status-filters">
-      <div class="stat-head">
-        <span class="stat-title">Статусы</span>
-        <span class="stat-hint" id="status-hint">Все</span>
-      </div>
-      <div class="stat-list" id="status-list"></div>
-    </section>
-
     <section class="cal" data-od-id="calendar">
       <div class="cal-head">
         <h2 class="cal-month" id="cal-month">Июнь 2026</h2>
@@ -533,11 +848,67 @@ a { color: inherit; }
 
     <footer class="foot" data-od-id="schedule-footer">
       <b>Точки</b> · 4px под числом, цвет = тип события; если типов несколько — показываются все.<br>
-      <b>Фильтры</b> · по типу — чипсы, по статусу — переключатели; работают вместе (И).<br>
-      <b>Статусы</b> · выключите лишние, чтобы показать только нужные события.
+      <b>Фильтры</b> · по типу — чипсы, по статусу — кнопка «Статусы» (шторка снизу); работают вместе (И).<br>
+      <b>Статусы</b> · выключите лишние переключатели, чтобы показать только нужные события.<br>
+      <b>Добавить</b> · круглый «+» внизу справа открывает форму нового события.
     </footer>
   </main>
+
+  <button type="button" class="fab" id="add-open" data-od-id="add-event-fab" aria-haspopup="dialog" aria-expanded="false" aria-label="Добавить событие">
+    <svg aria-hidden="true"><use href="#ic-plus"/></svg>
+  </button>
+
+  <div class="scrim" id="scrim" data-od-id="scrim" hidden></div>
+  <div class="sheet" id="status-sheet" role="dialog" aria-modal="true" aria-label="Фильтр по статусам" data-od-id="status-sheet" hidden>
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <span class="stat-title">Статусы</span>
+      <button type="button" class="sheet-close" id="sheet-close" aria-label="Закрыть фильтр"><svg><use href="#ic-close"/></svg></button>
+    </div>
+    <div class="stat-list" id="status-list"></div>
+    <button type="button" class="sheet-done" id="sheet-done" data-od-id="status-sheet-done">Готово</button>
+  </div>
+
+  <div class="scrim" id="scrim-add" data-od-id="scrim-add" hidden></div>
+  <div class="sheet" id="add-sheet" role="dialog" aria-modal="true" aria-label="Новое событие" data-od-id="add-sheet" hidden>
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <div class="sheet-head">
+      <span class="stat-title">Новое событие</span>
+      <button type="button" class="sheet-close" id="add-close" aria-label="Закрыть форму"><svg><use href="#ic-close"/></svg></button>
+    </div>
+    <form class="add-form" id="add-form" novalidate>
+      <div class="add-field">
+        <label class="add-label" for="add-title">Название</label>
+        <input class="add-input" id="add-title" type="text" placeholder="Например: Плавание" maxlength="60" required>
+      </div>
+      <div class="add-field">
+        <span class="add-label">Тип</span>
+        <div class="add-types" id="add-types"></div>
+      </div>
+      <div class="add-row">
+        <div class="add-field">
+          <label class="add-label" for="add-date">Дата</label>
+          <input class="add-input" id="add-date" type="date" required>
+        </div>
+        <div class="add-field">
+          <label class="add-label" for="add-time">Время</label>
+          <input class="add-input" id="add-time" type="text" placeholder="18:00 – 19:30">
+        </div>
+      </div>
+      <div class="add-field">
+        <label class="add-label" for="add-place">Место</label>
+        <input class="add-input" id="add-place" type="text" placeholder="Например: Тренажёрный зал">
+      </div>
+      <div class="add-field">
+        <span class="add-label">Статус</span>
+        <div class="add-statuses" id="add-statuses"></div>
+      </div>
+      <button type="submit" class="sheet-done add-save" data-od-id="add-save">Добавить</button>
+    </form>
+  </div>
 </div>
+
+<div class="toast-wrap" id="toasts"></div>
 
 <script>
 (function () {
@@ -860,6 +1231,165 @@ a { color: inherit; }
     renderCalendar();
     renderDay();
   });
+
+  /* ── Тост ─────────────────────────────────────────────────────────── */
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    while (wrap.children.length >= 2) wrap.removeChild(wrap.firstChild);
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, 2200);
+  }
+
+  /* ── Форма создания события ─────────────────────────────────────── */
+  var scrimAdd = document.getElementById('scrim-add');
+  var addSheet = document.getElementById('add-sheet');
+  var addType = 'me';
+  var addStatus = 'confirmed';
+  var addSheetOpen = false;
+
+  function renderAddPickers() {
+    var tb = document.getElementById('add-types');
+    tb.innerHTML = '';
+    TYPE_ORDER.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'add-type' + (addType === t ? ' is-on' : '');
+      b.style.setProperty('--c', 'var(' + TYPES[t].token + ')');
+      b.innerHTML = '<span class="t-dot" aria-hidden="true"></span>' + TYPES[t].label;
+      b.addEventListener('click', function () { addType = t; renderAddPickers(); });
+      tb.appendChild(b);
+    });
+    var sb = document.getElementById('add-statuses');
+    sb.innerHTML = '';
+    STATUS_ORDER.forEach(function (s) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'add-status' + (addStatus === s ? ' is-on' : '');
+      b.style.setProperty('--c', 'var(' + STATUSES[s].token + ')');
+      b.innerHTML = '<span class="s-dot" aria-hidden="true"></span>' + STATUSES[s].label;
+      b.addEventListener('click', function () { addStatus = s; renderAddPickers(); });
+      sb.appendChild(b);
+    });
+  }
+
+  function defaultAddDate() {
+    var base = state.selected || { y: state.viewY, m: state.viewM, d: 1 };
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return base.y + '-' + p(base.m + 1) + '-' + p(base.d);
+  }
+
+  function openAddSheet() {
+    addSheetOpen = true;
+    addType = 'me';
+    addStatus = 'confirmed';
+    renderAddPickers();
+    document.getElementById('add-title').value = '';
+    document.getElementById('add-date').value = defaultAddDate();
+    document.getElementById('add-time').value = '';
+    document.getElementById('add-place').value = '';
+    scrimAdd.hidden = false;
+    addSheet.hidden = false;
+    requestAnimationFrame(function () {
+      scrimAdd.classList.add('is-show');
+      addSheet.classList.add('is-open');
+    });
+    document.getElementById('add-open').setAttribute('aria-expanded', 'true');
+    document.getElementById('add-row').setAttribute('aria-expanded', 'true');
+    document.getElementById('add-title').focus();
+  }
+  function closeAddSheet() {
+    addSheetOpen = false;
+    scrimAdd.classList.remove('is-show');
+    addSheet.classList.remove('is-open');
+    document.getElementById('add-open').setAttribute('aria-expanded', 'false');
+    document.getElementById('add-row').setAttribute('aria-expanded', 'false');
+    setTimeout(function () {
+      if (!addSheetOpen) {
+        scrimAdd.hidden = true;
+        addSheet.hidden = true;
+      }
+    }, 260);
+  }
+  document.getElementById('add-open').addEventListener('click', openAddSheet);
+  document.getElementById('add-row').addEventListener('click', openAddSheet);
+  document.getElementById('add-close').addEventListener('click', closeAddSheet);
+  scrimAdd.addEventListener('click', closeAddSheet);
+
+  document.getElementById('add-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var title = document.getElementById('add-title').value.trim();
+    var dateVal = document.getElementById('add-date').value;
+    var time = document.getElementById('add-time').value.trim();
+    var place = document.getElementById('add-place').value.trim();
+    if (!title) { toast('Введите название события'); return; }
+    if (!dateVal) { toast('Укажите дату'); return; }
+    var parts = dateVal.split('-');
+    var ev = {
+      y: +parts[0], m: +parts[1] - 1, d: +parts[2],
+      type: addType, title: title,
+      time: time || 'Время уточняется', place: place || 'Место уточняется',
+      status: addStatus
+    };
+    EVENTS.push(ev);
+    state.viewY = ev.y;
+    state.viewM = ev.m;
+    state.selected = { y: ev.y, m: ev.m, d: ev.d };
+    closeAddSheet();
+    refreshViews();
+    toast('Событие добавлено');
+  });
+
+  /* ── Шторка статусов ────────────────────────────────────────────── */
+  var scrim = document.getElementById('scrim');
+  var sheet = document.getElementById('status-sheet');
+  var sheetOpen = false;
+  function openSheet() {
+    sheetOpen = true;
+    scrim.hidden = false;
+    sheet.hidden = false;
+    requestAnimationFrame(function () {
+      scrim.classList.add('is-show');
+      sheet.classList.add('is-open');
+    });
+    document.getElementById('filter-open').setAttribute('aria-expanded', 'true');
+  }
+  function closeSheet() {
+    sheetOpen = false;
+    scrim.classList.remove('is-show');
+    sheet.classList.remove('is-open');
+    document.getElementById('filter-open').setAttribute('aria-expanded', 'false');
+    setTimeout(function () {
+      if (!sheetOpen) {
+        scrim.hidden = true;
+        sheet.hidden = true;
+      }
+    }, 260);
+  }
+  document.getElementById('filter-open').addEventListener('click', function () {
+    if (sheet.hidden) openSheet(); else closeSheet();
+  });
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  document.getElementById('sheet-done').addEventListener('click', closeSheet);
+  scrim.addEventListener('click', closeSheet);
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (!sheet.hidden) closeSheet();
+    if (!addSheet.hidden) closeAddSheet();
+  });
+
+  /* ── Липкая шапка: сжатие при скролле ───────────────────────────── */
+  var stickyTop = document.querySelector('.sticky-top');
+  function updateStuck() {
+    if (stickyTop) stickyTop.classList.toggle('is-stuck', window.scrollY > 4);
+  }
+  window.addEventListener('scroll', updateStuck, { passive: true });
+  updateStuck();
 
   renderChips();
   renderStatusSwitches();

@@ -13,6 +13,7 @@
       "index.html",
       "petrovskoe-mobile-prototype-1.html",
       "petrovskoe-mobile-prototype.html",
+      "qrscan.html",
       "schedule-calendar.html",
       "schedule-calendar.png",
       "sketch-2026-08-05T20-43-56.sketch.json",
@@ -24,6 +25,7 @@
       "index.html",
       "petrovskoe-mobile-prototype-1.html",
       "petrovskoe-mobile-prototype.html",
+      "qrscan.html",
       "schedule-calendar.html",
       "welcome-screen.html"
     ],
@@ -61,6 +63,11 @@
     },
     {
       "file": "petrovskoe-mobile-prototype.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "qrscan.html",
       "role": "screen",
       "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
     },

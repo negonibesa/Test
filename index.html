@@ -164,6 +164,7 @@ a.l-card:active { background: var(--surface); }
     <symbol id="ic-onboard" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 9.5h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15" r="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 15h1.5M15 15h1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></symbol>
     <symbol id="ic-library" viewBox="0 0 24 24"><path d="M12 5.5C10.1 4.1 6.6 3.9 4 4.4v14.3c2.6-.5 6.1-.3 8 1.1 1.9-1.4 5.4-1.6 8-1.1V4.4c-2.6-.5-6.1-.3-8 1.1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 5.5v14.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M3.5 7.5V5.5A2 2 0 0 1 5.5 3.5h2M16.5 3.5h2a2 2 0 0 1 2 2v2M20.5 16.5v2a2 2 0 0 1-2 2h-2M7.5 20.5h-2a2 2 0 0 1-2-2v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 12h9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </svg>
 
   <header class="l-header">
@@ -182,6 +183,11 @@ a.l-card:active { background: var(--surface); }
       <a class="l-card" href="schedule-calendar.html" data-od-id="ln-schedule" style="--c: var(--c-blue)">
         <span class="l-ic"><svg><use href="#ic-events"/></svg></span>
         <span class="l-body"><span class="l-name">Расписание · Календарь</span><span class="l-desc">Точки под числами, фильтры по типу события</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
+      </a>
+      <a class="l-card" href="qrscan.html" data-od-id="ln-qrscan" style="--c: #5856D6">
+        <span class="l-ic"><svg><use href="#ic-scan"/></svg></span>
+        <span class="l-body"><span class="l-name">QR-коды</span><span class="l-desc">Сканер и личный QR-код · переключение вкладками</span></span>
         <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
       </a>
       <a class="l-card" href="events-system.html" data-od-id="ln-events-system" style="--c: var(--c-purple)">
@@ -221,7 +227,7 @@ a.l-card:active { background: var(--surface); }
       </a>
       <a class="l-card" href="welcome-screen.html#home" data-od-id="ln-profile" style="--c: var(--c-green)">
         <span class="l-ic"><svg><use href="#ic-home"/></svg></span>
-        <span class="l-body"><span class="l-name">Профиль и личный кабинет</span><span class="l-desc">Приветствие после заполнения анкеты</span></span>
+        <span class="l-body"><span class="l-name">Успех по анкете</span><span class="l-desc">Приветствие, роль и цель после заполнения анкеты</span></span>
         <svg class="l-chev"><use href="#ic-chev"/></svg>
       </a>
     </div>
@@ -271,7 +277,7 @@ a.l-card:active { background: var(--surface); }
 
     <div class="l-foot">
       Сценарии открываются в welcome-screen.html через hash-навигацию: #welcome, #auth, #register, #role, #onboarding, #questionnaire, #home.<br>
-      Файлы: home-athlete.html · schedule-calendar.html · events-system.html · welcome-screen.html · index.html
+      Файлы: home-athlete.html · schedule-calendar.html · events-system.html · welcome-screen.html · qrscan.html · index.html
     </div>
   </main>
 </div>

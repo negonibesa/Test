@@ -574,7 +574,6 @@ body.no-scroll { overflow: hidden; }
   <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 6-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 7H19v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3.6h-4l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.4-1c.5.4 1.1.8 1.7 1l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-edit" viewBox="0 0 24 24"><path d="M4 20l4.5-1L19.5 8a2.1 2.1 0 0 0-3-3L5.5 15.5 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -590,6 +589,7 @@ body.no-scroll { overflow: hidden; }
   <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
   <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M3.5 7.5V5.5A2 2 0 0 1 5.5 3.5h2M16.5 3.5h2a2 2 0 0 1 2 2v2M20.5 16.5v2a2 2 0 0 1-2 2h-2M7.5 20.5h-2a2 2 0 0 1-2-2v-2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 12h9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
 </svg>
 
 <div class="app">
@@ -601,7 +601,7 @@ body.no-scroll { overflow: hidden; }
       <p class="sub">Спортсмен · плавание, лёгкая атлетика</p>
     </div>
     <div class="hd-acts">
-      <button class="icon-btn" data-toast="Настройки откроются в следующей итерации" aria-label="Настройки"><svg aria-hidden="true"><use href="#ic-gear"/></svg></button>
+      <a class="icon-btn" href="qrscan.html" aria-label="Сканер QR-кодов"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
       <button class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg></button>
     </div>
   </header>
@@ -698,13 +698,45 @@ body.no-scroll { overflow: hidden; }
         day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал', trainer: null
       },
       {
+        id: 'swim', type: 'me', title: 'Плавание', status: 'confirmed',
+        day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»', trainer: null
+      },
+      {
         id: 'str-coach', type: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending',
-        day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2'
+        day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2', trainer: 'А. Соколов'
       },
       {
         id: 'cup', type: 'event', title: 'Летний Кубок Петровского', status: 'open',
         day: 'Сб, 16 авг', time: '10:00 – 18:00', place: 'Стадион «Центральный»',
         enrolled: true, bracket: true
+      },
+      {
+        id: 'club-run', type: 'club', title: 'Вечерняя пробежка клуба', status: 'open',
+        day: 'Вс, 17 авг', time: '19:00 – 20:30', place: 'Парк Победы', enrolled: true
+      },
+      {
+        id: 'club-yoga', type: 'club', title: 'Йога на свежем воздухе', status: 'open',
+        day: 'Пт, 22 авг', time: '09:00 – 10:00', place: 'Летняя площадка'
+      },
+      {
+        id: 'rental', type: 'rental', title: 'Аренда зала', status: 'confirmed',
+        day: 'Ср, 20 авг', time: '20:00 – 22:00', place: 'Зал № 1', enrolled: true
+      },
+      {
+        id: 'boat', type: 'event', title: 'Сплав на байдарках', status: 'open',
+        day: 'Сб, 23 авг', time: '09:00 – 15:00', place: 'Река Кудепста'
+      },
+      {
+        id: 'chess', type: 'event', title: 'Шахматный турнир клуба', status: 'open',
+        day: 'Вс, 24 авг', time: '12:00 – 16:00', place: 'Библиотека'
+      },
+      {
+        id: 'str-pilates', type: 'trainer', title: 'Пилатес с тренером', status: 'pending',
+        day: 'Сб, 16 авг', time: '10:00 – 11:00', place: 'Зал № 1', trainer: 'Е. Волкова'
+      },
+      {
+        id: 'str-stretch', type: 'trainer', title: 'Стретчинг-группа', status: 'pending',
+        day: 'Вс, 17 авг', time: '12:00 – 13:00', place: 'Летняя площадка', trainer: 'И. Мельник'
       }
     ]
   };
@@ -760,7 +792,7 @@ body.no-scroll { overflow: hidden; }
         act('share', 'Поделиться', true, null, function () { toast('Ссылка на тренировку скопирована'); }),
         act('x', 'Отменить', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
       ];
-    } else if (e.type === 'event') {
+    } else if (e.type === 'event' || e.type === 'club') {
       list = [
         act('plus', 'Записаться', e.status === 'open' && !e.enrolled, e.enrolled ? 'Вы уже записаны' : 'Только пока открыта регистрация', function () { e.enrolled = true; render(); toast('Вы записались'); }),
         act('minus', 'Отказаться', !!e.enrolled, 'Вы ещё не записаны', function () { e.enrolled = false; render(); toast('Участие отменено'); }),
@@ -768,6 +800,15 @@ body.no-scroll { overflow: hidden; }
         act('users', 'Кто идёт', true, null, function () { toast('Список участников — в полной версии'); }),
         act('share', 'Поделиться', true, null, function () { toast('Ссылка на ивент скопирована'); }),
         act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); })
+      ];
+      if (e.type === 'club') list.push(act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в полной версии'); }));
+    } else if (e.type === 'rental') {
+      list = [
+        act('minus', 'Отказаться', !!e.enrolled, 'Вы ещё не записаны', function () { e.enrolled = false; render(); toast('Участие отменено'); }),
+        act('users', 'Участники', true, null, function () { toast('Список участников — в полной версии'); }),
+        act('scan', 'Показать QR-код', e.status === 'confirmed', 'До завершения аренды', function () { toast('QR-код входа откроется в полной версии'); }),
+        act('share', 'Поделиться', true, null, function () { toast('Ссылка скопирована'); }),
+        act('x', 'Отменить аренду', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
       ];
     }
     return list;

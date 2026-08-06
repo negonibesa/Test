@@ -11,7 +11,7 @@ This archive is the source of truth for turning the design into production code.
 
 ## Source map
 - Primary entry: `index.html`
-- HTML screens detected: 7
+- HTML screens detected: 8
 - Stylesheets detected: 0
 - Script/component files detected: 0
 - Supporting assets detected: 6
@@ -68,6 +68,7 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 - `index.html`
 - `petrovskoe-mobile-prototype-1.html`
 - `petrovskoe-mobile-prototype.html`
+- `qrscan.html`
 - `schedule-calendar.html`
 - `welcome-screen.html`
 
