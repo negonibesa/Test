@@ -4,37 +4,65 @@
   "entryFile": "index.html",
   "sourceFiles": {
     "all": [
+      "Анализ-ТЗ-мобильного-приложения.zip",
       "Информационно-функциональная-архитектура.JSON",
       "Петровское_СП_ТЗ_Этап_2_Веб_приложение_администрации_v1.docx",
+      "backup-home-athlete-brand.html",
+      "create-event.html",
       "events-system.html",
       "events-system.png",
+      "Gerb_Camera_00015_00015-0.png",
+      "Gerb_Camera_00015-0.png",
+      "gto-plan.html",
+      "gto-result.html",
+      "gto-test.html",
+      "gto-workout.html",
+      "gto.html",
+      "home-athlete-brand.html",
       "home-athlete.html",
       "image.png",
       "index.html",
+      "petrovskoe-home-brand_2.html",
       "petrovskoe-mobile-prototype-1.html",
       "petrovskoe-mobile-prototype.html",
       "qrscan.html",
       "schedule-calendar.html",
       "schedule-calendar.png",
       "sketch-2026-08-05T20-43-56.sketch.json",
+      "splash-phone.html",
+      "splash-screen.html",
       "welcome-screen.html"
     ],
     "html": [
+      "backup-home-athlete-brand.html",
+      "create-event.html",
       "events-system.html",
+      "gto-plan.html",
+      "gto-result.html",
+      "gto-test.html",
+      "gto-workout.html",
+      "gto.html",
+      "home-athlete-brand.html",
       "home-athlete.html",
       "index.html",
+      "petrovskoe-home-brand_2.html",
       "petrovskoe-mobile-prototype-1.html",
       "petrovskoe-mobile-prototype.html",
       "qrscan.html",
       "schedule-calendar.html",
+      "splash-phone.html",
+      "splash-screen.html",
       "welcome-screen.html"
     ],
     "css": [],
     "scriptsAndComponents": [],
     "assets": [
+      "Анализ-ТЗ-мобильного-приложения.zip",
       "Информационно-функциональная-архитектура.JSON",
       "Петровское_СП_ТЗ_Этап_2_Веб_приложение_администрации_v1.docx",
       "events-system.png",
+      "Gerb_Camera_00015_00015-0.png",
+      "Gerb_Camera_00015-0.png",
       "image.png",
       "schedule-calendar.png",
       "sketch-2026-08-05T20-43-56.sketch.json"
@@ -42,7 +70,47 @@
   },
   "screens": [
     {
+      "file": "backup-home-athlete-brand.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "create-event.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
       "file": "events-system.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "gto-plan.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "gto-result.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "gto-test.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "gto-workout.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "gto.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "home-athlete-brand.html",
       "role": "screen",
       "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
     },
@@ -55,6 +123,11 @@
       "file": "index.html",
       "role": "launcher-overview",
       "implementationNote": "Use this as the navigation/overview entry only; implement each linked screen file as its own route/surface."
+    },
+    {
+      "file": "petrovskoe-home-brand_2.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
     },
     {
       "file": "petrovskoe-mobile-prototype-1.html",
@@ -74,6 +147,16 @@
     {
       "file": "schedule-calendar.html",
       "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "splash-phone.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "splash-screen.html",
+      "role": "product-screen",
       "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
     },
     {

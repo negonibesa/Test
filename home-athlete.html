@@ -103,6 +103,11 @@
   --st-done:      #8e8e93;
   --st-cancelled: #ff3b30;
 }
+:root {
+  --gto-bronze: #cd7f32;
+  --gto-silver: #9aa1ab;
+  --gto-gold:   #f5b301;
+}
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -146,14 +151,57 @@ a { color: inherit; }
   box-shadow: var(--elev-raised);
 }
 .hd-txt { flex: 1; min-width: 0; }
-.eyebrow {
-  margin: 0 0 4px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--meta);
+.hd-ach {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 0 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  min-height: 22px;
+  border-radius: 6px;
+  cursor: pointer;
 }
+.hd-ach:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ach {
+  position: relative;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.ach svg { width: 12px; height: 12px; }
+.ach.is-bronze { background: var(--gto-bronze); }
+.ach.is-silver { background: var(--gto-silver); }
+.ach.is-gold { background: var(--gto-gold); }
+.ach.is-cur { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--gto-silver), inset 0 0 0 1px rgba(0, 0, 0, 0.08); }
+.ach.is-locked {
+  background: var(--surface);
+  color: var(--meta);
+  box-shadow: inset 0 0 0 1.5px var(--border);
+}
+.ach.is-locked svg { opacity: 0.4; }
+.ach-lock {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--meta);
+  display: grid;
+  place-items: center;
+}
+.ach-lock svg { width: 8px; height: 8px; opacity: 1; }
 .hd h1 {
   margin: 0;
   font-family: var(--font-display);
@@ -188,6 +236,71 @@ a { color: inherit; }
 .icon-btn:active { background: var(--border-soft); }
 .icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .icon-btn svg { width: 18px; height: 18px; }
+
+/* ── Поиск ─────────────────────────────────────────────────────────── */
+.search-wrap {
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  transition:
+    max-height var(--motion-base) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard),
+    visibility 0s linear var(--motion-base);
+}
+.search-wrap.is-open {
+  max-height: 76px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    max-height var(--motion-base) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard),
+    visibility 0s;
+}
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0 12px;
+  height: 40px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+}
+.searchbar-ic { flex: none; width: 17px; height: 17px; color: var(--meta); }
+.searchbar input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--fg);
+  outline: none;
+}
+.searchbar input::placeholder { color: var(--meta); }
+.searchbar input::-webkit-search-cancel-button { display: none; }
+.searchbar-clear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-fast) var(--ease-standard);
+}
+.searchbar-clear svg { width: 12px; height: 12px; }
+.searchbar-clear:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.search-wrap.has-text .searchbar-clear { opacity: 1; pointer-events: auto; }
 
 /* ── Тело ──────────────────────────────────────────────────────────── */
 .body { padding: 0 16px; }
@@ -270,6 +383,34 @@ a { color: inherit; }
   transition: width 0.6s var(--ease-standard);
 }
 .goal-progress-label { margin: 8px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.goal-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.gchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-2);
+  background: var(--surface);
+  border-radius: var(--radius-pill);
+  padding: 5px 11px;
+}
+.gchip.is-sign { color: color-mix(in oklab, var(--c), var(--fg) 30%); background: color-mix(in srgb, var(--c) 15%, var(--bg)); }
+.gchip .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+.goal-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.goal-open:hover { color: var(--accent-hover); }
+.goal-open:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
+.goal-open svg { width: 14px; height: 14px; }
+.goal.swipe-card { cursor: pointer; }
 
 /* ── Свайп цели ────────────────────────────────────────────────────── */
 .swipe-actions {
@@ -302,6 +443,7 @@ a { color: inherit; }
 .swipe-card {
   transition: transform var(--motion-base) var(--ease-standard);
   will-change: transform;
+  touch-action: pan-y;
 }
 .swipe-card.swiped { transform: translateX(calc(-1 * var(--swipe-w, 178px))); }
 @media (prefers-reduced-motion: reduce) { .swipe-card { transition: none; } }
@@ -341,6 +483,44 @@ a { color: inherit; }
 .sec-all:hover { color: var(--accent-hover); }
 .sec-all:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
 .sec-all svg { width: 12px; height: 12px; }
+.sec-acts { display: flex; align-items: center; gap: 8px; align-self: center; }
+.sec-icon {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--surface-warm);
+  color: var(--fg-2);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.sec-icon svg { width: 16px; height: 16px; }
+.sec-icon:hover { background: var(--surface); }
+.sec-icon:active { background: var(--border-soft); }
+.sec-icon.is-on { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, var(--border-soft)); }
+.sec-icon:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sec-icon .badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 10px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 2px var(--surface-warm);
+}
+.sec-icon .badge[hidden] { display: none; }
 .cards { display: grid; gap: 12px; }
 .empty {
   border: 1px dashed var(--border);
@@ -368,19 +548,35 @@ a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) { .ev-card { animation: none; } }
 .ev-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "title menu"
+    "badge badge";
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 6px;
+}
+.ev-title-row {
+  grid-area: title;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 10px;
+  gap: 8px;
+  min-width: 0;
 }
 .ev-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
 .ev-title {
   margin: 0;
   flex: 1 1 auto;
   min-width: 0;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.011em;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ev-title.s-done, .ev-title.s-cancelled { color: var(--muted); }
 .ev-badge {
@@ -388,15 +584,29 @@ a { color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.01em;
   color: color-mix(in oklab, var(--c), var(--fg) 40%);
   background: color-mix(in srgb, var(--c) 13%, var(--bg));
-  border-radius: var(--radius-pill);
-  padding: 3px 9px;
+  border-radius: 7px;
+  padding: 2px 7px;
 }
-.ev-badge-status .ev-bdot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.ev-badge-status {
+  grid-area: badge;
+  justify-self: start;
+}
+.ev-badge-status .ev-bdot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+.ev-badge-status .ev-bdot-ico { flex: none; width: 11px; height: 11px; }
+.ev-badge-status.is-pending {
+  animation: pending-blink 1.6s var(--ease-standard) infinite;
+}
+@keyframes pending-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
 .ev-menu {
+  grid-area: menu;
   position: relative;
   flex: none;
   display: grid;
@@ -415,8 +625,49 @@ a { color: inherit; }
 .ev-menu:active { background: var(--border-soft); }
 .ev-menu:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .ev-menu svg { width: 16px; height: 16px; }
-.ev-meta { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.ev-meta { margin: 10px 0 16px; font-size: 14px; line-height: 1.45; color: var(--muted); }
 .ev-meta b { font-weight: 600; color: var(--fg-2); }
+.ev-sub { margin: 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.ev-sub b { font-weight: 600; color: var(--fg-2); }
+.ev-avatars { display: flex; flex: none; }
+.ev-ava {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: color-mix(in oklab, var(--c), var(--fg) 35%);
+  background: color-mix(in srgb, var(--c) 16%, var(--bg));
+  border: 2px solid var(--bg);
+}
+.ev-ava + .ev-ava { margin-left: -8px; }
+.ev-ava.is-you {
+  color: var(--accent-on);
+  background: var(--accent);
+}
+.ev-ava .ini { opacity: 0.6; }
+.ev-ava.is-you .ini { opacity: 1; }
+.ev-foot-text {
+  flex: 1;
+  min-width: 0;
+  margin-left: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.ev-foot {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  min-height: 26px;
+}
+.ev-foot .ev-badge { margin-left: auto; }
 
 /* ── Шит меню ──────────────────────────────────────────────────────── */
 .scrim {
@@ -498,6 +749,129 @@ a { color: inherit; }
 .sheet-cancel:hover { background: var(--border-soft); }
 .sheet-cancel:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
+/* ── Шит достижений ────────────────────────────────────────────────── */
+.ach-sheet { padding: 14px 16px calc(16px + env(safe-area-inset-bottom)); }
+.ach-head { display: flex; align-items: center; gap: 10px; padding: 0 4px 4px; }
+.ach-title { margin: 0; flex: 1; font-size: 17px; font-weight: 700; letter-spacing: -0.011em; }
+.ach-badge {
+  flex: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--meta);
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+}
+.ach-sub { margin: 0 0 10px; padding: 0 4px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.ach-list { display: grid; gap: 8px; max-height: 44vh; overflow: auto; }
+.ach-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  cursor: default;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.ach-item.is-go { cursor: pointer; }
+.ach-item.is-go:hover { background: var(--surface); }
+.ach-item:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ach-chip {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.ach-chip svg { width: 20px; height: 20px; }
+.ach-chip.tone-silver { background: var(--gto-silver); }
+.ach-chip.tone-bronze { background: var(--gto-bronze); }
+.ach-chip.tone-gold { background: var(--gto-gold); }
+.ach-chip.tone-accent { background: color-mix(in srgb, var(--accent) 14%, var(--bg)); color: var(--accent); box-shadow: none; }
+.ach-item.is-locked .ach-chip { background: var(--surface); color: var(--meta); box-shadow: inset 0 0 0 1.5px var(--border); }
+.ach-item.is-locked .ach-chip svg { opacity: 0.4; }
+.ach-lock-bubble {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--meta);
+  display: grid;
+  place-items: center;
+}
+.ach-lock-bubble svg { width: 9px; height: 9px; opacity: 1; }
+.ach-it { flex: 1; min-width: 0; }
+.ach-il { display: block; font-size: 14px; font-weight: 600; color: var(--fg); }
+.ach-ih { display: block; font-size: 12px; line-height: 1.35; color: var(--meta); margin-top: 2px; }
+.ach-go { flex: none; color: var(--meta); }
+.ach-go svg { width: 16px; height: 16px; }
+.ach-cta {
+  margin-top: 10px;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.ach-cta:hover { background: var(--accent-hover); }
+.ach-cta:active { background: var(--accent-active); }
+.ach-cta:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Фильтр по типам ──────────────────────────────────────────────── */
+.filter-reset {
+  flex: none;
+  border: 0;
+  background: none;
+  padding: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+.filter-reset:hover { color: var(--accent-hover); }
+.filter-reset:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 4px; }
+.filter-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 4px 2px; }
+.fchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: var(--radius-pill);
+  padding: 7px 13px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.fchip .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c); opacity: 0.55; }
+.fchip.is-on .dot { opacity: 1; }
+.fchip.is-on {
+  color: color-mix(in oklab, var(--c), var(--fg) 25%);
+  background: color-mix(in srgb, var(--c) 14%, var(--bg));
+  border-color: color-mix(in srgb, var(--c) 45%, var(--border-soft));
+}
+.fchip:active { transform: scale(0.97); }
+.fchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
 /* ── Таб-бар ───────────────────────────────────────────────────────── */
 .tabbar {
   position: fixed;
@@ -563,6 +937,13 @@ a { color: inherit; }
 @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
 
+@media (prefers-reduced-motion: reduce) {
+  .ev-badge-status.is-pending { animation: none; }
+  .goal-fill { transition: none; }
+  .toast { animation: none; }
+  .search-wrap { transition: none; }
+}
+
 body.no-scroll { overflow: hidden; }
 </style>
 </head>
@@ -589,24 +970,42 @@ body.no-scroll { overflow: hidden; }
   <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
   <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
   <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M3.5 7.5V5.5A2 2 0 0 1 5.5 3.5h2M16.5 3.5h2a2 2 0 0 1 2 2v2M20.5 16.5v2a2 2 0 0 1-2 2h-2M7.5 20.5h-2a2 2 0 0 1-2-2v-2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 12h9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.3 15.3L20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5.5H5a0 0 0 0 0 0 0v1.5A3 3 0 0 0 8 10M16 5.5h3a0 0 0 0 1 0 0V7a3 3 0 0 1-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 13v3M8.5 20h7M9.5 16h5l.5 4h-6l.5-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-run" viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M13 8l-2 3 2 2 1.5 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11L7.5 8.5M13 13l3 2M16 15l1 5M6.5 8.5L8 5.5 5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="app">
   <header class="hd" data-od-id="home-header">
     <div class="avatar" aria-hidden="true">И</div>
     <div class="hd-txt">
-      <div class="eyebrow">Петровское СП</div>
+      <button type="button" class="hd-ach" data-od-id="home-ach" aria-label="Достижения: знаки ГТО" aria-haspopup="dialog">
+        <span class="ach is-bronze is-got" data-od-id="ach-bronze" title="Бронзовый знак ГТО"><svg aria-hidden="true"><use href="#ic-medal"/></svg></span>
+        <span class="ach is-silver is-cur" data-od-id="ach-silver" title="Серебряный знак ГТО"><svg aria-hidden="true"><use href="#ic-medal"/></svg></span>
+        <span class="ach is-gold is-locked" data-od-id="ach-gold" title="Золотой знак ГТО — ещё не получен"><svg aria-hidden="true"><use href="#ic-medal"/></svg><i class="ach-lock" aria-hidden="true"><svg><use href="#ic-lock"/></svg></i></span>
+      </button>
       <h1>Привет, Иван</h1>
       <p class="sub">Спортсмен · плавание, лёгкая атлетика</p>
     </div>
     <div class="hd-acts">
+      <button class="icon-btn" data-search-toggle aria-label="Поиск"><svg aria-hidden="true"><use href="#ic-search"/></svg></button>
       <a class="icon-btn" href="qrscan.html" aria-label="Сканер QR-кодов"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
       <button class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg></button>
     </div>
   </header>
 
   <main class="body">
+    <div class="search-wrap" id="search-wrap" data-od-id="home-search">
+      <div class="searchbar" role="search">
+        <svg class="searchbar-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+        <input id="search-input" type="search" placeholder="Поиск: события, площадки, клубы" aria-label="Поиск по событиям">
+        <button type="button" class="searchbar-clear" id="search-clear" aria-label="Очистить поиск"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+      </div>
+    </div>
     <section class="stats" data-od-id="home-stats">
       <div class="stat">
         <div class="stat-label"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировок</div>
@@ -630,20 +1029,29 @@ body.no-scroll { overflow: hidden; }
         <button class="sw-act sw-act-edit" data-goal-act="edit" tabindex="-1"><svg><use href="#ic-edit"/></svg>Изменить</button>
         <button class="sw-act sw-act-share" data-goal-act="share" tabindex="-1"><svg><use href="#ic-share"/></svg>Поделиться</button>
       </div>
-      <section class="goal swipe-card" data-od-id="home-goal">
+      <section class="goal swipe-card" data-od-id="home-goal" data-goal-open>
         <div class="goal-top">
           <span class="goal-ic" aria-hidden="true"><svg><use href="#ic-target"/></svg></span>
           <button class="ev-menu" data-menu="goal" aria-label="Меню цели «Сдать нормы ГТО»"><svg><use href="#ic-dots"/></svg></button>
         </div>
         <h3 class="goal-title">Сдать нормы ГТО</h3>
+        <div class="goal-badges" data-od-id="home-goal-badges">
+          <span class="gchip" data-od-id="home-goal-step">Ступень VII</span>
+          <span class="gchip is-sign" data-od-id="home-goal-sign" style="--c: var(--gto-silver)"><span class="dot" aria-hidden="true"></span>Цель · Серебро</span>
+        </div>
         <div class="goal-bar" id="goal-bar" role="progressbar" aria-label="Прогресс цели" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="goal-fill" id="goal-fill"></div></div>
-        <p class="goal-progress-label" id="goal-progress-label"><span id="goal-pct">0%</span> — выполнено 2 из 5 упражнений</p>
+        <p class="goal-progress-label" id="goal-progress-label"><span id="goal-pct">0%</span> — сдано 2 из 5 нормативов</p>
+        <a class="goal-open" href="gto.html" data-od-id="home-goal-open">Открыть дневник ГТО<svg aria-hidden="true"><use href="#ic-chev"/></svg></a>
       </section>
     </div>
 
     <section class="sec" data-od-id="home-events">
       <div class="sec-head">
         <h2>Ближайшие события</h2>
+        <div class="sec-acts">
+          <a class="sec-icon" href="schedule-calendar.html" data-od-id="home-calendar" aria-label="Открыть календарь"><svg aria-hidden="true"><use href="#ic-cal"/></svg></a>
+          <button type="button" class="sec-icon" data-filter-toggle data-od-id="home-filter" aria-label="Фильтр по типам событий"><svg aria-hidden="true"><use href="#ic-filter"/></svg><span class="badge" id="filter-badge" hidden></span></button>
+        </div>
         <a class="sec-all" href="events-system.html">Все события<svg aria-hidden="true"><use href="#ic-chev"/></svg></a>
       </div>
       <div class="cards" id="list"></div>
@@ -663,6 +1071,29 @@ body.no-scroll { overflow: hidden; }
   <button class="sheet-cancel" id="sheet-cancel">Отмена</button>
 </div>
 
+<div class="sheet ach-sheet" id="ach-sheet" role="dialog" aria-modal="true" aria-label="Достижения">
+  <div class="sheet-grab"></div>
+  <div class="ach-head">
+    <h3 class="ach-title">Достижения</h3>
+    <span class="ach-badge" id="ach-badge"></span>
+  </div>
+  <p class="ach-sub" id="ach-sub">Тапните по ачивке ГТО, чтобы открыть дневник</p>
+  <div class="ach-list" id="ach-list"></div>
+  <button type="button" class="ach-cta" id="ach-cta" data-od-id="ach-open-gto">Открыть дневник ГТО</button>
+  <button class="sheet-cancel" id="ach-cancel">Закрыть</button>
+</div>
+
+<div class="sheet ach-sheet" id="filter-sheet" role="dialog" aria-modal="true" aria-label="Фильтр событий по типу" data-od-id="filter-sheet">
+  <div class="sheet-grab"></div>
+  <div class="ach-head">
+    <h3 class="ach-title">Фильтр по типам</h3>
+    <button type="button" class="filter-reset" id="filter-reset">Сбросить</button>
+  </div>
+  <p class="ach-sub">Показывать на главной события выбранных типов</p>
+  <div class="filter-chips" id="filter-chips" data-od-id="filter-chips"></div>
+  <button type="button" class="sheet-cancel" id="filter-done">Готово</button>
+</div>
+
 <nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
   <button class="tab is-on" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg>Главная</button>
   <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><svg aria-hidden="true"><use href="#ic-events"/></svg>Расписание</a>
@@ -670,14 +1101,14 @@ body.no-scroll { overflow: hidden; }
   <button class="tab" data-toast="Профиль — в следующей итерации" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg>Профиль</button>
 </nav>
 
-<div class="toast-wrap" id="toasts"></div>
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
 
 <script>
 (function () {
   'use strict';
 
   var TYPES = {
-    me:      { label: 'Моя',        token: '--type-me' },
+    me:      { label: 'Индивидуальная', token: '--type-me' },
     trainer: { label: 'С тренером', token: '--type-trainer' },
     event:   { label: 'Ивент',      token: '--type-event' },
     club:    { label: 'Клуб',       token: '--type-club' },
@@ -691,52 +1122,71 @@ body.no-scroll { overflow: hidden; }
     cancelled: { label: 'Отменено',     token: '--st-cancelled' }
   };
 
+  var role = 'admin';
+
   var state = {
+    search: '',
+    filter: [],
     entities: [
       {
         id: 'str-today', type: 'me', title: 'Силовая тренировка', status: 'confirmed',
-        day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал', trainer: null
+        day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал', trainer: null,
+        people: ['Вы', 'Игорь'], foot: 'Вы и ещё 1'
       },
       {
         id: 'swim', type: 'me', title: 'Плавание', status: 'confirmed',
-        day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»', trainer: null
+        day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»', trainer: null,
+        people: ['Вы']
       },
       {
         id: 'str-coach', type: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending',
-        day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2', trainer: 'А. Соколов'
+        day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2', coach: 'А. Соколов',
+        people: ['С'], foot: 'Тренер А. Соколов'
       },
       {
         id: 'cup', type: 'event', title: 'Летний Кубок Петровского', status: 'open',
         day: 'Сб, 16 авг', time: '10:00 – 18:00', place: 'Стадион «Центральный»',
-        enrolled: true, bracket: true
+        link: 'enrolled', bracket: true,
+        people: ['Т', 'Л', 'М', 'К', 'В'], foot: '5 друзей идут'
       },
       {
         id: 'club-run', type: 'club', title: 'Вечерняя пробежка клуба', status: 'open',
-        day: 'Вс, 17 авг', time: '19:00 – 20:30', place: 'Парк Победы', enrolled: true
+        day: 'Вс, 17 авг', time: '19:00 – 20:30', place: 'Парк Победы',
+        link: 'org', club: 'Беговой клуб «Север»',
+        people: ['Вы', 'Д', 'О', 'Н'], foot: '12 участников',
+        reschedule: ['Вт, 19 авг · 19:00 – 20:30', 'Чт, 21 авг · 18:30 – 20:00', 'Сб, 23 авг · 10:00 – 11:30']
       },
       {
         id: 'club-yoga', type: 'club', title: 'Йога на свежем воздухе', status: 'open',
-        day: 'Пт, 22 авг', time: '09:00 – 10:00', place: 'Летняя площадка'
+        day: 'Пт, 22 авг', time: '09:00 – 10:00', place: 'Летняя площадка',
+        link: 'open', club: 'Йога-клуб «Лотос»',
+        people: ['Л', 'М'], foot: '8 участников'
       },
       {
         id: 'rental', type: 'rental', title: 'Аренда зала', status: 'confirmed',
-        day: 'Ср, 20 авг', time: '20:00 – 22:00', place: 'Зал № 1', enrolled: true
+        day: 'Ср, 20 авг', time: '20:00 – 22:00', place: 'Зал № 1', link: 'org',
+        people: ['Вы', 'П', 'А', 'М'], foot: 'Вы и ещё 3',
+        reschedule: ['Чт, 21 авг · 20:00 – 22:00', 'Пт, 22 авг · 19:00 – 21:00', 'Сб, 23 авг · 12:00 – 14:00']
       },
       {
         id: 'boat', type: 'event', title: 'Сплав на байдарках', status: 'open',
-        day: 'Сб, 23 авг', time: '09:00 – 15:00', place: 'Река Кудепста'
+        day: 'Сб, 23 авг', time: '09:00 – 15:00', place: 'Река Кудепста', link: 'invited',
+        people: ['Л', 'М', 'К', 'В'], foot: 'Организует Андрей Волков'
       },
       {
         id: 'chess', type: 'event', title: 'Шахматный турнир клуба', status: 'open',
-        day: 'Вс, 24 авг', time: '12:00 – 16:00', place: 'Библиотека'
+        day: 'Вс, 24 авг', time: '12:00 – 16:00', place: 'Библиотека', link: 'none',
+        people: ['П', 'С', 'Д'], foot: '6 участников'
       },
       {
         id: 'str-pilates', type: 'trainer', title: 'Пилатес с тренером', status: 'pending',
-        day: 'Сб, 16 авг', time: '10:00 – 11:00', place: 'Зал № 1', trainer: 'Е. Волкова'
+        day: 'Сб, 16 авг', time: '10:00 – 11:00', place: 'Зал № 1', coach: 'Е. Волкова',
+        people: ['С'], foot: 'Тренер Е. Волкова'
       },
       {
         id: 'str-stretch', type: 'trainer', title: 'Стретчинг-группа', status: 'pending',
-        day: 'Вс, 17 авг', time: '12:00 – 13:00', place: 'Летняя площадка', trainer: 'И. Мельник'
+        day: 'Вс, 17 авг', time: '12:00 – 13:00', place: 'Летняя площадка', coach: 'И. Мельник',
+        people: ['С', 'Е'], foot: 'Тренеры: И. Мельник и Е. Волкова'
       }
     ]
   };
@@ -766,50 +1216,131 @@ body.no-scroll { overflow: hidden; }
     toast('Статус обновлён: «' + STATUSES[status].label + '»');
   }
   function notPast(e) { return e.status !== 'done' && e.status !== 'cancelled'; }
+  function myLink(e) { return e.link || 'org'; }
+  function join(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = 'enrolled';
+    render();
+    toast('Вы записались');
+  }
+  function leave(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = e.status === 'open' ? 'open' : 'none';
+    render();
+    toast('Участие отменено');
+  }
+  function acceptInvite(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = 'enrolled';
+    render();
+    toast('Вы приняли приглашение');
+  }
+  function refuseInvite(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.link = 'none';
+    render();
+    toast('Приглашение отклонено');
+  }
+  function cancelClub(id) {
+    var e = getEntity(id);
+    if (!e) return;
+    e.status = 'cancelled';
+    render();
+    toast('Тренировка клуба отменена');
+  }
+  function removeEntity(id) {
+    state.entities = state.entities.filter(function (x) { return x.id !== id; });
+    render();
+    toast('Тренировка удалена');
+  }
 
   function actionsFor(e) {
     var act = function (icon, label, ok, hint, run) { return { icon: icon, label: label, ok: ok, hint: hint, run: run }; };
+    var past = !notPast(e);
+    var share = act('share', 'Поделиться', true, null, function () { toast('Ссылка на событие скопирована'); });
+    var who = act('users', 'Кто идёт', true, null, function () { toast('Список участников — в полной версии'); });
     var list = [];
-    if (e.type === 'me') {
+    if (myLink(e) === 'invited' && !past) {
       list = [
-        act('edit', 'Редактировать', notPast(e), 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
-        act('x', 'Отменить', notPast(e), 'Доступно до завершения', function () { setStatus(e.id, 'cancelled'); }),
-        act('share', 'Поделиться', true, null, function () { toast('Ссылка на тренировку скопирована'); }),
-        e.trainer
-          ? act('chat', 'Изменить тренера', true, null, function () { toast('Список тренеров откроется в полной версии'); })
-          : act('plus', 'Добавить тренера', notPast(e), 'Тренер ещё не назначен', function () { toast('Список тренеров откроется в полной версии'); }),
-        act('trash', 'Удалить', notPast(e), 'Доступно до завершения', function () {
-          state.entities = state.entities.filter(function (x) { return x.id !== e.id; });
-          render();
-          toast('Тренировка удалена');
-        })
+        act('check', 'Принять', true, null, function () { acceptInvite(e.id); }),
+        act('x', 'Отклонить', true, null, function () { refuseInvite(e.id); }),
+        who, share
       ];
-    } else if (e.type === 'trainer') {
+    } else if (myLink(e) === 'org') {
+      if (e.type === 'trainer') {
+        list = [
+          act('check', 'Подтвердить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'confirmed'); }),
+          act('x', 'Отклонить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'cancelled'); }),
+          act('chat', 'Написать тренеру', true, null, function () { toast('Чат с тренером откроется в полной версии'); }),
+          share,
+          act('x', 'Отменить', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
+        ];
+      } else if (e.type === 'club') {
+        list = [
+          act('edit', 'Редактировать', !past, 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
+          act('users', 'Управлять участниками', !past, 'Доступно до завершения', function () { toast('Список участников — в полной версии'); }),
+          act('plus', 'Пригласить', !past, 'Доступно до завершения', function () { toast('Приглашение друзей откроется в полной версии'); }),
+          act('scan', 'QR-код входа', !past, 'Доступно до завершения', function () { toast('QR-код входа откроется в полной версии'); }),
+          act('clock', 'Изменить время', !past, 'Доступно до завершения', function () { toast('Перенос тренировки откроется в полной версии'); }),
+          act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в полной версии'); }),
+          share,
+          act('x', 'Отменить тренировку', !past, 'Доступно до завершения', function () { cancelClub(e.id); })
+        ];
+      } else if (e.type === 'rental') {
+        list = [
+          act('plus', 'Пригласить друзей', !past, 'До завершения аренды', function () { toast('Приглашение друзей откроется в полной версии'); }),
+          act('users', 'Управлять участниками', !past, 'До завершения аренды', function () { toast('Список участников — в полной версии'); }),
+          act('scan', 'Показать QR-код', !past, 'До завершения аренды', function () { toast('QR-код входа откроется в полной версии'); }),
+          share,
+          act('x', 'Отменить аренду', !past, 'До завершения аренды', function () { setStatus(e.id, 'cancelled'); }),
+          act('clock', 'Изменить время', !past, 'До завершения аренды', function () { toast('Перенос откроется в полной версии'); })
+        ];
+      } else if (e.type === 'event') {
+        list = [
+          act('grid', 'Посмотреть сетку', !!e.bracket, 'Сетка появится после старта', function () { toast('Турнирная сетка откроется в полной версии'); }),
+          who, share,
+          act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); })
+        ];
+      } else {
+        list = [
+          act('edit', 'Редактировать', !past, 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
+          e.trainer
+            ? act('user', 'Изменить тренера', true, null, function () { toast('Список тренеров откроется в полной версии'); })
+            : act('plus', 'Добавить тренера', !past, 'Тренер ещё не назначен', function () { toast('Список тренеров откроется в полной версии'); }),
+          act('x', 'Отменить', !past, 'Доступно до завершения', function () { setStatus(e.id, 'cancelled'); }),
+          share,
+          act('trash', 'Удалить', !past, 'Доступно до завершения', function () { removeEntity(e.id); })
+        ];
+      }
+    } else if (myLink(e) === 'enrolled') {
       list = [
-        act('check', 'Подтвердить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'confirmed'); }),
-        act('x', 'Отклонить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'cancelled'); }),
-        act('chat', 'Написать тренеру', true, null, function () { toast('Чат с тренером откроется в полной версии'); }),
-        act('share', 'Поделиться', true, null, function () { toast('Ссылка на тренировку скопирована'); }),
-        act('x', 'Отменить', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
-      ];
-    } else if (e.type === 'event' || e.type === 'club') {
-      list = [
-        act('plus', 'Записаться', e.status === 'open' && !e.enrolled, e.enrolled ? 'Вы уже записаны' : 'Только пока открыта регистрация', function () { e.enrolled = true; render(); toast('Вы записались'); }),
-        act('minus', 'Отказаться', !!e.enrolled, 'Вы ещё не записаны', function () { e.enrolled = false; render(); toast('Участие отменено'); }),
-        act('grid', 'Посмотреть сетку', !!e.bracket, 'Сетка появится после старта', function () { toast('Турнирная сетка откроется в полной версии'); }),
-        act('users', 'Кто идёт', true, null, function () { toast('Список участников — в полной версии'); }),
-        act('share', 'Поделиться', true, null, function () { toast('Ссылка на ивент скопирована'); }),
-        act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); })
+        act('minus', 'Отказаться', !past, 'Вы больше не пойдёте', function () { leave(e.id); }),
+        who
       ];
       if (e.type === 'club') list.push(act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в полной версии'); }));
-    } else if (e.type === 'rental') {
+      if (e.type === 'event') {
+        list.push(act('grid', 'Посмотреть сетку', !!e.bracket, 'Сетка появится после старта', function () { toast('Турнирная сетка откроется в полной версии'); }));
+        list.push(act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); }));
+      }
+      if (e.type === 'rental') {
+        list.push(act('scan', 'Показать QR-код', !past, 'До завершения аренды', function () { toast('QR-код входа откроется в полной версии'); }));
+      }
+      list.push(share);
+    } else if (myLink(e) === 'open' && !past) {
       list = [
-        act('minus', 'Отказаться', !!e.enrolled, 'Вы ещё не записаны', function () { e.enrolled = false; render(); toast('Участие отменено'); }),
-        act('users', 'Участники', true, null, function () { toast('Список участников — в полной версии'); }),
-        act('scan', 'Показать QR-код', e.status === 'confirmed', 'До завершения аренды', function () { toast('QR-код входа откроется в полной версии'); }),
-        act('share', 'Поделиться', true, null, function () { toast('Ссылка скопирована'); }),
-        act('x', 'Отменить аренду', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
+        act('plus', 'Записаться', e.status === 'open', 'Только пока открыта регистрация', function () { join(e.id); }),
+        who
       ];
+      if (e.type === 'club') list.push(act('chat', 'Клубный чат', true, null, function () { toast('Чат клуба откроется в полной версии'); }));
+      if (e.type === 'event') list.push(act('cal', 'Добавить в календарь', true, null, function () { toast('Событие добавлено в календарь'); }));
+      list.push(share);
+    }
+    if (role === 'admin' && e.type === 'club' && myLink(e) !== 'none') {
+      list.push(act('plus', 'Создать тренировку клуба', true, null, function () { toast('Создание тренировки откроется в полной версии'); }));
     }
     return list;
   }
@@ -821,19 +1352,83 @@ body.no-scroll { overflow: hidden; }
   var sheetTitle = document.getElementById('sheet-title');
   var sheetDot = document.getElementById('sheet-dot');
   var sheetBadge = document.getElementById('sheet-badge');
+  var achSheet = document.getElementById('ach-sheet');
+  var achList = document.getElementById('ach-list');
+  var searchWrap = document.getElementById('search-wrap');
+  var searchInput = document.getElementById('search-input');
+  var searchClear = document.getElementById('search-clear');
+  var filterSheet = document.getElementById('filter-sheet');
+  var filterChips = document.getElementById('filter-chips');
+  var filterBadge = document.getElementById('filter-badge');
+  var filterReset = document.getElementById('filter-reset');
+  var filterDone = document.getElementById('filter-done');
+  var filterBtn = document.querySelector('[data-filter-toggle]');
 
   function openOverlay() { scrim.classList.add('open'); document.body.classList.add('no-scroll'); }
   function closeOverlay() {
     scrim.classList.remove('open');
     sheet.classList.remove('open');
+    achSheet.classList.remove('open');
+    filterSheet.classList.remove('open');
     document.body.classList.remove('no-scroll');
+  }
+
+  /* ── Фильтр по типам ────────────────────────────────────────────── */
+  function updateFilterBadge() {
+    var n = state.filter.length;
+    filterBadge.hidden = n === 0;
+    filterBadge.textContent = n;
+    filterBtn.classList.toggle('is-on', n > 0);
+  }
+  function buildFilterChips() {
+    filterChips.innerHTML = '';
+    Object.keys(TYPES).forEach(function (key) {
+      var t = TYPES[key];
+      var on = state.filter.indexOf(key) !== -1;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'fchip' + (on ? ' is-on' : '');
+      b.setAttribute('data-filter-type', key);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.style.setProperty('--c', 'var(' + t.token + ')');
+      b.innerHTML = '<span class="dot" aria-hidden="true"></span>' + t.label;
+      b.addEventListener('click', function () {
+        var idx = state.filter.indexOf(key);
+        if (idx !== -1) state.filter.splice(idx, 1);
+        else state.filter.push(key);
+        buildFilterChips();
+        updateFilterBadge();
+        render();
+      });
+      filterChips.appendChild(b);
+    });
+  }
+  function openFilter() {
+    buildFilterChips();
+    openOverlay();
+    filterSheet.classList.add('open');
+  }
+
+  /* ── Поиск ───────────────────────────────────────────────────────── */
+  function openSearch() {
+    if (searchWrap.classList.contains('is-open')) return;
+    searchWrap.classList.add('is-open');
+    setTimeout(function () { searchInput.focus(); }, 240);
+  }
+  function closeSearch() {
+    if (!searchWrap.classList.contains('is-open') && !state.search) return;
+    searchWrap.classList.remove('is-open');
+    searchWrap.classList.remove('has-text');
+    state.search = '';
+    searchInput.value = '';
+    render();
   }
 
   function goalActions() {
     var act = function (icon, label, ok, hint, run) { return { icon: icon, label: label, ok: ok, hint: hint, run: run }; };
     return [
-      act('edit', 'Изменить цель', true, null, function () { toast('Выбор цели откроется в полной версии'); }),
-      act('grid', 'Выбрать значок ГТО', true, null, function () { toast('Значки и ступени ГТО откроются в полной версии'); }),
+      act('grid', 'Открыть дневник ГТО', true, null, function () { location.href = 'gto.html'; }),
+      act('medal', 'Выбрать значок', true, null, function () { toast('Значки и ступени ГТО откроются в полной версии'); }),
       act('share', 'Поделиться прогрессом', true, null, function () { toast('Ссылка на прогресс скопирована'); }),
       act('trash', 'Сбросить прогресс', true, null, function () { resetGoal(); toast('Прогресс цели сброшен'); })
     ];
@@ -876,39 +1471,132 @@ body.no-scroll { overflow: hidden; }
     sheet.classList.add('open');
   }
 
+  function achData() {
+    var a = function (icon, tone, got, title, sub, to) { return { icon: icon, tone: tone, got: got, title: title, sub: sub, to: to }; };
+    return [
+      a('medal',  'silver', true,  'Знак ГТО · Серебро', 'Получен 12 августа 2026', 'gto.html'),
+      a('trophy', 'accent', true,  'Победитель кубка «Петровское 2024»', 'Футбол · команда «Вымпел»'),
+      a('trend',  'accent', true,  '100 тренировок', 'Пройдено за сезон'),
+      a('cal',    'accent', true,  'Серия 30 дней', 'Тренировки каждый день'),
+      a('medal',  'gold',   false, 'Знак ГТО · Золото', 'Сдайте 5 нормативов на золото', 'gto.html'),
+      a('run',    'accent', false, 'Марафон 10 км', 'Финишируйте в забеге на 10 км')
+    ];
+  }
+
+  function openAch() {
+    var items = achData();
+    var got = items.filter(function (x) { return x.got; }).length;
+    document.getElementById('ach-badge').textContent = got + ' из ' + items.length;
+    achList.innerHTML = '';
+    items.forEach(function (x) {
+      var row = document.createElement(x.to ? 'button' : 'div');
+      row.type = 'button';
+      row.className = 'ach-item' + (x.got ? '' : ' is-locked') + (x.to ? ' is-go' : '');
+      row.setAttribute('data-od-id', 'ach-row-' + (x.got ? 'got' : 'locked'));
+      row.innerHTML =
+        '<span class="ach-chip tone-' + x.tone + '">' +
+          '<svg aria-hidden="true"><use href="#ic-' + x.icon + '"/></svg>' +
+          (x.got ? '' : '<i class="ach-lock-bubble" aria-hidden="true"><svg><use href="#ic-lock"/></svg></i>') +
+        '</span>' +
+        '<span class="ach-it"><span class="ach-il">' + x.title + '</span><span class="ach-ih">' + x.sub + '</span></span>' +
+        (x.to ? '<span class="ach-go" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' : '');
+      if (x.to) {
+        row.addEventListener('click', function () { closeOverlay(); location.href = x.to; });
+      }
+      achList.appendChild(row);
+    });
+    openOverlay();
+    achSheet.classList.add('open');
+  }
+
   /* ── Рендер ──────────────────────────────────────────────────────── */
+  function avatarHTML(e, p) {
+    var isYou = p === 'Вы';
+    return '<span class="ev-ava' + (isYou ? ' is-you' : '') + '" style="--c: var(' + TYPES[e.type].token + ')" title="' + p + '"><span class="ini">' + p.charAt(0) + '</span></span>';
+  }
+
   function cardHTML(e, idx) {
     var type = TYPES[e.type];
     var status = STATUSES[e.status];
     var past = e.status === 'done' || e.status === 'cancelled';
-    var enrolledNote = (e.type === 'event' || e.type === 'club') && e.enrolled ? ' · Вы записаны' : '';
+    var statusBadge = '';
+    var st = null;
+    if (past) st = { label: e.status === 'done' ? 'Завершено' : 'Отменено', color: 'var(' + status.token + ')' };
+    else if (myLink(e) === 'invited') st = { label: 'Приглашение', color: 'var(--st-pending)', pulse: true };
+    else if (e.status === 'pending' && e.type !== 'me') st = { label: 'Ожидает', color: 'var(--st-pending)', pulse: true };
+    else if (myLink(e) === 'enrolled') st = { label: 'Вы записаны', color: 'var(--st-confirmed)' };
+    else if (myLink(e) === 'org' && e.type !== 'me' && e.type !== 'trainer') st = { label: 'Вы организатор', color: 'var(--type-club)' };
+    else if (myLink(e) === 'open' && e.status === 'open') st = { label: 'Запись открыта', color: 'var(--st-open)' };
+    if (st) {
+      statusBadge = '<span class="ev-badge ev-badge-status' + (st.pulse ? ' is-pending' : '') + '" style="--c: ' + st.color + '">' +
+        (st.pulse ? '<svg class="ev-bdot-ico" aria-hidden="true"><use href="#ic-clock"/></svg>' : '<i class="ev-bdot"></i>') +
+        st.label + '</span>';
+    }
+    var meta = '<b>' + e.day + '</b> · ' + e.time;
+    var sub = e.place + (e.club ? ' · <b>' + e.club + '</b>' : '');
+    var avatars = (e.people || []).map(function (p) { return avatarHTML(e, p); }).join('');
     return '<article class="ev-card" data-od-id="home-card-' + e.id + '" style="--i:' + idx + '">' +
       '<header class="ev-top">' +
-        '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
-        '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + enrolledNote + '</h3>' +
-        '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
-        '<span class="ev-badge ev-badge-status" style="--c: var(' + status.token + ')"><i class="ev-bdot"></i>' + status.label + '</span>' +
+        '<div class="ev-title-row">' +
+          '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
+          '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3>' +
+        '</div>' +
+        statusBadge +
         '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
       '</header>' +
-      '<p class="ev-meta"><b>' + e.day + '</b> · ' + e.time + ' · ' + e.place + '</p>' +
+      '<p class="ev-meta">' + meta + '</p>' +
+      '<p class="ev-sub">' + sub + '</p>' +
+      '<footer class="ev-foot">' +
+        '<div class="ev-avatars">' + avatars + '</div>' +
+        (e.foot ? '<span class="ev-foot-text">' + e.foot + '</span>' : '') +
+        '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+      '</footer>' +
     '</article>';
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function matchesSearch(e, q) {
+    var type = TYPES[e.type].label;
+    var status = STATUSES[e.status].label;
+    var hay = [e.title, e.place, e.day, e.time, e.club, e.coach, e.foot, type, status]
+      .filter(Boolean).join(' ').toLowerCase();
+    return hay.indexOf(q) !== -1;
   }
 
   function render() {
     var box = document.getElementById('list');
+    var q = (state.search || '').trim();
+    var ql = q.toLowerCase();
     box.innerHTML = '';
     var i = 0;
     state.entities.forEach(function (e) {
+      if (myLink(e) === 'none') return;
+      if (ql && !matchesSearch(e, ql)) return;
+      if (state.filter.length && state.filter.indexOf(e.type) === -1) return;
       box.insertAdjacentHTML('beforeend', cardHTML(e, i++));
     });
     if (!box.children.length) {
-      box.insertAdjacentHTML('beforeend',
-        '<div class="empty" data-od-id="home-empty"><b>Событий пока нет</b>Они появятся здесь, когда вы запишетесь на тренировку</div>');
+      if (ql) {
+        box.insertAdjacentHTML('beforeend',
+          '<div class="empty" data-od-id="home-search-empty"><b>Ничего не найдено</b>По запросу «' + esc(q) + '» ничего не нашлось — попробуйте иначе</div>');
+      } else if (state.filter.length) {
+        box.insertAdjacentHTML('beforeend',
+          '<div class="empty" data-od-id="home-filter-empty"><b>Нет событий по фильтру</b>Измените типы или нажмите «Сбросить» в фильтре</div>');
+      } else {
+        box.insertAdjacentHTML('beforeend',
+          '<div class="empty" data-od-id="home-empty"><b>Событий пока нет</b>Они появятся здесь, когда вы запишетесь на тренировку</div>');
+      }
     }
   }
 
   /* ── События ─────────────────────────────────────────────────────── */
   var swipeTimer = null;
+  var lastSwipeAt = 0;
   function closeSwipe() {
     document.querySelectorAll('.swipe-card.swiped').forEach(function (c) { c.classList.remove('swiped'); });
   }
@@ -939,21 +1627,26 @@ body.no-scroll { overflow: hidden; }
       if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
       if (Math.abs(dy) > Math.abs(dx)) { dragging = false; return; }
       ev.preventDefault();
-      if (dx < -40) { openSwipe(card); dragging = false; }
-      else if (dx > 40) { closeSwipe(); dragging = false; }
+      if (dx < -40) { openSwipe(card); lastSwipeAt = Date.now(); dragging = false; }
+      else if (dx > 40) { closeSwipe(); lastSwipeAt = Date.now(); dragging = false; }
     };
     var onEnd = function () { dragging = false; };
     card.addEventListener('touchstart', onStart, { passive: true });
     card.addEventListener('touchmove', onMove, { passive: false });
     card.addEventListener('touchend', onEnd);
     card.addEventListener('mousedown', onStart);
-    card.addEventListener('mousemove', onMove);
-    card.addEventListener('mouseup', onEnd);
-    card.addEventListener('mouseleave', onEnd);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
   })();
 
   document.addEventListener('click', function (ev) {
     if (!ev.target.closest('.swipe-card') && !ev.target.closest('.swipe-actions')) closeSwipe();
+
+    var goalCard = ev.target.closest('[data-goal-open]');
+    if (goalCard && !ev.target.closest('[data-menu]') && !ev.target.closest('.sw-act') && !ev.target.closest('.goal-open') && Date.now() - lastSwipeAt > 400) {
+      location.href = 'gto.html';
+      return;
+    }
 
     var goalAct = ev.target.closest('[data-goal-act]');
     if (goalAct) {
@@ -967,18 +1660,59 @@ body.no-scroll { overflow: hidden; }
     var menuBtn = ev.target.closest('[data-menu]');
     if (menuBtn) { openMenu(menuBtn.getAttribute('data-menu')); return; }
 
+    var searchBtn = ev.target.closest('[data-search-toggle]');
+    if (searchBtn) {
+      if (searchWrap.classList.contains('is-open')) closeSearch();
+      else openSearch();
+      return;
+    }
+
+    var filterToggle = ev.target.closest('[data-filter-toggle]');
+    if (filterToggle) {
+      if (filterSheet.classList.contains('open')) closeOverlay();
+      else openFilter();
+      return;
+    }
+
+    if (ev.target.closest('[data-od-id="home-ach"]')) { openAch(); return; }
+
     var toastBtn = ev.target.closest('[data-toast]');
     if (toastBtn) { toast(toastBtn.getAttribute('data-toast')); return; }
   });
 
   scrim.addEventListener('click', closeOverlay);
   document.getElementById('sheet-cancel').addEventListener('click', closeOverlay);
+  document.getElementById('ach-cancel').addEventListener('click', closeOverlay);
+  document.getElementById('ach-cta').addEventListener('click', function () {
+    closeOverlay();
+    location.href = 'gto.html';
+  });
+  searchInput.addEventListener('input', function () {
+    state.search = searchInput.value;
+    searchWrap.classList.toggle('has-text', !!state.search.trim());
+    render();
+  });
+  searchClear.addEventListener('click', function () {
+    state.search = '';
+    searchInput.value = '';
+    searchWrap.classList.remove('has-text');
+    render();
+    searchInput.focus();
+  });
+  filterReset.addEventListener('click', function () {
+    state.filter = [];
+    buildFilterChips();
+    updateFilterBadge();
+    render();
+  });
+  filterDone.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && searchWrap.classList.contains('is-open')) { closeSearch(); return; }
     if (ev.key === 'Escape') closeOverlay();
   });
 
   /* ── Цель: анимация прогресса ────────────────────────────────────── */
-  var goalTarget = 35;
+  var goalTarget = 40;
   var goalFill = document.getElementById('goal-fill');
   var goalPct = document.getElementById('goal-pct');
   var goalBar = document.getElementById('goal-bar');

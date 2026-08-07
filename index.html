@@ -154,6 +154,9 @@ a.l-card:active { background: var(--surface); }
 
   <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ic-welcome" viewBox="0 0 24 24"><path d="M12 3.2l1.7 4.1 4.1 1.7-4.1 1.7L12 14.8l-1.7-4.1-4.1-1.7 4.1-1.7L12 3.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.6 15.4l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ic-login" viewBox="0 0 24 24"><circle cx="7.5" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.5 12H20M17 9.5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="ic-role" viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 20c0-3.2 3.1-5.4 7-5.4s7 2.2 7 5.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -175,14 +178,34 @@ a.l-card:active { background: var(--surface); }
   <main>
     <h2 class="l-section">Старт прототипа</h2>
     <div class="l-group">
+      <a class="l-card" href="splash-screen.html" data-od-id="ln-splash" style="--c: var(--c-blue)">
+        <span class="l-ic"><svg><use href="#ic-home"/></svg></span>
+        <span class="l-body"><span class="l-name">Сплэш-экран</span><span class="l-desc">Заставка с анимацией герба Петровского (спрайт 4×5) · автопереход</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
+      </a>
+      <a class="l-card" href="splash-phone.html" data-od-id="ln-splash-phone" style="--c: var(--c-blue)">
+        <span class="l-ic"><svg><use href="#ic-home"/></svg></span>
+        <span class="l-body"><span class="l-name">Сплэш · фрейм телефона</span><span class="l-desc">Превью сплэша на фирменном синем фоне в рамке смартфона · зациклено</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
+      </a>
       <a class="l-card" href="home-athlete.html" data-od-id="ln-home-athlete" style="--c: var(--c-green)">
         <span class="l-ic"><svg><use href="#ic-events"/></svg></span>
         <span class="l-body"><span class="l-name">Главный экран · Спортсмен</span><span class="l-desc">Приветствие, цель, прогресс, ближайшие события</span></span>
         <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
       </a>
+      <a class="l-card" href="home-athlete-brand.html" data-od-id="ln-home-athlete-brand" style="--c: var(--c-indigo)">
+        <span class="l-ic"><svg><use href="#ic-home"/></svg></span>
+        <span class="l-body"><span class="l-name">Главный экран · бренд-эксперимент</span><span class="l-desc">Oswald + кольцо ГТО + фильтр по типам, иконка календаря и свайпы в жёлто-голубом</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">эксперимент</span>
+      </a>
       <a class="l-card" href="schedule-calendar.html" data-od-id="ln-schedule" style="--c: var(--c-blue)">
         <span class="l-ic"><svg><use href="#ic-events"/></svg></span>
         <span class="l-body"><span class="l-name">Расписание · Календарь</span><span class="l-desc">Точки под числами, фильтры по типу события</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
+      </a>
+      <a class="l-card" href="create-event.html" data-od-id="ln-create-event" style="--c: var(--c-red)">
+        <span class="l-ic"><svg><use href="#ic-plus"/></svg></span>
+        <span class="l-body"><span class="l-name">Создание события</span><span class="l-desc">8 шагов: тип → поля → слоты → участники → настройки → предпросмотр</span></span>
         <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
       </a>
       <a class="l-card" href="qrscan.html" data-od-id="ln-qrscan" style="--c: #5856D6">
@@ -193,6 +216,16 @@ a.l-card:active { background: var(--surface); }
       <a class="l-card" href="events-system.html" data-od-id="ln-events-system" style="--c: var(--c-purple)">
         <span class="l-ic"><svg><use href="#ic-library"/></svg></span>
         <span class="l-body"><span class="l-name">Система событий</span><span class="l-desc">Типы и статусы, карточка события, меню «⋯», участники и QR</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
+      </a>
+      <a class="l-card" href="gto.html" data-od-id="ln-gto" style="--c: var(--c-orange)">
+        <span class="l-ic"><svg><use href="#ic-medal"/></svg></span>
+        <span class="l-body"><span class="l-name">Дневник ГТО</span><span class="l-desc">Ступень и знак-цель, нормативы, статусы, прогресс к сдаче</span></span>
+        <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
+      </a>
+      <a class="l-card" href="gto-plan.html" data-od-id="ln-gto-plan" style="--c: var(--c-teal)">
+        <span class="l-ic"><svg><use href="#ic-cal"/></svg></span>
+        <span class="l-body"><span class="l-name">План подготовки к ГТО</span><span class="l-desc">Норматив → группы мышц → упражнения по дням (черновик)</span></span>
         <span class="l-badge" style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, white)">новый</span>
       </a>
       <a class="l-card" href="welcome-screen.html#welcome" data-od-id="ln-welcome" style="--c: var(--c-indigo)">
@@ -277,7 +310,7 @@ a.l-card:active { background: var(--surface); }
 
     <div class="l-foot">
       Сценарии открываются в welcome-screen.html через hash-навигацию: #welcome, #auth, #register, #role, #onboarding, #questionnaire, #home.<br>
-      Файлы: home-athlete.html · schedule-calendar.html · events-system.html · welcome-screen.html · qrscan.html · index.html
+      Файлы: home-athlete.html · home-athlete-brand.html · schedule-calendar.html · events-system.html · gto.html · gto-plan.html · welcome-screen.html · qrscan.html · index.html
     </div>
   </main>
 </div>

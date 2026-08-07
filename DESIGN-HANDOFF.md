@@ -11,10 +11,10 @@ This archive is the source of truth for turning the design into production code.
 
 ## Source map
 - Primary entry: `index.html`
-- HTML screens detected: 8
+- HTML screens detected: 19
 - Stylesheets detected: 0
 - Script/component files detected: 0
-- Supporting assets detected: 6
+- Supporting assets detected: 9
 
 ## Responsive contract
 Validate the implementation across this 2025–2026 viewport matrix:
@@ -63,13 +63,24 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 8. Compare final screenshots against the export at 360×800, 390×844, 430×932, 820×1180, 1024×768, 1366×768, 1440×900, and 1920×1080 before declaring done.
 
 ## Entry points
+- `backup-home-athlete-brand.html`
+- `create-event.html`
 - `events-system.html`
+- `gto-plan.html`
+- `gto-result.html`
+- `gto-test.html`
+- `gto-workout.html`
+- `gto.html`
+- `home-athlete-brand.html`
 - `home-athlete.html`
 - `index.html`
+- `petrovskoe-home-brand_2.html`
 - `petrovskoe-mobile-prototype-1.html`
 - `petrovskoe-mobile-prototype.html`
 - `qrscan.html`
 - `schedule-calendar.html`
+- `splash-phone.html`
+- `splash-screen.html`
 - `welcome-screen.html`
 
 ## Styles
@@ -79,9 +90,12 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 - None detected
 
 ## Assets and supporting files
+- `Анализ-ТЗ-мобильного-приложения.zip`
 - `Информационно-функциональная-архитектура.JSON`
 - `Петровское_СП_ТЗ_Этап_2_Веб_приложение_администрации_v1.docx`
 - `events-system.png`
+- `Gerb_Camera_00015_00015-0.png`
+- `Gerb_Camera_00015-0.png`
 - `image.png`
 - `schedule-calendar.png`
 - `sketch-2026-08-05T20-43-56.sketch.json`

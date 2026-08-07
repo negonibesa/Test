@@ -3,125 +3,119 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f5f5f7">
+<meta name="theme-color" content="#eaf4ff">
 <title>Петровское СП — расписание</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* ─── Surface (3 levels) ────────────────────────────────────────── */
-  --bg: #ffffff;
-  --surface: #f5f5f7;
-  --surface-warm: #fbfbfd;
+  /* ── Поверхности: небо / белый / карта ────────────────────────────── */
+  --bg: #eaf4ff;
+  --surface: #ffffff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
 
-  /* ─── Foreground ramp (4 levels) ───────────────────────────────── */
-  --fg: #1d1d1f;
-  --fg-2: #424245;
-  --muted: #6e6e73;
-  --meta: #86868b;
+  /* ── Текст ─────────────────────────────────────────────────────── */
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
 
-  /* ─── Border (2 levels) ────────────────────────────────────────── */
-  --border: #d2d2d7;
-  --border-soft: #e8e8ed;
+  /* ── Границы ───────────────────────────────────────────────────── */
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
 
-  /* ─── Accent ────────────────────────────────────────────────────── */
-  --accent: #0071e3;
+  /* ── Акцент ─────────────────────────────────────────────────────── */
+  --accent: #1a86e0;
   --accent-on: #ffffff;
-  --accent-hover: #0077ed;
-  --accent-active: #0066cc;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
 
-  /* ─── Semantic ──────────────────────────────────────────────────── */
-  --success: #16a34a;
-  --warn:    #eab308;
-  --danger:  #dc2626;
+  /* ── Семантика ─────────────────────────────────────────────────── */
+  --success: #2bb066;
+  --warn: #ffc93c;
+  --danger: #ff4d4d;
 
-  /* ─── Typography ────────────────────────────────────────────────── */
-  --font-display:
-    "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body:
-    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* ── Типографика ───────────────────────────────────────────────── */
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 
-  --text-xs:   12px;
-  --text-sm:   14px;
-  --text-base: 17px;
-  --text-lg:   21px;
-  --text-xl:   28px;
+  --leading-body: 1.5;
+  --tracking-display: 0.01em;
+  --tracking-caps: 0.08em;
 
-  --leading-body:  1.47;
-  --leading-tight: 1.05;
-  --tracking-display: -0.015em;
-
-  /* ─── Spacing ───────────────────────────────────────────────────── */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  20px;
-  --space-6:  24px;
-  --space-8:  32px;
+  /* ── Отступы ────────────────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
   --space-12: 48px;
 
-  /* ─── Radius ────────────────────────────────────────────────────── */
-  --radius-sm:   8px;
-  --radius-md:   12px;
-  --radius-lg:   18px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
   --radius-pill: 980px;
 
-  /* ─── Elevation ─────────────────────────────────────────────────── */
-  --elev-flat:   none;
-  --elev-ring:   0 0 0 1px var(--border);
-  --elev-raised: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
 
-  /* ─── Focus ring ────────────────────────────────────────────────── */
-  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
 
-  /* ─── Motion ────────────────────────────────────────────────────── */
-  --motion-fast:   150ms;
-  --motion-base:   220ms;
-  --ease-standard: cubic-bezier(0.28, 0, 0.22, 1);
-
-  /* ─── Layout ────────────────────────────────────────────────────── */
-  --container-max:            1024px;
-  --container-gutter-desktop: 22px;
-  --container-gutter-tablet:  18px;
-  --container-gutter-phone:   16px;
+  --container-max: 700px;
 }
 
-/* ── Единая система точек ─────────────────────────────────────────── */
+/* ── Типы событий ─────────────────────────────────────────────────── */
 :root {
-  --type-me:      #34c759;
-  --type-trainer: #ff9500;
-  --type-event:   #007aff;
-  --type-club:    #af52de;
-  --type-rental:  #ff2d55;
+  --type-me: #2f9e54;
+  --type-trainer: var(--yellow);
+  --type-event: #0b3d91;
+  --type-club: #7ec8ff;
+  --type-rental: #4a6fa5;
+  --type-gto: #c9a06b;
 }
 :root {
-  --st-confirmed: #34c759;
-  --st-pending:   #ff9500;
-  --st-open:      #007aff;
-  --st-done:      #8e8e93;
-  --st-cancelled: #ff3b30;
+  --st-confirmed: var(--accent);
+  --st-pending: var(--yellow);
+  --st-open: #0b3d91;
+  --st-done: var(--meta);
+  --st-cancelled: var(--danger);
+}
+:root {
+  --gto-bronze: #c9a06b;
+  --gto-silver: #a9b6c9;
+  --gto-gold: var(--yellow);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--surface);
+  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
   color: var(--fg);
   font-family: var(--font-body);
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-button {
-  font-family: inherit;
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-}
+button { font-family: inherit; }
 a { color: inherit; }
 
 .app {
-  max-width: 700px;
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 0 64px;
+  padding: 0 0 calc(100px + env(safe-area-inset-bottom));
   min-height: 100vh;
 }
 
@@ -129,64 +123,73 @@ a { color: inherit; }
 .hd {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 24px 16px 16px;
+  gap: 14px;
+  padding: 28px 12px 18px;
 }
-@media (min-width: 560px) { .hd { padding: 36px 24px 20px; } }
-.back {
+@media (min-width: 560px) { .hd { padding: 40px 24px 22px; } }
+.avatar {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent-on);
+  background: var(--accent);
+}
+.hd-txt { flex: 1; min-width: 0; }
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.3;
+  color: var(--fg);
+}
+.hd-sub { margin: 2px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.hd-acts { display: flex; gap: 8px; flex: none; }
+.icon-btn {
   position: relative;
   flex: none;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border-soft);
+  width: 48px;
+  height: 48px;
+  border: 0;
   border-radius: 50%;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg-2);
-  text-decoration: none;
+  cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
 }
-.back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
-.back:hover { background: var(--surface); }
-.back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.back svg { width: 17px; height: 17px; }
-.hd-txt { flex: 1; min-width: 0; }
-.eyebrow {
-  margin: 0 0 3px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--meta);
-}
-.hd h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 26px;
+.icon-btn:hover { background: var(--surface-2); }
+.icon-btn:active { background: var(--surface-2); }
+.icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.icon-btn svg { width: 22px; height: 22px; }
+.icon-btn.is-accent { background: var(--accent); color: var(--accent-on); }
+.icon-btn.is-accent:hover { background: var(--accent-hover); }
+.icon-btn.is-accent:active { background: var(--accent-active); }
+.notif {
+  position: absolute;
+  z-index: 2;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  box-sizing: border-box;
+  border-radius: var(--radius-pill);
+  background: var(--danger);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: var(--tracking-display);
-  line-height: 1.15;
+  line-height: 16px;
+  text-align: center;
 }
-.hd .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
-
-/* ── Липкая шапка с фильтрами ─────────────────────────────────────── */
-.sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  padding-bottom: 2px;
-  background: color-mix(in srgb, var(--surface) 86%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-soft);
-}
-.sticky-top .hd { transition: padding-top var(--motion-base) var(--ease-standard), padding-bottom var(--motion-base) var(--ease-standard); }
-.sticky-top.is-stuck .hd { padding-top: 12px; padding-bottom: 10px; }
-@media (min-width: 560px) { .sticky-top.is-stuck .hd { padding-top: 14px; } }
-
-.body { padding: 0 16px; }
-@media (min-width: 560px) { .body { padding: 0 24px; } }
+.icon-btn .notif { top: 4px; right: 2px; }
 
 /* ── Фильтры-чипсы ────────────────────────────────────────────────── */
 .chips {
@@ -194,9 +197,9 @@ a { color: inherit; }
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding: 4px 16px 14px;
+  padding: 0 12px 10px;
 }
-@media (min-width: 560px) { .chips { padding-left: 24px; padding-right: 24px; } }
+@media (min-width: 560px) { .chips { padding: 0 24px 12px; } }
 .chips::-webkit-scrollbar { display: none; }
 .chip {
   position: relative;
@@ -204,11 +207,11 @@ a { color: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 40px;
+  height: 38px;
   padding: 0 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg-2);
   font-size: 14px;
   font-weight: 600;
@@ -218,28 +221,62 @@ a { color: inherit; }
               border-color var(--motion-fast) var(--ease-standard),
               color var(--motion-fast) var(--ease-standard);
 }
-.chip:hover { background: var(--surface-warm); }
+.chip:hover { background: var(--surface-2); }
 .chip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.chip.is-on {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-on);
-}
 .chip-dot {
   flex: none;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--c);
+  opacity: 0.45;
+  transition: opacity var(--motion-fast) var(--ease-standard);
 }
-/* ── Кнопка фильтра статусов (ghost) ─────────────────────────────── */
-.filter-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 16px 12px;
+.chip.is-on {
+  color: color-mix(in srgb, var(--c) 100%, var(--fg) 25%);
+  background: color-mix(in srgb, var(--c) 12%, var(--surface));
+  border-color: color-mix(in srgb, var(--c) 45%, var(--border));
 }
-@media (min-width: 560px) { .filter-row { padding-left: 24px; padding-right: 24px; } }
+.chip.is-on .chip-dot { opacity: 1; }
+
+/* ── Поиск + сканер ────────────────────────────────────────────────── */
+.search-row { display: flex; gap: 10px; padding: 0 12px 12px; }
+@media (min-width: 560px) { .search-row { padding: 0 24px 14px; } }
+.search-field {
+  position: relative;
+  flex: 1; display: flex; align-items: center; gap: 8px;
+  background: var(--surface);
+  border-radius: var(--radius-pill); padding: 0 6px 0 16px; height: 48px;
+}
+.search-field > svg { width: 18px; height: 18px; color: var(--meta); flex: none; }
+.search-ph {
+  position: absolute;
+  left: 42px; right: 52px; top: 0; bottom: 0;
+  display: flex; align-items: center;
+  white-space: nowrap; overflow: hidden;
+  font-size: 14px; color: var(--meta);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 78%, transparent 100%);
+}
+.search-field.has-ph .search-ph { display: none; }
+.search-field input {
+  flex: 1; min-width: 0; border: 0; background: none; outline: none;
+  font-size: 15px; color: var(--fg); font-family: var(--font-body);
+}
+.search-field input::placeholder { color: var(--meta); }
+.scan-btn {
+  flex: none; width: 48px; height: 48px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-on);
+  display: grid; place-items: center; text-decoration: none;
+}
+.scan-btn:hover { background: var(--accent-hover); }
+.scan-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.scan-btn svg { width: 22px; height: 22px; }
+
+/* ── Кнопка фильтра статусов ──────────────────────────────────────── */
+.filter-row { display: flex; align-items: center; gap: 10px; padding: 0 12px 4px; }
+@media (min-width: 560px) { .filter-row { padding: 0 24px 6px; } }
 .filter-btn {
   position: relative;
   display: inline-flex;
@@ -249,7 +286,7 @@ a { color: inherit; }
   padding: 0 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  background: transparent;
+  background: var(--surface);
   color: var(--fg-2);
   font-size: 14px;
   font-weight: 600;
@@ -259,10 +296,10 @@ a { color: inherit; }
               border-color var(--motion-fast) var(--ease-standard),
               color var(--motion-fast) var(--ease-standard);
 }
-.filter-btn:hover { background: var(--surface-warm); border-color: var(--meta); }
+.filter-btn:hover { background: var(--surface-2); border-color: var(--border-strong); }
 .filter-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.filter-btn .f-ic { width: 16px; height: 16px; color: var(--accent); }
-.filter-btn .f-chev { width: 13px; height: 13px; color: var(--meta); }
+.filter-btn .f-ic { width: 16px; height: 16px; color: var(--accent); flex: none; }
+.filter-btn .f-chev { width: 13px; height: 13px; color: var(--meta); flex: none; }
 .filter-btn .f-hint {
   max-width: 180px;
   overflow: hidden;
@@ -273,319 +310,17 @@ a { color: inherit; }
   letter-spacing: 0;
   color: var(--meta);
 }
-/* ── Кнопка «Добавить» рядом с фильтром ───────────────────────────── */
-.add-btn {
-  position: relative;
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 40px;
-  margin-left: auto;
-  padding: 0 16px 0 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: transparent;
-  color: var(--fg-2);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
-}
-.add-btn::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
-.add-btn:hover { background: var(--surface-warm); border-color: var(--meta); }
-.add-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.add-btn svg { width: 17px; height: 17px; color: var(--accent); }
 
-/* ── Нижняя шторка статусов ──────────────────────────────────────── */
-.scrim {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--motion-base) var(--ease-standard);
-}
-.scrim.is-show { opacity: 1; pointer-events: auto; }
-.sheet {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 70;
-  margin: 0 auto;
-  max-width: 700px;
-  max-height: 74vh;
-  overflow-y: auto;
-  background: var(--bg);
-  border: 1px solid var(--border-soft);
-  border-bottom: none;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.14);
-  padding: 8px 16px calc(18px + env(safe-area-inset-bottom));
-  transform: translateY(105%);
-  transition: transform var(--motion-base) var(--ease-standard);
-}
-.sheet.is-open { transform: translateY(0); }
-.sheet-grab {
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--border);
-  margin: 4px auto 6px;
-}
-.sheet-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2px 2px 6px;
-}
-.stat-title {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--meta);
-}
-.sheet-close {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--fg-2);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.sheet-close:hover { background: var(--border-soft); }
-.sheet-close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.sheet-close svg { width: 15px; height: 15px; }
-.stat-list { display: flex; flex-direction: column; }
-.stat-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-}
-.stat-row + .stat-row { border-top: 1px solid var(--border-soft); }
-.stat-dot {
-  flex: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--c);
-}
-.stat-name {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--fg);
-}
-.switch {
-  position: relative;
-  flex: none;
-  width: 46px;
-  height: 28px;
-  padding: 0;
-  border: none;
-  border-radius: 14px;
-  background: var(--border);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.switch:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.switch .knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-  transition: transform var(--motion-fast) var(--ease-standard);
-}
-.switch.on { background: var(--st-confirmed); }
-.switch.on .knob { transform: translateX(18px); }
-.sheet-done {
-  display: block;
-  width: 100%;
-  margin-top: 14px;
-  height: 48px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--accent);
-  color: var(--accent-on);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.sheet-done:hover { background: var(--accent-hover); }
-.sheet-done:active { background: var(--accent-active); }
-.sheet-done:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-
-/* ── Форма создания события ───────────────────────────────────────── */
-.add-form { display: grid; gap: 14px; padding-top: 4px; }
-.add-field { display: grid; gap: 6px; }
-.add-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--meta);
-}
-.add-input {
-  width: 100%;
-  height: 46px;
-  padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface-warm);
-  color: var(--fg);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  transition: border-color var(--motion-fast) var(--ease-standard);
-}
-.add-input::placeholder { color: var(--meta); }
-.add-input:focus { outline: none; border-color: var(--accent); }
-.add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.add-types { display: flex; flex-wrap: wrap; gap: 8px; }
-.add-type {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--bg);
-  color: var(--fg-2);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
-}
-.add-type:hover { background: var(--surface-warm); }
-.add-type:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.add-type.is-on {
-  background: var(--surface-warm);
-  border-color: var(--meta);
-  color: var(--fg);
-}
-.add-type .t-dot {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c);
-}
-.add-statuses { display: flex; flex-wrap: wrap; gap: 8px; }
-.add-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--bg);
-  color: var(--fg-2);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
-}
-.add-status:hover { background: var(--surface-warm); }
-.add-status:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.add-status.is-on {
-  background: var(--surface-warm);
-  border-color: var(--meta);
-  color: var(--fg);
-}
-.add-status .s-dot {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c);
-}
-.add-save { margin-top: 4px; }
-
-/* ── FAB «Добавить событие» ───────────────────────────────────────── */
-.fab {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 50;
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border: none;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-on);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              transform var(--motion-fast) var(--ease-standard);
-}
-.fab:hover { background: var(--accent-hover); }
-.fab:active { transform: scale(0.94); }
-.fab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.fab svg { width: 26px; height: 26px; }
-@media (min-width: 560px) { .fab { right: 24px; bottom: 24px; } }
-
-/* ── Тост ──────────────────────────────────────────────────────────── */
-.toast-wrap {
-  position: fixed;
-  left: 50%;
-  bottom: 88px;
-  transform: translateX(-50%);
-  z-index: 80;
-  width: max-content;
-  max-width: calc(100vw - 40px);
-}
-.toast {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--fg);
-  color: var(--surface-warm);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
-  animation: toast-in 0.3s var(--ease-standard) both;
-}
-.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
-@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+/* ── Тело ──────────────────────────────────────────────────────────── */
+.body { padding: 4px 12px 0; }
+@media (min-width: 560px) { .body { padding: 4px 24px 0; } }
 
 /* ── Календарь ────────────────────────────────────────────────────── */
 .cal {
-  background: var(--bg);
-  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--elev-raised);
-  padding: 14px 10px 8px;
+  padding: 14px 10px 10px;
 }
 .cal-head {
   display: flex;
@@ -597,30 +332,29 @@ a { color: inherit; }
   margin: 0;
   font-family: var(--font-display);
   font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
 }
-.cal-nav {
-  display: flex;
-  gap: 6px;
-}
+.cal-nav { display: flex; gap: 6px; }
 .nav-btn {
   position: relative;
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--border);
   border-radius: 50%;
   background: var(--surface-warm);
   color: var(--fg-2);
   cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
 }
-.nav-btn:hover { background: var(--surface); }
-.nav-btn:active { background: var(--border-soft); }
+.nav-btn:hover { background: var(--surface-2); }
+.nav-btn:active { background: var(--surface-2); }
 .nav-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .nav-btn svg { width: 16px; height: 16px; }
+.nav-btn.prev svg { transform: rotate(180deg); }
 
 .cal-week,
 .cal-grid {
@@ -633,7 +367,7 @@ a { color: inherit; }
   text-align: center;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
   color: var(--meta);
   padding: 6px 0;
@@ -645,12 +379,12 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   gap: 2px;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   margin: 0 auto;
   border: 1px solid var(--border);
   border-radius: 50%;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg);
   cursor: pointer;
   transition: border-color var(--motion-fast) var(--ease-standard),
@@ -658,8 +392,8 @@ a { color: inherit; }
               color var(--motion-fast) var(--ease-standard),
               box-shadow var(--motion-fast) var(--ease-standard);
 }
-.cal-cell:hover { background: var(--surface); }
-.cal-cell:hover { border-color: var(--meta); }
+@media (max-width: 340px) { .cal-cell { width: 38px; height: 38px; } }
+.cal-cell:hover { border-color: var(--border-strong); background: var(--surface-2); }
 .cal-cell:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .cal-cell.is-other { opacity: 0.4; }
 .cal-num {
@@ -670,22 +404,17 @@ a { color: inherit; }
 }
 .cal-cell.is-today {
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
-  color: var(--accent-active);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  color: var(--accent);
 }
-.cal-cell.is-today .cal-num { font-weight: 600; }
+.cal-cell.is-today .cal-num { font-weight: 700; }
 .cal-cell.is-sel {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--accent-on);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, var(--surface));
 }
 .cal-cell.is-sel .cal-num { font-weight: 700; }
-.cal-cell.is-today.is-sel {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-on);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, var(--bg));
-}
 .cal-dots {
   display: flex;
   gap: 2px;
@@ -695,134 +424,430 @@ a { color: inherit; }
 .cal-dot {
   width: 4px;
   height: 4px;
-  border-radius: 2px;
+  border-radius: 50%;
   background: var(--c);
 }
+.cal-cell.is-sel .cal-dot { background: #fff; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
 
 /* ── События дня ──────────────────────────────────────────────────── */
-.day {
-  margin-top: 20px;
-}
-.day-head { display: flex; align-items: baseline; gap: 10px; padding: 0 2px 10px; }
+.day { margin-top: 28px; }
+.day-head { display: flex; align-items: center; gap: 12px; padding: 0 2px 14px; }
 .day-head h2 {
   margin: 0;
   flex: 1;
   font-family: var(--font-display);
   font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.012em;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
 }
-.day-count { font-size: 13px; font-weight: 500; color: var(--meta); }
-.day-empty {
-  background: var(--bg);
-  border: 1px dashed var(--border);
+.sec-count {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--meta);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  font-variant-numeric: tabular-nums;
+}
+.cards { display: grid; gap: 12px; }
+.empty {
+  border: 1px dashed var(--border-strong);
   border-radius: var(--radius-lg);
-  padding: 26px 20px;
+  padding: 26px 16px;
   text-align: center;
   font-size: 14px;
   line-height: 1.5;
   color: var(--muted);
 }
-.ev-row {
+.empty b { display: block; font-size: 15px; font-weight: 600; color: var(--fg-2); margin-bottom: 3px; }
+
+.ev-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--bg);
-  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  border-left: 3px solid var(--c, var(--border));
   border-radius: var(--radius-lg);
-  box-shadow: var(--elev-raised);
   padding: 12px 14px;
-  margin-top: 10px;
-  animation: rise 0.4s var(--ease-standard) both;
-  animation-delay: calc(var(--i, 0) * 40ms);
+  animation: rise 0.5s var(--ease-standard) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
 }
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) { .ev-row { animation: none; } }
-.ev-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ev-card { animation: none; } }
+.ev-card.is-link { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ev-card.is-link:hover { background: var(--surface-2); }
 .ev-main { flex: 1; min-width: 0; }
 .ev-title {
-  display: block;
-  font-size: 15px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
   font-weight: 600;
-  letter-spacing: -0.011em;
+  letter-spacing: 0.01em;
   color: var(--fg);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.ev-time {
-  display: block;
-  margin-top: 2px;
-  font-size: 13px;
-  line-height: 1.4;
-  color: var(--muted);
-}
-.ev-badges { flex: none; display: flex; gap: 6px; }
+.ev-card.is-link .ev-title { color: var(--fg); }
+.ev-meta { margin: 3px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
+.ev-meta b { font-weight: 600; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.ev-badges { flex: none; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 44%; }
 .ev-badge {
+  flex: none;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.01em;
-  color: color-mix(in oklab, var(--c), var(--fg) 40%);
-  background: color-mix(in srgb, var(--c) 13%, var(--bg));
-  border-radius: var(--radius-pill);
-  padding: 3px 9px;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, var(--surface));
+  border-radius: 7px;
+  padding: 3px 8px;
 }
 .ev-badge .b-dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+.ev-chev { flex: none; color: var(--meta); display: grid; place-items: center; }
+.ev-chev svg { width: 16px; height: 16px; }
 
-/* ── Подвал ────────────────────────────────────────────────────────── */
-.foot {
-  margin: 40px 16px 0;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-soft);
+/* ── Шиты ──────────────────────────────────────────────────────────── */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-standard);
+  z-index: 40;
+  pointer-events: none;
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) translateY(105%);
+  transition: transform var(--motion-base) var(--ease-standard);
+  width: 100%;
+  max-width: var(--container-max);
+  background: var(--surface-warm);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  padding: 10px 16px calc(16px + env(safe-area-inset-bottom));
+  z-index: 50;
+}
+.sheet.open { transform: translateX(-50%) translateY(0); }
+@media (min-width: 560px) { .sheet { bottom: 24px; border-radius: var(--radius-lg); border-bottom: 1px solid var(--border); box-shadow: var(--elev-raised); } }
+.sheet-grab { width: 40px; height: 5px; border-radius: var(--radius-pill); background: var(--border-strong); margin: 0 auto 12px; }
+.sheet-head { display: flex; align-items: center; gap: 8px; padding: 4px 4px 8px; }
+.sheet-title {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.sheet-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.sheet-close:hover { background: var(--surface-2); }
+.sheet-close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sheet-close svg { width: 15px; height: 15px; }
+.sheet-cancel {
+  margin-top: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  color: var(--fg-2);
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px;
+  cursor: pointer;
+}
+.sheet-cancel:hover { background: var(--surface); }
+.sheet-cancel:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sheet-primary {
+  margin-top: 8px;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.sheet-primary:hover { background: var(--accent-hover); }
+.sheet-primary:active { background: var(--accent-active); }
+.sheet-primary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Шторка статусов ──────────────────────────────────────────────── */
+.stat-list { display: flex; flex-direction: column; gap: 2px; }
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 8px;
+  border-radius: var(--radius-md);
+}
+.stat-row:hover { background: var(--surface-2); }
+.stat-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.stat-name { flex: 1; font-size: 15px; font-weight: 500; color: var(--fg); }
+.switch {
+  position: relative;
+  flex: none;
+  width: 46px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: var(--border-strong);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.switch:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.switch .knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.switch.on { background: var(--accent); }
+.switch.on .knob { transform: translateX(18px); }
+
+/* ── Форма создания события ───────────────────────────────────────── */
+.add-form { display: grid; gap: 14px; padding-top: 4px; }
+.add-field { display: grid; gap: 6px; }
+.add-label {
   font-size: 12px;
-  line-height: 1.7;
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
   color: var(--meta);
 }
-@media (min-width: 560px) { .foot { margin: 48px 24px 0; } }
-.foot b { color: var(--fg-2); font-weight: 600; }
+.add-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color var(--motion-fast) var(--ease-standard);
+}
+.add-input::placeholder { color: var(--meta); }
+.add-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus-ring); }
+.add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.add-types,
+.add-statuses { display: flex; flex-wrap: wrap; gap: 8px; }
+.add-type,
+.add-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--fg-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard);
+}
+.add-type:hover,
+.add-status:hover { background: var(--surface-2); }
+.add-type:focus-visible,
+.add-status:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.add-type.is-on,
+.add-status.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+}
+.add-type .t-dot,
+.add-status .s-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.add-type.is-on .t-dot,
+.add-status.is-on .s-dot { background: #fff; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
+
+/* ── Таб-бар: плавающая «капсула» ─────────────────────────────────── */
+.tabbar {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  width: calc(100% - 24px);
+  max-width: calc(var(--container-max) - 24px);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 30;
+}
+.tab {
+  position: relative;
+  border: 0;
+  background: none;
+  text-decoration: none;
+  display: grid;
+  place-items: center;
+  padding: 5px 0;
+  color: var(--meta);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+.tab svg { width: 24px; height: 24px; }
+.tab-ic { position: relative; display: grid; place-items: center; }
+.tab-ic .notif { top: -6px; right: -8px; }
+.tab.is-on { color: var(--accent); }
+.tab.is-on svg {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border-radius: var(--radius-pill);
+  padding: 7px;
+  width: 42px;
+  height: 42px;
+  box-sizing: border-box;
+}
+.tab:not(.is-on):active { color: var(--fg-2); }
+.tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 100px;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  z-index: 70;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: var(--elev-raised);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-card { animation: none; }
+  .toast { animation: none; }
+}
+body.no-scroll { overflow: hidden; }
 </style>
 </head>
 <body data-od-id="schedule-calendar">
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-chev-up" viewBox="0 0 24 24"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5L20 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 6-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 7H19v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-edit" viewBox="0 0 24 24"><path d="M4 20l4.5-1L19.5 8a2.1 2.1 0 0 0-3-3L5.5 15.5 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M7 6.5l.8 12a1.5 1.5 0 0 0 1.5 1.4h5.4a1.5 1.5 0 0 0 1.5-1.4l.8-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10.5v6M14 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8c-1.3 0-2.6-.3-3.7-.8L4 20l1.3-4.3A8 8 0 1 1 20 11.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-share" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-grid" viewBox="0 0 24 24"><path d="M4 8.5L12 3l8 5.5v7L12 21l-8-5.5v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8.5l8 5.5 8-5.5M12 14v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M3.5 7.5V5.5A2 2 0 0 1 5.5 3.5h2M16.5 3.5h2a2 2 0 0 1 2 2v2M20.5 16.5v2a2 2 0 0 1-2 2h-2M7.5 20.5h-2a2 2 0 0 1-2-2v-2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 12h9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5.5H5a0 0 0 0 0 0 0v1.5A3 3 0 0 0 8 10M16 5.5h3a0 0 0 0 1 0 0V7a3 3 0 0 1-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 13v3M8.5 20h7M9.5 16h5l.5 4h-6l.5-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="ic-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 11a6 6 0 0 0 12 0M12 17v3M9 20h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-run" viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M13 8l-2 3 2 2 1.5 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11L7.5 8.5M13 13l3 2M16 15l1 5M6.5 8.5L8 5.5 5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-sliders" viewBox="0 0 24 24"><path d="M4.5 7h15M4.5 12h15M4.5 17h15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="10" cy="7" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/><circle cx="15" cy="12" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/></symbol>
-  <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chev-up" viewBox="0 0 24 24"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="app">
-  <div class="sticky-top" data-od-id="sticky-filters">
-    <header class="hd" data-od-id="schedule-header">
-      <a class="back" href="home-athlete.html" aria-label="Назад на главный экран"><svg><use href="#ic-back"/></svg></a>
-      <div class="hd-txt">
-        <div class="eyebrow">Петровское СП</div>
-        <h1>Расписание</h1>
-        <p class="sub">Точки под числами — события дня · фильтры — по типу и статусу</p>
-      </div>
-    </header>
-
-    <div class="chips" id="chips" data-od-id="filters"></div>
-    <div class="filter-row">
-      <button type="button" class="filter-btn" id="filter-open" data-od-id="status-filter-open" aria-haspopup="dialog" aria-expanded="false">
-        <svg class="f-ic" aria-hidden="true"><use href="#ic-sliders"/></svg>
-        <span>Статусы</span>
-        <span class="f-hint" id="status-hint">Все</span>
-        <svg class="f-chev" aria-hidden="true"><use href="#ic-chev-up"/></svg>
-      </button>
-      <button type="button" class="add-btn" id="add-row" data-od-id="add-event-row" aria-haspopup="dialog" aria-expanded="false">
-        <svg aria-hidden="true"><use href="#ic-plus"/></svg>
-        <span>Добавить</span>
-      </button>
+  <header class="hd" data-od-id="schedule-header">
+    <div class="avatar" aria-hidden="true">И</div>
+    <div class="hd-txt">
+      <h1>Расписание</h1>
+      <p class="hd-sub">События, тренировки и план ГТО</p>
     </div>
+    <div class="hd-acts">
+      <button type="button" class="icon-btn is-accent" id="add-open" data-od-id="add-event" aria-label="Добавить событие"><svg aria-hidden="true"><use href="#ic-plus"/></svg></button>
+      <button type="button" class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg><span class="notif" aria-hidden="true">3</span></button>
+    </div>
+  </header>
+
+  <div class="search-row" data-od-id="schedule-search">
+    <label class="search-field" id="search-field">
+      <svg aria-hidden="true"><use href="#ic-search"/></svg>
+      <input id="search-input" type="search" aria-label="Поиск по событиям" autocomplete="off">
+      <span class="search-ph" aria-hidden="true">Искать событие, клуб, место</span>
+    </label>
+    <a class="scan-btn" href="qrscan.html" aria-label="Отсканировать QR-код" data-od-id="schedule-scan"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
+  </div>
+
+  <div class="chips" id="chips" data-od-id="filters"></div>
+  <div class="filter-row">
+    <button type="button" class="filter-btn" id="filter-open" data-od-id="status-filter-open" aria-haspopup="dialog" aria-expanded="false">
+      <svg class="f-ic" aria-hidden="true"><use href="#ic-sliders"/></svg>
+      <span>Статусы</span>
+      <span class="f-hint" id="status-hint">Все</span>
+      <svg class="f-chev" aria-hidden="true"><use href="#ic-chev-up"/></svg>
+    </button>
   </div>
 
   <main class="body">
@@ -830,8 +855,8 @@ a { color: inherit; }
       <div class="cal-head">
         <h2 class="cal-month" id="cal-month">Июнь 2026</h2>
         <div class="cal-nav">
-          <button class="nav-btn" id="prev" aria-label="Предыдущий месяц"><svg><use href="#ic-back"/></svg></button>
-          <button class="nav-btn next" id="next" aria-label="Следующий месяц"><svg><use href="#ic-next"/></svg></button>
+          <button class="nav-btn prev" id="prev" aria-label="Предыдущий месяц"><svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
+          <button class="nav-btn next" id="next" aria-label="Следующий месяц"><svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
         </div>
       </div>
       <div class="cal-week" id="week"></div>
@@ -841,74 +866,72 @@ a { color: inherit; }
     <section class="day" data-od-id="day-panel">
       <div class="day-head">
         <h2 id="day-title">Выберите день</h2>
-        <span class="day-count" id="day-count"></span>
+        <span class="sec-count" id="day-count"></span>
       </div>
-      <div id="day-list"></div>
+      <div class="cards" id="day-list"></div>
     </section>
-
-    <footer class="foot" data-od-id="schedule-footer">
-      <b>Точки</b> · 4px под числом, цвет = тип события; если типов несколько — показываются все.<br>
-      <b>Фильтры</b> · по типу — чипсы, по статусу — кнопка «Статусы» (шторка снизу); работают вместе (И).<br>
-      <b>Статусы</b> · выключите лишние переключатели, чтобы показать только нужные события.<br>
-      <b>Добавить</b> · круглый «+» внизу справа открывает форму нового события.
-    </footer>
   </main>
-
-  <button type="button" class="fab" id="add-open" data-od-id="add-event-fab" aria-haspopup="dialog" aria-expanded="false" aria-label="Добавить событие">
-    <svg aria-hidden="true"><use href="#ic-plus"/></svg>
-  </button>
-
-  <div class="scrim" id="scrim" data-od-id="scrim" hidden></div>
-  <div class="sheet" id="status-sheet" role="dialog" aria-modal="true" aria-label="Фильтр по статусам" data-od-id="status-sheet" hidden>
-    <div class="sheet-grab" aria-hidden="true"></div>
-    <div class="sheet-head">
-      <span class="stat-title">Статусы</span>
-      <button type="button" class="sheet-close" id="sheet-close" aria-label="Закрыть фильтр"><svg><use href="#ic-close"/></svg></button>
-    </div>
-    <div class="stat-list" id="status-list"></div>
-    <button type="button" class="sheet-done" id="sheet-done" data-od-id="status-sheet-done">Готово</button>
-  </div>
-
-  <div class="scrim" id="scrim-add" data-od-id="scrim-add" hidden></div>
-  <div class="sheet" id="add-sheet" role="dialog" aria-modal="true" aria-label="Новое событие" data-od-id="add-sheet" hidden>
-    <div class="sheet-grab" aria-hidden="true"></div>
-    <div class="sheet-head">
-      <span class="stat-title">Новое событие</span>
-      <button type="button" class="sheet-close" id="add-close" aria-label="Закрыть форму"><svg><use href="#ic-close"/></svg></button>
-    </div>
-    <form class="add-form" id="add-form" novalidate>
-      <div class="add-field">
-        <label class="add-label" for="add-title">Название</label>
-        <input class="add-input" id="add-title" type="text" placeholder="Например: Плавание" maxlength="60" required>
-      </div>
-      <div class="add-field">
-        <span class="add-label">Тип</span>
-        <div class="add-types" id="add-types"></div>
-      </div>
-      <div class="add-row">
-        <div class="add-field">
-          <label class="add-label" for="add-date">Дата</label>
-          <input class="add-input" id="add-date" type="date" required>
-        </div>
-        <div class="add-field">
-          <label class="add-label" for="add-time">Время</label>
-          <input class="add-input" id="add-time" type="text" placeholder="18:00 – 19:30">
-        </div>
-      </div>
-      <div class="add-field">
-        <label class="add-label" for="add-place">Место</label>
-        <input class="add-input" id="add-place" type="text" placeholder="Например: Тренажёрный зал">
-      </div>
-      <div class="add-field">
-        <span class="add-label">Статус</span>
-        <div class="add-statuses" id="add-statuses"></div>
-      </div>
-      <button type="submit" class="sheet-done add-save" data-od-id="add-save">Добавить</button>
-    </form>
-  </div>
 </div>
 
-<div class="toast-wrap" id="toasts"></div>
+<div class="scrim" id="scrim" data-od-id="scrim"></div>
+
+<div class="sheet" id="status-sheet" role="dialog" aria-modal="true" aria-label="Фильтр по статусам" data-od-id="status-sheet">
+  <div class="sheet-grab" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h3 class="sheet-title">Статусы</h3>
+    <button type="button" class="sheet-close" id="sheet-close" aria-label="Закрыть фильтр"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <div class="stat-list" id="status-list"></div>
+  <button type="button" class="sheet-primary" id="sheet-done" data-od-id="status-sheet-done">Готово</button>
+</div>
+
+<div class="sheet" id="add-sheet" role="dialog" aria-modal="true" aria-label="Новое событие" data-od-id="add-sheet">
+  <div class="sheet-grab" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h3 class="sheet-title">Новое событие</h3>
+    <button type="button" class="sheet-close" id="add-close" aria-label="Закрыть форму"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <form class="add-form" id="add-form" novalidate>
+    <div class="add-field">
+      <label class="add-label" for="add-title">Название</label>
+      <input class="add-input" id="add-title" type="text" placeholder="Например: Плавание" maxlength="60" required>
+    </div>
+    <div class="add-field">
+      <span class="add-label">Тип</span>
+      <div class="add-types" id="add-types"></div>
+    </div>
+    <div class="add-row">
+      <div class="add-field">
+        <label class="add-label" for="add-date">Дата</label>
+        <input class="add-input" id="add-date" type="date" required>
+      </div>
+      <div class="add-field">
+        <label class="add-label" for="add-time">Время</label>
+        <input class="add-input" id="add-time" type="text" placeholder="18:00 – 19:30">
+      </div>
+    </div>
+    <div class="add-field">
+      <label class="add-label" for="add-place">Место</label>
+      <input class="add-input" id="add-place" type="text" placeholder="Например: Тренажёрный зал">
+    </div>
+    <div class="add-field">
+      <span class="add-label">Статус</span>
+      <div class="add-statuses" id="add-statuses"></div>
+    </div>
+    <button type="submit" class="sheet-primary add-save" data-od-id="add-save">Добавить</button>
+    <button type="button" class="sheet-cancel" id="add-cancel">Отмена</button>
+  </form>
+</div>
+
+<nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
+  <a class="tab" href="home-athlete-brand.html" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg></a>
+  <button class="tab is-on" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"/></svg><span class="notif" aria-hidden="true">3</span></span></button>
+  <button class="tab" data-toast="Тренировки — в следующей итерации" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg></button>
+  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><svg aria-hidden="true"><use href="#ic-users"/></svg></button>
+  <button class="tab" data-toast="Профиль — в следующей итерации" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg></button>
+</nav>
+
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
 
 <script>
 (function () {
@@ -922,9 +945,10 @@ a { color: inherit; }
     trainer: { label: 'С тренером', token: '--type-trainer' },
     event:   { label: 'Ивент',      token: '--type-event' },
     club:    { label: 'Клуб',       token: '--type-club' },
-    rental:  { label: 'Аренда',     token: '--type-rental' }
+    rental:  { label: 'Аренда',     token: '--type-rental' },
+    gto:     { label: 'ГТО',        token: '--type-gto' }
   };
-  var TYPE_ORDER = ['me', 'trainer', 'rental', 'club', 'event'];
+  var TYPE_ORDER = ['me', 'gto', 'trainer', 'rental', 'club', 'event'];
   var STATUSES = {
     confirmed: { label: 'Подтверждено', token: '--st-confirmed' },
     pending:   { label: 'Ожидает',      token: '--st-pending' },
@@ -936,6 +960,7 @@ a { color: inherit; }
   var FILTERS = [
     { id: 'all',     label: 'Все',         token: '--st-done' },
     { id: 'me',      label: 'Тренировки',  token: '--type-me' },
+    { id: 'gto',     label: 'ГТО',         token: '--type-gto' },
     { id: 'trainer', label: 'С тренером',  token: '--type-trainer' },
     { id: 'rental',  label: 'Аренда',      token: '--type-rental' },
     { id: 'club',    label: 'Клубы',       token: '--type-club' },
@@ -967,7 +992,17 @@ a { color: inherit; }
     { y: 2026, m: 6, d: 26, type: 'event',   title: 'Итоги сезона',                time: '12:00 – 15:00', place: 'ДК «Петровское»', status: 'open' },
     { y: 2026, m: 6, d: 26, type: 'me',      title: 'Тренировка',                  time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
     { y: 2026, m: 7, d: 9,  type: 'club',    title: 'Вечерняя пробежка',           time: '19:00 – 20:30', place: 'Парк',             status: 'open' },
-    { y: 2026, m: 7, d: 23, type: 'event',   title: 'Турнир по бадминтону',        time: '12:00 – 17:00', place: 'Спорткомплекс',    status: 'open' }
+    { y: 2026, m: 7, d: 23, type: 'event',   title: 'Турнир по бадминтону',        time: '12:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
+    { y: 2026, m: 5, d: 1,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
+    { y: 2026, m: 5, d: 3,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
+    { y: 2026, m: 5, d: 5,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
+    { y: 2026, m: 5, d: 8,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 2',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
+    { y: 2026, m: 5, d: 10, type: 'gto',     title: 'ГТО · Подтягивания · неделя 2',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
+    { y: 2026, m: 5, d: 12, type: 'gto',     title: 'ГТО · Подтягивания · неделя 2',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
+    { y: 2026, m: 5, d: 15, type: 'gto',     title: 'ГТО · Подтягивания · неделя 3',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
+    { y: 2026, m: 5, d: 17, type: 'gto',     title: 'ГТО · Подтягивания · неделя 3',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
+    { y: 2026, m: 5, d: 19, type: 'gto',     title: 'ГТО · Подтягивания · неделя 3',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
+    { y: 2026, m: 8, d: 12, type: 'gto',     title: 'ГТО · Сдача норматива · Подтягивания', time: '10:00 – 11:00', place: 'Стадион «Центральный»', status: 'pending', to: 'gto-test.html' }
   ];
 
   var now = new Date();
@@ -975,18 +1010,43 @@ a { color: inherit; }
     viewY: 2026,
     viewM: 5,
     filter: 'all',
+    query: '',
     statusOn: { pending: true, confirmed: true, open: true, done: true, cancelled: true },
     selected: { y: 2026, m: 5, d: 15 }
   };
+
+  /* ── Тост ─────────────────────────────────────────────────────────── */
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, 2200);
+  }
+
+  document.addEventListener('click', function (ev) {
+    var t = ev.target.closest('[data-toast]');
+    if (t) { toast(t.getAttribute('data-toast')); return; }
+  });
 
   /* ── Данные ──────────────────────────────────────────────────────── */
   function eventsFor(y, m, d) {
     return EVENTS.filter(function (e) { return e.y === y && e.m === m && e.d === d; });
   }
   function visibleEvents(y, m, d) {
+    var q = state.query.trim().toLowerCase();
     return eventsFor(y, m, d).filter(function (e) {
-      return (state.filter === 'all' || e.type === state.filter) &&
-             !!state.statusOn[e.status];
+      var hit = !q ||
+        e.title.toLowerCase().indexOf(q) >= 0 ||
+        (TYPES[e.type] && TYPES[e.type].label.toLowerCase().indexOf(q) >= 0) ||
+        (e.place || '').toLowerCase().indexOf(q) >= 0;
+      return hit &&
+        (state.filter === 'all' || e.type === state.filter) &&
+        !!state.statusOn[e.status];
     });
   }
   function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
@@ -1016,7 +1076,7 @@ a { color: inherit; }
       var b = document.createElement('button');
       b.className = 'chip' + (state.filter === f.id ? ' is-on' : '');
       b.style.setProperty('--c', 'var(' + f.token + ')');
-      b.innerHTML = '<span class="chip-dot"></span>' + f.label;
+      b.innerHTML = '<span class="chip-dot" aria-hidden="true"></span>' + f.label;
       b.addEventListener('click', function () {
         state.filter = f.id;
         refreshViews();
@@ -1129,7 +1189,6 @@ a { color: inherit; }
       var num = document.createElement('span');
       num.className = 'cal-num';
       num.textContent = cd;
-
       cell.appendChild(num);
 
       if (types.length) {
@@ -1175,7 +1234,7 @@ a { color: inherit; }
     if (!state.selected) {
       title.textContent = 'Выберите день';
       count.textContent = '';
-      list.innerHTML = '<div class="day-empty">Выберите день в календаре — здесь появятся события.</div>';
+      list.innerHTML = '<div class="empty"><b>Выберите день</b>Нажмите на число в календаре — здесь появятся события</div>';
       return;
     }
 
@@ -1188,8 +1247,10 @@ a { color: inherit; }
     count.textContent = evs.length ? (evs.length === 1 ? '1 событие' : evs.length + ' события') : '';
 
     if (!evs.length) {
-      list.innerHTML = '<div class="day-empty">Событий нет' +
-        (state.filter !== 'all' || !allStatusesOn() ? ' по выбранным фильтрам' : '') + '.</div>';
+      var why = state.query.trim()
+        ? 'По вашему запросу ничего не найдено'
+        : (state.filter !== 'all' || !allStatusesOn() ? 'События скрыты текущими фильтрами' : 'В этот день ничего не запланировано');
+      list.innerHTML = '<div class="empty"><b>Событий нет</b>' + why + '</div>';
       return;
     }
 
@@ -1198,60 +1259,68 @@ a { color: inherit; }
       var type = TYPES[e.type];
       var status = STATUSES[e.status];
       var row = document.createElement('div');
-      row.className = 'ev-row';
+      row.className = 'ev-card' + (e.to ? ' is-link' : '');
+      row.style.setProperty('--c', 'var(' + type.token + ')');
       row.style.setProperty('--i', i);
+      if (e.to) row.setAttribute('data-od-id', 'ev-' + e.type);
       row.innerHTML =
-        '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
         '<div class="ev-main">' +
-          '<span class="ev-title">' + e.title + '</span>' +
-          '<span class="ev-time">' + e.time + ' · ' + e.place + '</span>' +
+          '<h3 class="ev-title">' + e.title + '</h3>' +
+          '<p class="ev-meta">' + e.time + ' · ' + e.place + '</p>' +
         '</div>' +
         '<div class="ev-badges">' +
           '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
           (e.status === 'open'
             ? ''
             : '<span class="ev-badge" style="--c: var(' + status.token + ')"><i class="b-dot"></i>' + status.label + '</span>') +
-        '</div>';
+        '</div>' +
+        (e.to
+          ? '<span class="ev-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>'
+          : '');
+      if (e.to) {
+        row.addEventListener('click', function () { location.href = e.to; });
+      }
       list.appendChild(row);
     });
   }
 
-  /* ── Инициализация ───────────────────────────────────────────────── */
-  document.getElementById('prev').addEventListener('click', function () {
-    state.viewM--;
-    if (state.viewM < 0) { state.viewM = 11; state.viewY--; }
-    state.selected = null;
-    renderCalendar();
-    renderDay();
-  });
-  document.getElementById('next').addEventListener('click', function () {
-    state.viewM++;
-    if (state.viewM > 11) { state.viewM = 0; state.viewY++; }
-    state.selected = null;
-    renderCalendar();
-    renderDay();
+  /* ── Шиты: единый механизм ───────────────────────────────────────── */
+  var scrim = document.getElementById('scrim');
+  var statusSheet = document.getElementById('status-sheet');
+  var addSheet = document.getElementById('add-sheet');
+  var sheets = [statusSheet, addSheet];
+
+  function openSheet(el) {
+    closeSheet();
+    el.classList.add('open');
+    scrim.classList.add('open');
+    document.body.classList.add('no-scroll');
+    document.getElementById('filter-open').setAttribute('aria-expanded', 'false');
+  }
+  function closeSheet() {
+    sheets.forEach(function (s) { s.classList.remove('open'); });
+    scrim.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    document.getElementById('filter-open').setAttribute('aria-expanded', 'false');
+  }
+  scrim.addEventListener('click', closeSheet);
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    closeSheet();
   });
 
-  /* ── Тост ─────────────────────────────────────────────────────────── */
-  function toast(msg) {
-    var wrap = document.getElementById('toasts');
-    while (wrap.children.length >= 2) wrap.removeChild(wrap.firstChild);
-    var t = document.createElement('div');
-    t.className = 'toast';
-    t.textContent = msg;
-    wrap.appendChild(t);
-    setTimeout(function () {
-      t.classList.add('hide');
-      setTimeout(function () { t.remove(); }, 260);
-    }, 2200);
-  }
+  /* ── Шторка статусов ────────────────────────────────────────────── */
+  document.getElementById('filter-open').addEventListener('click', function () {
+    renderStatusSwitches();
+    openSheet(statusSheet);
+    this.setAttribute('aria-expanded', 'true');
+  });
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  document.getElementById('sheet-done').addEventListener('click', closeSheet);
 
   /* ── Форма создания события ─────────────────────────────────────── */
-  var scrimAdd = document.getElementById('scrim-add');
-  var addSheet = document.getElementById('add-sheet');
   var addType = 'me';
   var addStatus = 'confirmed';
-  var addSheetOpen = false;
 
   function renderAddPickers() {
     var tb = document.getElementById('add-types');
@@ -1285,7 +1354,6 @@ a { color: inherit; }
   }
 
   function openAddSheet() {
-    addSheetOpen = true;
     addType = 'me';
     addStatus = 'confirmed';
     renderAddPickers();
@@ -1293,33 +1361,17 @@ a { color: inherit; }
     document.getElementById('add-date').value = defaultAddDate();
     document.getElementById('add-time').value = '';
     document.getElementById('add-place').value = '';
-    scrimAdd.hidden = false;
-    addSheet.hidden = false;
-    requestAnimationFrame(function () {
-      scrimAdd.classList.add('is-show');
-      addSheet.classList.add('is-open');
-    });
-    document.getElementById('add-open').setAttribute('aria-expanded', 'true');
-    document.getElementById('add-row').setAttribute('aria-expanded', 'true');
+    openSheet(addSheet);
     document.getElementById('add-title').focus();
   }
-  function closeAddSheet() {
-    addSheetOpen = false;
-    scrimAdd.classList.remove('is-show');
-    addSheet.classList.remove('is-open');
-    document.getElementById('add-open').setAttribute('aria-expanded', 'false');
-    document.getElementById('add-row').setAttribute('aria-expanded', 'false');
-    setTimeout(function () {
-      if (!addSheetOpen) {
-        scrimAdd.hidden = true;
-        addSheet.hidden = true;
-      }
-    }, 260);
-  }
-  document.getElementById('add-open').addEventListener('click', openAddSheet);
-  document.getElementById('add-row').addEventListener('click', openAddSheet);
-  document.getElementById('add-close').addEventListener('click', closeAddSheet);
-  scrimAdd.addEventListener('click', closeAddSheet);
+  document.getElementById('add-open').addEventListener('click', function () {
+    var p = function (n) { return (n < 10 ? '0' : '') + n; };
+    var base = state.selected || { y: state.viewY, m: state.viewM, d: 1 };
+    var d = base.y + '-' + p(base.m + 1) + '-' + p(base.d);
+    location.href = 'create-event.html?date=' + d;
+  });
+  document.getElementById('add-close').addEventListener('click', closeSheet);
+  document.getElementById('add-cancel').addEventListener('click', closeSheet);
 
   document.getElementById('add-form').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -1340,56 +1392,39 @@ a { color: inherit; }
     state.viewY = ev.y;
     state.viewM = ev.m;
     state.selected = { y: ev.y, m: ev.m, d: ev.d };
-    closeAddSheet();
+    closeSheet();
     refreshViews();
     toast('Событие добавлено');
   });
 
-  /* ── Шторка статусов ────────────────────────────────────────────── */
-  var scrim = document.getElementById('scrim');
-  var sheet = document.getElementById('status-sheet');
-  var sheetOpen = false;
-  function openSheet() {
-    sheetOpen = true;
-    scrim.hidden = false;
-    sheet.hidden = false;
-    requestAnimationFrame(function () {
-      scrim.classList.add('is-show');
-      sheet.classList.add('is-open');
-    });
-    document.getElementById('filter-open').setAttribute('aria-expanded', 'true');
-  }
-  function closeSheet() {
-    sheetOpen = false;
-    scrim.classList.remove('is-show');
-    sheet.classList.remove('is-open');
-    document.getElementById('filter-open').setAttribute('aria-expanded', 'false');
-    setTimeout(function () {
-      if (!sheetOpen) {
-        scrim.hidden = true;
-        sheet.hidden = true;
-      }
-    }, 260);
-  }
-  document.getElementById('filter-open').addEventListener('click', function () {
-    if (sheet.hidden) openSheet(); else closeSheet();
+  /* ── Навигация по месяцам ───────────────────────────────────────── */
+  document.getElementById('prev').addEventListener('click', function () {
+    state.viewM--;
+    if (state.viewM < 0) { state.viewM = 11; state.viewY--; }
+    state.selected = null;
+    renderCalendar();
+    renderDay();
   });
-  document.getElementById('sheet-close').addEventListener('click', closeSheet);
-  document.getElementById('sheet-done').addEventListener('click', closeSheet);
-  scrim.addEventListener('click', closeSheet);
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape') return;
-    if (!sheet.hidden) closeSheet();
-    if (!addSheet.hidden) closeAddSheet();
+  document.getElementById('next').addEventListener('click', function () {
+    state.viewM++;
+    if (state.viewM > 11) { state.viewM = 0; state.viewY++; }
+    state.selected = null;
+    renderCalendar();
+    renderDay();
   });
 
-  /* ── Липкая шапка: сжатие при скролле ───────────────────────────── */
-  var stickyTop = document.querySelector('.sticky-top');
-  function updateStuck() {
-    if (stickyTop) stickyTop.classList.toggle('is-stuck', window.scrollY > 4);
-  }
-  window.addEventListener('scroll', updateStuck, { passive: true });
-  updateStuck();
+  /* ── Поиск ───────────────────────────────────────────────────────── */
+  var searchInput = document.getElementById('search-input');
+  var searchField = document.getElementById('search-field');
+  var searchPh = searchField.querySelector('.search-ph');
+  function syncSearchPh() { searchField.classList.toggle('has-ph', !!searchInput.value); }
+  searchInput.addEventListener('input', function () {
+    state.query = searchInput.value;
+    syncSearchPh();
+    refreshViews();
+  });
+  searchInput.addEventListener('search', syncSearchPh);
+  syncSearchPh();
 
   renderChips();
   renderStatusSwitches();
