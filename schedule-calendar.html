@@ -84,6 +84,15 @@
   --type-gto: #c9a06b;
 }
 :root {
+  --sport-run: #e8622c;
+  --sport-swim: #1a8fd6;
+  --sport-bike: #2f9e54;
+  --sport-ofp: #9b5de5;
+  --sport-strength: #d6485b;
+  --sport-gto: #c9a06b;
+  --sport-general: var(--type-me);
+}
+:root {
   --st-confirmed: var(--accent);
   --st-pending: var(--yellow);
   --st-open: #0b3d91;
@@ -238,41 +247,6 @@ a { color: inherit; }
   border-color: color-mix(in srgb, var(--c) 45%, var(--border));
 }
 .chip.is-on .chip-dot { opacity: 1; }
-
-/* ── Поиск + сканер ────────────────────────────────────────────────── */
-.search-row { display: flex; gap: 10px; padding: 0 12px 12px; }
-@media (min-width: 560px) { .search-row { padding: 0 24px 14px; } }
-.search-field {
-  position: relative;
-  flex: 1; display: flex; align-items: center; gap: 8px;
-  background: var(--surface);
-  border-radius: var(--radius-pill); padding: 0 6px 0 16px; height: 48px;
-}
-.search-field > svg { width: 18px; height: 18px; color: var(--meta); flex: none; }
-.search-ph {
-  position: absolute;
-  left: 42px; right: 52px; top: 0; bottom: 0;
-  display: flex; align-items: center;
-  white-space: nowrap; overflow: hidden;
-  font-size: 14px; color: var(--meta);
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 78%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 0%, #000 78%, transparent 100%);
-}
-.search-field.has-ph .search-ph { display: none; }
-.search-field input {
-  flex: 1; min-width: 0; border: 0; background: none; outline: none;
-  font-size: 15px; color: var(--fg); font-family: var(--font-body);
-}
-.search-field input::placeholder { color: var(--meta); }
-.scan-btn {
-  flex: none; width: 48px; height: 48px; border-radius: 50%;
-  background: var(--accent); color: var(--accent-on);
-  display: grid; place-items: center; text-decoration: none;
-}
-.scan-btn:hover { background: var(--accent-hover); }
-.scan-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.scan-btn svg { width: 22px; height: 22px; }
 
 /* ── Кнопка фильтра статусов ──────────────────────────────────────── */
 .filter-row { display: flex; align-items: center; gap: 10px; padding: 0 12px 4px; }
@@ -749,6 +723,29 @@ a { color: inherit; }
 .tab:not(.is-on):active { color: var(--fg-2); }
 .tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
+/* ── Плавающая кнопка «+» ──────────────────────────────────────────── */
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-on);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.24);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.fab:hover { background: var(--accent-hover); box-shadow: 0 10px 24px rgba(0,0,0,0.28); }
+.fab:active { transform: scale(0.94); background: var(--accent-active); }
+.fab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.fab svg { width: 26px; height: 26px; }
+
 /* ── Тост ──────────────────────────────────────────────────────────── */
 .toast-wrap {
   position: fixed;
@@ -781,6 +778,212 @@ a { color: inherit; }
   .toast { animation: none; }
 }
 body.no-scroll { overflow: hidden; }
+
+/* ── План тренировок ───────────────────────────────────────────────── */
+.view-tabs { padding: 4px 12px 6px; }
+@media (min-width: 560px) { .view-tabs { padding: 6px 24px 8px; } }
+.view-tabs .chips { padding: 0; }
+
+.plan-body { padding: 2px 16px 0; }
+@media (min-width: 560px) { .plan-body { padding: 6px 24px 0; } }
+.plan-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.plan-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--fg);
+}
+.plan-sub { margin: 3px 0 0; font-size: 13.5px; color: var(--muted); }
+.plan-time { width: 104px; display: grid; gap: 5px; }
+
+.plan-day {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard);
+}
+.plan-day:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.plan-day:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.plan-day-name {
+  flex: none;
+  width: 34px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.plan-day-main { flex: 1; min-width: 0; }
+.plan-day-tpl {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.plan-day-line { display: flex; align-items: center; gap: 7px; }
+.plan-sport-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+.plan-day-time {
+  display: block;
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 1px;
+  font-variant-numeric: tabular-nums;
+}
+.plan-day.is-empty .plan-day-tpl { color: var(--meta); font-weight: 500; }
+.plan-day-chev { flex: none; color: var(--meta); display: grid; place-items: center; }
+.plan-day-chev svg { width: 16px; height: 16px; }
+
+.plan-actions { display: grid; gap: 8px; margin-top: 16px; }
+.plan-cta {
+  height: 50px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.plan-cta:hover { background: var(--accent-hover); }
+.plan-cta:active { background: var(--accent-active); }
+.plan-cta:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.plan-cta[disabled] { opacity: 0.5; cursor: default; pointer-events: none; }
+.plan-remove {
+  height: 46px;
+  border: 1px solid rgba(255,77,77,0.4);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--danger) 6%, var(--surface));
+  color: var(--danger);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.plan-remove:hover { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
+.plan-remove:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.plan-hint {
+  margin: 12px 2px 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--meta);
+}
+
+.plan-picker { display: grid; gap: 8px; padding-top: 2px; }
+.plan-pick-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard);
+}
+.plan-pick-row:hover { background: var(--surface-2); }
+.plan-pick-row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.plan-pick-row.is-on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+.plan-pick-main { flex: 1; min-width: 0; }
+.plan-pick-name { font-size: 15px; font-weight: 600; color: var(--fg); }
+.plan-pick-count { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+.plan-pick-check { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border-strong); color: transparent; display: grid; place-items: center; transition: all var(--motion-fast) var(--ease-standard); }
+.plan-pick-row.is-on .plan-pick-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+.plan-pick-check svg { width: 13px; height: 13px; }
+.plan-coach-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+}
+
+.plan-pick-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 6px 2px 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.plan-pick-group:first-child { margin-top: 0; }
+
+.load-preview { margin-top: 12px; }
+.load-note {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--meta);
+  padding: 2px 2px 6px;
+}
+.load-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 2px;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 13.5px;
+}
+.load-row:last-child { border-bottom: 0; }
+.lr-date {
+  flex: none;
+  width: 128px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.lr-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--type-me); }
+.lr-tpl { flex: 1; min-width: 0; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.load-row.is-skip .lr-dot { background: var(--meta); }
+.load-row.is-skip .lr-tpl { color: var(--meta); font-weight: 500; text-decoration: line-through; }
+.load-row.is-skip .lr-date { color: var(--meta); }
+.load-count {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg-2);
+  padding: 0 2px 4px;
+}
 </style>
 </head>
 <body data-od-id="schedule-calendar">
@@ -826,21 +1029,20 @@ body.no-scroll { overflow: hidden; }
       <p class="hd-sub">События, тренировки и план ГТО</p>
     </div>
     <div class="hd-acts">
-      <button type="button" class="icon-btn is-accent" id="add-open" data-od-id="add-event" aria-label="Добавить событие"><svg aria-hidden="true"><use href="#ic-plus"/></svg></button>
+      <a class="icon-btn" href="qrscan.html" aria-label="Отсканировать QR-код" data-od-id="schedule-scan"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
       <button type="button" class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg><span class="notif" aria-hidden="true">3</span></button>
     </div>
   </header>
 
-  <div class="search-row" data-od-id="schedule-search">
-    <label class="search-field" id="search-field">
-      <svg aria-hidden="true"><use href="#ic-search"/></svg>
-      <input id="search-input" type="search" aria-label="Поиск по событиям" autocomplete="off">
-      <span class="search-ph" aria-hidden="true">Искать событие, клуб, место</span>
-    </label>
-    <a class="scan-btn" href="qrscan.html" aria-label="Отсканировать QR-код" data-od-id="schedule-scan"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
+  <div class="view-tabs" data-od-id="view-tabs">
+    <div class="chips" id="view-tabs" role="tablist" aria-label="Вид">
+      <button type="button" class="chip is-on" id="tab-cal" style="--c: var(--accent)" role="tab" aria-selected="true" data-od-id="view-cal">Календарь</button>
+      <button type="button" class="chip" id="tab-plan" style="--c: var(--accent)" role="tab" aria-selected="false" data-od-id="view-plan">План тренировок</button>
+    </div>
   </div>
 
   <div class="chips" id="chips" data-od-id="filters"></div>
+  <div class="chips" id="sport-chips" data-od-id="sport-filters" style="display:none"></div>
   <div class="filter-row">
     <button type="button" class="filter-btn" id="filter-open" data-od-id="status-filter-open" aria-haspopup="dialog" aria-expanded="false">
       <svg class="f-ic" aria-hidden="true"><use href="#ic-sliders"/></svg>
@@ -870,8 +1072,29 @@ body.no-scroll { overflow: hidden; }
       </div>
       <div class="cards" id="day-list"></div>
     </section>
+
+    <section class="plan-body" id="plan-view" style="display:none" data-od-id="plan-view">
+      <div class="plan-head">
+        <div>
+          <h2 class="plan-title">Недельный план</h2>
+          <p class="plan-sub" id="plan-summary"></p>
+        </div>
+        <div class="plan-time">
+          <label class="add-label" for="plan-time">Время</label>
+          <input class="add-input" id="plan-time" type="time" value="19:00" aria-label="Время тренировок по плану">
+        </div>
+      </div>
+      <div class="plan-days" id="plan-days"></div>
+      <div class="plan-actions">
+        <button type="button" class="plan-cta" id="plan-load" data-od-id="plan-load">Загрузить в календарь</button>
+        <button type="button" class="plan-remove" id="plan-remove" style="display:none" data-od-id="plan-remove">Убрать план из календаря</button>
+      </div>
+      <p class="plan-hint" id="plan-hint">Шаблоны из «Моей тренировки» появляются здесь автоматически.</p>
+    </section>
   </main>
 </div>
+
+<button type="button" class="fab" id="add-open" data-od-id="add-event" aria-label="Добавить событие"><svg aria-hidden="true"><use href="#ic-plus"/></svg></button>
 
 <div class="scrim" id="scrim" data-od-id="scrim"></div>
 
@@ -923,6 +1146,31 @@ body.no-scroll { overflow: hidden; }
   </form>
 </div>
 
+<div class="sheet" id="plan-sheet" role="dialog" aria-modal="true" aria-label="Выбор шаблона на день" data-od-id="plan-day-sheet">
+  <div class="sheet-grab" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h3 class="sheet-title" id="plan-sheet-title">Понедельник</h3>
+    <button type="button" class="sheet-close" id="plan-sheet-close" aria-label="Закрыть выбор шаблона"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <div class="plan-picker" id="plan-picker"></div>
+</div>
+
+<div class="sheet" id="load-sheet" role="dialog" aria-modal="true" aria-label="Загрузка плана в календарь" data-od-id="plan-load-sheet">
+  <div class="sheet-grab" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h3 class="sheet-title">Загрузить план в календарь</h3>
+    <button type="button" class="sheet-close" id="load-close" aria-label="Закрыть загрузку"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <div class="chips" id="load-period">
+    <button type="button" class="chip is-on" data-w="2" style="--c: var(--accent)">2 недели</button>
+    <button type="button" class="chip" data-w="4" style="--c: var(--accent)">4 недели</button>
+    <button type="button" class="chip" data-w="8" style="--c: var(--accent)">8 недель</button>
+  </div>
+  <div class="load-preview" id="load-preview"></div>
+  <button type="button" class="sheet-primary" id="load-go" data-od-id="plan-load-go">Добавить в календарь</button>
+  <button type="button" class="sheet-cancel" id="load-cancel">Отмена</button>
+</div>
+
 <nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
   <a class="tab" href="home-athlete-brand.html" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg></a>
   <button class="tab is-on" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"/></svg><span class="notif" aria-hidden="true">3</span></span></button>
@@ -970,27 +1218,27 @@ body.no-scroll { overflow: hidden; }
   var STATUS_ORDER = ['pending', 'confirmed', 'open', 'done', 'cancelled'];
 
   var EVENTS = [
-    { y: 2026, m: 5, d: 15, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 15, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
     { y: 2026, m: 5, d: 16, type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
     { y: 2026, m: 5, d: 18, type: 'club',    title: 'Вечерняя пробежка клуба',     time: '19:00 – 20:30', place: 'Парк Победы',      status: 'open' },
     { y: 2026, m: 5, d: 20, type: 'event',   title: 'Летний Кубок Петровского',    time: '10:00 – 18:00', place: 'Стадион «Центральный»', status: 'open' },
-    { y: 2026, m: 5, d: 21, type: 'me',      title: 'Тренировка по плаванию',      time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 21, type: 'me',      sport: 'swim',     title: 'Тренировка по плаванию',      time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
     { y: 2026, m: 5, d: 21, type: 'event',   title: 'Турнир по бадминтону',        time: '14:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
-    { y: 2026, m: 5, d: 22, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 23, type: 'me',      title: 'Лёгкая атлетика',             time: '07:30 – 09:00', place: 'Стадион',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 24, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 25, type: 'me',      title: 'Плавание',                    time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 26, type: 'me',      title: 'Кросс',                       time: '19:00 – 20:00', place: 'Парк',             status: 'confirmed' },
-    { y: 2026, m: 5, d: 27, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 28, type: 'me',      title: 'Лёгкая атлетика',             time: '08:00 – 09:30', place: 'Стадион',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 22, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 23, type: 'me',      sport: 'run',      title: 'Лёгкая атлетика',             time: '07:30 – 09:00', place: 'Стадион',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 24, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 25, type: 'me',      sport: 'swim',     title: 'Плавание',                    time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 26, type: 'me',      sport: 'run',      title: 'Кросс',                       time: '19:00 – 20:00', place: 'Парк',             status: 'confirmed' },
+    { y: 2026, m: 5, d: 27, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 28, type: 'me',      sport: 'run',      title: 'Лёгкая атлетика',             time: '08:00 – 09:30', place: 'Стадион',          status: 'confirmed' },
     { y: 2026, m: 5, d: 28, type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
     { y: 2026, m: 5, d: 30, type: 'trainer', title: 'ГТО: силовая подготовка',     time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'pending' },
     { y: 2026, m: 6, d: 3,  type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
     { y: 2026, m: 6, d: 5,  type: 'event',   title: 'Кубок района',                time: '11:00 – 16:00', place: 'Стадион',          status: 'open' },
-    { y: 2026, m: 6, d: 12, type: 'me',      title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 6, d: 12, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
     { y: 2026, m: 6, d: 19, type: 'club',    title: 'Клубный турнир',              time: '15:00 – 18:00', place: 'Спорткомплекс',    status: 'open' },
     { y: 2026, m: 6, d: 26, type: 'event',   title: 'Итоги сезона',                time: '12:00 – 15:00', place: 'ДК «Петровское»', status: 'open' },
-    { y: 2026, m: 6, d: 26, type: 'me',      title: 'Тренировка',                  time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 6, d: 26, type: 'me',      sport: 'general',  title: 'Тренировка',                  time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
     { y: 2026, m: 7, d: 9,  type: 'club',    title: 'Вечерняя пробежка',           time: '19:00 – 20:30', place: 'Парк',             status: 'open' },
     { y: 2026, m: 7, d: 23, type: 'event',   title: 'Турнир по бадминтону',        time: '12:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
     { y: 2026, m: 5, d: 1,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
@@ -1010,10 +1258,65 @@ body.no-scroll { overflow: hidden; }
     viewY: 2026,
     viewM: 5,
     filter: 'all',
+    sport: 'all',
     query: '',
     statusOn: { pending: true, confirmed: true, open: true, done: true, cancelled: true },
     selected: { y: 2026, m: 5, d: 15 }
   };
+
+  /* ── Библиотека шаблонов и хранилища (общие с create-event) ──────── */
+  var TPL_KEY = 'ce_templates';
+  var PLAN_KEY = 'ce_plan';
+  var EVT_KEY = 'ce_events';
+
+  /* ── Виды спорта (общие с create-event) ──────────────────────────── */
+  var SPORTS = {
+    run:      { label: 'Бег',       token: '--sport-run' },
+    swim:     { label: 'Плавание',  token: '--sport-swim' },
+    bike:     { label: 'Велосипед', token: '--sport-bike' },
+    ofp:      { label: 'ОФП',       token: '--sport-ofp' },
+    strength: { label: 'Силовые',   token: '--sport-strength' },
+    gto:      { label: 'ГТО',       token: '--sport-gto' },
+    general:  { label: 'Разное',    token: '--sport-general' }
+  };
+  var SPORT_ORDER = ['run', 'swim', 'bike', 'ofp', 'strength', 'gto', 'general'];
+  function sportOf(x) { return (x && x.sport) || 'general'; }
+  function sportToken(sid) { var sp = SPORTS[sid] || SPORTS.general; return 'var(' + sp.token + ')'; }
+  function sportLabel(x) { return (SPORTS[sportOf(x)] || SPORTS.general).label; }
+
+  var BUILTIN_TEMPLATES = [
+    { id: 'run30', sport: 'run',      name: 'Бег 30 мин',      coach: false, items: ['Бег 30 мин'] },
+    { id: 'legs',  sport: 'strength', name: 'Силовая · ноги',  coach: false, items: ['Приседания 3×12', 'Выпады 3×10'] },
+    { id: 'gto',   sport: 'gto',      name: 'ГТО · бег 100 м', coach: true,  items: ['Бег 100 м'] }
+  ];
+  function savedTemplates() {
+    try { return JSON.parse(localStorage.getItem(TPL_KEY)) || []; } catch (e) { return []; }
+  }
+  function allTemplates() { return BUILTIN_TEMPLATES.concat(savedTemplates()); }
+  function templateById(id) {
+    var l = allTemplates();
+    for (var i = 0; i < l.length; i++) if (l[i].id === id) return l[i];
+    return null;
+  }
+
+  function overlayEvents() {
+    try { return JSON.parse(localStorage.getItem(EVT_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveOverlayEvents(arr) { localStorage.setItem(EVT_KEY, JSON.stringify(arr)); }
+  function allEvents() { return EVENTS.concat(overlayEvents()); }
+
+  function loadPlan() {
+    try { return JSON.parse(localStorage.getItem(PLAN_KEY)) || null; } catch (e) { return null; }
+  }
+  var plan = loadPlan() || {
+    time: '19:00',
+    days: [
+      { dow: 1, tpl: 'run30' },
+      { dow: 3, tpl: 'legs' },
+      { dow: 5, tpl: 'run30' }
+    ]
+  };
+  function savePlan() { localStorage.setItem(PLAN_KEY, JSON.stringify(plan)); }
 
   /* ── Тост ─────────────────────────────────────────────────────────── */
   function toast(msg) {
@@ -1035,7 +1338,7 @@ body.no-scroll { overflow: hidden; }
 
   /* ── Данные ──────────────────────────────────────────────────────── */
   function eventsFor(y, m, d) {
-    return EVENTS.filter(function (e) { return e.y === y && e.m === m && e.d === d; });
+    return allEvents().filter(function (e) { return e.y === y && e.m === m && e.d === d; });
   }
   function visibleEvents(y, m, d) {
     var q = state.query.trim().toLowerCase();
@@ -1044,8 +1347,10 @@ body.no-scroll { overflow: hidden; }
         e.title.toLowerCase().indexOf(q) >= 0 ||
         (TYPES[e.type] && TYPES[e.type].label.toLowerCase().indexOf(q) >= 0) ||
         (e.place || '').toLowerCase().indexOf(q) >= 0;
+      var sportHit = state.sport === 'all' || (e.type === 'me' && sportOf(e) === state.sport);
       return hit &&
         (state.filter === 'all' || e.type === state.filter) &&
+        sportHit &&
         !!state.statusOn[e.status];
     });
   }
@@ -1065,6 +1370,7 @@ body.no-scroll { overflow: hidden; }
       if (!evs.length) state.selected = null;
     }
     renderChips();
+    renderSportChips();
     renderStatusSwitches();
     renderCalendar();
     renderDay();
@@ -1079,6 +1385,26 @@ body.no-scroll { overflow: hidden; }
       b.innerHTML = '<span class="chip-dot" aria-hidden="true"></span>' + f.label;
       b.addEventListener('click', function () {
         state.filter = f.id;
+        refreshViews();
+      });
+      box.appendChild(b);
+    });
+  }
+  function renderSportChips() {
+    var box = document.getElementById('sport-chips');
+    var visible = state.filter === 'all' || state.filter === 'me';
+    box.style.display = visible ? '' : 'none';
+    if (!visible) return;
+    box.innerHTML = '';
+    var list = [{ id: 'all', label: 'Любой спорт', token: null }];
+    SPORT_ORDER.forEach(function (s) { list.push({ id: s, label: SPORTS[s].label, token: SPORTS[s].token }); });
+    list.forEach(function (f) {
+      var b = document.createElement('button');
+      b.className = 'chip' + (state.sport === f.id ? ' is-on' : '');
+      b.style.setProperty('--c', 'var(' + (f.token || '--st-done') + ')');
+      b.innerHTML = '<span class="chip-dot" aria-hidden="true"></span>' + f.label;
+      b.addEventListener('click', function () {
+        state.sport = f.id;
         refreshViews();
       });
       box.appendChild(b);
@@ -1140,6 +1466,22 @@ body.no-scroll { overflow: hidden; }
   }
 
   /* ── Календарь ───────────────────────────────────────────────────── */
+  function dotKeys(evs) {
+    var keys = [];
+    function push(k) { if (keys.indexOf(k) < 0) keys.push(k); }
+    evs.forEach(function (e) {
+      if (e.type === 'me') push('sport:' + sportOf(e));
+      else if (TYPES[e.type]) push('type:' + e.type);
+    });
+    return keys;
+  }
+  function dotColor(k) {
+    if (k.indexOf('sport:') === 0) {
+      var sp = SPORTS[k.slice(6)] || SPORTS.general;
+      return 'var(' + sp.token + ')';
+    }
+    return 'var(' + TYPES[k.slice(5)].token + ')';
+  }
   function renderCalendar() {
     var y = state.viewY, m = state.viewM;
     document.getElementById('cal-month').textContent = MONTHS[m] + ' ' + y;
@@ -1181,23 +1523,20 @@ body.no-scroll { overflow: hidden; }
       }
 
       var evs = visibleEvents(cy, cm, cd);
-      var types = [];
-      TYPE_ORDER.forEach(function (t) {
-        if (evs.some(function (e) { return e.type === t; })) types.push(t);
-      });
+      var keys = dotKeys(evs);
 
       var num = document.createElement('span');
       num.className = 'cal-num';
       num.textContent = cd;
       cell.appendChild(num);
 
-      if (types.length) {
+      if (keys.length) {
         var dots = document.createElement('span');
         dots.className = 'cal-dots';
-        types.slice(0, 3).forEach(function (t) {
+        keys.slice(0, 3).forEach(function (k) {
           var dot = document.createElement('i');
           dot.className = 'cal-dot';
-          dot.style.setProperty('--c', 'var(' + TYPES[t].token + ')');
+          dot.style.setProperty('--c', dotColor(k));
           dots.appendChild(dot);
         });
         cell.appendChild(dots);
@@ -1269,10 +1608,13 @@ body.no-scroll { overflow: hidden; }
           '<p class="ev-meta">' + e.time + ' · ' + e.place + '</p>' +
         '</div>' +
         '<div class="ev-badges">' +
-          '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+          (e.type === 'me'
+            ? '<span class="ev-badge" style="--c: var(--sport-' + sportOf(e) + ')"><i class="b-dot"></i>' + sportLabel(e) + '</span>'
+            : '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>') +
           (e.status === 'open'
             ? ''
             : '<span class="ev-badge" style="--c: var(' + status.token + ')"><i class="b-dot"></i>' + status.label + '</span>') +
+          (e.plan ? '<span class="ev-badge" style="--c: var(--accent)">План</span>' : '') +
         '</div>' +
         (e.to
           ? '<span class="ev-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>'
@@ -1284,11 +1626,87 @@ body.no-scroll { overflow: hidden; }
     });
   }
 
+  /* ── Вид: Календарь / План ───────────────────────────────────────── */
+  var viewMode = 'cal';
+  var DOW = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+  var DOW_FULL = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+
+  function setView(v) {
+    viewMode = v;
+    var isPlan = v === 'plan';
+    document.getElementById('tab-cal').classList.toggle('is-on', !isPlan);
+    document.getElementById('tab-plan').classList.toggle('is-on', isPlan);
+    document.getElementById('tab-cal').setAttribute('aria-selected', isPlan ? 'false' : 'true');
+    document.getElementById('tab-plan').setAttribute('aria-selected', isPlan ? 'true' : 'false');
+    document.getElementById('plan-view').style.display = isPlan ? '' : 'none';
+    document.getElementById('chips').style.display = isPlan ? 'none' : '';
+    document.getElementById('sport-chips').style.display = isPlan ? 'none' : '';
+    [].forEach.call(document.querySelectorAll('.filter-row, .cal, .day'), function (b) {
+      b.style.display = isPlan ? 'none' : '';
+    });
+    if (isPlan) renderPlan(); else renderSportChips();
+  }
+
+  function planEntry(dow) {
+    for (var i = 0; i < plan.days.length; i++) if (plan.days[i].dow === dow) return plan.days[i];
+    return null;
+  }
+  function setPlanEntry(dow, tpl) {
+    var e = planEntry(dow);
+    if (e) {
+      if (tpl) { e.tpl = tpl; } else { plan.days.splice(plan.days.indexOf(e), 1); }
+    } else if (tpl) {
+      plan.days.push({ dow: dow, tpl: tpl });
+      plan.days.sort(function (a, b) { return a.dow - b.dow; });
+    }
+    savePlan();
+  }
+
+  function renderPlan() {
+    var box = document.getElementById('plan-days');
+    box.innerHTML = '';
+    for (var i = 0; i < 7; i++) {
+      var dow = i + 1;
+      var e = planEntry(dow);
+      var tpl = e && templateById(e.tpl);
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'plan-day' + (tpl ? '' : ' is-empty');
+      row.setAttribute('data-od-id', 'plan-day-' + dow);
+      row.innerHTML =
+        '<span class="plan-day-name">' + DOW[i] + '</span>' +
+        '<span class="plan-day-main">' +
+          (tpl
+            ? '<span class="plan-day-line"><i class="plan-sport-dot" style="background:' + sportToken(sportOf(tpl)) + '" aria-hidden="true"></i><span class="plan-day-tpl">' + tpl.name + '</span></span>' +
+              '<span class="plan-day-time">' + plan.time + ' · ' + sportLabel(tpl) + '</span>'
+            : '<span class="plan-day-tpl">Отдых</span>') +
+        '</span>' +
+        '<span class="plan-day-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>';
+      row.addEventListener('click', (function (d) { return function () { openPlanDaySheet(d); }; })(dow));
+      box.appendChild(row);
+    }
+
+    var cnt = plan.days.filter(function (d) { return d.tpl; }).length;
+    document.getElementById('plan-summary').textContent = cnt
+      ? (cnt === 1 ? '1 тренировка в неделю' : cnt + ' тренировки в неделю')
+      : 'План пуст — назначьте дни';
+    document.getElementById('plan-load').disabled = !cnt;
+    document.getElementById('plan-time').value = plan.time;
+    document.getElementById('plan-remove').style.display =
+      overlayEvents().some(function (x) { return x.plan; }) ? '' : 'none';
+    document.getElementById('plan-hint').textContent =
+      allTemplates().length > BUILTIN_TEMPLATES.length
+        ? 'Шаблоны из «Моей тренировки» (создание события) подключены автоматически.'
+        : 'Добавьте шаблоны в «Моей тренировке» — они появятся в выборе дня.';
+  }
+
   /* ── Шиты: единый механизм ───────────────────────────────────────── */
   var scrim = document.getElementById('scrim');
   var statusSheet = document.getElementById('status-sheet');
   var addSheet = document.getElementById('add-sheet');
-  var sheets = [statusSheet, addSheet];
+  var planSheet = document.getElementById('plan-sheet');
+  var loadSheet = document.getElementById('load-sheet');
+  var sheets = [statusSheet, addSheet, planSheet, loadSheet];
 
   function openSheet(el) {
     closeSheet();
@@ -1388,7 +1806,10 @@ body.no-scroll { overflow: hidden; }
       time: time || 'Время уточняется', place: place || 'Место уточняется',
       status: addStatus
     };
-    EVENTS.push(ev);
+    if (addType === 'me') ev.sport = 'general';
+    var overlay = overlayEvents();
+    overlay.push(ev);
+    saveOverlayEvents(overlay);
     state.viewY = ev.y;
     state.viewM = ev.m;
     state.selected = { y: ev.y, m: ev.m, d: ev.d };
@@ -1413,18 +1834,186 @@ body.no-scroll { overflow: hidden; }
     renderDay();
   });
 
-  /* ── Поиск ───────────────────────────────────────────────────────── */
-  var searchInput = document.getElementById('search-input');
-  var searchField = document.getElementById('search-field');
-  var searchPh = searchField.querySelector('.search-ph');
-  function syncSearchPh() { searchField.classList.toggle('has-ph', !!searchInput.value); }
-  searchInput.addEventListener('input', function () {
-    state.query = searchInput.value;
-    syncSearchPh();
+  /* ── План: выбор дня ────────────────────────────────────────────── */
+  var planEditDow = 1;
+  function pickCount(n) {
+    if (n === 1) return 'упражнение';
+    if (n < 5) return 'упражнения';
+    return 'упражнений';
+  }
+  function openPlanDaySheet(dow) {
+    planEditDow = dow;
+    document.getElementById('plan-sheet-title').textContent = DOW_FULL[dow - 1];
+    var box = document.getElementById('plan-picker');
+    box.innerHTML = '';
+    addPlanPick(box, { id: '', name: 'Отдых', items: [] }, dow);
+    SPORT_ORDER.forEach(function (sid) {
+      var group = allTemplates().filter(function (t) { return sportOf(t) === sid; });
+      if (!group.length) return;
+      var h = document.createElement('div');
+      h.className = 'plan-pick-group';
+      h.innerHTML = '<i class="plan-sport-dot" style="background:' + sportToken(sid) + '" aria-hidden="true"></i>' + (SPORTS[sid] || SPORTS.general).label;
+      box.appendChild(h);
+      group.forEach(function (t) { addPlanPick(box, t, dow); });
+    });
+    openSheet(planSheet);
+  }
+  function addPlanPick(box, t, dow) {
+    var cur = planEntry(dow);
+    var sel = (cur ? cur.tpl : '') === t.id;
+    var row = document.createElement('button');
+    row.type = 'button';
+    row.className = 'plan-pick-row' + (sel ? ' is-on' : '');
+    row.setAttribute('data-od-id', 'plan-pick-' + (t.id || 'none'));
+    row.innerHTML =
+      '<span class="plan-pick-main">' +
+        '<span class="plan-pick-name">' + t.name + '</span>' +
+        (t.items && t.items.length
+          ? '<span class="plan-pick-count">' + t.items.length + ' ' + pickCount(t.items.length) + '</span>'
+          : '') +
+      '</span>' +
+      '<span class="plan-pick-check"><svg aria-hidden="true"><use href="#ic-check"/></svg></span>';
+    if (t.coach) {
+      row.querySelector('.plan-pick-name').insertAdjacentHTML('beforeend', '<span class="plan-coach-tag">от тренера</span>');
+    }
+    row.addEventListener('click', function () {
+      setPlanEntry(planEditDow, t.id || null);
+      closeSheet();
+      renderPlan();
+      toast(t.id ? 'День назначен: ' + t.name : 'День отдыха');
+    });
+    box.appendChild(row);
+  }
+
+  /* ── План: загрузка в календарь ─────────────────────────────────── */
+  var loadWeeks = 4;
+  function renderPeriodChips() {
+    [].forEach.call(document.querySelectorAll('#load-period .chip'), function (b) {
+      b.classList.toggle('is-on', +b.getAttribute('data-w') === loadWeeks);
+    });
+  }
+  function planDates() {
+    var out = [];
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    var todayDow = (today.getDay() + 6) % 7;
+    plan.days.forEach(function (d) {
+      if (!d.tpl) return;
+      var tpl = templateById(d.tpl);
+      if (!tpl) return;
+      var idx = d.dow - 1;
+      for (var w = 0; w < loadWeeks; w++) {
+        var dt = new Date(today);
+        dt.setDate(today.getDate() + ((idx - todayDow + 7) % 7) + w * 7);
+        out.push({ y: dt.getFullYear(), m: dt.getMonth(), d: dt.getDate(), dowName: DOW[d.dow - 1], tpl: tpl });
+      }
+    });
+    out.sort(function (a, b) { return (a.y - b.y) || (a.m - b.m) || (a.d - b.d); });
+    return out;
+  }
+  function fmtDate(pd) {
+    return pd.dowName + ' ' + pd.d + '.' + (pd.m < 9 ? '0' : '') + (pd.m + 1) + '.' + pd.y;
+  }
+  function hasPlanOn(pd) {
+    return allEvents().some(function (e) { return e.y === pd.y && e.m === pd.m && e.d === pd.d && e.plan; });
+  }
+  function renderLoadPreview() {
+    var dates = planDates();
+    var box = document.getElementById('load-preview');
+    var go = document.getElementById('load-go');
+    if (!dates.length) {
+      box.innerHTML = '<div class="load-note">План пуст — назначьте хотя бы один день.</div>';
+      go.textContent = 'Добавить в календарь';
+      go.setAttribute('disabled', '');
+      return;
+    }
+    go.removeAttribute('disabled');
+    var skipped = 0;
+    var rows = [];
+    dates.forEach(function (pd) {
+      var skip = hasPlanOn(pd);
+      if (skip) skipped++;
+      rows.push(
+        '<div class="load-row' + (skip ? ' is-skip' : '') + '">' +
+        '<span class="lr-date">' + fmtDate(pd) + '</span>' +
+        '<span class="lr-dot" aria-hidden="true"></span>' +
+        '<span class="lr-tpl">' + pd.tpl.name + '</span>' +
+        '</div>');
+    });
+    var added = dates.length - skipped;
+    box.innerHTML =
+      '<span class="load-count">' + added + ' к добавлению' +
+        (skipped ? ' · ' + skipped + ' уже есть' : '') + ' · ' + loadWeeks + ' нед.</span>' +
+      rows.join('');
+    go.textContent = 'Добавить ' + added + ' в календарь';
+  }
+  function openLoadSheet() {
+    renderPeriodChips();
+    renderLoadPreview();
+    openSheet(loadSheet);
+  }
+  function timeRange(t) {
+    var q = t.split(':');
+    var hh = (+q[0] + 1) % 24;
+    return t + ' – ' + (hh < 10 ? '0' : '') + hh + ':' + q[1];
+  }
+  function doLoadPlan() {
+    var dates = planDates();
+    if (!dates.length) { closeSheet(); return; }
+    var overlay = overlayEvents();
+    var added = 0, skipped = 0, first = null;
+    dates.forEach(function (pd) {
+      if (hasPlanOn(pd)) { skipped++; return; }
+      if (!first) first = pd;
+      overlay.push({
+        y: pd.y, m: pd.m, d: pd.d,
+        type: 'me', title: pd.tpl.name,
+        time: timeRange(plan.time),
+        place: 'По плану',
+        status: 'confirmed',
+        plan: true,
+        sport: sportOf(pd.tpl)
+      });
+      added++;
+    });
+    if (added) saveOverlayEvents(overlay);
+    closeSheet();
+    renderPlan();
+    if (first) {
+      state.viewY = first.y;
+      state.viewM = first.m;
+      state.selected = { y: first.y, m: first.m, d: first.d };
+    }
     refreshViews();
+    toast(added
+      ? 'Добавлено ' + added + (skipped ? ', пропущено ' + skipped + ' (уже есть)' : '')
+      : 'План уже весь в календаре');
+  }
+  function removePlanEvents() {
+    saveOverlayEvents(overlayEvents().filter(function (e) { return !e.plan; }));
+    renderPlan();
+    refreshViews();
+    toast('План убран из календаря');
+  }
+
+  document.getElementById('tab-cal').addEventListener('click', function () { setView('cal'); });
+  document.getElementById('tab-plan').addEventListener('click', function () { setView('plan'); });
+  document.getElementById('plan-load').addEventListener('click', openLoadSheet);
+  document.getElementById('plan-remove').addEventListener('click', removePlanEvents);
+  document.getElementById('plan-sheet-close').addEventListener('click', closeSheet);
+  document.getElementById('load-close').addEventListener('click', closeSheet);
+  document.getElementById('load-cancel').addEventListener('click', closeSheet);
+  document.getElementById('load-go').addEventListener('click', doLoadPlan);
+  document.getElementById('load-period').addEventListener('click', function (ev) {
+    var b = ev.target.closest('.chip');
+    if (!b) return;
+    loadWeeks = +b.getAttribute('data-w');
+    renderPeriodChips();
+    renderLoadPreview();
   });
-  searchInput.addEventListener('search', syncSearchPh);
-  syncSearchPh();
+  document.getElementById('plan-time').addEventListener('change', function () {
+    if (this.value) { plan.time = this.value; savePlan(); renderPlan(); }
+  });
 
   renderChips();
   renderStatusSwitches();
