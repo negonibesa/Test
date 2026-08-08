@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaf4ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<title>Петровское СП — поиск</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #eef6ff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
+
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
+
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
+
+  --accent: #1a86e0;
+  --accent-on: #ffffff;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
+
+  --success: #2bb066;
+  --warn:    #ffc93c;
+  --danger:  #ff4d4d;
+
+  --gto-bronze: #c9a06b;
+  --gto-silver: #a9b6c9;
+  --gto-gold:   #ffc93c;
+
+  --type-me: #2f9e54;
+  --type-trainer: #ffc93c;
+  --type-event: #0b3d91;
+  --type-club: #7ec8ff;
+  --type-rental: #4a6fa5;
+  --type-gto: #c9a06b;
+
+  --st-confirmed: var(--accent);
+  --st-pending: var(--yellow);
+  --st-open: #0b3d91;
+  --st-done: var(--meta);
+  --st-cancelled: var(--danger);
+
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 980px;
+
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
+  color: var(--fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+.app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+  min-height: 100vh;
+}
+
+/* ── Шапка ─────────────────────────────────────────────────────────── */
+.hd {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 24px 16px 10px;
+}
+@media (min-width: 560px) { .hd { padding: 36px 24px 14px; } }
+.back {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--fg-2);
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.back:hover { background: var(--surface); }
+.back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.back svg { width: 18px; height: 18px; }
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  height: 48px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0 6px 0 16px;
+}
+.searchbar:focus-within {
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+.searchbar-ic { width: 18px; height: 18px; color: var(--meta); flex: none; }
+.searchbar input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--fg);
+}
+.searchbar input::placeholder { color: var(--meta); }
+.search-mic {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: none;
+  color: var(--meta);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.search-mic:hover { color: var(--fg-2); }
+.search-mic:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.search-mic svg { width: 18px; height: 18px; }
+.search-clear {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.search-clear:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.search-clear svg { width: 15px; height: 15px; }
+
+/* ── Категории ─────────────────────────────────────────────────────── */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 16px 14px;
+  scrollbar-width: none;
+}
+@media (min-width: 560px) { .chips { padding-left: 24px; padding-right: 24px; } }
+.chips::-webkit-scrollbar { display: none; }
+.fchip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard);
+}
+.fchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.fchip .cnt {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+}
+.fchip.is-on { background: var(--accent); border-color: var(--accent); color: var(--accent-on); }
+.fchip.is-on .cnt { background: rgba(255,255,255,0.24); color: #fff; }
+
+/* ── Стартовые блоки ───────────────────────────────────────────────── */
+.body { padding: 0 0 24px; }
+.group-label {
+  margin: 18px 16px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+@media (min-width: 560px) { .group-label { margin-left: 24px; margin-right: 24px; } }
+.qchips { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px; }
+@media (min-width: 560px) { .qchips { padding-left: 24px; padding-right: 24px; } }
+.qchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.qchip:hover { background: var(--surface-warm); }
+.qchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.qchip svg { width: 13px; height: 13px; color: var(--meta); }
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 0 16px;
+}
+@media (min-width: 560px) { .cat-grid { padding-left: 24px; padding-right: 24px; } }
+.cat-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+.cat-tile:active { transform: scale(0.985); }
+.cat-tile:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.cat-tile:hover { background: var(--surface-warm); }
+.ct-ic {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--c, var(--accent));
+  background: color-mix(in srgb, var(--c, var(--accent)) 14%, white);
+}
+.ct-ic svg { width: 20px; height: 20px; }
+.ct-tx { flex: 1; min-width: 0; }
+.ct-tx b { display: block; font-size: 14px; }
+.ct-tx small { display: block; font-size: 11px; color: var(--meta); margin-top: 1px; }
+.ct-chev { flex: none; color: var(--meta); }
+.ct-chev svg { width: 15px; height: 15px; }
+
+/* ── Карточки результатов ──────────────────────────────────────────── */
+.results-count { padding: 4px 16px 4px; font-size: 13px; color: var(--meta); }
+@media (min-width: 560px) { .results-count { padding-left: 24px; padding-right: 24px; } }
+.results-count b { color: var(--fg-2); }
+.res {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 16px 10px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  width: calc(100% - 32px);
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+@media (min-width: 560px) { .res { margin-left: 24px; margin-right: 24px; width: calc(100% - 48px); } }
+.res:active { transform: scale(0.995); }
+.res:hover { background: var(--surface-warm); }
+.res:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.r-ic {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: var(--c, var(--accent));
+  background: color-mix(in srgb, var(--c, var(--accent)) 14%, white);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+}
+.r-ic svg { width: 21px; height: 21px; }
+.av { width: 100%; height: 100%; display: block; border-radius: 50%; }
+.r-ic .av { width: 36px; height: 36px; }
+.r-body { flex: 1; min-width: 0; }
+.r-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.r-title b { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+.r-meta { display: block; font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+.r-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--meta); display: inline-block; vertical-align: middle; margin: 0 6px; }
+.r-side { flex: none; text-align: right; }
+.r-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c, var(--accent));
+  background: color-mix(in srgb, var(--c, var(--accent)) 14%, white);
+  border-radius: var(--radius-pill);
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+.r-price { display: block; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: 4px; }
+.r-chev { flex: none; color: var(--meta); }
+.r-chev svg { width: 16px; height: 16px; }
+.r-stars { color: var(--yellow); font-size: 12px; letter-spacing: 1px; }
+
+.empty {
+  margin: 40px 16px;
+  text-align: center;
+  color: var(--meta);
+}
+.empty svg { width: 44px; height: 44px; opacity: 0.6; }
+.empty b { display: block; margin-top: 12px; font-size: 15px; color: var(--muted); }
+.empty span { display: block; margin-top: 4px; font-size: 13px; }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  z-index: 70;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  background: var(--fg);
+  color: var(--surface-warm);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+</style>
+</head>
+<body data-od-id="search">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="ic-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 11a6 6 0 0 0 12 0M12 17v3M9 20h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ic-dumbbell" viewBox="0 0 24 24"><rect x="3" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="17.8" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6.2 12h11.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 6-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 7H19v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd" data-od-id="search-header">
+    <a class="back" href="home-athlete-brand.html" aria-label="Назад на главную"><svg aria-hidden="true"><use href="#ic-back"/></svg></a>
+    <div class="searchbar" role="search">
+      <svg class="searchbar-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+      <input id="search-input" data-od-id="search-input" type="search" placeholder="Поиск по всему приложению" aria-label="Поиск" autocomplete="off" autofocus>      <button type="button" class="search-clear" id="search-clear" aria-label="Очистить поиск" style="display:none"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+      <button type="button" class="search-mic" id="search-mic" aria-label="Голосовой поиск"><svg aria-hidden="true"><use href="#ic-mic"/></svg></button>
+    </div>
+  </header>
+
+  <div class="chips" id="search-filters" data-od-id="search-filters" role="group" aria-label="Категория поиска"></div>
+
+  <main class="body" id="search-body" data-od-id="search-body"></main>
+</div>
+
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  function avaId(name) {
+    if (name === 'Вы') return 8;
+    var h = 0;
+    for (var i = 0; i < name.length; i++) { h = (h * 31 + name.charCodeAt(i)) >>> 0; }
+    return (h % 8) + 1;
+  }
+  function avaHTML(name) {
+    return '<svg class="av" aria-hidden="true"><use href="#ava-' + avaId(name) + '"/></svg>';
+  }
+
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, 2200);
+  }
+
+  var STATUS = {
+    confirmed: { label: 'Подтверждено', c: 'var(--st-confirmed)' },
+    pending:   { label: 'Ожидает',      c: 'var(--st-pending)' },
+    open:      { label: 'Открыта',      c: 'var(--st-open)' },
+    done:      { label: 'Завершено',    c: 'var(--st-done)' },
+    cancelled: { label: 'Отменено',     c: 'var(--st-cancelled)' }
+  };
+  var TYPE_TOKEN = {
+    me: 'var(--type-me)', trainer: 'var(--type-trainer)',
+    event: 'var(--type-event)', club: 'var(--type-club)', rental: 'var(--type-rental)'
+  };
+
+  var CATS = [
+    { key: 'all',     label: 'Всё',        ic: 'ic-search' },
+    { key: 'event',   label: 'События',    ic: 'ic-events' },
+    { key: 'coach',   label: 'Тренеры',    ic: 'ic-dumbbell' },
+    { key: 'club',    label: 'Клубы',      ic: 'ic-users' },
+    { key: 'person',  label: 'Спортсмены', ic: 'ic-user' },
+    { key: 'place',   label: 'Площадки',   ic: 'ic-cal' }
+  ];
+
+  var QUICK = ['плавание', 'кубок', 'йога', 'теннис'];
+
+  var DATA = [
+    { cat: 'event', type: 'event',  title: 'Летний Кубок Петровского',  meta: 'Сб, 16 авг · 10:00 – 18:00', place: 'Стадион «Центральный»', status: 'open',   kw: 'кубок соревнование турнир стадион центральный лето', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'me',     title: 'Плавание',                  meta: 'Вт, 26 авг · 07:00 – 08:00', place: 'Бассейн «Волна»',      status: 'confirmed', kw: 'плавание бассейн волна утро', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'trainer',title: 'Силовая тренировка с тренером', meta: 'Завтра · 08:00 – 09:00', place: 'Зал № 2',              status: 'pending', kw: 'силовая тренировка тренер зал соколов', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'club',   title: 'Вечерняя пробежка клуба',    meta: 'Вс, 17 авг · 19:00 – 20:30', place: 'Парк Победы',        status: 'open',   kw: 'пробежка бег клуб север вечер парк победы', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'club',   title: 'Йога на свежем воздухе',     meta: 'Пт, 22 авг · 09:00 – 10:00', place: 'Летняя площадка',    status: 'open',   kw: 'йога клуб лотос площадка', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'event',  title: 'Сплав на байдарках',         meta: 'Сб, 23 авг · 09:00 – 15:00', place: 'Река Кудепста',      status: 'open',   kw: 'сплав байдарки река кудепста вода волков', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'event',  title: 'Шахматный турнир клуба',     meta: 'Вс, 24 авг · 12:00 – 16:00', place: 'Библиотека',         status: 'open',   kw: 'шахматы турнир библиотека', to: 'schedule-calendar.html' },
+    { cat: 'event', type: 'rental', title: 'Аренда зала',                meta: 'Ср, 20 авг · 20:00 – 22:00', place: 'Зал № 1',            status: 'confirmed', kw: 'аренда зал бронь площадка', to: 'schedule-calendar.html' },
+
+    { cat: 'coach', ini: 'ИМ', name: 'Иванов М.', spec: 'Силовые тренировки', rating: '4.9', price: '800 ₽', meta: 'Свободен завтра с 09:00', kw: 'тренер иванов силовые силы зал' },
+    { cat: 'coach', ini: 'ПА', name: 'Петрова А.', spec: 'Плавание', rating: '4.8', price: '700 ₽', meta: 'Свободна сегодня с 15:00', kw: 'тренер петрова плавание бассейн' },
+    { cat: 'coach', ini: 'АС', name: 'Соколов А.', spec: 'Силовые тренировки', rating: '4.9', price: '900 ₽', meta: 'Свободен завтра с 08:00', kw: 'тренер соколов силовые' },
+
+    { cat: 'club', name: 'Беговой клуб «Север»', members: 12, sport: 'Бег',  meta: '12 участников · вс и ср', kw: 'клуб бег север пробежка', to: 'events-system.html' },
+    { cat: 'club', name: 'Йога-клуб «Лотос»',    members: 8,  sport: 'Йога', meta: '8 участников · пт и вс',   kw: 'клуб йога лотос', to: 'events-system.html' },
+
+    { cat: 'person', ini: 'МС', name: 'Мария Соколова', role: 'Спортсмен', gto: 'Серебро', meta: '3-е место в беге · регион', kw: 'соколова мария спортсмен бег' },
+    { cat: 'person', ini: 'АВ', name: 'Андрей Волков',  role: 'Организатор событий', gto: null, meta: 'Организует сплавы и походы', kw: 'волков андрей организатор сплав' },
+
+    { cat: 'place', name: 'Тренажёрный зал',   place: 'Спорткомплекс «Петровское»', free: true,  meta: 'Свободно · до 23:00', kw: 'тренажёрный зал спорткомплекс', to: 'create-event.html' },
+    { cat: 'place', name: 'Бассейн «Волна»',   place: 'Спорткомплекс «Петровское»', free: true,  meta: 'Свободно · до 22:00', kw: 'бассейн волна', to: 'create-event.html' },
+    { cat: 'place', name: 'Теннисный корт № 3', place: 'Спорткомплекс «Петровское»', free: false, meta: 'Занят до 18:00 · далее свободен', kw: 'теннис корт', to: 'create-event.html' },
+    { cat: 'place', name: 'Стадион «Центральный»', place: 'ул. Спортивная, 1',        free: true,  meta: 'Свободен · до 23:00', kw: 'стадион центральный', to: 'create-event.html' }
+  ];
+
+  var state = { q: '', cat: 'all' };
+
+  function countByCat(cat) {
+    return cat === 'all' ? DATA.length : DATA.filter(function (d) { return d.cat === cat; }).length;
+  }
+  function matches(d, q) {
+    var hay = (d.title || d.name || '') + ' ' + (d.meta || '') + ' ' + (d.place || '') + ' ' + (d.kw || '') + ' ' + (d.spec || '') + ' ' + (d.role || '');
+    return hay.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+  }
+  function results() {
+    return DATA.filter(function (d) {
+      var catOk = state.cat === 'all' || d.cat === state.cat;
+      var qOk = state.q === '' || matches(d, state.q);
+      return catOk && qOk;
+    });
+  }
+
+  function renderFilters() {
+    var box = document.getElementById('search-filters');
+    box.innerHTML = '';
+    CATS.forEach(function (c) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'fchip' + (state.cat === c.key ? ' is-on' : '');
+      b.setAttribute('data-od-id', 'search-filter-' + c.key);
+      b.innerHTML = c.label + '<span class="cnt">' + countByCat(c.key) + '</span>';
+      b.addEventListener('click', function () {
+        state.cat = c.key;
+        renderFilters();
+        renderBody();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function eventCard(d) {
+    var st = STATUS[d.status];
+    return '<a class="res" data-od-id="search-result-event" href="' + d.to + '" style="--c:' + (TYPE_TOKEN[d.type] || 'var(--accent)') + '">' +
+      '<span class="r-ic" aria-hidden="true"><svg><use href="#ic-events"/></svg></span>' +
+      '<span class="r-body">' +
+        '<span class="r-title"><b>' + d.title + '</b><span class="r-badge" style="--c:' + st.c + '">' + st.label + '</span></span>' +
+        '<span class="r-meta">' + d.meta + '<span class="dot" aria-hidden="true"></span>' + d.place + '</span>' +
+      '</span>' +
+      '<span class="r-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' +
+    '</a>';
+  }
+
+  function coachCard(d) {
+    return '<button type="button" class="res" data-od-id="search-result-coach" style="--c:var(--type-trainer)">' +
+      '<span class="r-ic" aria-hidden="true">' + avaHTML(d.name) + '</span>' +
+      '<span class="r-body">' +
+        '<span class="r-title"><b>' + d.name + '</b></span>' +
+        '<span class="r-meta">' + d.spec + '<span class="dot" aria-hidden="true"></span><span class="r-stars">★★★★★</span> ' + d.rating + '<span class="dot" aria-hidden="true"></span>' + d.meta + '</span>' +
+      '</span>' +
+      '<span class="r-side"><span class="r-price">' + d.price + '</span></span>' +
+      '<span class="r-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' +
+    '</button>';
+  }
+
+  function clubCard(d) {
+    return '<a class="res" data-od-id="search-result-club" href="' + d.to + '" style="--c:var(--type-club)">' +
+      '<span class="r-ic" aria-hidden="true"><svg><use href="#ic-users"/></svg></span>' +
+      '<span class="r-body">' +
+        '<span class="r-title"><b>' + d.name + '</b><span class="r-badge" style="--c:var(--type-club)">' + d.sport + '</span></span>' +
+        '<span class="r-meta">' + d.meta + '</span>' +
+      '</span>' +
+      '<span class="r-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' +
+    '</a>';
+  }
+
+  function personCard(d) {
+    var g = d.gto ? '<span class="r-badge" style="--c:var(--type-gto)"><svg style="width:11px;height:11px;vertical-align:-1px;margin-right:3px;" aria-hidden="true"><use href="#ic-medal"/></svg>' + d.gto + '</span>' : '';
+    return '<button type="button" class="res" data-od-id="search-result-person" style="--c:var(--accent)">' +
+      '<span class="r-ic" aria-hidden="true">' + avaHTML(d.name) + '</span>' +
+      '<span class="r-body">' +
+        '<span class="r-title"><b>' + d.name + '</b>' + g + '</span>' +
+        '<span class="r-meta">' + d.role + '<span class="dot" aria-hidden="true"></span>' + d.meta + '</span>' +
+      '</span>' +
+      '<span class="r-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' +
+    '</button>';
+  }
+
+  function placeCard(d) {
+    return '<a class="res" data-od-id="search-result-place" href="' + d.to + '" style="--c:var(--type-rental)">' +
+      '<span class="r-ic" aria-hidden="true"><svg><use href="#ic-cal"/></svg></span>' +
+      '<span class="r-body">' +
+        '<span class="r-title"><b>' + d.name + '</b></span>' +
+        '<span class="r-meta">' + d.place + '</span>' +
+      '</span>' +
+      '<span class="r-side"><span class="r-badge" style="--c:' + (d.free ? 'var(--success)' : 'var(--warn)') + '">' + (d.free ? 'Свободно' : 'Занят') + '</span></span>' +
+      '<span class="r-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' +
+    '</a>';
+  }
+
+  function renderResults() {
+    var list = results();
+    var box = document.getElementById('search-body');
+    if (!list.length) {
+      box.innerHTML = '<div class="empty" data-od-id="search-empty"><svg aria-hidden="true"><use href="#ic-search"/></svg><b>Ничего не найдено</b><span>По запросу «' + state.q + '» — попробуйте иначе</span></div>';
+      return;
+    }
+    var html = '<div class="results-count" data-od-id="search-count">Найдено: <b>' + list.length + '</b></div>';
+    list.forEach(function (d) {
+      if (d.cat === 'event') html += eventCard(d);
+      else if (d.cat === 'coach') html += coachCard(d);
+      else if (d.cat === 'club') html += clubCard(d);
+      else if (d.cat === 'person') html += personCard(d);
+      else html += placeCard(d);
+    });
+    box.innerHTML = html;
+    box.querySelectorAll('[data-od-id="search-result-coach"]').forEach(function (b) {
+      b.addEventListener('click', function () { toast('Профиль тренера — в следующей итерации'); });
+    });
+    box.querySelectorAll('[data-od-id="search-result-person"]').forEach(function (b) {
+      b.addEventListener('click', function () { toast('Профиль спортсмена откроется в полной версии'); });
+    });
+  }
+
+  function renderStart() {
+    var box = document.getElementById('search-body');
+    var popular = DATA.filter(function (d) { return d.cat === 'event'; }).slice(0, 3);
+    var html = '';
+    html += '<h2 class="group-label">Недавние</h2>';
+    html += '<div class="qchips" data-od-id="search-quick">';
+    QUICK.forEach(function (q) {
+      html += '<button type="button" class="qchip"><svg aria-hidden="true"><use href="#ic-clock"/></svg>' + q + '</button>';
+    });
+    html += '</div>';
+    html += '<h2 class="group-label">Популярное сейчас</h2>';
+    html += '<div data-od-id="search-popular">';
+    popular.forEach(function (d) { html += eventCard(d); });
+    html += '</div>';
+    html += '<h2 class="group-label">Категории</h2>';
+    html += '<div class="cat-grid" data-od-id="search-cats">';
+    CATS.slice(1).forEach(function (c) {
+      var token = c.key === 'event' ? 'var(--type-event)' : c.key === 'coach' ? 'var(--type-trainer)' : c.key === 'club' ? 'var(--type-club)' : c.key === 'person' ? 'var(--accent)' : 'var(--type-rental)';
+      html += '<button type="button" class="cat-tile" data-cat="' + c.key + '" style="--c:' + token + '">' +
+        '<span class="ct-ic" aria-hidden="true"><svg><use href="#' + c.ic + '"/></svg></span>' +
+        '<span class="ct-tx"><b>' + c.label + '</b><small>' + countByCat(c.key) + ' результата</small></span>' +
+        '<span class="ct-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>' +
+      '</button>';
+    });
+    html += '</div>';
+    box.innerHTML = html;
+
+    box.querySelectorAll('.qchip').forEach(function (ch) {
+      ch.addEventListener('click', function () {
+        var inp = document.getElementById('search-input');
+        inp.value = ch.textContent.trim();
+        state.q = inp.value;
+        syncClear();
+        renderBody();
+      });
+    });
+    box.querySelectorAll('.cat-tile').forEach(function (t) {
+      t.addEventListener('click', function () {
+        state.cat = t.getAttribute('data-cat');
+        renderFilters();
+        renderBody();
+      });
+    });
+  }
+
+  function renderBody() {
+    if (state.q === '' && state.cat === 'all') {
+      renderStart();
+    } else {
+      renderResults();
+    }
+  }
+
+  function syncClear() {
+    var clear = document.getElementById('search-clear');
+    clear.style.display = state.q ? '' : 'none';
+  }
+
+  var input = document.getElementById('search-input');
+  input.addEventListener('input', function () {
+    state.q = input.value;
+    syncClear();
+    renderBody();
+  });
+  input.addEventListener('search', function () { state.q = input.value; syncClear(); renderBody(); });
+
+  document.getElementById('search-clear').addEventListener('click', function () {
+    input.value = '';
+    state.q = '';
+    state.cat = 'all';
+    syncClear();
+    renderFilters();
+    renderBody();
+    input.focus();
+  });
+
+  document.getElementById('search-mic').addEventListener('click', function () {
+    toast('Голосовой поиск — в следующей итерации');
+  });
+
+  renderFilters();
+  renderBody();
+})();
+</script>
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+<symbol id="ava-1" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#FDF3D9"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#ffc93c"/><path d="M21 27 C21 16 28 10 36 10 C44 10 51 16 51 27 L51 30 C47 22 43 19 36 19 C29 19 25 22 21 30 Z" fill="#5C3A21"/><circle cx="36" cy="8" r="5.5" fill="#5C3A21"/><circle cx="21.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="50.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="36" cy="33" r="15" fill="#E0AC79"/></symbol>
+<symbol id="ava-2" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#0b3d91"/><path d="M21 25 C21 16 27 10 36 10 C45 10 51 16 51 25 C51 22 46 18 36 18 C26 18 21 22 21 25 Z" fill="#0F0F0F"/><circle cx="21.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="50.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="36" cy="33" r="15" fill="#E0AC79"/></symbol>
+<symbol id="ava-3" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E8F6EC"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#2f9e54"/><circle cx="24" cy="22" r="5.5" fill="#1A1A1A"/><circle cx="30" cy="16" r="6" fill="#1A1A1A"/><circle cx="38" cy="14" r="6.5" fill="#1A1A1A"/><circle cx="46" cy="17" r="6" fill="#1A1A1A"/><circle cx="50" cy="24" r="5.5" fill="#1A1A1A"/><circle cx="21.5" cy="34" r="2.6" fill="#9C6640"/><circle cx="50.5" cy="34" r="2.6" fill="#9C6640"/><circle cx="36" cy="33" r="15" fill="#9C6640"/></symbol>
+<symbol id="ava-4" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#FDF3D9"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#ffc93c"/><path d="M20 25 C20 14 27 8 36 8 C45 8 52 14 52 25 C52 18 46 13 36 13 C26 13 20 18 20 25 Z" fill="#3B2B20"/><circle cx="21.5" cy="34" r="2.6" fill="#6B4226"/><circle cx="50.5" cy="34" r="2.6" fill="#6B4226"/><circle cx="36" cy="33" r="15" fill="#6B4226"/><circle cx="30" cy="33" r="4.2" fill="none" stroke="#12213b" stroke-width="1.6"/><circle cx="42" cy="33" r="4.2" fill="none" stroke="#12213b" stroke-width="1.6"/><line x1="34.2" y1="33" x2="37.8" y2="33" stroke="#12213b" stroke-width="1.6"/></symbol>
+<symbol id="ava-5" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#1a86e0"/><path d="M20 24 C20 14 27 8 36 8 C45 8 52 14 52 24 L52 27 C48 20 43 16 36 16 C29 16 24 20 20 27 Z" fill="#7A4B2A"/><circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="36" cy="33" r="15" fill="#F2C6A0"/><rect x="19" y="24" width="34" height="5.5" rx="2.5" fill="#ffc93c"/></symbol>
+<symbol id="ava-6" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E8F6EC"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#4a6fa5"/><path d="M20 46 C18 30 20 12 36 12 C52 12 54 30 52 46 L47 46 C48 32 46 20 36 20 C26 20 24 32 25 46 Z" fill="#2B2118"/><circle cx="21.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="50.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="36" cy="33" r="15" fill="#C68A57"/></symbol>
+<symbol id="ava-7" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#1a86e0"/><path d="M20 26 C20 15 28 9 36 9 C44 9 52 15 52 26 C52 20 47 15 36 15 C25 15 20 20 20 26 Z" fill="#2B2118"/><circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="36" cy="33" r="15" fill="#F2C6A0"/></symbol>
+<symbol id="ava-8" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#4a6fa5"/><circle cx="21.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="50.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="36" cy="33" r="15" fill="#C68A57"/><path d="M19 30 C19 15 26 6 36 6 C46 6 53 15 53 30 C53 33 50 34 47 32 C44 30 42 33 38 32 C35 31 33 33 30 32 C27 31 24 33 21 32 C18 31 19 32 19 30 Z" fill="#0b3d91"/></symbol>
+</svg>
+</body>
+</html>

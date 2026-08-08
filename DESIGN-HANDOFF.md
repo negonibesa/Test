@@ -11,10 +11,10 @@ This archive is the source of truth for turning the design into production code.
 
 ## Source map
 - Primary entry: `index.html`
-- HTML screens detected: 19
+- HTML screens detected: 24
 - Stylesheets detected: 0
 - Script/component files detected: 0
-- Supporting assets detected: 9
+- Supporting assets detected: 26
 
 ## Responsive contract
 Validate the implementation across this 2025–2026 viewport matrix:
@@ -63,7 +63,9 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 8. Compare final screenshots against the export at 360×800, 390×844, 430×932, 820×1180, 1024×768, 1366×768, 1440×900, and 1920×1080 before declaring done.
 
 ## Entry points
-- `backup-home-athlete-brand.html`
+- `Петровское-СП-_-профиль-_-Спортсмен.html`
+- `Петровское-СП-_-UI-Kit-_эталон_-1.html`
+- `avatars-gallery_1.html`
 - `create-event.html`
 - `events-system.html`
 - `gto-plan.html`
@@ -72,15 +74,18 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 - `gto-workout.html`
 - `gto.html`
 - `home-athlete-brand.html`
-- `home-athlete.html`
 - `index.html`
-- `petrovskoe-home-brand_2.html`
-- `petrovskoe-mobile-prototype-1.html`
-- `petrovskoe-mobile-prototype.html`
+- `notifications.html`
+- `points-ratings.html`
+- `profile.html`
 - `qrscan.html`
 - `schedule-calendar.html`
+- `search.html`
 - `splash-phone.html`
 - `splash-screen.html`
+- `training-active.html`
+- `training-report.html`
+- `trainings.html`
 - `welcome-screen.html`
 
 ## Styles
@@ -91,12 +96,29 @@ For responsive web exports, treat these as a modern breakpoint system for one ad
 
 ## Assets and supporting files
 - `Анализ-ТЗ-мобильного-приложения.zip`
+- `Аудит_01-1.md`
+- `Аудит_01.md`
+- `Глобальный-аудит-и-ТЗ-на-исправление.md`
+- `ЕИС_Петровское_эксплуатация__черновик.docx`
+- `ЕИС_Петровское_эксплуатация__чистовик_для_распечатки.docx`
 - `Информационно-функциональная-архитектура.JSON`
 - `Петровское_СП_ТЗ_Этап_2_Веб_приложение_администрации_v1.docx`
+- `Петровское_СП_ТЗ_Этап_2_Мобильное_приложение_v1-_2_.docx`
+- `Приложение___4_к_Извещению_Проект_МК.docx`
+- `Приложение___5к_Извещению_Порядок_рассмотрения_и_оценки_заявок_на.docx`
+- `Приложение__1_к_Извещению_ТЕХНИЧЕСКОЕ_ЗАДАНИЕ.docx`
+- `Приложение__3_к_Извещению_Требования_к_заявке.docx`
+- `Приложение_2_к_Извещению_Обоснование_НМЦК.doc`
+- `ПРИМЕР_ЕИС_после_миграции_Руководство_пользователя.docx`
+- `ТЗ_МП_и_портал_спортивного_сообщества_ТЗ_2_этап_версия_4_Скр.docx`
+- `ТЗ_ПЕТРОВСКОЕ_СПОРТ_черновик_нетронутый_просто_сгенеренный-_2_.docx`
+- `ТЗ_ПЕТРОВСКОЕ_СПОРТ_черновик_нетронутый_просто_сгенеренный.docx`
 - `events-system.png`
 - `Gerb_Camera_00015_00015-0.png`
 - `Gerb_Camera_00015-0.png`
 - `image.png`
+- `petrovskoe-sp-consolidated_3.zip`
+- `PROJECT_BRIEF.md`
 - `schedule-calendar.png`
 - `sketch-2026-08-05T20-43-56.sketch.json`
 

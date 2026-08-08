@@ -993,7 +993,6 @@ body.no-scroll { overflow: hidden; }
     </div>
     <div class="hd-acts">
       <button class="icon-btn" data-search-toggle aria-label="Поиск"><svg aria-hidden="true"><use href="#ic-search"/></svg></button>
-      <a class="icon-btn" href="qrscan.html" aria-label="Сканер QR-кодов"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
       <button class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg></button>
     </div>
   </header>
@@ -1097,7 +1096,7 @@ body.no-scroll { overflow: hidden; }
 <nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
   <button class="tab is-on" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg>Главная</button>
   <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><svg aria-hidden="true"><use href="#ic-events"/></svg>Расписание</a>
-  <button class="tab" data-toast="Тренировки — в следующей итерации" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировки</button>
+  <a class="tab" href="trainings.html" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировки</a>
   <button class="tab" data-toast="Профиль — в следующей итерации" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg>Профиль</button>
 </nav>
 
@@ -1275,7 +1274,7 @@ body.no-scroll { overflow: hidden; }
         list = [
           act('check', 'Подтвердить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'confirmed'); }),
           act('x', 'Отклонить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'cancelled'); }),
-          act('chat', 'Написать тренеру', true, null, function () { toast('Чат с тренером откроется в полной версии'); }),
+          act('chat', 'Написать тренеру', true, null, function () { location.href = 'training-report.html'; }),
           share,
           act('x', 'Отменить', e.status === 'confirmed', 'После подтверждения', function () { setStatus(e.id, 'cancelled'); })
         ];

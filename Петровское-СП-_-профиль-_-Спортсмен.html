@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)file:///C:/Users/Rakutin/Downloads/profile-v2_2.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaf4ff">
+<title>Петровское СП — профиль · Спортсмен</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Петровское СП — профиль · Спортсмен_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg: #eaf4ff;
+  --surface: #ffffff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
+
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
+
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
+
+  --accent: #1a86e0;
+  --accent-on: #ffffff;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
+
+  --success: #2bb066;
+  --warn: #ffc93c;
+  --danger: #ff4d4d;
+
+  --gto-bronze: #c9a06b;
+  --gto-silver: #a9b6c9;
+  --gto-gold: #ffc93c;
+
+  --type-me: #2f9e54;
+  --type-trainer: #ffc93c;
+  --type-event: #0b3d91;
+  --type-club: #7ec8ff;
+  --type-rental: #4a6fa5;
+  --type-gto: #c9a06b;
+
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 980px;
+
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 50% -10%, #d9ecff 0%, var(--bg) 55%, var(--bg) 100%);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+
+.app { max-width: 700px; margin: 0 auto; padding: 0 0 calc(96px + env(safe-area-inset-bottom)); min-height: 100vh; }
+
+/* ── Шапка: те же размеры, что на главном экране ─────────────────── */
+.hd {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 16px 16px;
+}
+.back, .icon-btn {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.back:hover, .icon-btn:hover { background: var(--surface-2); }
+.back:focus-visible, .icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.back svg, .icon-btn svg { width: 20px; height: 20px; }
+.hd-txt { flex: 1; min-width: 0; }
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  color: var(--fg);
+}
+.hd .sub { margin: 3px 0 0; font-size: 13px; color: var(--muted); }
+
+.body { padding: 0 16px; }
+
+/* ── Hero: аватар 72px, как в спеке ───────────────────────────────── */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-top: 4px;
+}
+.hero-ava {
+  position: relative;
+  flex: none;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--accent-on);
+  background: linear-gradient(150deg, var(--accent), var(--accent-active));
+  cursor: pointer;
+}
+.hero-ava .cam {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--bg);
+  display: grid;
+  place-items: center;
+  color: var(--fg-2);
+}
+.hero-ava .cam svg { width: 12px; height: 12px; }
+.hero-tx { flex: 1; min-width: 0; }
+.hero-tx h2 { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.hero-role { display: block; margin-top: 2px; font-size: 13px; color: var(--muted); }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.hchip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600; color: var(--fg-2);
+  background: var(--surface-2); border-radius: var(--radius-pill); padding: 4px 9px;
+}
+.hchip svg { width: 12px; height: 12px; }
+.hchip.is-gto { color: var(--gto-silver); background: rgba(169,182,201,0.18); }
+.hchip.is-pts { color: #b8860b; background: rgba(255,201,60,0.18); }
+
+/* ── Статы (переиспользован паттерн главного экрана) ──────────────── */
+.sec { margin-top: 28px; }
+.sec-head { display: flex; align-items: baseline; gap: 10px; padding: 0 2px 12px; }
+.sec-head h3 {
+  margin: 0; flex: 1;
+  font-family: var(--font-display); font-size: 17px; font-weight: 600; letter-spacing: 0.01em;
+}
+.sec-all {
+  display: inline-flex; align-items: center; gap: 3px; border: 0; background: none;
+  font-size: 13px; font-weight: 600; color: var(--accent); cursor: pointer; padding: 0;
+}
+.sec-all svg { width: 12px; height: 12px; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 14px 12px; text-align: left; cursor: pointer; font: inherit; color: inherit;
+}
+.stat-top { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--meta); }
+.stat-top svg { width: 13px; height: 13px; color: var(--fg-2); }
+.stat-val { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 22px; font-weight: 600; }
+.stat-val small { font-size: 12px; font-weight: 500; color: var(--muted); }
+.stat-sub { display: block; margin-top: 4px; font-size: 11px; color: var(--muted); }
+.stat-sub.is-up { color: var(--success); }
+
+/* ── Достижения: постоянный раздел, не тост ───────────────────────── */
+.ach-list { display: grid; gap: 8px; }
+.ach-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius-md);
+  padding: 10px 12px; cursor: default;
+}
+.ach-item.is-go { cursor: pointer; }
+.ach-item.is-go:hover { background: var(--surface-2); }
+.ach-chip { position: relative; flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #12213b; }
+.ach-chip svg { width: 20px; height: 20px; }
+.ach-chip.tone-silver { background: var(--gto-silver); }
+.ach-chip.tone-gold { background: var(--gto-gold); }
+.ach-chip.tone-accent { background: color-mix(in srgb, var(--accent) 20%, var(--surface)); color: var(--accent); }
+.ach-item.is-locked .ach-chip { background: var(--surface-2); color: var(--meta); box-shadow: inset 0 0 0 1.5px var(--border-strong); }
+.ach-item.is-locked .ach-chip svg { opacity: 0.5; }
+.ach-it { flex: 1; min-width: 0; }
+.ach-il { display: block; font-size: 14px; font-weight: 600; color: var(--fg); }
+.ach-ih { display: block; font-size: 12px; color: var(--meta); margin-top: 1px; }
+.ach-more {
+  width: 100%; margin-top: 4px; border: 1px dashed var(--border-strong); background: none;
+  border-radius: var(--radius-md); padding: 10px; font-size: 13px; font-weight: 600; color: var(--accent); cursor: pointer;
+}
+
+/* ── Друзья ────────────────────────────────────────────────────────── */
+.friends-row { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; }
+.friends-avas { display: flex; flex: none; }
+.f-ava {
+  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 13px; font-weight: 600; color: var(--accent-on); background: var(--accent);
+  border: 2px solid var(--surface);
+}
+.f-ava + .f-ava { margin-left: -10px; }
+.f-ava.is-more { background: var(--surface-2); color: var(--fg-2); }
+.friends-tx { flex: 1; min-width: 0; font-size: 13px; color: var(--muted); }
+.friends-tx b { color: var(--fg); }
+.btn-add-friend {
+  flex: none; min-height: 36px; padding: 0 14px; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill); background: var(--surface); color: var(--fg-2);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+}
+
+/* ── Бронирования (мои записи) ────────────────────────────────────── */
+.bk-list { display: grid; gap: 8px; }
+.bk-row {
+  display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border);
+  border-left: 3px solid var(--c, var(--border)); border-radius: var(--radius-md); padding: 10px 12px;
+}
+.bk-tx { flex: 1; min-width: 0; }
+.bk-title { display: block; font-size: 14px; font-weight: 600; color: var(--fg); }
+.bk-meta { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.bk-badge { flex: none; font-size: 11px; font-weight: 700; color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--surface)); border-radius: 7px; padding: 3px 8px; }
+
+/* ── ГТО-цель ──────────────────────────────────────────────────────── */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; }
+.card-title { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.gto-row { display: flex; align-items: center; gap: 12px; }
+.gto-ic { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--gto-silver); background: rgba(169,182,201,0.18); }
+.gto-ic svg { width: 20px; height: 20px; }
+.gto-tx { flex: 1; min-width: 0; }
+.gto-tx b { display: block; font-size: 14px; font-weight: 600; }
+.gto-tx small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.gto-progress { flex: none; width: 64px; text-align: right; }
+.gto-bar { display: block; height: 5px; border-radius: var(--radius-pill); background: var(--surface-2); overflow: hidden; }
+.gto-bar span { display: block; height: 100%; background: var(--accent); }
+.gto-progress small { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.row-chev { flex: none; color: var(--meta); }
+.row-chev svg { width: 16px; height: 16px; }
+
+/* ── Настройки / выход ─────────────────────────────────────────────── */
+.row {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  border: 0; background: none; padding: 12px 2px; cursor: pointer; border-radius: var(--radius-md);
+}
+.row:hover { background: var(--surface-2); }
+.row-ic { flex: none; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: var(--fg-2); background: var(--surface-2); }
+.row-ic svg { width: 17px; height: 17px; }
+.row-tx { flex: 1; min-width: 0; font-size: 14px; }
+.row.is-danger .row-ic { color: var(--danger); background: rgba(255,77,77,0.1); }
+.row.is-danger .row-tx { color: var(--danger); font-weight: 600; }
+
+/* ── Таббар: идентичен главному экрану ────────────────────────────── */
+.tabbar {
+  position: fixed; left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 100%; max-width: 700px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-soft);
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  z-index: 30;
+}
+.tab {
+  position: relative; border: 0; background: none; text-decoration: none;
+  display: grid; justify-items: center; gap: 3px; padding: 6px 0;
+  color: var(--meta); font-size: 10px; font-weight: 700; cursor: pointer; border-radius: var(--radius-md);
+}
+.tab svg { width: 20px; height: 20px; }
+.tab.is-on { color: var(--accent); }
+.tab.is-on svg { background: color-mix(in srgb, var(--accent) 16%, transparent); border-radius: var(--radius-pill); padding: 6px; width: 32px; height: 32px; box-sizing: border-box; }
+.notif { position: absolute; top: -2px; right: 2px; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 50%; background: var(--danger); color: #fff; font-size: 9px; font-weight: 700; display: grid; place-items: center; }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 70; }
+.toast { background: var(--fg); color: #fff; font-size: 14px; font-weight: 500; border-radius: var(--radius-pill); padding: 10px 18px; box-shadow: var(--elev-raised); animation: toast-in 0.3s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-back" viewBox="0 0 20 20"><path d="M12.5 4 L6 10 L12.5 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-cam" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="13.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle></symbol>
+  <symbol id="ic-edit" viewBox="0 0 24 24"><path d="M4 20l4.5-1L19.5 8a2.1 2.1 0 0 0-3-3L5.5 15.5 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"></circle></symbol>
+  <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 13v3M8.5 20h7M9.5 16h5l.5 4h-6l.5-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.8l-5.2 2.9 1-5.9-4.3-4.1 5.9-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 6-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15.5 7H19v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="14" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="4" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z" fill="currentColor"></path></symbol>
+  <symbol id="ic-chev" viewBox="0 0 18 18"><path d="M6.5 4 11.5 9 6.5 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-logout" viewBox="0 0 24 24"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 16l4-4-4-4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5L20 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd">
+    <a class="back" href="file:///C:/Users/Rakutin/Downloads/home-athlete-brand.html" aria-label="Назад на главную"><svg aria-hidden="true"><use href="#ic-back"></use></svg></a>
+    <div class="hd-txt">
+      <h1>Профиль</h1>
+    </div>
+    <button type="button" class="icon-btn" data-toast="Редактирование профиля откроется в полной версии" aria-label="Редактировать профиль"><svg aria-hidden="true"><use href="#ic-edit"></use></svg></button>
+  </header>
+
+  <main class="body">
+    <section class="hero">
+      <button type="button" class="hero-ava" data-toast="Смена фото откроется в полной версии" aria-label="Сменить фото">
+        И
+        <span class="cam" aria-hidden="true"><svg><use href="#ic-cam"></use></svg></span>
+      </button>
+      <div class="hero-tx">
+        <h2>Иван Петров</h2>
+        <span class="hero-role">Спортсмен · плавание, лёгкая атлетика</span>
+        <div class="hero-chips">
+          <span class="hchip is-gto"><svg aria-hidden="true"><use href="#ic-medal"></use></svg>ГТО · серебро</span>
+          <span class="hchip"><svg aria-hidden="true"><use href="#ic-trophy"></use></svg>12-е место в регионе</span>
+          <span class="hchip is-pts"><svg aria-hidden="true"><use href="#ic-star"></use></svg>Серия · 6 дней</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="stats">
+        <button type="button" class="stat" data-to="trainings.html">
+          <span class="stat-top"><svg aria-hidden="true"><use href="#ic-trend"></use></svg>Тренировок</span>
+          <span class="stat-val">38<small> за сезон</small></span>
+          <span class="stat-sub is-up">+3 на этой неделе</span>
+        </button>
+        <button type="button" class="stat" id="ach-jump">
+          <span class="stat-top"><svg aria-hidden="true"><use href="#ic-trophy"></use></svg>Достижений</span>
+          <span class="stat-val">14<small> / 20</small></span>
+          <span class="stat-sub">+1 за неделю</span>
+        </button>
+        <button type="button" class="stat" data-to="qrscan.html">
+          <span class="stat-top"><svg aria-hidden="true"><use href="#ic-qr"></use></svg>Мой QR</span>
+          <span class="stat-val">Активен</span>
+          <span class="stat-sub">вход в клуб</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="card">
+        <p class="card-title">Моя цель · ГТО</p>
+        <a class="gto-row" href="file:///C:/Users/Rakutin/Downloads/gto.html">
+          <span class="gto-ic" aria-hidden="true"><svg><use href="#ic-medal"></use></svg></span>
+          <span class="gto-tx"><b>Серебряный знак · Ступень VII</b><small>Сдано 3 из 5 нормативов</small></span>
+          <span class="gto-progress">
+            <span class="gto-bar"><span style="width:60%"></span></span>
+            <small>60%</small>
+          </span>
+          <span class="row-chev" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="sec" id="ach-section">
+      <div class="sec-head">
+        <h3>Достижения</h3>
+      </div>
+      <div class="ach-list" id="ach-list">
+        <div class="ach-item">
+          <span class="ach-chip tone-silver" aria-hidden="true"><svg><use href="#ic-medal"></use></svg></span>
+          <span class="ach-it"><span class="ach-il">Знак ГТО · Серебро</span><span class="ach-ih">Получен 12 августа 2026</span></span>
+        </div>
+        <div class="ach-item">
+          <span class="ach-chip tone-accent" aria-hidden="true"><svg><use href="#ic-trophy"></use></svg></span>
+          <span class="ach-it"><span class="ach-il">3-е место · Летний Кубок Петровского</span><span class="ach-ih">Плавание · июнь 2026</span></span>
+        </div>
+        <div class="ach-item">
+          <span class="ach-chip tone-accent" aria-hidden="true"><svg><use href="#ic-trend"></use></svg></span>
+          <span class="ach-it"><span class="ach-il">100 тренировок</span><span class="ach-ih">Пройдено за сезон</span></span>
+        </div>
+        <div class="ach-item is-locked">
+          <span class="ach-chip" aria-hidden="true"><svg><use href="#ic-medal"></use></svg></span>
+          <span class="ach-it"><span class="ach-il">Знак ГТО · Золото</span><span class="ach-ih">Сдайте ещё 2 норматива</span></span>
+        </div>
+      </div>
+      <button type="button" class="ach-more" id="ach-more">Показать ещё 16 →</button>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h3>Друзья</h3>
+        <button type="button" class="sec-all" data-toast="Полный список друзей откроется в полной версии">Все · 24<svg aria-hidden="true"><use href="#ic-chev"></use></svg></button>
+      </div>
+      <div class="friends-row">
+        <div class="friends-avas" aria-hidden="true">
+          <span class="f-ava">Д</span>
+          <span class="f-ava">О</span>
+          <span class="f-ava">М</span>
+          <span class="f-ava">К</span>
+          <span class="f-ava is-more">+20</span>
+        </div>
+        <span class="friends-tx"><b>6</b> онлайн сейчас</span>
+        <button type="button" class="btn-add-friend" data-toast="Поиск друзей откроется в полной версии"><svg aria-hidden="true" style="width:14px;height:14px;margin-right:4px;vertical-align:-2px"><use href="#ic-plus"></use></svg>Добавить</button>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h3>Мои записи</h3>
+        <a class="sec-all" href="file:///C:/Users/Rakutin/Downloads/schedule-calendar.html">Все записи<svg aria-hidden="true"><use href="#ic-chev"></use></svg></a>
+      </div>
+      <div class="bk-list">
+        <div class="bk-row" style="--c: var(--type-me)">
+          <div class="bk-tx"><span class="bk-title">Силовая тренировка</span><span class="bk-meta">Сегодня · 18:00 – 19:30 · Тренажёрный зал</span></div>
+          <span class="bk-badge">Подтверждено</span>
+        </div>
+        <div class="bk-row" style="--c: var(--type-rental)">
+          <div class="bk-tx"><span class="bk-title">Аренда зала</span><span class="bk-meta">Ср, 20 авг · 20:00 – 22:00 · Зал № 1</span></div>
+          <span class="bk-badge">Вы организатор</span>
+        </div>
+        <div class="bk-row" style="--c: var(--type-event)">
+          <div class="bk-tx"><span class="bk-title">Летний Кубок Петровского</span><span class="bk-meta">Сб, 16 авг · 10:00 · Стадион «Центральный»</span></div>
+          <span class="bk-badge">Вы записаны</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="card" style="padding: 6px 8px;">
+        <button type="button" class="row" data-toast="Настройки аккаунта откроются в полной версии">
+          <span class="row-ic" aria-hidden="true"><svg><use href="#ic-settings"></use></svg></span>
+          <span class="row-tx">Настройки аккаунта</span>
+          <span class="row-chev" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
+        </button>
+        <button type="button" class="row is-danger" id="logout-btn">
+          <span class="row-ic" aria-hidden="true"><svg><use href="#ic-logout"></use></svg></span>
+          <span class="row-tx">Выйти из аккаунта</span>
+        </button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="Разделы">
+  <a class="tab" href="file:///C:/Users/Rakutin/Downloads/home-athlete-brand.html" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"></use></svg>Главная</a>
+  <a class="tab" href="file:///C:/Users/Rakutin/Downloads/schedule-calendar.html" aria-label="Расписание"><svg aria-hidden="true"><use href="#ic-events"></use></svg>Расписание</a>
+  <a class="tab" href="file:///C:/Users/Rakutin/Downloads/trainings.html" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"></use></svg>Тренировки</a>
+  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><svg aria-hidden="true"><use href="#ic-users"></use></svg>Сообщество</button>
+  <button class="tab is-on" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"></use></svg>Профиль</button>
+</nav>
+
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () { t.remove(); }, 2200);
+  }
+  document.addEventListener('click', function (ev) {
+    var t = ev.target.closest('[data-toast]');
+    if (t) { toast(t.getAttribute('data-toast')); return; }
+    var nav = ev.target.closest('[data-to]');
+    if (nav) { location.href = nav.getAttribute('data-to'); return; }
+  });
+  document.getElementById('ach-jump').addEventListener('click', function () {
+    document.getElementById('ach-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  document.getElementById('ach-more').addEventListener('click', function () {
+    toast('Полный список достижений откроется в полной версии');
+  });
+  document.getElementById('logout-btn').addEventListener('click', function () {
+    toast('Подтверждение выхода откроется в полной версии');
+  });
+})();
+</script>
+
+
+</body></html>

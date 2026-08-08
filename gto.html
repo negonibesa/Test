@@ -3,46 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f5f5f7">
+<meta name="theme-color" content="#eaf4ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <title>Петровское СП — мои нормативы ГТО</title>
 <style>
 :root {
   /* ─── Surface (3 levels) ────────────────────────────────────────── */
   --bg: #ffffff;
-  --surface: #f5f5f7;
-  --surface-warm: #fbfbfd;
+  --surface: #eef6ff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
 
   /* ─── Foreground ramp (4 levels) ───────────────────────────────── */
-  --fg: #1d1d1f;
-  --fg-2: #424245;
-  --muted: #6e6e73;
-  --meta: #86868b;
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
 
   /* ─── Border (2 levels) ────────────────────────────────────────── */
-  --border: #d2d2d7;
-  --border-soft: #e8e8ed;
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
 
   /* ─── Accent ────────────────────────────────────────────────────── */
-  --accent: #0071e3;
+  --accent: #1a86e0;
   --accent-on: #ffffff;
-  --accent-hover: #0077ed;
-  --accent-active: #0066cc;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
+  --lime: #ffc93c;
+  --lime-on: #12213b;
 
   /* ─── Semantic ──────────────────────────────────────────────────── */
-  --success: #16a34a;
-  --warn:    #eab308;
-  --danger:  #dc2626;
+  --success: #2bb066;
+  --warn:    #ffc93c;
+  --danger:  #ff4d4d;
 
   /* ─── Знак ГТО ──────────────────────────────────────────────────── */
-  --gto-bronze: #cd7f32;
-  --gto-silver: #9aa1ab;
-  --gto-gold:   #f5b301;
+  --gto-bronze: #c9a06b;
+  --gto-silver: #a9b6c9;
+  --gto-gold:   #ffc93c;
 
   /* ─── Typography ────────────────────────────────────────────────── */
-  --font-display:
-    "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body:
-    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 
   --text-xs:   12px;
   --text-sm:   14px;
@@ -65,23 +73,23 @@
   --space-12: 48px;
 
   /* ─── Radius ────────────────────────────────────────────────────── */
-  --radius-sm:   8px;
-  --radius-md:   12px;
-  --radius-lg:   18px;
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
   --radius-pill: 980px;
 
   /* ─── Elevation (3 levels) ──────────────────────────────────────── */
   --elev-flat:   none;
   --elev-ring:   0 0 0 1px var(--border);
-  --elev-raised: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
 
   /* ─── Focus ring ────────────────────────────────────────────────── */
-  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
 
   /* ─── Motion ────────────────────────────────────────────────────── */
   --motion-fast:   150ms;
   --motion-base:   220ms;
-  --ease-standard: cubic-bezier(0.28, 0, 0.22, 1);
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
 
   /* ─── Layout ────────────────────────────────────────────────────── */
   --container-max:            1024px;
@@ -94,7 +102,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--surface);
+  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
   color: var(--fg);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -430,7 +438,7 @@ a { color: inherit; }
 
 <div class="app">
   <header class="hd" data-od-id="gto-header">
-    <a class="back" href="home-athlete.html" aria-label="Назад на главный экран"><svg><use href="#ic-back"/></svg></a>
+    <a class="back" href="home-athlete-brand.html" aria-label="Назад на главный экран"><svg><use href="#ic-back"/></svg></a>
     <div class="hd-txt">
       <div class="eyebrow">Петровское СП · Дневник ГТО</div>
       <h1>Мои нормативы ГТО</h1>

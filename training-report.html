@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaf4ff">
+<title>Петровское СП — Итог тренировки</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #eaf4ff;
+  --surface: #ffffff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
+
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
+
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
+
+  --accent: #1a86e0;
+  --accent-on: #ffffff;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
+
+  --success: #2bb066;
+  --warn: #ffc93c;
+  --danger: #ff4d4d;
+
+  --type-me: #2f9e54;
+  --type-trainer: var(--yellow);
+
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --leading-body: 1.5;
+  --tracking-display: 0.01em;
+  --tracking-caps: 0.08em;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 980px;
+
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
+
+  --container-max: 700px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 0 calc(108px + env(safe-area-inset-bottom));
+  min-height: 100vh;
+}
+
+/* ── Шапка ─────────────────────────────────────────────────────────── */
+.hd {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 12px 22px;
+}
+@media (min-width: 560px) { .hd { padding: 40px 24px 26px; } }
+.hd-txt { flex: 1; min-width: 0; }
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.hd .sub { margin: 3px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
+
+/* ── Тело ──────────────────────────────────────────────────────────── */
+.body { padding: 0 12px; }
+@media (min-width: 560px) { .body { padding: 0 24px; } }
+
+/* ── Итоговая карточка ─────────────────────────────────────────────── */
+.summary {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border-left: 3px solid var(--success);
+  padding: 20px 18px 18px;
+  text-align: center;
+  animation: rise 0.5s var(--ease-standard) both;
+}
+@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .summary { animation: none; } }
+.sum-ic {
+  width: 68px;
+  height: 68px;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 16%, var(--surface));
+}
+.sum-ic svg { width: 34px; height: 34px; }
+.sum-title {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+}
+.sum-sub { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+
+.sum-stats {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: left;
+}
+.sum-stat {
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+.sum-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.sum-stat-value {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.sum-stat-value small { font-size: 13px; font-weight: 500; color: var(--muted); }
+
+/* ── Секции ────────────────────────────────────────────────────────── */
+.sec { margin-top: 32px; }
+.sec-head { display: flex; align-items: center; gap: 12px; padding: 0 2px 14px; }
+.sec-head h2 {
+  margin: 0; flex: 1;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+}
+
+/* ── Упражнения ────────────────────────────────────────────────────── */
+.ex-list { display: grid; gap: 8px; }
+.ex-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 13px 16px;
+}
+.ex-check {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  display: grid;
+  place-items: center;
+  color: transparent;
+}
+.ex-row.is-done .ex-check { background: var(--success); border-color: var(--success); color: #fff; }
+.ex-check svg { width: 14px; height: 14px; }
+.ex-txt { flex: 1; min-width: 0; }
+.ex-name { display: block; font-size: 16px; font-weight: 600; color: var(--fg); }
+.ex-row.is-done .ex-name { color: var(--meta); text-decoration: line-through; text-decoration-color: var(--border-strong); }
+.ex-sets { display: block; font-size: 13px; line-height: 1.4; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.ex-row.is-miss { opacity: 0.55; }
+
+/* ── Действия ──────────────────────────────────────────────────────── */
+.actions { display: grid; gap: 10px; margin-top: 0; }
+.act {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 0;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.act:hover { background: var(--surface-2); }
+.act:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.act-ic {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+}
+.act-ic.is-trainer { color: var(--yellow-on); background: color-mix(in srgb, var(--yellow) 40%, var(--surface)); }
+.act-ic svg { width: 20px; height: 20px; }
+.act-txt { flex: 1; min-width: 0; }
+.act-title { display: block; font-size: 16px; font-weight: 600; color: var(--fg); }
+.act-sub { display: block; font-size: 13px; line-height: 1.4; color: var(--meta); margin-top: 1px; }
+.act-chev { flex: none; color: var(--meta); }
+.act-chev svg { width: 18px; height: 18px; }
+
+.cta {
+  margin-top: 24px;
+  width: 100%;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.cta:hover { background: var(--accent-hover); }
+.cta:active { background: var(--accent-active); }
+.cta:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Чат ───────────────────────────────────────────────────────────── */
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-standard);
+  z-index: 40;
+  pointer-events: none;
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+.chat-sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) translateY(105%);
+  transition: transform var(--motion-base) var(--ease-standard);
+  width: 100%;
+  max-width: var(--container-max);
+  height: min(72vh, 560px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-warm);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  z-index: 50;
+}
+.chat-sheet.open { transform: translateX(-50%) translateY(0); }
+@media (min-width: 560px) { .chat-sheet { bottom: 24px; border-radius: var(--radius-lg); border-bottom: 1px solid var(--border); box-shadow: var(--elev-raised); } }
+.sheet-grab { width: 40px; height: 5px; border-radius: var(--radius-pill); background: var(--border-strong); margin: 10px auto 6px; flex: none; }
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 12px;
+  flex: none;
+}
+.chat-ava {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--yellow-on);
+  background: var(--type-trainer);
+}
+.chat-txt { flex: 1; min-width: 0; }
+.chat-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+}
+.chat-sub { display: block; font-size: 12px; color: var(--meta); margin-top: 1px; }
+.chat-x {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.chat-x:hover { background: var(--surface-2); }
+.chat-x:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.chat-x svg { width: 18px; height: 18px; }
+.chat-msgs {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 6px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.msg {
+  max-width: 82%;
+  padding: 10px 14px;
+  font-size: 15px;
+  line-height: 1.42;
+  border-radius: 16px;
+  animation: rise 0.3s var(--ease-standard) both;
+}
+.msg.is-in { align-self: flex-start; background: var(--surface); color: var(--fg); border-bottom-left-radius: 5px; }
+.msg.is-out { align-self: flex-end; background: var(--accent); color: var(--accent-on); border-bottom-right-radius: 5px; }
+.chat-send {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom));
+}
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--fg);
+  font: inherit;
+  font-size: 15px;
+  padding: 11px 16px;
+  outline: none;
+}
+.chat-input:focus { border-color: var(--accent); box-shadow: var(--focus-ring); }
+.chat-input::placeholder { color: var(--meta); }
+.chat-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-on);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.chat-btn:hover { background: var(--accent-hover); }
+.chat-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.chat-btn svg { width: 20px; height: 20px; }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 100px;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  z-index: 70;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: var(--elev-raised);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
+body.no-scroll { overflow: hidden; }
+</style>
+</head>
+<body data-od-id="training-report">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8c-1.3 0-2.6-.3-3.7-.8L4 20l1.3-4.3A8 8 0 1 1 20 11.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-share" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-send" viewBox="0 0 24 24"><path d="M4 11l15-7-6.5 15-2-5.5L4 11z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd" data-od-id="trn-report-header">
+    <div class="hd-txt">
+      <h1>Итог тренировки</h1>
+      <p class="sub" id="meta"></p>
+    </div>
+  </header>
+
+  <main class="body">
+    <section class="summary" data-od-id="trn-summary">
+      <div class="sum-ic" aria-hidden="true"><svg><use href="#ic-check"/></svg></div>
+      <h2 class="sum-title" id="sum-title"></h2>
+      <p class="sum-sub" id="sum-sub"></p>
+      <div class="sum-stats">
+        <div class="sum-stat">
+          <div class="sum-stat-label">Время</div>
+          <div class="sum-stat-value" id="sum-dur">00:00</div>
+        </div>
+        <div class="sum-stat">
+          <div class="sum-stat-label">Упражнения</div>
+          <div class="sum-stat-value" id="sum-ex">0<small> / 0</small></div>
+        </div>
+        <div class="sum-stat">
+          <div class="sum-stat-label">Программа</div>
+          <div class="sum-stat-value" id="sum-pct">0<small>%</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" data-od-id="trn-report-ex">
+      <div class="sec-head">
+        <h2>Упражнения</h2>
+      </div>
+      <div class="ex-list" id="ex-list"></div>
+    </section>
+
+    <section class="sec" data-od-id="trn-report-actions">
+      <div class="sec-head">
+        <h2>Что дальше</h2>
+      </div>
+      <div class="actions">
+        <button type="button" class="act" id="act-chat" data-od-id="trn-ask-coach">
+          <span class="act-ic is-trainer" aria-hidden="true"><svg><use href="#ic-chat"/></svg></span>
+          <span class="act-txt">
+            <span class="act-title">Задать вопрос тренеру</span>
+            <span class="act-sub">Александр Соколов — ответит в течение дня</span>
+          </span>
+          <span class="act-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>
+        </button>
+        <button type="button" class="act" id="act-share" data-od-id="trn-share">
+          <span class="act-ic" aria-hidden="true"><svg><use href="#ic-share"/></svg></span>
+          <span class="act-txt">
+            <span class="act-title">Поделиться результатом</span>
+            <span class="act-sub">Отправить ссылку друзьям или в клуб</span>
+          </span>
+          <span class="act-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>
+        </button>
+      </div>
+    </section>
+
+    <button type="button" class="cta" id="cta-done" data-od-id="trn-done">К тренировкам</button>
+  </main>
+</div>
+
+<div class="scrim" id="chat-scrim"></div>
+<div class="chat-sheet" id="chat-sheet" role="dialog" aria-modal="true" aria-label="Чат с тренером">
+  <div class="sheet-grab"></div>
+  <div class="chat-head">
+    <span class="chat-ava" aria-hidden="true">С</span>
+    <div class="chat-txt">
+      <h3 class="chat-title">Александр Соколов</h3>
+      <span class="chat-sub">Тренер · онлайн</span>
+    </div>
+    <button type="button" class="chat-x" id="chat-close" aria-label="Закрыть чат"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <form class="chat-send" id="chat-form">
+    <input type="text" class="chat-input" id="chat-input" placeholder="Сообщение…" autocomplete="off" aria-label="Сообщение тренеру">
+    <button type="submit" class="chat-btn" aria-label="Отправить"><svg aria-hidden="true"><use href="#ic-send"/></svg></button>
+  </form>
+</div>
+
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var LS_REPORT = 'trn:report';
+
+  var DEFAULT_REPORT = {
+    title: 'Силовая тренировка',
+    date: 'Сегодня',
+    time: '18:00 – 19:30',
+    place: 'Тренажёрный зал',
+    startTs: Date.now() - 58 * 60 * 1000,
+    durSec: 58 * 60,
+    done: 5,
+    total: 5,
+    exercises: [
+      { name: 'Жим штанги лёжа', sets: '4 × 8 · 40 кг', done: true },
+      { name: 'Приседания со штангой', sets: '4 × 10 · 50 кг', done: true },
+      { name: 'Тяга верхнего блока', sets: '3 × 12 · 30 кг', done: true },
+      { name: 'Подъём на бицепс стоя', sets: '3 × 12 · 12 кг', done: true },
+      { name: 'Скручивания на пресс', sets: '3 × 20', done: true }
+    ]
+  };
+
+  function lsGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+  function lsSet(key, val) { try { localStorage.setItem(key, val); } catch (e) { /* noop */ } }
+  function byId(id) { return document.getElementById(id); }
+
+  function toast(msg) {
+    var wrap = byId('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, 2200);
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function fmtDur(sec) {
+    var s = Math.max(0, Math.floor(sec || 0));
+    var h = Math.floor(s / 3600);
+    var m = Math.floor((s % 3600) / 60);
+    var secs = s % 60;
+    if (h > 0) return (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m) + ':' + (secs < 10 ? '0' + secs : secs);
+    return (m < 10 ? '0' + m : m) + ':' + (secs < 10 ? '0' + secs : secs);
+  }
+
+  var report = null;
+  try {
+    var raw = lsGet(LS_REPORT);
+    if (raw) report = JSON.parse(raw);
+  } catch (e) { /* ignore */ }
+  if (!report) report = DEFAULT_REPORT;
+
+  function render() {
+    var done = report.done;
+    var total = report.total;
+    var pct = total ? Math.round(done / total * 100) : 0;
+
+    byId('meta').textContent = report.title + ' · ' + (report.date || '') + (report.time ? ' · ' + report.time : '');
+    byId('sum-title').textContent = pct >= 100 ? 'Отличная работа!' : (pct > 0 ? 'Тренировка завершена' : 'Тренировка отмечена');
+    byId('sum-sub').textContent = pct >= 100
+      ? 'Выполнены все ' + total + ' упражнений программы'
+      : 'Выполнено ' + done + ' из ' + total + ' упражнений — следующий раз дожмём';
+    byId('sum-dur').textContent = fmtDur(report.durSec);
+    byId('sum-ex').innerHTML = done + '<small> / ' + total + '</small>';
+    byId('sum-pct').innerHTML = pct + '<small>%</small>';
+
+    var list = byId('ex-list');
+    list.innerHTML = '';
+    report.exercises.forEach(function (ex) {
+      var row = document.createElement('div');
+      row.className = 'ex-row' + (ex.done ? ' is-done' : ' is-miss');
+      row.innerHTML =
+        '<span class="ex-check"><svg aria-hidden="true"><use href="#ic-check"/></svg></span>' +
+        '<span class="ex-txt">' +
+        '<span class="ex-name">' + esc(ex.name) + '</span>' +
+        '<span class="ex-sets">' + esc(ex.sets || '') + '</span>' +
+        '</span>';
+      list.appendChild(row);
+    });
+  }
+
+  var chatScrim = byId('chat-scrim');
+  var chatSheet = byId('chat-sheet');
+
+  function openChat() {
+    chatScrim.classList.add('open');
+    chatSheet.classList.add('open');
+    setTimeout(function () { byId('chat-input').focus(); }, 250);
+  }
+  function closeChat() {
+    chatScrim.classList.remove('open');
+    chatSheet.classList.remove('open');
+  }
+
+  function addMsg(text, isOut) {
+    var wrap = byId('chat-msgs');
+    var div = document.createElement('div');
+    div.className = 'msg ' + (isOut ? 'is-out' : 'is-in');
+    div.textContent = text;
+    wrap.appendChild(div);
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+
+  byId('act-chat').addEventListener('click', openChat);
+  byId('chat-close').addEventListener('click', closeChat);
+  chatScrim.addEventListener('click', closeChat);
+
+  byId('chat-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = byId('chat-input');
+    var text = input.value.trim();
+    if (!text) return;
+    addMsg(text, true);
+    input.value = '';
+    setTimeout(function () {
+      addMsg('Принято, спасибо! Посмотрю по итогу и отвечу после 18:00. — А. Соколов', false);
+    }, 700);
+  });
+
+  byId('act-share').addEventListener('click', function () {
+    toast('Ссылка на результат скопирована');
+  });
+
+  byId('cta-done').addEventListener('click', function () {
+    location.href = 'trainings.html';
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (chatSheet.classList.contains('open')) closeChat();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

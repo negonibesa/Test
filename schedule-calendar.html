@@ -173,6 +173,7 @@ a { color: inherit; }
   background: var(--surface);
   color: var(--fg-2);
   cursor: pointer;
+  text-decoration: none;
   transition: background var(--motion-fast) var(--ease-standard);
 }
 .icon-btn:hover { background: var(--surface-2); }
@@ -286,6 +287,72 @@ a { color: inherit; }
 }
 
 /* ── Тело ──────────────────────────────────────────────────────────── */
+/* ── Поиск (раскрывающийся) ─────────────────────────────────────────── */
+.search-wrap {
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  transition:
+    max-height var(--motion-base) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard),
+    visibility 0s linear var(--motion-base);
+}
+.search-wrap.is-open {
+  max-height: 76px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    max-height var(--motion-base) var(--ease-standard),
+    opacity var(--motion-fast) var(--ease-standard),
+    visibility 0s;
+}
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 4px;
+  padding: 0 12px;
+  height: 40px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+.searchbar-ic { flex: none; width: 17px; height: 17px; color: var(--meta); }
+.searchbar input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--fg);
+  outline: none;
+}
+.searchbar input::placeholder { color: var(--meta); }
+.searchbar input::-webkit-search-cancel-button { display: none; }
+.searchbar-clear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--fg-2);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-fast) var(--ease-standard);
+}
+.searchbar-clear svg { width: 12px; height: 12px; }
+.searchbar-clear:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.search-wrap.has-text .searchbar-clear { opacity: 1; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .search-wrap { transition: none; } }
+
 .body { padding: 4px 12px 0; }
 @media (min-width: 560px) { .body { padding: 4px 24px 0; } }
 
@@ -1029,8 +1096,8 @@ body.no-scroll { overflow: hidden; }
       <p class="hd-sub">События, тренировки и план ГТО</p>
     </div>
     <div class="hd-acts">
-      <a class="icon-btn" href="qrscan.html" aria-label="Отсканировать QR-код" data-od-id="schedule-scan"><svg aria-hidden="true"><use href="#ic-scan"/></svg></a>
-      <button type="button" class="icon-btn" data-toast="Уведомлений пока нет" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg><span class="notif" aria-hidden="true">3</span></button>
+      <button type="button" class="icon-btn" data-search-toggle aria-label="Поиск по расписанию"><svg aria-hidden="true"><use href="#ic-search"/></svg></button>
+      <a class="icon-btn" href="notifications.html" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"/></svg><span class="notif" aria-hidden="true">3</span></a>
     </div>
   </header>
 
@@ -1053,6 +1120,13 @@ body.no-scroll { overflow: hidden; }
   </div>
 
   <main class="body">
+    <div class="search-wrap" id="search-wrap" data-od-id="schedule-search">
+      <div class="searchbar" role="search">
+        <svg class="searchbar-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+        <input id="search-input" type="search" placeholder="Поиск по расписанию" aria-label="Поиск по событиям" autocomplete="off">
+        <button type="button" class="searchbar-clear" id="search-clear" aria-label="Очистить поиск"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+      </div>
+    </div>
     <section class="cal" data-od-id="calendar">
       <div class="cal-head">
         <h2 class="cal-month" id="cal-month">Июнь 2026</h2>
@@ -1174,9 +1248,9 @@ body.no-scroll { overflow: hidden; }
 <nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
   <a class="tab" href="home-athlete-brand.html" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg></a>
   <button class="tab is-on" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"/></svg><span class="notif" aria-hidden="true">3</span></span></button>
-  <button class="tab" data-toast="Тренировки — в следующей итерации" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg></button>
+  <a class="tab" href="trainings.html" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg></a>
   <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><svg aria-hidden="true"><use href="#ic-users"/></svg></button>
-  <button class="tab" data-toast="Профиль — в следующей итерации" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg></button>
+  <a class="tab" href="profile.html" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg></a>
 </nav>
 
 <div class="toast-wrap" id="toasts" aria-live="polite"></div>
@@ -1724,7 +1798,42 @@ body.no-scroll { overflow: hidden; }
   scrim.addEventListener('click', closeSheet);
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
+    if (searchWrap.classList.contains('is-open')) { closeSearch(); return; }
     closeSheet();
+  });
+
+  /* ── Поиск по расписанию ─────────────────────────────────────────── */
+  var searchWrap = document.getElementById('search-wrap');
+  var searchInput = document.getElementById('search-input');
+  var searchClear = document.getElementById('search-clear');
+  function openSearch() {
+    if (searchWrap.classList.contains('is-open')) return;
+    searchWrap.classList.add('is-open');
+    setTimeout(function () { searchInput.focus(); }, 240);
+  }
+  function closeSearch() {
+    if (!searchWrap.classList.contains('is-open') && !state.query) return;
+    searchWrap.classList.remove('is-open');
+    searchWrap.classList.remove('has-text');
+    state.query = '';
+    searchInput.value = '';
+    refreshViews();
+  }
+  document.querySelector('[data-search-toggle]').addEventListener('click', function () {
+    if (searchWrap.classList.contains('is-open')) closeSearch();
+    else openSearch();
+  });
+  searchInput.addEventListener('input', function () {
+    state.query = searchInput.value;
+    searchWrap.classList.toggle('has-text', !!state.query.trim());
+    refreshViews();
+  });
+  searchClear.addEventListener('click', function () {
+    state.query = '';
+    searchInput.value = '';
+    searchWrap.classList.remove('has-text');
+    refreshViews();
+    searchInput.focus();
   });
 
   /* ── Шторка статусов ────────────────────────────────────────────── */

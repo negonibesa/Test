@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaf4ff">
+<title>Петровское СП — UI Kit (эталон)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #eaf4ff;
+  --surface: #ffffff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
+
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
+
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
+
+  --accent: #1a86e0;
+  --accent-on: #ffffff;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
+
+  --success: #2bb066;
+  --warn: #ffc93c;
+  --danger: #ff4d4d;
+
+  --gto-bronze: #c9a06b;
+  --gto-silver: #a9b6c9;
+  --gto-gold: #ffc93c;
+
+  --type-me: #2f9e54;
+  --type-trainer: var(--yellow);
+  --type-event: #0b3d91;
+  --type-club: #7ec8ff;
+  --type-rental: #4a6fa5;
+  --type-gto: var(--gto-bronze);
+
+  --st-confirmed: var(--accent);
+  --st-pending: var(--yellow);
+  --st-open: #0b3d91;
+  --st-done: var(--meta);
+  --st-cancelled: var(--danger);
+
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 17px;
+  --text-xl: 22px;
+  --text-2xl: 34px;
+
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-12: 48px;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 980px;
+
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-2); padding: 2px 6px; border-radius: 6px; color: var(--fg-2); }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 100px; }
+.kit-head { margin-bottom: 40px; }
+.kit-head .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.kit-head h1 { margin: 6px 0 8px; font-family: var(--font-display); font-size: 34px; font-weight: 700; letter-spacing: -0.01em; }
+.kit-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 640px; }
+
+.section { margin-top: 56px; }
+.section h2 {
+  font-family: var(--font-display); font-size: 20px; font-weight: 600;
+  margin: 0 0 4px; padding-bottom: 12px; border-bottom: 1px solid var(--border-strong);
+}
+.section .section-note { margin: 8px 0 20px; font-size: 13px; color: var(--muted); }
+
+/* ── Токены: цвет ──────────────────────────────────────────────────── */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.swatch { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--surface); }
+.swatch-color { height: 56px; }
+.swatch-tx { padding: 8px 10px; }
+.swatch-tx b { display: block; font-size: 12px; }
+.swatch-tx code { display: block; margin-top: 2px; padding: 0; background: none; font-size: 11px; }
+
+/* ── Типографика ───────────────────────────────────────────────────── */
+.type-row { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-soft); }
+.type-row .tag { flex: none; width: 100px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.type-row .sample { font-family: var(--font-display); }
+
+/* ── Спейсинг ──────────────────────────────────────────────────────── */
+.space-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.space-row .tag { width: 90px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); flex: none; }
+.space-bar { height: 14px; background: var(--accent); border-radius: 4px; }
+
+/* ── Кнопки ────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 0 20px; border: 0; border-radius: var(--radius-pill);
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), opacity var(--motion-fast) var(--ease-standard);
+}
+.btn-primary { background: var(--accent); color: var(--accent-on); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--fg-2); border: 1px solid var(--border-strong); }
+.btn-secondary:hover { background: var(--surface-2); }
+.btn-danger { background: none; color: var(--danger); }
+.btn-danger:hover { background: rgba(255,77,77,0.08); }
+.btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+.row-flex { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+/* ── Инпуты ────────────────────────────────────────────────────────── */
+.field { max-width: 320px; }
+.field label { display: block; font-size: 12px; font-weight: 600; color: var(--fg-2); margin-bottom: 6px; }
+.input, select.input {
+  width: 100%; height: 48px; padding: 0 14px; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md); background: var(--surface); color: var(--fg);
+  font-family: inherit; font-size: 15px; font-weight: 500;
+  transition: border-color var(--motion-fast) var(--ease-standard);
+  appearance: none;
+}
+.input:focus { outline: none; border-color: var(--accent); }
+.field.is-search { position: relative; }
+.field.is-search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--meta); }
+.field.is-search .input { padding-left: 38px; }
+select.input { background-image: none; }
+.field.is-select { position: relative; }
+.field.is-select svg { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--meta); pointer-events: none; }
+
+.seg { display: inline-flex; background: var(--surface-2); border-radius: var(--radius-pill); padding: 3px; }
+.seg-btn { border: 0; background: none; padding: 8px 16px; border-radius: var(--radius-pill); font-size: 13px; font-weight: 600; color: var(--fg-2); cursor: pointer; }
+.seg-btn.is-active { background: var(--surface); color: var(--accent); box-shadow: var(--elev-raised); }
+
+.switch { position: relative; display: inline-block; width: 48px; height: 28px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .track { position: absolute; inset: 0; background: var(--border-strong); border-radius: var(--radius-pill); transition: background var(--motion-fast); }
+.switch .thumb { position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: transform var(--motion-fast); }
+.switch input:checked + .track { background: var(--accent); }
+.switch input:checked + .track .thumb { transform: translateX(20px); }
+
+/* ── Бейджи / чипы ─────────────────────────────────────────────────── */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; border-radius: 7px; padding: 3px 9px; color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--surface)); }
+.badge .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+
+/* ── Аватары ───────────────────────────────────────────────────────── */
+.ava-row { display: flex; align-items: center; gap: 20px; }
+.ava-item { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.ava { border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 600; color: var(--accent-on); background: linear-gradient(150deg, var(--accent), var(--accent-active)); }
+.ava-nav { width: 48px; height: 48px; font-size: 16px; }
+.ava-profile { width: 72px; height: 72px; font-size: 26px; }
+.ava-friend { width: 36px; height: 36px; font-size: 13px; }
+
+/* ── Карточки событий (5 типов) ────────────────────────────────────── */
+.ev-card {
+  background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--c);
+  border-radius: var(--radius-lg); padding: 14px 16px 12px; margin-bottom: 10px;
+}
+.ev-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.ev-title { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+.ev-meta { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+
+/* ── Карточка статы / достижение ──────────────────────────────────── */
+.demo-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 12px; width: 150px; }
+.stat-top { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--meta); }
+.stat-top svg { width: 13px; height: 13px; }
+.stat-val { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: 22px; font-weight: 600; }
+.stat-sub { display: block; margin-top: 4px; font-size: 11px; color: var(--muted); }
+
+.ach-item { display: flex; align-items: center; gap: 12px; border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius-md); padding: 10px 12px; max-width: 320px; }
+.ach-chip { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #12213b; }
+.ach-chip.tone-gold { background: var(--gto-gold); }
+.ach-chip.tone-locked { background: var(--surface-2); color: var(--meta); box-shadow: inset 0 0 0 1.5px var(--border-strong); }
+.ach-il { display: block; font-size: 14px; font-weight: 600; }
+.ach-ih { display: block; font-size: 12px; color: var(--meta); margin-top: 1px; }
+
+/* ── Демо шапки ────────────────────────────────────────────────────── */
+.demo-frame { border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); max-width: 390px; }
+.demo-hd { display: flex; align-items: center; gap: 12px; padding: 24px 16px 16px; }
+.demo-hd h3 { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+.icon-btn { flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; color: var(--fg-2); border: 0; }
+.icon-btn svg { width: 20px; height: 20px; }
+
+/* ── Демо таббара ──────────────────────────────────────────────────── */
+.demo-tabbar { display: grid; grid-template-columns: repeat(5,1fr); background: rgba(255,255,255,0.92); border-top: 1px solid var(--border-soft); padding: 8px; }
+.demo-tab { display: grid; justify-items: center; gap: 3px; font-size: 10px; font-weight: 700; color: var(--meta); }
+.demo-tab svg { width: 20px; height: 20px; }
+.demo-tab.is-on { color: var(--accent); }
+.demo-tab.is-on svg { background: color-mix(in srgb, var(--accent) 16%, transparent); border-radius: var(--radius-pill); padding: 6px; width: 32px; height: 32px; box-sizing: border-box; }
+
+/* ── Иконки ────────────────────────────────────────────────────────── */
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.icon-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 8px; text-align: center; }
+.icon-tile svg { width: 22px; height: 22px; color: var(--fg-2); }
+.icon-tile span { font-size: 11px; color: var(--fg-2); }
+.icon-tile code { font-size: 9px; padding: 1px 4px; }
+
+/* ── Чипы фильтров (счётчики) ─────────────────────────────────────── */
+.fchip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.fchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--fg-2);
+  background: var(--surface); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill); padding: 7px 13px; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.fchip .cnt {
+  min-width: 16px; height: 16px; padding: 0 4px; border-radius: var(--radius-pill);
+  background: var(--surface-2); color: var(--meta);
+  font-size: 10px; font-weight: 700; display: grid; place-items: center;
+}
+.fchip.is-on { background: var(--accent); border-color: var(--accent); color: var(--accent-on); }
+.fchip.is-on .cnt { background: rgba(255,255,255,0.22); color: var(--accent-on); }
+
+/* ── Шит (bottom sheet) ────────────────────────────────────────────── */
+.sheet-frame { position: relative; max-width: 390px; border: 1px solid var(--border-strong); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
+.sheet {
+  background: var(--surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--elev-raised); padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+}
+.sheet-handle { width: 40px; height: 4px; border-radius: var(--radius-pill); background: var(--border-strong); margin: 0 auto 14px; }
+.sheet h4 { margin: 0 0 12px; font-family: var(--font-display); font-size: 17px; font-weight: 600; }
+.sheet .btn-row { display: flex; gap: 10px; margin-top: 14px; }
+.sheet .btn { flex: 1; }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.toast {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--fg); color: #fff; font-size: 14px; font-weight: 500;
+  border-radius: var(--radius-pill); padding: 10px 18px; box-shadow: var(--elev-raised);
+}
+.toast svg { width: 16px; height: 16px; }
+.toast.is-success svg { color: var(--success); }
+.toast.is-danger svg { color: var(--danger); }
+
+/* ── Прогресс-бар (ГТО-цель) ──────────────────────────────────────── */
+.gto-block { max-width: 390px; }
+.gto-row { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.gto-row .medal { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--gto-silver); background: rgba(169,182,201,0.18); }
+.gto-row .medal svg { width: 20px; height: 20px; }
+.gto-tx { flex: 1; min-width: 0; }
+.gto-tx b { display: block; font-size: 14px; font-weight: 600; }
+.gto-tx small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.gto-progress { flex: none; width: 64px; text-align: right; }
+.gto-bar { display: block; height: 5px; border-radius: var(--radius-pill); background: var(--surface-2); overflow: hidden; }
+.gto-bar span { display: block; height: 100%; background: var(--accent); }
+.gto-progress small { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* ── Строки (настройки) ────────────────────────────────────────────── */
+.row-list { max-width: 390px; border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius-lg); padding: 6px 8px; }
+.row { display: flex; align-items: center; gap: 12px; padding: 12px 2px; }
+.row + .row { border-top: 1px solid var(--border-soft); }
+.row-ic { flex: none; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: var(--fg-2); background: var(--surface-2); }
+.row-ic svg { width: 17px; height: 17px; }
+.row-tx { flex: 1; min-width: 0; font-size: 14px; }
+.row-chev { color: var(--meta); }
+.row-chev svg { width: 16px; height: 16px; }
+.row.is-danger .row-ic { color: var(--danger); background: rgba(255,77,77,0.1); }
+.row.is-danger .row-tx { color: var(--danger); font-weight: 600; }
+
+/* ── Стек аватаров (друзья / участники) ───────────────────────────── */
+.f-stack { display: flex; flex: none; }
+.f-stack .ava { border: 2px solid var(--surface); }
+.f-stack .ava + .ava { margin-left: -10px; }
+.f-stack .ava.is-more { background: var(--surface-2); color: var(--fg-2); }
+
+/* ── Достижения: полный набор тонов ───────────────────────────────── */
+.ach-chip.tone-silver { background: var(--gto-silver); }
+.ach-chip.tone-accent { background: color-mix(in srgb, var(--accent) 20%, var(--surface)); color: var(--accent); }
+
+/* ── Демо таббар: бейдж + blur ────────────────────────────────────── */
+.demo-tab .tab-ic { position: relative; display: grid; place-items: center; }
+.notif { position: absolute; top: -6px; right: -12px; min-width: 15px; height: 15px; padding: 0 3px; border-radius: 50%; background: var(--danger); color: #fff; font-size: 9px; font-weight: 700; display: grid; place-items: center; }
+.demo-tabbar { background: rgba(255,255,255,0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 6px 8px calc(6px + env(safe-area-inset-bottom)); }
+
+.conventions { margin: 0; padding: 0; list-style: none; max-width: 760px; }
+.conventions li { padding: 10px 0; border-bottom: 1px solid var(--border-soft); font-size: 14px; color: var(--fg-2); }
+.conventions li:last-child { border-bottom: none; }
+.conventions code { font-family: var(--font-mono); font-size: 12px; background: var(--surface-2); color: var(--fg); padding: 1px 5px; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<symbol id="ic-back" viewBox="0 0 20 20"><path d="M12.5 4 L6 10 L12.5 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-barcode" viewBox="0 0 24 24"><path d="M4 8v8M7 6.5v11M10 8v8M13 6.5v11M16 8v8M19 6.5v11M21 8v8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></symbol>
+<symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-cam" viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="13.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle></symbol>
+<symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8c-1.3 0-2.6-.3-3.7-.8L4 20l1.3-4.3A8 8 0 1 1 20 11.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-chev-up" viewBox="0 0 24 24"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M5.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-court" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M12 5v14" fill="none" stroke="currentColor" stroke-width="1.5"></path><path d="M7.5 9.5l4.5 3.5 4.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-doc" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 12h6M9 15.5h6M9 8.5h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"></circle><circle cx="12" cy="12" r="1.6" fill="currentColor"></circle><circle cx="19" cy="12" r="1.6" fill="currentColor"></circle></symbol>
+<symbol id="ic-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-dumbbell" viewBox="0 0 24 24"><rect x="3" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="17.8" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M6.2 12h11.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></symbol>
+<symbol id="ic-edit" viewBox="0 0 24 24"><path d="M4 20l4.5-1L19.5 8a2.1 2.1 0 0 0-3-3L5.5 15.5 4 20z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="15.5" r="1.4" fill="currentColor"></circle></symbol>
+<symbol id="ic-flag" viewBox="0 0 24 24"><path d="M6 20.5V4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><path d="M6 5.5h9.5L13 8.5l2.5 3H6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-flash" viewBox="0 0 24 24"><path d="M13 2.5L5.5 13.5h5l-1.5 8L17 10.5h-5l1-8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-form" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 12h6M9 15.5h6M9 8.5h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-gear" viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" fill="none" stroke="currentColor" stroke-width="1.7"></path><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3.6h-4l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.4-1c.5.4 1.1.8 1.7 1l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24"><path d="M4 8.5L12 3l8 5.5v7L12 21l-8-5.5v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 8.5l8 5.5 8-5.5M12 14v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-gym" viewBox="0 0 24 24"><path d="M7 9.5v5M9 8.5v7M15 8.5v7M17 9.5v5M9 12h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-history" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M12 8v4l2.8 1.9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M4 11l8-6.5L20 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 9.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-images" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></rect><circle cx="9" cy="9" r="1.6" fill="none" stroke="currentColor" stroke-width="1.8"></circle><path d="M4.5 17l5-5 3 3 3-3 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><circle cx="12" cy="8" r="0.6" fill="currentColor"></circle></symbol>
+<symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></symbol>
+<symbol id="ic-login" viewBox="0 0 24 24"><circle cx="7.5" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M10.5 12H20M17 9.5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-logout" viewBox="0 0 24 24"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3M15 16l4-4-4-4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-machine" viewBox="0 0 24 24"><path d="M6.5 6.5c-.4 1-.4 10 0 11M17.5 6.5c.4 1 .4 10 0 11M4 7v10M20 7v10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><rect x="3" y="14.5" width="18" height="4.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></rect></symbol>
+<symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"></circle></symbol>
+<symbol id="ic-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M6 11a6 6 0 0 0 12 0M12 17v3M9 20h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-onboard" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></rect><path d="M3 9.5h18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="15" r="1.6" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M7.5 15h1.5M15 15h1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-pause" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M10.5 18h3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+<symbol id="ic-photo" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></rect><circle cx="12" cy="13" r="3.6" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M8.5 7l1.5-2.5h4L15.5 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.2-6.5-10.2a6.5 6.5 0 0 1 13 0C18.5 15.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="10.5" r="2.3" fill="none" stroke="currentColor" stroke-width="1.7"></circle></symbol>
+<symbol id="ic-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="14" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"></rect><rect x="4" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"></rect><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z" fill="currentColor"></path></symbol>
+<symbol id="ic-rain" viewBox="0 0 24 24"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 15.5v2.5M15 15.5v2.5M12 18.5v2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-refresh" viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.3-5.2M19 4v4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-rental" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2.2a2.2 2.2 0 0 0 0 5.6V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2.2a2.2 2.2 0 0 0 0-5.6V7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 5.5v13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-role" viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5 20c0-3.2 3.1-5.4 7-5.4s7 2.2 7 5.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-run" viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M13 8l-2 3 2 2 1.5 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 11L7.5 8.5M13 13l3 2M16 15l1 5M6.5 8.5L8 5.5 5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-scan" viewBox="0 0 24 24"><path d="M3.5 7.5V5.5A2 2 0 0 1 5.5 3.5h2M16.5 3.5h2a2 2 0 0 1 2 2v2M20.5 16.5v2a2 2 0 0 1-2 2h-2M7.5 20.5h-2a2 2 0 0 1-2-2v-2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.5 12h9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+<symbol id="ic-send" viewBox="0 0 24 24"><path d="M4 11l15-7-6.5 15-2-5.5L4 11z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+<symbol id="ic-share" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3.5l7 2.5v5.5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-2.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.8 12.2l2.2 2.2 4.2-4.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-sleep" viewBox="0 0 24 24"><path d="M17 9.5c1.8.3 3 1.6 3 3.6a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4c0-2 1.2-3.3 3-3.6M12 3.5c0 1-.6 1.7-1.4 1.7M12 3.5c0-1-.6-1.7-1.4-1.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><path d="M12 3.5v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></symbol>
+<symbol id="ic-sliders" viewBox="0 0 24 24"><path d="M4.5 7h15M4.5 12h15M4.5 17h15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path><circle cx="10" cy="7" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"></circle><circle cx="15" cy="12" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"></circle><circle cx="8.5" cy="17" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"></circle></symbol>
+<symbol id="ic-social" viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M3.5 18c0-2.8 2.4-4.8 5.5-4.8s5.5 2 5.5 4.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.5 6.2a3 3 0 0 1 0 5.6M17.5 13.4c1.8.6 3 2 3 4.1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"></circle><circle cx="12" cy="12" r="1.1" fill="currentColor"></circle></symbol>
+<symbol id="ic-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M7 6.5l.8 12a1.5 1.5 0 0 0 1.5 1.4h5.4a1.5 1.5 0 0 0 1.5-1.4l.8-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 10.5v6M14 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-trend" viewBox="0 0 24 24"><path d="M4 18l5-6 4 3 6-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15.5 7H19v3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.5H5a0 0 0 0 0 0 0v1.5A3 3 0 0 0 8 10M16 5.5h3a0 0 0 0 1 0 0V7a3 3 0 0 1-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 13v3M8.5 20h7M9.5 16h5l.5 4h-6l.5-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-warn" viewBox="0 0 24 24"><path d="M12 4.5L3.5 19.5h17L12 4.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M12 10.5v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><circle cx="12" cy="17.2" r="0.4" fill="currentColor"></circle></symbol>
+<symbol id="ic-welcome" viewBox="0 0 24 24"><path d="M12 3.2l1.7 4.1 4.1 1.7-4.1 1.7L12 14.8l-1.7-4.1-4.1-1.7 4.1-1.7L12 3.2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18.6 15.4l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+<symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+
+</svg>
+
+<div class="wrap">
+  <header class="kit-head">
+    <div class="eyebrow">Петровское СП · дизайн-система</div>
+    <h1>UI Kit (эталон)</h1>
+    <p>Единственный источник истины для всех экранов — токены и компоненты здесь зафиксированы по значениям из аудита. При правке любого экрана значения берутся отсюда, а не придумываются заново.</p>
+  </header>
+
+  <section class="section">
+    <h2>Цвет</h2>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:#eaf4ff"></div><div class="swatch-tx"><b>Фон</b><code>--bg #eaf4ff</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ffffff;border-bottom:1px solid var(--border)"></div><div class="swatch-tx"><b>Поверхность</b><code>--surface #fff</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#eef6ff"></div><div class="swatch-tx"><b>Поверхность-2</b><code>--surface-2</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1a86e0"></div><div class="swatch-tx"><b>Акцент</b><code>--accent #1a86e0</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ffc93c"></div><div class="swatch-tx"><b>Жёлтый</b><code>--yellow #ffc93c</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#2bb066"></div><div class="swatch-tx"><b>Успех</b><code>--success</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ff4d4d"></div><div class="swatch-tx"><b>Опасность</b><code>--danger</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#12213b"></div><div class="swatch-tx"><b>Текст</b><code>--fg #12213b</code></div></div>
+    </div>
+    <div class="section-note">Типы событий (используются как левая цветная полоса карточки + акцент бейджа):</div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-color" style="background:#2f9e54"></div><div class="swatch-tx"><b>Тренировка</b><code>--type-me</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#ffc93c"></div><div class="swatch-tx"><b>С тренером</b><code>--type-trainer</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#0b3d91"></div><div class="swatch-tx"><b>Глобальное</b><code>--type-event</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7ec8ff"></div><div class="swatch-tx"><b>Клуб</b><code>--type-club</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#4a6fa5"></div><div class="swatch-tx"><b>Аренда</b><code>--type-rental</code></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#c9a06b"></div><div class="swatch-tx"><b>ГТО</b><code>--type-gto</code></div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Типографика</h2>
+    <div class="section-note">Сейчас по проекту гуляет 22 разных font-size — здесь только те значения, что должны остаться.</div>
+    <div class="type-row"><span class="tag">34 / 700</span><span class="sample" style="font-size:34px;font-weight:700">Экран-заголовок (редкий случай)</span></div>
+    <div class="type-row"><span class="tag">22 / 600</span><span class="sample" style="font-size:22px;font-weight:600">Заголовок шапки (эталон везде)</span></div>
+    <div class="type-row"><span class="tag">17 / 600</span><span class="sample" style="font-size:17px;font-weight:600">Заголовок секции / карточки</span></div>
+    <div class="type-row"><span class="tag">15 / 500</span><span class="sample" style="font-size:15px;font-weight:500;font-family:var(--font-body)">Основной текст, инпуты</span></div>
+    <div class="type-row"><span class="tag">14 / 600</span><span class="sample" style="font-size:14px;font-weight:600;font-family:var(--font-body)">Текст кнопки</span></div>
+    <div class="type-row"><span class="tag">13 / 400</span><span class="sample" style="font-size:13px;font-family:var(--font-body);color:var(--muted)">Второстепенный текст, meta</span></div>
+    <div class="type-row"><span class="tag">11 / 700</span><span class="sample" style="font-size:11px;font-weight:700;font-family:var(--font-body)">Бейдж / лейбл</span></div>
+  </section>
+
+  <section class="section">
+    <h2>Отступы (8pt-сетка)</h2>
+    <div class="section-note">Сейчас 0 реальных обращений к этим токенам в проекте — только хардкод. Здесь — то, что должно использоваться.</div>
+    <div class="space-row"><span class="tag">4px</span><div class="space-bar" style="width:4px"></div></div>
+    <div class="space-row"><span class="tag">8px</span><div class="space-bar" style="width:8px"></div></div>
+    <div class="space-row"><span class="tag">12px</span><div class="space-bar" style="width:12px"></div></div>
+    <div class="space-row"><span class="tag">16px</span><div class="space-bar" style="width:16px"></div></div>
+    <div class="space-row"><span class="tag">20px</span><div class="space-bar" style="width:20px"></div></div>
+    <div class="space-row"><span class="tag">24px</span><div class="space-bar" style="width:24px"></div></div>
+    <div class="space-row"><span class="tag">32px</span><div class="space-bar" style="width:32px"></div></div>
+    <div class="space-row"><span class="tag">48px</span><div class="space-bar" style="width:48px"></div></div>
+  </section>
+
+  <section class="section">
+    <h2>Кнопки</h2>
+    <div class="section-note">Единственный вариант высоты/формы: 46px, капсула, 14px/600 — сейчас по проекту гуляет 44/46/50/56px и то капсула, то прямоугольник.</div>
+    <div class="row-flex">
+      <button class="btn btn-primary">Записаться</button>
+      <button class="btn btn-secondary">Отмена</button>
+      <button class="btn btn-danger">Удалить</button>
+      <button class="btn btn-primary" disabled="">Недоступно</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Инпуты</h2>
+    <div class="row-flex" style="align-items:flex-end">
+      <div class="field">
+        <label>Название</label>
+        <input class="input" type="text" placeholder="Например: Плавание">
+      </div>
+      <div class="field is-search">
+        <label>Поиск</label>
+        <svg aria-hidden="true"><use href="#ic-search"></use></svg>
+        <input class="input" type="search" placeholder="Поиск по расписанию">
+      </div>
+      <div class="field is-select">
+        <label>Вид спорта</label>
+        <select class="input">
+          <option>Плавание</option>
+          <option>Лёгкая атлетика</option>
+        </select>
+        <svg aria-hidden="true"><use href="#ic-chev"></use></svg>
+      </div>
+    </div>
+    <div class="row-flex" style="margin-top:20px">
+      <div class="seg" role="tablist">
+        <button class="seg-btn is-active">Сканер</button>
+        <button class="seg-btn">Мой QR-код</button>
+      </div>
+      <label class="switch"><input type="checkbox" checked=""><span class="track"><span class="thumb"></span></span></label>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Бейджи и статусы</h2>
+    <div class="chip-row">
+      <span class="badge" style="--c:#2f9e54"><span class="dot"></span>Тренировка</span>
+      <span class="badge" style="--c:#ffc93c"><span class="dot"></span>С тренером</span>
+      <span class="badge" style="--c:#0b3d91"><span class="dot"></span>Глобальное</span>
+      <span class="badge" style="--c:#7ec8ff"><span class="dot"></span>Клуб</span>
+      <span class="badge" style="--c:#4a6fa5"><span class="dot"></span>Аренда</span>
+      <span class="badge" style="--c:#c9a06b"><span class="dot"></span>ГТО</span>
+    </div>
+    <div class="chip-row" style="margin-top:10px">
+      <span class="badge" style="--c:var(--st-confirmed)">Подтверждено</span>
+      <span class="badge" style="--c:var(--st-pending)">Ожидает</span>
+      <span class="badge" style="--c:var(--st-open)">Открыта</span>
+      <span class="badge" style="--c:var(--st-done)">Завершено</span>
+      <span class="badge" style="--c:var(--st-cancelled)">Отменено</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Аватары</h2>
+    <div class="ava-row">
+      <div class="ava-item"><span class="ava ava-nav">И</span>48×48 — навигация</div>
+      <div class="ava-item"><span class="ava ava-profile">И</span>72×72 — профиль</div>
+      <div class="ava-item"><span class="ava ava-friend">Д</span>36×36 — друзья/участники</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Карточка события (5 типов)</h2>
+    <div class="ev-card" style="--c:#0b3d91">
+      <div class="ev-top"><h3 class="ev-title">Летний Кубок Петровского</h3><span class="badge" style="--c:#0b3d91">Открыта</span></div>
+      <p class="ev-meta">Сегодня 10:00 · Стадион «Центральный»</p>
+    </div>
+    <div class="ev-card" style="--c:#ffc93c">
+      <div class="ev-top"><h3 class="ev-title">Силовая с тренером</h3><span class="badge" style="--c:#ffc93c">Ожидает</span></div>
+      <p class="ev-meta">Завтра 08:00 · Зал № 2</p>
+    </div>
+    <div class="ev-card" style="--c:#4a6fa5">
+      <div class="ev-top"><h3 class="ev-title">Аренда зала</h3><span class="badge" style="--c:#1a86e0">Подтверждено</span></div>
+      <p class="ev-meta">Ср, 20 авг · 20:00 – 22:00 · Зал № 1</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Карточка статистики / достижение</h2>
+    <div class="demo-row">
+      <div class="stat">
+        <span class="stat-top"><svg aria-hidden="true"><use href="#ic-trend"></use></svg>Тренировок</span>
+        <span class="stat-val">38<small style="font-size:12px;color:var(--muted)"> за сезон</small></span>
+        <span class="stat-sub">+3 на этой неделе</span>
+      </div>
+      <div class="ach-item">
+        <span class="ach-chip tone-gold"><svg aria-hidden="true"><use href="#ic-medal"></use></svg></span>
+        <span><span class="ach-il">Знак ГТО · Серебро</span><span class="ach-ih">Получен 12 августа 2026</span></span>
+      </div>
+      <div class="ach-item">
+        <span class="ach-chip tone-silver"><svg aria-hidden="true"><use href="#ic-medal"></use></svg></span>
+        <span><span class="ach-il">Знак ГТО · Серебро</span><span class="ach-ih">Вариант tone-silver</span></span>
+      </div>
+      <div class="ach-item">
+        <span class="ach-chip tone-accent"><svg aria-hidden="true"><use href="#ic-trophy"></use></svg></span>
+        <span><span class="ach-il">3-е место · Летний Кубок</span><span class="ach-ih">Вариант tone-accent</span></span>
+      </div>
+      <div class="ach-item">
+        <span class="ach-chip tone-locked"><svg aria-hidden="true"><use href="#ic-lock"></use></svg></span>
+        <span><span class="ach-il">Знак ГТО · Золото</span><span class="ach-ih">Заблокировано</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Чипы фильтров (со счётчиками)</h2>
+    <div class="section-note">Используются в уведомлениях и поиске. Активный чип — фон акцента, счётчик — на инвертированном бейдже.</div>
+    <div class="fchip-row">
+      <span class="fchip is-on">Все<span class="cnt">12</span></span>
+      <span class="fchip">События<span class="cnt">3</span></span>
+      <span class="fchip">Тренировки<span class="cnt">2</span></span>
+      <span class="fchip">Баллы<span class="cnt">4</span></span>
+      <span class="fchip">ГТО<span class="cnt">2</span></span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Шит (bottom sheet)</h2>
+    <div class="section-note">Скругление сверху 20px, ручка 40×4px, box-shadow поднятия, отступ снизу под safe-area.</div>
+    <div class="sheet-frame">
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <h4>Действия с событием</h4>
+        <div class="btn-row">
+          <button class="btn btn-primary">Записаться</button>
+          <button class="btn btn-secondary">Отмена</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Тост</h2>
+    <div class="section-note">Тёмная капсула на поверхности; иконка статуса может перекрашиваться в success/danger.</div>
+    <div class="toast-row">
+      <span class="toast">Тренировка завершена</span>
+      <span class="toast is-success"><svg aria-hidden="true"><use href="#ic-check"></use></svg>+50 баллов</span>
+      <span class="toast is-danger"><svg aria-hidden="true"><use href="#ic-warn"></use></svg>Недостаточно баллов</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Прогресс-бар (цель ГТО)</h2>
+    <div class="section-note">Тонкая полоса 5px на поверхности-2, заполнение акцентом; цифры — JetBrains Mono.</div>
+    <div class="gto-block">
+      <div class="gto-row">
+        <span class="medal"><svg aria-hidden="true"><use href="#ic-medal"></use></svg></span>
+        <span class="gto-tx"><b>Серебряный знак · Ступень VII</b><small>Сдано 3 из 5 нормативов</small></span>
+        <span class="gto-progress"><span class="gto-bar"><span style="width:60%"></span></span><small>60%</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Строки (настройки / список)</h2>
+    <div class="row-list">
+      <div class="row"><span class="row-ic"><svg aria-hidden="true"><use href="#ic-settings"></use></svg></span><span class="row-tx">Настройки аккаунта</span><span class="row-chev"><svg aria-hidden="true"><use href="#ic-chev"></use></svg></span></div>
+      <div class="row"><span class="row-ic"><svg aria-hidden="true"><use href="#ic-bell"></use></svg></span><span class="row-tx">Уведомления</span><span class="row-chev"><svg aria-hidden="true"><use href="#ic-chev"></use></svg></span></div>
+      <div class="row is-danger"><span class="row-ic"><svg aria-hidden="true"><use href="#ic-logout"></use></svg></span><span class="row-tx">Выйти из аккаунта</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Стек аватаров (друзья / участники)</h2>
+    <div class="ava-row">
+      <span class="f-stack">
+        <span class="ava ava-friend">Д</span>
+        <span class="ava ava-friend">О</span>
+        <span class="ava ava-friend">М</span>
+        <span class="ava ava-friend is-more">+20</span>
+      </span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Шапка (эталон)</h2>
+    <div class="section-note">padding: 24px 16px 16px · gap 12px · заголовок 22px/600 · icon-button 48×48px</div>
+    <div class="demo-frame">
+      <div class="demo-hd">
+        <button class="icon-btn"><svg aria-hidden="true"><use href="#ic-back"></use></svg></button>
+        <h3>Профиль</h3>
+        <button class="icon-btn"><svg aria-hidden="true"><use href="#ic-edit"></use></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Нижний таббар (эталон)</h2>
+    <div class="section-note">Состав фиксирован и одинаков на всех экранах — 5 вкладок.</div>
+    <div class="demo-frame">
+      <div class="demo-tabbar">
+        <span class="demo-tab is-on"><svg aria-hidden="true"><use href="#ic-home"></use></svg>Главная</span>
+        <span class="demo-tab"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"></use></svg><span class="notif">3</span></span>Расписание</span>
+        <span class="demo-tab"><svg aria-hidden="true"><use href="#ic-trend"></use></svg>Тренировки</span>
+        <span class="demo-tab"><svg aria-hidden="true"><use href="#ic-users"></use></svg>Сообщество</span>
+        <span class="demo-tab"><svg aria-hidden="true"><use href="#ic-user"></use></svg>Профиль</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Иконки (все, что реально используются в проекте)</h2>
+    <div class="section-note">Извлечены дословно из существующих экранов — не перерисованы, чтобы не создавать второй, слегка отличающийся набор.</div>
+    <div class="icon-grid">
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-back"></use></svg><span>Назад</span><code>ic-back</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-barcode"></use></svg><span>Штрихкод</span><code>ic-barcode</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-bell"></use></svg><span>Уведомления</span><code>ic-bell</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-cal"></use></svg><span>Календарь</span><code>ic-cal</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-cam"></use></svg><span>Камера</span><code>ic-cam</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-chat"></use></svg><span>Чат</span><code>ic-chat</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-check"></use></svg><span>Готово</span><code>ic-check</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-chev"></use></svg><span>Шеврон →</span><code>ic-chev</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-chev-up"></use></svg><span>Шеврон ↑</span><code>ic-chev-up</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-clock"></use></svg><span>Время</span><code>ic-clock</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-close"></use></svg><span>Закрыть</span><code>ic-close</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-copy"></use></svg><span>Копировать</span><code>ic-copy</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-court"></use></svg><span>Корт</span><code>ic-court</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-doc"></use></svg><span>Документ</span><code>ic-doc</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-dots"></use></svg><span>Меню (⋯)</span><code>ic-dots</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-down"></use></svg><span>Вниз</span><code>ic-down</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-dumbbell"></use></svg><span>Силовая</span><code>ic-dumbbell</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-edit"></use></svg><span>Редактировать</span><code>ic-edit</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-events"></use></svg><span>События</span><code>ic-events</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-flag"></use></svg><span>Флаг</span><code>ic-flag</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-flash"></use></svg><span>Молния</span><code>ic-flash</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-form"></use></svg><span>Анкета</span><code>ic-form</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-gear"></use></svg><span>Настройки</span><code>ic-gear</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-grid"></use></svg><span>Сетка</span><code>ic-grid</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-gym"></use></svg><span>Зал</span><code>ic-gym</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-history"></use></svg><span>История</span><code>ic-history</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-home"></use></svg><span>Главная</span><code>ic-home</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-images"></use></svg><span>Фото</span><code>ic-images</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-info"></use></svg><span>Инфо</span><code>ic-info</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-lock"></use></svg><span>Заблокировано</span><code>ic-lock</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-login"></use></svg><span>Вход</span><code>ic-login</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-logout"></use></svg><span>Выход</span><code>ic-logout</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-machine"></use></svg><span>Тренажёр</span><code>ic-machine</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-medal"></use></svg><span>Медаль</span><code>ic-medal</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-mic"></use></svg><span>Микрофон</span><code>ic-mic</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-minus"></use></svg><span>Минус</span><code>ic-minus</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-onboard"></use></svg><span>Онбординг</span><code>ic-onboard</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-pause"></use></svg><span>Пауза</span><code>ic-pause</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-phone"></use></svg><span>Телефон</span><code>ic-phone</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-photo"></use></svg><span>Фото</span><code>ic-photo</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-pin"></use></svg><span>Место</span><code>ic-pin</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-play"></use></svg><span>Старт</span><code>ic-play</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-plus"></use></svg><span>Добавить</span><code>ic-plus</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-qr"></use></svg><span>QR-код</span><code>ic-qr</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-rain"></use></svg><span>Погода</span><code>ic-rain</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-refresh"></use></svg><span>Обновить</span><code>ic-refresh</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-rental"></use></svg><span>Аренда</span><code>ic-rental</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-role"></use></svg><span>Роль</span><code>ic-role</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-run"></use></svg><span>Бег</span><code>ic-run</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-scan"></use></svg><span>Сканер</span><code>ic-scan</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-search"></use></svg><span>Поиск</span><code>ic-search</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-send"></use></svg><span>Отправить</span><code>ic-send</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-settings"></use></svg><span>Настройки</span><code>ic-settings</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-share"></use></svg><span>Поделиться</span><code>ic-share</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-shield"></use></svg><span>Защита</span><code>ic-shield</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-sleep"></use></svg><span>Сон</span><code>ic-sleep</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-sliders"></use></svg><span>Фильтры</span><code>ic-sliders</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-social"></use></svg><span>Соцсети</span><code>ic-social</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-star"></use></svg><span>Звезда</span><code>ic-star</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-target"></use></svg><span>Цель</span><code>ic-target</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-trash"></use></svg><span>Удалить</span><code>ic-trash</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-trend"></use></svg><span>Активность</span><code>ic-trend</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-trophy"></use></svg><span>Кубок</span><code>ic-trophy</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-up"></use></svg><span>Вверх</span><code>ic-up</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-user"></use></svg><span>Профиль</span><code>ic-user</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-users"></use></svg><span>Участники</span><code>ic-users</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-warn"></use></svg><span>Предупреждение</span><code>ic-warn</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-welcome"></use></svg><span>Приветствие</span><code>ic-welcome</code></div>
+      <div class="icon-tile"><svg aria-hidden="true"><use href="#ic-x"></use></svg><span>Отмена</span><code>ic-x</code></div>
+    </div>
+  <section class="section">
+    <h2>Конвенции (обязательны в экранах проекта)</h2>
+    <ul class="conventions">
+      <li><b>data-od-id</b> — каждый экран помечается <code>data-od-id="&lt;id&gt;"</code> на <code>&lt;body&gt;</code>, id из <code>PROJECT_BRIEF.md</code>.</li>
+      <li><b>Иконки</b> — только SVG-sprite через <code>&lt;use href="#ic-*"&gt;</code>, aria-hidden. Новые иконки добавляются в sprite, а не рисуются инлайном.</li>
+      <li><b>Цвет компонента</b> — инлайново только через <code>--c</code> (см. бейджи статусов), сам hex — в <code>:root</code>.</li>
+      <li><b>Типы сущностей</b> — <code>--type-me</code>, <code>--type-trainer</code>, <code>--type-event</code>, <code>--type-club</code>, <code>--type-rental</code>, <code>--type-gto</code>; статусы — <code>--st-confirmed/pending/open/done/cancelled</code>.</li>
+      <li><b>Шрифты</b> — Oswald (заголовки и display, <code>--font-display</code>), Inter (текст, <code>--font-base</code>), JetBrains Mono (числа, <code>--font-mono</code>). Подключение — Google Fonts CSS2 в <code>&lt;head&gt;</code>.</li>
+      <li><b>Заголовки экранов</b> — 22px / 600 / Oswald; крупные (онбординг) — 34px / 700.</li>
+      <li><b>Кнопка-капсула</b> — 46px высота, радиус pill; первичная — акцент, вторичная — поверхность с рамкой.</li>
+      <li><b>Таббар</b> — fixed, blur, padding снизу <code>env(safe-area-inset-bottom)</code>, активная вкладка — акцент, бейдж уведомлений — <code>--st-cancelled</code>.</li>
+      <li><b>Радиусы</b> — sm 10 / md 14 / lg 20; <b>аватары</b> — 48 (шапка), 72 (профиль), 36 (друзья), стек с нахлестом 10px.</li>
+    </ul>
+  </section>
+
+</div>
+
+</body></html>

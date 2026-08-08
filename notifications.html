@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eaf4ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<title>Петровское СП — уведомления</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #eef6ff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
+
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
+
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
+  --border-strong: rgba(18,33,59,0.16);
+
+  --accent: #1a86e0;
+  --accent-on: #ffffff;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
+  --yellow: #ffc93c;
+  --yellow-on: #12213b;
+
+  --success: #2bb066;
+  --warn:    #ffc93c;
+  --danger:  #ff4d4d;
+
+  --gto-bronze: #c9a06b;
+  --gto-silver: #a9b6c9;
+  --gto-gold:   #ffc93c;
+
+  --type-me: #2f9e54;
+  --type-trainer: #ffc93c;
+  --type-event: #0b3d91;
+  --type-club: #7ec8ff;
+  --type-rental: #4a6fa5;
+  --type-gto: #c9a06b;
+
+  --st-confirmed: var(--accent);
+  --st-pending: var(--yellow);
+  --st-open: #0b3d91;
+  --st-done: var(--meta);
+  --st-cancelled: var(--danger);
+
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 980px;
+
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
+  color: var(--fg);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+.app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 0 60px;
+  min-height: 100vh;
+}
+
+/* ── Шапка ─────────────────────────────────────────────────────────── */
+.hd {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 24px 16px 16px;
+}
+@media (min-width: 560px) { .hd { padding: 36px 24px 20px; } }
+.back {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--fg-2);
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+.back:hover { background: var(--surface); }
+.back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.back svg { width: 18px; height: 18px; }
+.hd-txt { flex: 1; min-width: 0; }
+.eyebrow {
+  margin: 0 0 3px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+.hd .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.hd-acts { display: flex; gap: 8px; flex: none; }
+.icon-btn {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.icon-btn:hover { background: var(--surface-2); }
+.icon-btn:active { background: var(--surface-2); }
+.icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.icon-btn svg { width: 21px; height: 21px; }
+.markall {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  height: 44px;
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.markall:hover { background: var(--surface-warm); }
+.markall:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.markall svg { width: 16px; height: 16px; }
+.markall:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Фильтр-чипы ───────────────────────────────────────────────────── */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 16px 14px;
+  scrollbar-width: none;
+}
+@media (min-width: 560px) { .chips { padding-left: 24px; padding-right: 24px; } }
+.chips::-webkit-scrollbar { display: none; }
+.fchip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--fg-2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard),
+              border-color var(--motion-fast) var(--ease-standard);
+}
+.fchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.fchip .cnt {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+}
+.fchip.is-on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-on);
+}
+.fchip.is-on .cnt { background: rgba(255,255,255,0.24); color: #fff; }
+
+/* ── Список уведомлений ────────────────────────────────────────────── */
+.body { padding: 0 0 24px; }
+.group-label {
+  margin: 18px 16px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+@media (min-width: 560px) { .group-label { margin-left: 24px; margin-right: 24px; } }
+.card {
+  margin: 0 16px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+@media (min-width: 560px) { .card { margin-left: 24px; margin-right: 24px; } }
+.card.is-unread { border-color: color-mix(in srgb, var(--accent) 34%, var(--border)); }
+.card.is-unread::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  right: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.n-ic {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: var(--c, var(--accent));
+  background: color-mix(in srgb, var(--c, var(--accent)) 14%, white);
+}
+.n-ic svg { width: 20px; height: 20px; }
+.n-body { flex: 1; min-width: 0; padding-right: 6px; }
+.n-title { display: block; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.35; }
+.n-text { display: block; font-size: 13px; line-height: 1.5; color: var(--muted); margin-top: 3px; }
+.n-meta { display: block; font-size: 11px; font-weight: 600; color: var(--meta); margin-top: 6px; }
+.n-meta svg { width: 12px; height: 12px; vertical-align: -2px; margin-right: 3px; }
+.n-acts { display: flex; gap: 8px; margin-top: 10px; }
+.n-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 0;
+  transition: background var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+.n-btn:active { transform: scale(0.985); }
+.n-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.n-btn svg { width: 14px; height: 14px; }
+.n-btn-primary { background: var(--accent); color: var(--accent-on); }
+.n-btn-primary:hover { background: var(--accent-hover); }
+.n-btn-secondary { background: var(--surface); color: var(--fg-2); border: 1px solid var(--border); }
+.n-btn-secondary:hover { background: var(--surface-2); }
+.n-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.n-link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
+
+.empty {
+  margin: 40px 16px;
+  text-align: center;
+  color: var(--meta);
+}
+.empty svg { width: 44px; height: 44px; opacity: 0.6; }
+.empty b { display: block; margin-top: 12px; font-size: 15px; color: var(--muted); }
+.empty span { display: block; margin-top: 4px; font-size: 13px; }
+
+/* ── Настройки (карточка + шит) ────────────────────────────────────── */
+.settings-row {
+  margin: 18px 16px 0;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elev-raised);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% - 32px);
+  text-align: left;
+  color: inherit;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+@media (min-width: 560px) { .settings-row { margin-left: 24px; margin-right: 24px; width: calc(100% - 48px); } }
+.settings-row:hover { background: var(--surface-warm); }
+.settings-row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.settings-row .s-ic {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+}
+.settings-row .s-ic svg { width: 19px; height: 19px; }
+.settings-row b { display: block; font-size: 14px; }
+.settings-row small { display: block; font-size: 12px; color: var(--meta); margin-top: 1px; }
+.settings-row .s-chev { flex: none; color: var(--meta); }
+.settings-row .s-chev svg { width: 16px; height: 16px; }
+
+/* ── Шит настроек ──────────────────────────────────────────────────── */
+.dimmer {
+  position: fixed;
+  inset: 0;
+  background: rgba(18,33,59,0.34);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-base) var(--ease-standard);
+  z-index: 60;
+}
+.dimmer.show { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 61;
+  background: var(--bg);
+  border-radius: 24px 24px 0 0;
+  box-shadow: var(--elev-raised);
+  padding: 8px 16px calc(18px + env(safe-area-inset-bottom));
+  max-width: 700px;
+  margin: 0 auto;
+  transform: translateY(110%);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+.sheet.show { transform: none; }
+.sheet-handle {
+  width: 44px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--border-strong);
+  margin: 0 auto 14px;
+}
+.sheet-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sheet-head h2 { margin: 0; flex: 1; font-family: var(--font-display); font-size: 20px; font-weight: 700; }
+.sheet-x {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.sheet-x:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sheet-x svg { width: 18px; height: 18px; }
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
+}
+.set-row b { display: block; font-size: 14px; }
+.set-row small { display: block; font-size: 12px; color: var(--meta); margin-top: 2px; line-height: 1.4; }
+.switch {
+  flex: none;
+  width: 48px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--border-strong);
+  border: 0;
+  padding: 3px;
+  cursor: pointer;
+  transition: background var(--motion-base) var(--ease-standard);
+}
+.switch::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(18,33,59,0.2);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+.switch.is-on { background: var(--accent); }
+.switch.is-on::after { transform: translateX(20px); }
+.switch:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.sheet-done {
+  width: 100%;
+  height: 50px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-on);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard),
+              transform var(--motion-fast) var(--ease-standard);
+}
+.sheet-done:hover { background: var(--accent-hover); }
+.sheet-done:active { transform: scale(0.985); }
+.sheet-done:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Тост ──────────────────────────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  z-index: 70;
+  width: max-content;
+  max-width: calc(100vw - 40px);
+}
+.toast {
+  background: var(--fg);
+  color: var(--surface-warm);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
+</style>
+</head>
+<body data-od-id="notifications">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-events" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-dumbbell" viewBox="0 0 24 24"><rect x="3" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="17.8" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6.2 12h11.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="ic-run" viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M13 8l-2 3 2 2 1.5 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11L7.5 8.5M13 13l3 2M16 15l1 5M6.5 8.5L8 5.5 5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-gear" viewBox="0 0 24 24"><path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.5-2-3.4-2.4 1a7.7 7.7 0 0 0-1.7-1L15 3.6h-4l-.4 2.5a7.7 7.7 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.5a7.7 7.7 0 0 0 0 2l-2 1.5 2 3.4 2.4-1c.5.4 1.1.8 1.7 1l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-qr" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z" fill="currentColor"/></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd" data-od-id="notif-header">
+    <a class="back" href="home-athlete-brand.html" aria-label="Назад на главную"><svg aria-hidden="true"><use href="#ic-back"/></svg></a>
+    <div class="hd-txt">
+      <div class="eyebrow">Петровское СП</div>
+      <h1>Уведомления</h1>
+      <p class="sub" id="notif-sub">3 непрочитанных</p>
+    </div>
+    <div class="hd-acts">
+      <button type="button" class="markall" id="notif-markall" data-od-id="notif-markall" aria-label="Прочитать все уведомления"><svg aria-hidden="true"><use href="#ic-check"/></svg>Прочитать всё</button>
+    </div>
+  </header>
+
+  <div class="chips" id="notif-filters" data-od-id="notif-filters" role="group" aria-label="Фильтр уведомлений"></div>
+
+  <main class="body" id="notif-list" data-od-id="notif-list"></main>
+
+  <button type="button" class="settings-row" id="notif-settings" data-od-id="notif-settings">
+    <span class="s-ic" aria-hidden="true"><svg><use href="#ic-gear"/></svg></span>
+    <span style="flex:1;min-width:0;"><b>Настройки уведомлений</b><small>События, баллы, ГТО и системные</small></span>
+    <span class="s-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>
+  </button>
+</div>
+
+<div class="dimmer" id="dimmer"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-handle" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h2 id="sheet-title">Настройки уведомлений</h2>
+    <button type="button" class="sheet-x" id="sheet-x" aria-label="Закрыть"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <div id="sheet-rows"></div>
+  <button type="button" class="sheet-done" id="sheet-done">Готово</button>
+</div>
+
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () {
+      t.classList.add('hide');
+      setTimeout(function () { t.remove(); }, 260);
+    }, 2200);
+  }
+
+  var TONE = {
+    event:   { ic: 'ic-events',  c: 'var(--type-event)' },
+    club:    { ic: 'ic-users',   c: 'var(--type-club)' },
+    me:      { ic: 'ic-run',     c: 'var(--type-me)' },
+    trainer: { ic: 'ic-dumbbell',c: 'var(--type-trainer)' },
+    rental:  { ic: 'ic-cal',     c: 'var(--type-rental)' },
+    points:  { ic: 'ic-star',    c: 'var(--yellow)' },
+    gto:     { ic: 'ic-medal',   c: 'var(--type-gto)' },
+    system:  { ic: 'ic-bell',    c: 'var(--meta)' }
+  };
+
+  var FILTERS = [
+    { key: 'all',    label: 'Все' },
+    { key: 'event',  label: 'События' },
+    { key: 'train',  label: 'Тренировки' },
+    { key: 'points', label: 'Баллы' },
+    { key: 'gto',    label: 'ГТО' },
+    { key: 'system', label: 'Система' }
+  ];
+
+  var NOTIFS = [
+    { id: 'n1', group: 'today', cat: 'event', tone: 'event',  title: 'Летний Кубок Петровского', text: 'Напоминаем: соревнование завтра в 10:00 на стадионе «Центральный». Вы записаны.', time: '10:32', unread: true, href: 'schedule-calendar.html' },
+    { id: 'n2', group: 'today', cat: 'points',tone: 'points', title: '+50 баллов', text: '3-е место на «Летнем Кубке Петровского» — баллы зачислены на баланс.', time: '09:15', unread: true, href: 'points-ratings.html' },
+    { id: 'n3', group: 'today', cat: 'event', tone: 'club',   title: 'Приглашение: «Сплав на байдарках»', text: 'Андрей Волков приглашает вас на сплав — сб, 23 авг, 09:00. Участников: 6.', time: '08:47', unread: true, actions: [{ k: 'accept', label: 'Принять' }, { k: 'decline', label: 'Отклонить' }] },
+    { id: 'n4', group: 'today', cat: 'train', tone: 'trainer',title: 'Тренер подтвердил тренировку', text: '«Силовая тренировка с тренером» — завтра в 08:00, Зал № 2. Тренер А. Соколов.', time: '07:30', unread: true, href: 'schedule-calendar.html' },
+    { id: 'n5', group: 'today', cat: 'gto',   tone: 'gto',    title: 'Норматив ГТО засчитан', text: '«Подтягивания» — 20 раз. Серебряный знак ГТО привязан к профилю.', time: '06:05', unread: true, href: 'gto.html' },
+    { id: 'n6', group: 'earlier', cat: 'points', tone: 'points', title: '+40 баллов', text: 'Тренировка в тренажёрном зале — начислено по QR-коду.', time: 'Вчера', href: 'points-ratings.html' },
+    { id: 'n7', group: 'earlier', cat: 'train',  tone: 'me',     title: 'Напоминание: «Плавание»', text: 'Тренировка в 07:00, бассейн «Волна». Возьмите QR-код для входа.', time: 'Вчера', href: 'qrscan.html' },
+    { id: 'n8', group: 'earlier', cat: 'event',  tone: 'rental', title: 'Аренда зала подтверждена', text: 'Зал № 1, ср 20 авг, 20:00 – 22:00. Оплата по абонементу.', time: 'Пн', href: 'create-event.html' },
+    { id: 'n9', group: 'earlier', cat: 'gto',    tone: 'gto',    title: 'Сдача норматива: «Бег 100 м»', text: '12 августа, стадион «Центральный». План подготовки — в дневнике ГТО.', time: 'Пн', href: 'gto-test.html' },
+    { id: 'n10', group: 'earlier', cat: 'system', tone: 'system', title: 'QR-код зала обновлён', text: 'Используйте актуальный QR — код меняется каждые 3 минуты (античит).', time: 'Вс', href: 'qrscan.html' },
+    { id: 'n11', group: 'earlier', cat: 'points', tone: 'points', title: '+10 баллов за серию', text: 'Серия активных дней: 3 дня подряд — бонус зачислен.', time: 'Сб', href: 'points-ratings.html' },
+    { id: 'n12', group: 'earlier', cat: 'system', tone: 'system', title: 'Обновление 1.4', text: 'Уведомления и календарь стали быстрее. Спасибо, что вы с нами!', time: 'Пт' }
+  ];
+
+  var SETTINGS = [
+    { key: 'events',   label: 'События и приглашения',   sub: 'Напоминания, записи, приглашения в события', on: true },
+    { key: 'train',    label: 'Тренировки и тренер',     sub: 'Подтверждение тренера, напоминания о занятии', on: true },
+    { key: 'points',   label: 'Баллы и достижения',      sub: 'Начисления, серии и уровни', on: true },
+    { key: 'gto',      label: 'ГТО',                     sub: 'Нормативы, сдачи, планы подготовки', on: true },
+    { key: 'system',   label: 'Системные',               sub: 'QR-коды, обновления, безопасность', on: true },
+    { key: 'push',     label: 'Push-уведомления',        sub: 'Мгновенные уведомления на устройство', on: true }
+  ];
+
+  var state = { filter: 'all', settings: SETTINGS.slice() };
+
+  function list() {
+    return NOTIFS.filter(function (n) {
+      return state.filter === 'all' || n.cat === state.filter;
+    });
+  }
+  function unreadCount() {
+    return NOTIFS.filter(function (n) { return n.unread; }).length;
+  }
+  function catCount(key) {
+    return key === 'all' ? NOTIFS.length : NOTIFS.filter(function (n) { return n.cat === key; }).length;
+  }
+
+  function renderFilters() {
+    var box = document.getElementById('notif-filters');
+    box.innerHTML = '';
+    FILTERS.forEach(function (f) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'fchip' + (state.filter === f.key ? ' is-on' : '');
+      b.setAttribute('data-od-id', 'notif-filter-' + f.key);
+      b.innerHTML = f.label + '<span class="cnt">' + catCount(f.key) + '</span>';
+      b.addEventListener('click', function () {
+        state.filter = f.key;
+        renderFilters();
+        renderList();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function markRead(n) {
+    if (!n.unread) return;
+    n.unread = false;
+    renderHeader();
+    renderFilters();
+  }
+
+  function renderHeader() {
+    var c = unreadCount();
+    document.getElementById('notif-sub').textContent =
+      c === 0 ? 'Нет непрочитанных' : (c === 1 ? '1 непрочитанное' : c + ' непрочитанных');
+    document.getElementById('notif-markall').disabled = c === 0;
+  }
+
+  function cardHTML(n) {
+    var t = TONE[n.tone] || TONE.system;
+    var html = '';
+    html += '<div class="card' + (n.unread ? ' is-unread' : '') + '" data-od-id="notif-item" style="--c:' + t.c + '">';
+    html += '<span class="n-ic" aria-hidden="true"><svg><use href="#' + t.ic + '"/></svg></span>';
+    html += '<span class="n-body">';
+    html += '<span class="n-title">' + n.title + '</span>';
+    html += '<span class="n-text">' + n.text + '</span>';
+    html += '<span class="n-meta"><svg aria-hidden="true"><use href="#ic-clock"/></svg>' + n.time + '</span>';
+    if (n.actions) {
+      html += '<span class="n-acts">';
+      n.actions.forEach(function (a) {
+        var cls = a.k === 'decline' ? 'n-btn-secondary' : 'n-btn-primary';
+        html += '<button type="button" class="n-btn ' + cls + '" data-act="' + a.k + '">' +
+                (a.k === 'decline' ? '<svg aria-hidden="true"><use href="#ic-x"/></svg>' : '<svg aria-hidden="true"><use href="#ic-check"/></svg>') +
+                a.label + '</button>';
+      });
+      html += '</span>';
+    } else if (n.href) {
+      html += '<a class="n-link" href="' + n.href + '">Открыть<svg style="width:12px;height:12px;vertical-align:-2px;margin-left:4px;" aria-hidden="true"><use href="#ic-chev"/></svg></a>';
+    }
+    html += '</span>';
+    html += '</div>';
+    return html;
+  }
+
+  function renderList() {
+    var box = document.getElementById('notif-list');
+    var items = list();
+    if (!items.length) {
+      box.innerHTML = '<div class="empty" data-od-id="notif-empty"><svg aria-hidden="true"><use href="#ic-bell"/></svg><b>Здесь пусто</b><span>В этом разделе пока нет уведомлений</span></div>';
+      return;
+    }
+    var html = '';
+    var groups = [{ key: 'today', label: 'Сегодня' }, { key: 'earlier', label: 'Ранее' }];
+    groups.forEach(function (g) {
+      var sub = items.filter(function (n) { return n.group === g.key; });
+      if (!sub.length) return;
+      html += '<h2 class="group-label">' + g.label + '</h2>';
+      sub.forEach(function (n) { html += cardHTML(n); });
+    });
+    box.innerHTML = html;
+
+    box.querySelectorAll('[data-act]').forEach(function (btn) {
+      btn.addEventListener('click', function (ev) {
+        var card = btn.closest('.card');
+        var idx = Array.prototype.indexOf.call(box.querySelectorAll('.card'), card);
+        var cur = list();
+        var n = cur[idx];
+        if (!n) return;
+        ev.stopPropagation();
+        if (btn.getAttribute('data-act') === 'accept') {
+          n.actions = null;
+          markRead(n);
+          toast('Вы приняли приглашение');
+        } else {
+          NOTIFS.splice(NOTIFS.indexOf(n), 1);
+          toast('Приглашение отклонено');
+        }
+        renderList();
+      });
+    });
+
+    box.querySelectorAll('.card').forEach(function (card, idx) {
+      card.addEventListener('click', function () {
+        var cur = list();
+        var n = cur[idx];
+        if (!n) return;
+        markRead(n);
+        if (n.href) {
+          location.href = n.href;
+        } else {
+          renderList();
+        }
+      });
+    });
+  }
+
+  function renderSettings() {
+    var box = document.getElementById('sheet-rows');
+    box.innerHTML = '';
+    state.settings.forEach(function (s) {
+      var row = document.createElement('div');
+      row.className = 'set-row';
+      row.innerHTML = '<span style="flex:1;min-width:0;"><b>' + s.label + '</b><small>' + s.sub + '</small></span>';
+      var sw = document.createElement('button');
+      sw.type = 'button';
+      sw.className = 'switch' + (s.on ? ' is-on' : '');
+      sw.setAttribute('aria-pressed', s.on ? 'true' : 'false');
+      sw.setAttribute('aria-label', s.label);
+      sw.addEventListener('click', function () {
+        s.on = !s.on;
+        sw.classList.toggle('is-on', s.on);
+        sw.setAttribute('aria-pressed', s.on ? 'true' : 'false');
+        toast(s.on ? 'Уведомления включены' : 'Уведомления отключены');
+      });
+      row.appendChild(sw);
+      box.appendChild(row);
+    });
+  }
+
+  function openSheet() {
+    document.getElementById('dimmer').classList.add('show');
+    document.getElementById('sheet').classList.add('show');
+    renderSettings();
+  }
+  function closeSheet() {
+    document.getElementById('dimmer').classList.remove('show');
+    document.getElementById('sheet').classList.remove('show');
+    if (location.hash === '#settings') {
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    }
+  }
+
+  document.getElementById('notif-markall').addEventListener('click', function () {
+    var any = NOTIFS.some(function (n) { return n.unread; });
+    NOTIFS.forEach(function (n) { n.unread = false; });
+    renderHeader();
+    renderFilters();
+    renderList();
+    if (any) toast('Все уведомления прочитаны');
+  });
+
+  document.getElementById('notif-settings').addEventListener('click', openSheet);
+  document.getElementById('sheet-x').addEventListener('click', closeSheet);
+  document.getElementById('sheet-done').addEventListener('click', closeSheet);
+  document.getElementById('dimmer').addEventListener('click', closeSheet);
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && document.getElementById('sheet').classList.contains('show')) closeSheet();
+  });
+
+  renderHeader();
+  renderFilters();
+  renderList();
+  if (location.hash === '#settings') openSheet();
+})();
+</script>
+</body>
+</html>

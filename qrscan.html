@@ -5,53 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <title>Петровское СП — QR-сканер</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   /* ─── Surface (3 levels) ────────────────────────────────────────── */
-  --bg: #ffffff;
-  --surface: #f5f5f7;
-  --surface-warm: #fbfbfd;
+  --bg: #eaf4ff;
+  --surface: #ffffff;
+  --surface-2: #eef6ff;
+  --surface-warm: #f5faff;
 
   /* ─── Foreground ramp (4 levels) ───────────────────────────────── */
-  --fg: #1d1d1f;
-  --fg-2: #424245;
-  --muted: #6e6e73;
-  --meta: #86868b;
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --meta: #99a4b7;
 
   /* ─── Border (2 levels) ────────────────────────────────────────── */
-  --border: #d2d2d7;
-  --border-soft: #e8e8ed;
+  --border: rgba(18,33,59,0.08);
+  --border-soft: rgba(18,33,59,0.05);
 
   /* ─── Accent ────────────────────────────────────────────────────── */
-  --accent: #0071e3;
+  --accent: #1a86e0;
   --accent-on: #ffffff;
-  --accent-hover: #0077ed;
-  --accent-active: #0066cc;
+  --accent-hover: #2f97f0;
+  --accent-active: #1473c9;
 
   /* ─── Semantic ──────────────────────────────────────────────────── */
-  --success: #16a34a;
-  --warn:    #eab308;
-  --danger:  #dc2626;
+  --success: #2bb066;
+  --warn:    #ffc93c;
+  --danger:  #ff4d4d;
 
   /* ─── Typography ────────────────────────────────────────────────── */
-  --font-display:
-    "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body:
-    "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
 
   /* ─── Radius ────────────────────────────────────────────────────── */
-  --radius-sm:   8px;
-  --radius-md:   12px;
-  --radius-lg:   18px;
+  --radius-sm:   10px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
   --radius-pill: 980px;
 
   /* ─── Elevation ─────────────────────────────────────────────────── */
   --elev-flat:   none;
   --elev-ring:   0 0 0 1px var(--border);
-  --elev-raised: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
 
   /* ─── Focus ring ────────────────────────────────────────────────── */
-  --focus-ring: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 65%);
+  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
 
   /* ─── Motion ────────────────────────────────────────────────────── */
   --motion-fast:   150ms;
@@ -92,8 +94,8 @@ button {
   margin: 0 auto;
   max-width: 700px;
   background:
-    radial-gradient(120% 90% at 50% 20%, rgba(90, 200, 250, 0.22), transparent 55%),
-    radial-gradient(140% 110% at 85% 90%, rgba(255, 45, 85, 0.14), transparent 60%),
+    radial-gradient(120% 90% at 50% 20%, rgba(47, 151, 240, 0.22), transparent 55%),
+    radial-gradient(140% 110% at 85% 90%, rgba(255, 77, 77, 0.14), transparent 60%),
     linear-gradient(180deg, #101014 0%, #1c1c22 55%, #0b0b0e 100%);
 }
 .scan-grid {
@@ -176,7 +178,7 @@ button {
 }
 .seg-btn.is-active {
   background: #fff;
-  color: #1d1d1f;
+  color: #12213b;
 }
 .seg-btn:focus-visible { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4); }
 
@@ -207,8 +209,8 @@ button {
   top: 12px;
   height: 2px;
   border-radius: 1px;
-  background: linear-gradient(90deg, transparent, #5ac8fa, transparent);
-  box-shadow: 0 0 12px rgba(90, 200, 250, 0.8);
+  background: linear-gradient(90deg, transparent, #2f97f0, transparent);
+  box-shadow: 0 0 12px rgba(47, 151, 240, 0.8);
   animation: scan-sweep 2.4s var(--ease-standard) infinite;
 }
 @keyframes scan-sweep {
@@ -260,7 +262,7 @@ button {
               color var(--motion-fast) var(--ease-standard);
 }
 .scan-chip:hover { background: rgba(44, 44, 52, 0.85); color: #fff; }
-.scan-chip.is-on { background: #fff; color: #1d1d1f; }
+.scan-chip.is-on { background: #fff; color: #12213b; }
 .scan-chip:focus-visible { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4); }
 
 /* ── Панель «Мой QR-код» ───────────────────────────────────────────── */
@@ -274,8 +276,8 @@ button {
   padding: calc(84px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom));
   overflow-y: auto;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(90, 200, 250, 0.16), transparent 55%),
-    radial-gradient(140% 110% at 85% 95%, rgba(255, 45, 85, 0.10), transparent 60%),
+    radial-gradient(120% 90% at 50% 0%, rgba(47, 151, 240, 0.16), transparent 55%),
+    radial-gradient(140% 110% at 85% 95%, rgba(255, 77, 77, 0.10), transparent 60%),
     linear-gradient(180deg, #16161a 0%, #0b0b0e 100%);
   opacity: 0;
   pointer-events: none;
@@ -285,7 +287,7 @@ button {
 .mine-card {
   width: 100%;
   max-width: 320px;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
@@ -471,7 +473,7 @@ button {
   max-width: 700px;
   max-height: 76vh;
   overflow-y: auto;
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border-soft);
   border-bottom: none;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -576,8 +578,8 @@ button {
   border-radius: var(--radius-md);
   overflow: hidden;
   background:
-    radial-gradient(90% 120% at 30% 0%, rgba(90, 200, 250, 0.28), transparent 60%),
-    radial-gradient(110% 140% at 80% 100%, rgba(255, 45, 85, 0.20), transparent 60%),
+    radial-gradient(90% 120% at 30% 0%, rgba(47, 151, 240, 0.28), transparent 60%),
+    radial-gradient(110% 140% at 80% 100%, rgba(255, 77, 77, 0.20), transparent 60%),
     linear-gradient(160deg, #23232b 0%, #101014 100%);
   cursor: pointer;
 }
@@ -601,7 +603,7 @@ button {
   height: 54px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.94);
-  color: #1d1d1f;
+  color: #12213b;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   transition: transform var(--motion-fast) var(--ease-standard);
 }
@@ -788,7 +790,7 @@ button {
       for (var x = 0; x < n; x++) {
         var finder = (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
         var on = finder ? ((x % 4 === 0 || y % 4 === 0)) : (rnd() % 3 !== 0);
-        if (on) cells += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#1d1d1f"/>';
+        if (on) cells += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#12213b"/>';
       }
     }
     document.getElementById('mine-qr').innerHTML =
@@ -860,8 +862,8 @@ button {
           '<span class="res-body"><span class="res-name">Спорткомплекс «Петровское»</span>' +
           '<span class="res-meta">Вход в клуб · сегодня · 09:00 – 23:00</span></span></div>' +
           '<div class="res-block"><div class="res-label">Вход</div><div class="res-list">' +
-          itemHtml('#16a34a', 'Вход разрешён', 'Член клуба') +
-          itemHtml('#0071e3', 'Зал открыт', 'До 23:00') +
+          itemHtml('#2bb066', 'Вход разрешён', 'Член клуба') +
+          itemHtml('#1a86e0', 'Зал открыт', 'До 23:00') +
           '</div></div>';
       },
       okLabel: 'Пройти в клуб'
@@ -879,9 +881,9 @@ button {
           '<span class="res-video-tag" aria-hidden="true"><svg><use href="#ic-play"/></svg>2:34</span>' +
           '<span class="res-video-progress" aria-hidden="true"></span></div></div>' +
           '<div class="res-block"><div class="res-label">Как пользоваться</div><div class="res-list">' +
-          itemHtml('#0071e3', 'Нажмите «Пуск» и выберите программу', '1') +
-          itemHtml('#0071e3', 'Задайте скорость и наклон стрелками', '2') +
-          itemHtml('#0071e3', 'Для остановки нажмите «Стоп»', '3') +
+          itemHtml('#1a86e0', 'Нажмите «Пуск» и выберите программу', '1') +
+          itemHtml('#1a86e0', 'Задайте скорость и наклон стрелками', '2') +
+          itemHtml('#1a86e0', 'Для остановки нажмите «Стоп»', '3') +
           '</div></div>';
       },
       okLabel: 'Смотреть видео'
@@ -894,8 +896,8 @@ button {
           '<span class="res-body"><span class="res-name">Мария Соколова</span>' +
           '<span class="res-meta">Спортсмен · Спорткомплекс «Петровское»</span></span></div>' +
           '<div class="res-block"><div class="res-label">Профиль</div><div class="res-list">' +
-          itemHtml('#af52de', 'Настольный теннис', 'клуб') +
-          itemHtml('#ff9500', 'В клубе с 2023', 'стаж') +
+          itemHtml('#2f9e54', 'Настольный теннис', 'клуб') +
+          itemHtml('#ffc93c', 'В клубе с 2023', 'стаж') +
           '</div></div>';
       },
       okLabel: 'Добавить в друзья'
@@ -908,9 +910,9 @@ button {
           '<span class="res-body"><span class="res-name">Кубок поселения по футболу</span>' +
           '<span class="res-meta">Сб, 24 авг · стадион · 10:00</span></span></div>' +
           '<div class="res-block"><div class="res-label">О мероприятии</div><div class="res-list">' +
-          itemHtml('#16a34a', 'Регистрация открыта', 'свободно 12 из 50') +
-          itemHtml('#0071e3', 'Формат: 5×5', '1 тур') +
-          itemHtml('#ff9500', 'Призовой фонд', 'кубок + медали') +
+          itemHtml('#2bb066', 'Регистрация открыта', 'свободно 12 из 50') +
+          itemHtml('#1a86e0', 'Формат: 5×5', '1 тур') +
+          itemHtml('#ffc93c', 'Призовой фонд', 'кубок + медали') +
           '</div></div>';
       },
       okLabel: 'Зарегистрироваться'
@@ -1030,7 +1032,7 @@ button {
   flash.addEventListener('click', function () {
     var on = flash.getAttribute('aria-pressed') === 'true';
     flash.setAttribute('aria-pressed', String(!on));
-    flash.style.color = on ? '#fff' : '#ffd60a';
+    flash.style.color = on ? '#fff' : '#ffc93c';
     if (!on) toast('Фонарик включён');
   });
 

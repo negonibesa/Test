@@ -320,7 +320,9 @@ a { color: inherit; }
 .input::placeholder { color: var(--meta); }
 .input:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus-ring); }
 select.input { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--meta) 50%), linear-gradient(135deg, var(--meta) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.field-row .label { height: 18px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.field-row .input { height: 48px; }
 .seg { display: flex; gap: 8px; flex-wrap: wrap; }
 .seg-btn {
   flex: 1;
@@ -444,7 +446,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
   display: flex;
   align-items: center;
   gap: 7px;
-  margin: 6px 2px 4px;
+  margin: 16px 2px 6px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -452,13 +454,14 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
   color: var(--muted);
 }
 .tpl-srow-group:first-child { margin-top: 0; }
+.tpl-srow-group .tpl-srow-dot { width: 8px; height: 8px; }
 .tpl-srow {
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
   margin-bottom: 8px;
-  padding: 12px 14px;
+  padding: 11px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface);
@@ -471,9 +474,9 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .tpl-srow:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .tpl-srow.is-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
 .tpl-srow-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; }
-.tpl-srow-main { flex: 1; min-width: 0; }
-.tpl-srow-name { font-size: 15px; font-weight: 600; color: var(--fg); }
-.tpl-srow-count { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+.tpl-srow-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tpl-srow-name { font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--fg); }
+.tpl-srow-count { font-size: 13px; line-height: 1.4; color: var(--muted); margin-top: 2px; }
 .tpl-srow-check {
   flex: none;
   width: 22px;
@@ -496,8 +499,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
   background: color-mix(in srgb, var(--accent) 12%, var(--surface));
   border-radius: 6px;
   padding: 2px 6px;
-  margin-left: 6px;
-  vertical-align: 1px;
+  margin-left: 8px;
+  vertical-align: 2px;
 }
 .tpl-hint { margin: 8px 0 0; font-size: 12px; line-height: 1.45; color: var(--meta); }
 
@@ -526,6 +529,27 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .ex-row .ex-name { font-size: 14px; font-weight: 600; color: var(--fg); }
 .ex-row .ex-sets { font-size: 12px; color: var(--muted); }
 .ex-row .p-remove { width: 30px; height: 30px; }
+.ex-move {
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.ex-move button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 28px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--surface-2);
+  color: var(--meta);
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.ex-move button:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 12%, var(--surface)); color: var(--accent); }
+.ex-move button:disabled { opacity: 0.35; cursor: default; }
+.ex-move button svg { width: 13px; height: 13px; }
 .ex-empty { font-size: 12px; line-height: 1.45; color: var(--meta); margin-top: 12px; }
 .ex-add { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
 .ex-add select.input { flex: 1; min-width: 0; }
@@ -689,6 +713,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
   font-size: 14px;
   font-weight: 700;
 }
+.av { width: 100%; height: 100%; display: block; border-radius: 50%; }
 .person .p-main { flex: 1; min-width: 0; }
 .person .p-name { font-size: 15px; font-weight: 600; color: var(--fg); }
 .person .p-sub { font-size: 12px; color: var(--muted); }
@@ -706,6 +731,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 }
 .person .p-badge.pending { color: var(--warn); background: color-mix(in srgb, var(--warn) 18%, var(--surface)); }
 .person .p-badge svg { width: 13px; height: 13px; flex: none; }
+.person.is-invited { border-color: color-mix(in srgb, var(--success) 45%, var(--border)); background: color-mix(in srgb, var(--success) 6%, var(--surface)); }
+.person.is-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
 .p-remove {
   flex: none;
   display: grid;
@@ -752,6 +779,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 #step-facility #fac-owner { margin: 0 0 14px; }
 #step-facility #row-duration { margin-top: 18px; }
 #step-facility #fac-range { margin-top: 14px; }
+#step-trainer #tr-duration-wrap { margin-top: 18px; }
+#step-trainer #tr-range { margin-top: 14px; }
 .fac-card .card-title { margin-bottom: 18px; }
 .facility-group {
   display: grid;
@@ -945,6 +974,12 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .sheet-note { margin-top: 12px; font-size: 12px; line-height: 1.45; color: var(--meta); text-align: center; }
 .sheet-empty { text-align: center; padding: 24px 0; font-size: 14px; color: var(--meta); }
 
+/* ── Редактирование упражнения ─────────────────────────────────────── */
+.ex-sheet-name { margin: 2px 0 14px; font-size: 17px; font-weight: 700; color: var(--fg); letter-spacing: -0.011em; }
+.ex-sheet-hint { margin: 8px 0 0; font-size: 12px; line-height: 1.45; color: var(--meta); }
+.ex-sheet-actions { display: grid; gap: 10px; margin-top: 16px; }
+.ex-sheet-actions .btn { width: 100%; height: 48px; }
+
 /* ── Экран готово ──────────────────────────────────────────────────── */
 .done-wrap { text-align: center; padding: 28px 12px 8px; }
 .done-ic {
@@ -1042,6 +1077,8 @@ body.no-scroll { overflow: hidden; }
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-down" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -1055,6 +1092,7 @@ body.no-scroll { overflow: hidden; }
   <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5L21 21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5.5 19.5c0-3.3 2.9-5.3 6.5-5.3s6.5 2 6.5 5.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
   <symbol id="ic-dumbbell" viewBox="0 0 24 24"><rect x="3" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="17.8" y="9" width="3.2" height="6" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6.2 12h11.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5.5 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-court" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 5v14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 9.5l4.5 3.5 4.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-warn" viewBox="0 0 24 24"><path d="M12 4.5L3.5 19.5h17L12 4.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10.5v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17.2" r="0.4" fill="currentColor"/></symbol>
 </svg>
@@ -1104,7 +1142,7 @@ body.no-scroll { overflow: hidden; }
       <div class="card" id="tpl-card" style="display:none">
         <span class="card-title"><span class="tt-ic"><svg aria-hidden="true"><use href="#ic-dumbbell"/></svg></span>Тренировка</span>
         <button type="button" class="tpl-pick" id="tpl-pick" data-od-id="tpl-pick">
-          <span class="tpl-pick-ic"><svg aria-hidden="true"><use href="#ic-dumbbell"/></svg></span>
+          <span class="tpl-pick-ic"><svg aria-hidden="true"><use href="#ic-copy"/></svg></span>
           <span class="tpl-pick-main">
             <span class="tpl-pick-label" id="tpl-pick-label">Добавить из шаблона</span>
             <span class="tpl-pick-sub" id="tpl-pick-sub">Готовые тренировки по видам спорта</span>
@@ -1132,30 +1170,38 @@ body.no-scroll { overflow: hidden; }
           <label class="switch"><input type="checkbox" id="tpl-save"><span class="slider"></span></label>
         </div>
       </div>
-      <div class="card" id="trainer-card" style="display:none">
-        <span class="card-title"><span class="tt-ic"><svg aria-hidden="true"><use href="#ic-user"/></svg></span>Тренер</span>
-        <div class="field">
-          <label class="label" for="c-trainer">Тренер</label>
-          <select class="input" id="c-trainer">
-            <option>Иванов М.</option>
-            <option>Петрова А.</option>
-            <option>Смирнов П.</option>
-            <option>Кузнецова М.</option>
-          </select>
-        </div>
-      </div>
     </div>
 
-    <div id="step-slots" class="step" data-od-id="step-slots">
-      <h2 class="step-title">Выбор времени</h2>
-      <p class="step-note" id="slots-note"></p>
+    <div id="step-trainer" class="step" data-od-id="step-trainer">
+      <h2 class="step-title">Тренер и время</h2>
+      <p class="step-note">Выберите дату и тренера по специальности — покажем свободные слоты.</p>
       <div class="card">
-        <p class="slot-sub" id="slots-owner"></p>
-        <div id="slots-area"></div>
-        <div class="legend" id="slots-legend" style="display:none">
+        <div class="field">
+          <label class="label" for="tr-date">Дата</label>
+          <input class="input" id="tr-date" type="date">
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-title"><span class="tt-ic"><svg aria-hidden="true"><use href="#ic-user"/></svg></span>Тренер</span>
+        <button type="button" class="tpl-pick" id="tr-pick" data-od-id="tr-pick">
+          <span class="tpl-pick-ic"><svg aria-hidden="true"><use href="#ic-user"/></svg></span>
+          <span class="tpl-pick-main">
+            <span class="tpl-pick-label" id="tr-pick-label">Выбрать тренера</span>
+            <span class="tpl-pick-sub" id="tr-pick-sub">Поиск по специальности и рейтингу</span>
+          </span>
+          <span class="tpl-pick-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>
+        </button>
+      </div>
+      <div class="card">
+        <p class="slot-sub" id="tr-owner"></p>
+        <div class="slot-grid" id="tr-slots"></div>
+        <div class="field" id="tr-duration-wrap">
+          <span class="label">Длительность</span>
+          <div class="seg" id="tr-duration"></div>
+        </div>
+        <p class="slot-sub" id="tr-range" style="display:none"></p>
+        <div class="legend" id="tr-legend" style="display:none">
           <span class="legend-item"><span class="legend-dot green"></span>Свободно</span>
-          <span class="legend-item"><span class="legend-dot yellow"></span>Забронировано</span>
-          <span class="legend-item"><span class="legend-dot red"></span>Занято</span>
         </div>
       </div>
     </div>
@@ -1264,19 +1310,38 @@ body.no-scroll { overflow: hidden; }
   </div>
 </div>
 
-<div class="sheet-overlay" id="friends-sheet" style="display:none" data-od-id="friends-sheet">
-  <div class="sheet" role="dialog" aria-modal="true" aria-label="Позвать друзей">
+<div class="sheet-overlay" id="people-sheet" style="display:none" data-od-id="people-sheet">
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Выбор людей">
     <div class="sheet-head">
-      <div class="sheet-title">Позвать друзей</div>
-      <button type="button" class="sheet-close" id="sheet-close" aria-label="Закрыть"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+      <div class="sheet-title" id="people-title">Позвать друзей</div>
+      <button type="button" class="sheet-close" id="people-close" aria-label="Закрыть"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
     </div>
     <div class="sheet-search">
       <svg aria-hidden="true"><use href="#ic-search"/></svg>
-      <input id="fr-search" type="text" placeholder="Поиск по имени или телефону">
+      <input id="people-search" type="text" placeholder="Поиск по имени или телефону">
     </div>
-    <div class="sheet-counter" id="sheet-counter"></div>
-    <div class="sheet-list" id="fr-sheet-list"></div>
-    <div class="sheet-note">Друзья получат приглашение. Изменить можно в управлении событием.</div>
+    <div class="sheet-counter" id="people-counter"></div>
+    <div class="sheet-list" id="people-list"></div>
+    <div class="sheet-note" id="people-note">Друзья получат приглашение. Изменить можно в управлении событием.</div>
+  </div>
+</div>
+
+<div class="sheet-overlay" id="ex-edit-sheet" style="display:none" data-od-id="ex-edit-sheet">
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Редактировать упражнение">
+    <div class="sheet-head">
+      <div class="sheet-title">Упражнение</div>
+      <button type="button" class="sheet-close" id="ex-edit-close" aria-label="Закрыть"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+    </div>
+    <h4 class="ex-sheet-name" id="ex-edit-name"></h4>
+    <div class="field">
+      <label class="label" for="ex-edit-sets">Подходы и повторения</label>
+      <input class="input" id="ex-edit-sets" type="text" placeholder="Например: 3 × 12 или 30 мин" inputmode="text">
+      <p class="ex-sheet-hint">Объём: сеты × повторения, время или дистанция. Вес — через запятую (4 × 12 · 20 кг).</p>
+    </div>
+    <div class="ex-sheet-actions">
+      <button type="button" class="btn btn-primary" id="ex-edit-save" data-od-id="ex-edit-save">Сохранить</button>
+      <button type="button" class="btn" id="ex-edit-cancel">Отмена</button>
+    </div>
   </div>
 </div>
 
@@ -1317,20 +1382,30 @@ body.no-scroll { overflow: hidden; }
 (function () {
   'use strict';
 
+  function avaId(name) {
+    if (name === 'Вы') return 8;
+    var h = 0;
+    for (var i = 0; i < name.length; i++) { h = (h * 31 + name.charCodeAt(i)) >>> 0; }
+    return (h % 8) + 1;
+  }
+  function avaHTML(name) {
+    return '<svg class="av" aria-hidden="true"><use href="#ava-' + avaId(name) + '"/></svg>';
+  }
+
   var p = function (n) { return (n < 10 ? '0' : '') + n; };
   var today = new Date();
   var DEFAULT_DATE = today.getFullYear() + '-' + p(today.getMonth() + 1) + '-' + p(today.getDate() + 1);
 
   var STATUS = {
-    confirmed: { label: 'Подтверждено', color: '#34c759' },
-    pending:   { label: 'Ожидает',      color: '#ff9500' },
-    open:      { label: 'Открыта',      color: '#007aff' }
+    confirmed: { label: 'Подтверждено', color: '#1a86e0' },
+    pending:   { label: 'Ожидает',      color: '#ffc93c' },
+    open:      { label: 'Открыта',      color: '#0b3d91' }
   };
 
   var TYPES = [
-    { id: 'rental',  icon: 'ic-court',   name: 'Аренда площадки', hint: 'Зал, бассейн, корт или поле спорткомплекса', color: '#ff2d55', status: 'confirmed' },
-    { id: 'me',      icon: 'ic-dumbbell', name: 'Моя тренировка', hint: 'Самостоятельная — план и календарь',        color: '#34c759', status: 'confirmed' },
-    { id: 'trainer', icon: 'ic-user',    name: 'С тренером',      hint: 'Заявка тренеру — ждёт подтверждения',        color: '#ff9500', status: 'pending' }
+    { id: 'rental',  icon: 'ic-court',   name: 'Аренда площадки', hint: 'Зал, бассейн, корт или поле спорткомплекса', color: '#4a6fa5', status: 'confirmed' },
+    { id: 'me',      icon: 'ic-dumbbell', name: 'Моя тренировка', hint: 'Самостоятельная — план и календарь',        color: '#2f9e54', status: 'confirmed' },
+    { id: 'trainer', icon: 'ic-user',    name: 'С тренером',      hint: 'Заявка тренеру — ждёт подтверждения',        color: '#ffc93c', status: 'pending' }
   ];
   var TYPE = {};
   TYPES.forEach(function (t) { TYPE[t.id] = t; });
@@ -1339,16 +1414,16 @@ body.no-scroll { overflow: hidden; }
     { name: 'Спортзал №1',       addr: 'Спорткомплекс · 1 этаж',        price: 400, cap: 10, color: '#1a86e0', slots: ['10:00', '12:00', '14:00', '16:00'],
       desc: 'Универсальный зал для командных игр: баскетбол, волейбол, мини-футбол. Трибуны на 60 мест, электронное табло, раздевалки с душевыми.',
       inv: [ {n: 'Мячи баскетбольные', price: 150}, {n: 'Мячи футбольные', price: 150}, {n: 'Мячи волейбольные', price: 120} ] },
-    { name: 'Спортзал №2',       addr: 'Спорткомплекс · 1 этаж',        price: 350, cap: 10, color: '#2fa8a6', slots: ['14:00', '15:00', '16:00', '17:00', '18:00'],
+    { name: 'Спортзал №2',       addr: 'Спорткомплекс · 1 этаж',        price: 350, cap: 10, color: '#2f9e54', slots: ['14:00', '15:00', '16:00', '17:00', '18:00'],
       desc: 'Компактный зал для тренировок: волейбол, баскетбол, единоборства. Зеркальные стены, татами, инвентарь выдаётся на месте.',
       inv: [ {n: 'Мячи волейбольные', price: 120}, {n: 'Сетка волейбольная', price: 300}, {n: 'Скакалки', price: 50} ] },
-    { name: 'Фитнес-зал',        addr: 'Спорткомплекс · 2 этаж',        price: 300, cap: 8,  color: '#ff9500', slots: ['09:00', '10:00', '11:00', '14:00', '15:00'],
+    { name: 'Фитнес-зал',        addr: 'Спорткомплекс · 2 этаж',        price: 300, cap: 8,  color: '#ffc93c', slots: ['09:00', '10:00', '11:00', '14:00', '15:00'],
       desc: 'Зона свободных весов и кардиотренажёры, коврики для растяжки. Подходит для персональных и самостоятельных занятий.',
       inv: [ {n: 'Коврики', price: 50}, {n: 'Гантели 2–5 кг', price: 100}, {n: 'Скакалки', price: 50} ] },
-    { name: 'Бассейн «Волна»',   addr: 'ул. Набережная, 5 · 6 дорожек', price: 350, cap: 6,  color: '#0aa5d6', slots: ['09:00', '10:00', '11:00', '13:00'],
+    { name: 'Бассейн «Волна»',   addr: 'ул. Набережная, 5 · 6 дорожек', price: 350, cap: 6,  color: '#2f97f0', slots: ['09:00', '10:00', '11:00', '13:00'],
       desc: '25-метровый бассейн на 6 дорожек, глубина 1,2–4 м. Душ, раздевалки, доски и ласты в прокате. Тёплая вода круглый год.',
       inv: [ {n: 'Доска для плавания', price: 100}, {n: 'Ласты', price: 150}, {n: 'Колобашка', price: 80} ] },
-    { name: 'Теннисный корт №3', addr: 'грунтовый корт',                price: 600, cap: 4,  color: '#8b5fbf', slots: ['10:00', '11:00', '14:00', '16:00', '18:00'],
+    { name: 'Теннисный корт №3', addr: 'грунтовый корт',                price: 600, cap: 4,  color: '#4a6fa5', slots: ['10:00', '11:00', '14:00', '16:00', '18:00'],
       desc: 'Грунтовый корт с разметкой под одиночные и парные игры. Ракетки и мячи в прокате, вечернее освещение до 22:00.',
       inv: [ {n: 'Ракетки (пара)', price: 200}, {n: 'Мячи (банка)', price: 100} ] }
   ];
@@ -1360,6 +1435,13 @@ body.no-scroll { overflow: hidden; }
     { name: 'Сергей И.',  ini: 'СИ', status: 'out',     sub: 'Свободен' },
     { name: 'Анна В.',    ini: 'АВ', status: 'out',     sub: 'Свободна' },
     { name: 'Павел Р.',   ini: 'ПР', status: 'out',     sub: 'Свободен' }
+  ];
+
+  var TRAINERS = [
+    { name: 'Иванов М.',    ini: 'ИМ', sport: 'strength', spec: 'Силовые тренировки', rating: '4.9', price: 800, slots: ['09:00', '10:00', '11:00', '14:00', '16:00', '17:00'] },
+    { name: 'Петрова А.',   ini: 'ПА', sport: 'swim',     spec: 'Плавание',           rating: '4.8', price: 700, slots: ['09:00', '11:00', '12:00', '15:00', '17:00'] },
+    { name: 'Смирнов П.',   ini: 'СП', sport: 'run',      spec: 'Бег и ОФП',          rating: '4.7', price: 600, slots: ['10:00', '11:00', '14:00', '16:00', '18:00'] },
+    { name: 'Кузнецова М.', ini: 'КМ', sport: 'general',  spec: 'Фитнес и растяжка',  rating: '4.9', price: 750, slots: ['09:00', '10:00', '14:00', '15:00', '18:00'] }
   ];
 
   var EXERCISES = [
@@ -1423,12 +1505,6 @@ body.no-scroll { overflow: hidden; }
     try { localStorage.setItem(TPL_KEY, JSON.stringify(list)); } catch (e) {}
   }
 
-  var SLOTS = [
-    { t: '09:00', st: 'free' }, { t: '10:00', st: 'free' }, { t: '11:00', st: 'booked' },
-    { t: '12:00', st: 'booked' }, { t: '14:00', st: 'free' }, { t: '16:00', st: 'busy' },
-    { t: '17:00', st: 'free' }, { t: '18:00', st: 'free' }
-  ];
-
   var state = {
     type: null,
     title: '',
@@ -1458,6 +1534,10 @@ body.no-scroll { overflow: hidden; }
   function facilityByName(name) {
     for (var i = 0; i < FACILITIES.length; i++) if (FACILITIES[i].name === name) return FACILITIES[i];
     return FACILITIES[0];
+  }
+  function trainerByName(nm) {
+    for (var i = 0; i < TRAINERS.length; i++) if (TRAINERS[i].name === nm) return TRAINERS[i];
+    return TRAINERS[0];
   }
   function freeSlotsFor(name, iso) {
     if (name === 'Спортзал №1' && iso === bookedDate) return [];
@@ -1490,7 +1570,7 @@ body.no-scroll { overflow: hidden; }
 
   function stepsFor(t) {
     if (t === 'rental') return ['facility', 'extras', 'confirm', 'done'];
-    if (t === 'trainer') return ['common', 'slots', 'confirm', 'done'];
+    if (t === 'trainer') return ['trainer', 'confirm', 'done'];
     return ['common', 'confirm', 'done'];
   }
   var steps = ['type'].concat(stepsFor('me'));
@@ -1548,9 +1628,14 @@ body.no-scroll { overflow: hidden; }
     var hh = (+q[0] + h) % 24;
     return p(hh) + ':' + q[1];
   }
+  function currentSlotPool() {
+    if (state.type === 'rental') return freeSlotsFor(state.facility, state.date);
+    if (state.type === 'trainer') return trainerByName(state.trainer).slots;
+    return [];
+  }
   function durationAvailable(start, h) {
     if (!start) return true;
-    var free = freeSlotsFor(state.facility, state.date);
+    var free = currentSlotPool();
     var set = {};
     free.forEach(function (t) { set[t] = true; });
     var q = start.split(':');
@@ -1602,13 +1687,10 @@ body.no-scroll { overflow: hidden; }
     if (el.cDate.value) state.date = el.cDate.value;
     state.time = el.cTime.value.trim();
     state.place = el.cPlace.value.trim();
-    state.trainer = el.cTrainer.value;
     state.note = el.cNote.value.trim();
   }
   function renderCommon() {
     var isMe = state.type === 'me';
-    var isTrainer = state.type === 'trainer';
-    el.trainerCard.style.display = isTrainer ? '' : 'none';
     el.rowTime.style.display = isMe ? '' : 'none';
     el.rowPlace.style.display = isMe ? '' : 'none';
     el.tplCard.style.display = isMe ? '' : 'none';
@@ -1617,7 +1699,6 @@ body.no-scroll { overflow: hidden; }
     el.cTitle.value = state.title;
     el.cTime.value = state.time;
     el.cPlace.value = state.place;
-    if (state.trainer) el.cTrainer.value = state.trainer;
     if (isMe) {
       el.cNote.value = state.note;
       el.tplSave.checked = state.saveTpl;
@@ -1683,14 +1764,15 @@ body.no-scroll { overflow: hidden; }
       row.className = 'tpl-srow' + (sel ? ' is-on' : '');
       row.setAttribute('data-od-id', 'tpl-srow-' + (t.id || 'none'));
       row.innerHTML =
-        '<span class="tpl-srow-dot" style="background:' + sportToken(sportOf(t)) + '" aria-hidden="true"></span>' +
         '<span class="tpl-srow-main">' +
           '<span class="tpl-srow-name">' + t.name + '</span>' +
           (t.items && t.items.length
             ? '<span class="tpl-srow-count">' + t.items.length + ' ' + pluralize(t.items.length, 'упражнение', 'упражнения', 'упражнений') + '</span>'
             : '') +
         '</span>' +
-        '<span class="tpl-srow-check"><svg aria-hidden="true"><use href="#ic-check"/></svg></span>';
+        (sel
+          ? '<span class="tpl-srow-check"><svg aria-hidden="true"><use href="#ic-check"/></svg></span>'
+          : '');
       if (t.coach) {
         row.querySelector('.tpl-srow-name').insertAdjacentHTML('beforeend', '<span class="tpl-badge">от тренера</span>');
       }
@@ -1745,6 +1827,37 @@ body.no-scroll { overflow: hidden; }
         '<span class="ex-ic" aria-hidden="true"><svg><use href="#ic-dumbbell"/></svg></span>' +
         '<div class="ex-main"><div class="ex-name">' + ex.name + '</div>' +
         (ex.sets ? '<div class="ex-sets">' + ex.sets + '</div>' : '') + '</div>';
+      var mv = document.createElement('div');
+      mv.className = 'ex-move';
+      var up = document.createElement('button');
+      up.type = 'button';
+      up.disabled = i === 0;
+      up.setAttribute('aria-label', 'Переместить «' + ex.name + '» выше');
+      up.innerHTML = '<svg aria-hidden="true"><use href="#ic-up"/></svg>';
+      up.addEventListener('click', function () {
+        if (i === 0) return;
+        var t = state.exercises[i - 1];
+        state.exercises[i - 1] = state.exercises[i];
+        state.exercises[i] = t;
+        state.exTouched = true;
+        renderExercises();
+      });
+      var dn = document.createElement('button');
+      dn.type = 'button';
+      dn.disabled = i === state.exercises.length - 1;
+      dn.setAttribute('aria-label', 'Переместить «' + ex.name + '» ниже');
+      dn.innerHTML = '<svg aria-hidden="true"><use href="#ic-down"/></svg>';
+      dn.addEventListener('click', function () {
+        if (i === state.exercises.length - 1) return;
+        var t = state.exercises[i + 1];
+        state.exercises[i + 1] = state.exercises[i];
+        state.exercises[i] = t;
+        state.exTouched = true;
+        renderExercises();
+      });
+      mv.appendChild(up);
+      mv.appendChild(dn);
+      row.appendChild(mv);
       var rm = document.createElement('button');
       rm.type = 'button';
       rm.className = 'p-remove';
@@ -1756,8 +1869,35 @@ body.no-scroll { overflow: hidden; }
         renderExercises();
       });
       row.appendChild(rm);
+      row.addEventListener('click', function (ev) {
+        if (ev.target.closest('.ex-move') || ev.target.closest('.p-remove')) return;
+        openExEdit(i);
+      });
       box.appendChild(row);
     });
+  }
+
+  var exEditIndex = -1;
+  function openExEdit(i) {
+    var ex = state.exercises[i];
+    if (!ex) return;
+    exEditIndex = i;
+    el.exEditName.textContent = ex.name;
+    el.exEditSets.value = ex.sets || '';
+    el.exEditSheet.style.display = 'flex';
+    setTimeout(function () { el.exEditSets.focus(); el.exEditSets.select(); }, 60);
+  }
+  function closeExEdit() {
+    el.exEditSheet.style.display = 'none';
+    exEditIndex = -1;
+  }
+  function saveExEdit() {
+    if (exEditIndex < 0) return;
+    var v = el.exEditSets.value.trim();
+    state.exercises[exEditIndex].sets = v;
+    state.exTouched = true;
+    closeExEdit();
+    renderExercises();
   }
   function buildExerciseSelect() {
     var sel = el.exSel;
@@ -1771,27 +1911,37 @@ body.no-scroll { overflow: hidden; }
     sel.value = '0';
   }
 
-  /* ── Шаг: слоты (с тренером) ─────────────────────────────────────── */
-  function renderSlots() {
-    el.slotsNote.textContent = 'Свободное время тренера на ' + fmtDate(state.date) + ':';
-    el.slotsOwner.innerHTML = '<b>' + state.trainer + '</b> — доступные слоты:';
-    el.slotsLegend.style.display = 'flex';
-    var area = el.slotsArea;
+  /* ── Шаг: тренер и время (с тренером) ────────────────────────────── */
+  function renderTrainer() {
+    el.trDate.value = state.date;
+    if (!state.trainer) state.trainer = TRAINERS[0].name;
+    renderTrainerPick();
+    renderTrainerSlots();
+    renderRecap();
+  }
+  function renderTrainerPick() {
+    var tr = trainerByName(state.trainer);
+    el.trPick.classList.toggle('has-tpl', !!tr);
+    el.trPickLabel.textContent = tr ? tr.name : 'Выбрать тренера';
+    el.trPickSub.textContent = tr
+      ? tr.spec + ' · ' + tr.price + ' ₽/час · рейтинг ' + tr.rating
+      : 'Поиск по специальности и рейтингу';
+  }
+  function renderTrainerSlots() {
+    var tr = trainerByName(state.trainer);
+    el.trOwner.innerHTML = '<b>' + tr.name + '</b> · ' + tr.spec + ' — на ' + fmtDate(state.date) + ':';
+    el.trLegend.style.display = 'flex';
+    var area = el.trSlots;
     area.innerHTML = '';
-    SLOTS.forEach(function (s) {
+    tr.slots.forEach(function (t) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'slot is-' + s.st + (state.slot === s.t ? ' is-sel' : '');
-      b.textContent = s.t;
-      if (s.st === 'busy') {
-        b.disabled = true;
-      } else if (s.st === 'booked') {
-        b.addEventListener('click', function () { toast('Слот ' + s.t + ' уже забронирован — выберите другой'); });
-      } else {
-        b.addEventListener('click', function () { state.slot = s.t; renderSlots(); });
-      }
+      b.className = 'slot is-free' + (state.slot === t ? ' is-sel' : '');
+      b.textContent = t;
+      b.addEventListener('click', function () { state.slot = t; renderTrainer(); });
       area.appendChild(b);
     });
+    renderDuration(el.trDuration, el.trRange);
   }
 
   /* ── Шаг 1 аренды: площадка и время ──────────────────────────────── */
@@ -1870,20 +2020,18 @@ body.no-scroll { overflow: hidden; }
         b.addEventListener('click', function () { state.slot = t; renderFacility(); });
         area.appendChild(b);
       });
-      renderDuration();
-      renderFacilityRange();
+      renderDuration(el.durationSeg, el.facRange);
     } else {
       el.rowDuration.style.display = 'none';
       el.facRange.style.display = 'none';
       renderNoSlots(area, f);
     }
   }
-  function renderDuration() {
+  function renderDuration(segEl, rangeEl) {
     if (state.slot) {
       while (state.duration > 1 && !durationAvailable(state.slot, state.duration)) state.duration--;
     }
-    var seg = el.durationSeg;
-    seg.innerHTML = '';
+    segEl.innerHTML = '';
     [1, 2, 3].forEach(function (h) {
       var b = document.createElement('button');
       b.type = 'button';
@@ -1895,16 +2043,16 @@ body.no-scroll { overflow: hidden; }
       b.addEventListener('click', function () {
         if (!avail) return;
         state.duration = h;
-        renderFacility();
+        refreshCurrent();
       });
-      seg.appendChild(b);
+      segEl.appendChild(b);
     });
-    renderFacilityRange();
+    renderRange(rangeEl);
   }
-  function renderFacilityRange() {
-    if (!state.slot) { el.facRange.style.display = 'none'; return; }
-    el.facRange.innerHTML = 'Выбрано: <b>' + state.slot + ' – ' + endTime(state.slot, hours()) + '</b> · ' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов');
-    el.facRange.style.display = '';
+  function renderRange(rangeEl) {
+    if (!state.slot) { rangeEl.style.display = 'none'; return; }
+    rangeEl.innerHTML = 'Выбрано: <b>' + state.slot + ' – ' + endTime(state.slot, hours()) + '</b> · ' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов');
+    rangeEl.style.display = '';
   }
   function renderNoSlots(area, f) {
     var block = document.createElement('div');
@@ -2072,7 +2220,7 @@ body.no-scroll { overflow: hidden; }
     var cap = facilityByName(state.facility).cap;
     var txt = 'Вы + ' + state.people.length + ' из ' + cap;
     el.frCounter.textContent = txt;
-    el.sheetCounter.textContent = txt;
+    el.peopleCounter.textContent = txt;
   }
   function renderFriendsList() {
     var list = el.frList;
@@ -2090,7 +2238,7 @@ body.no-scroll { overflow: hidden; }
       var row = document.createElement('div');
       row.className = 'person';
       row.innerHTML =
-        '<span class="p-ava" aria-hidden="true">' + (f ? f.ini : '??') + '</span>' +
+        '<span class="p-ava" aria-hidden="true">' + avaHTML(nm) + '</span>' +
         '<div class="p-main"><div class="p-name">' + nm + '</div><div class="p-sub">Приглашён</div></div>' +
         '<span class="p-badge' + (ok ? '' : ' pending') + '">' + (ok ? '<svg aria-hidden="true"><use href="#ic-check"/></svg>Согласен' : '<svg aria-hidden="true"><use href="#ic-clock"/></svg>Ожидает') + '</span>';
       var rm = document.createElement('button');
@@ -2103,7 +2251,7 @@ body.no-scroll { overflow: hidden; }
         toast('Убран из списка: ' + nm);
         renderFriendsList();
         renderCounter();
-        renderSheetList();
+        renderPicker();
       });
       row.appendChild(rm);
       list.appendChild(row);
@@ -2121,22 +2269,75 @@ body.no-scroll { overflow: hidden; }
     renderRecap();
   }
 
-  /* ── Шторка друзей ───────────────────────────────────────────────── */
-  function openSheet() {
-    el.friendsSheet.style.display = 'flex';
+  /* ── Единый пикер людей (друзья / тренеры) ───────────────────────── */
+  var pickerMode = null;
+  function openPicker(mode) {
+    pickerMode = mode;
+    el.peopleSheet.style.display = 'flex';
     document.body.classList.add('no-scroll');
-    el.frSearch.value = '';
-    renderCounter();
-    renderSheetList();
+    el.peopleSearch.value = '';
+    el.peopleTitle.textContent = mode === 'trainer' ? 'Выберите тренера' : 'Позвать друзей';
+    el.peopleSearch.placeholder = mode === 'trainer' ? 'Поиск по имени или специальности' : 'Поиск по имени или телефону';
+    el.peopleNote.style.display = mode === 'trainer' ? 'none' : '';
+    renderPicker();
   }
-  function closeSheet() {
-    el.friendsSheet.style.display = 'none';
+  function closePicker() {
+    el.peopleSheet.style.display = 'none';
     document.body.classList.remove('no-scroll');
   }
-  function renderSheetList() {
-    var q = (el.frSearch.value || '').trim().toLowerCase();
-    var list = el.frSheetList;
+  function renderPicker() {
+    var q = (el.peopleSearch.value || '').trim().toLowerCase();
+    var list = el.peopleList;
     list.innerHTML = '';
+    if (pickerMode === 'trainer') { renderTrainerPicker(list, q); return; }
+    renderFriendsPicker(list, q);
+  }
+  function renderTrainerPicker(list, q) {
+    el.peopleCounter.style.display = 'none';
+    var shown = 0;
+    SPORT_ORDER.forEach(function (sid) {
+      var group = TRAINERS.filter(function (tr) {
+        return tr.sport === sid &&
+          (!q || tr.name.toLowerCase().indexOf(q) >= 0 || tr.spec.toLowerCase().indexOf(q) >= 0);
+      });
+      if (!group.length) return;
+      var h = document.createElement('div');
+      h.className = 'tpl-srow-group';
+      h.innerHTML = '<span class="tpl-srow-dot" style="background:' + sportToken(sid) + '" aria-hidden="true"></span>' + (SPORTS[sid] || SPORTS.general).label;
+      list.appendChild(h);
+      shown += group.length;
+      group.forEach(function (tr) {
+        var sel = state.trainer === tr.name;
+        var row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'person' + (sel ? ' is-on' : '');
+        row.setAttribute('data-od-id', 'trainer-' + tr.name.toLowerCase().replace(/[^a-z0-9а-яё]+/gi, '-').replace(/^-+|-+$/g, ''));
+        row.innerHTML =
+          '<span class="p-ava" aria-hidden="true">' + avaHTML(tr.name) + '</span>' +
+          '<div class="p-main"><div class="p-name">' + tr.name + '</div><div class="p-sub">' + tr.spec + ' · ' + tr.price + ' ₽/час · ★ ' + tr.rating + '</div></div>' +
+          (sel ? '<span class="p-badge"><svg aria-hidden="true"><use href="#ic-check"/></svg>Выбран</span>' : '');
+        row.addEventListener('click', function () {
+          if (state.trainer === tr.name) { closePicker(); return; }
+          state.trainer = tr.name;
+          state.slot = null;
+          state.duration = 1;
+          closePicker();
+          toast('Тренер: ' + tr.name);
+          refreshCurrent();
+        });
+        list.appendChild(row);
+      });
+    });
+    if (!shown) {
+      var e = document.createElement('div');
+      e.className = 'sheet-empty';
+      e.textContent = 'Тренеров не нашли по запросу';
+      list.appendChild(e);
+    }
+  }
+  function renderFriendsPicker(list, q) {
+    el.peopleCounter.style.display = '';
+    renderCounter();
     var cap = facilityByName(state.facility).cap;
     var shown = 0;
     FRIENDS.forEach(function (f) {
@@ -2146,7 +2347,7 @@ body.no-scroll { overflow: hidden; }
       var row = document.createElement('div');
       row.className = 'person' + (added ? ' is-invited' : '');
       row.innerHTML =
-        '<span class="p-ava" aria-hidden="true">' + f.ini + '</span>' +
+        '<span class="p-ava" aria-hidden="true">' + avaHTML(f.name) + '</span>' +
         '<div class="p-main"><div class="p-name">' + f.name + '</div><div class="p-sub">' + f.sub + '</div></div>';
       if (added) {
         row.insertAdjacentHTML('beforeend', '<span class="p-badge"><svg aria-hidden="true"><use href="#ic-check"/></svg>Добавлен</span>');
@@ -2163,7 +2364,7 @@ body.no-scroll { overflow: hidden; }
           state.people.push(f.name);
           toast('Приглашение отправлено: ' + f.name);
         }
-        renderSheetList();
+        renderPicker();
         renderFriendsList();
         renderCounter();
       });
@@ -2187,6 +2388,8 @@ body.no-scroll { overflow: hidden; }
     var when;
     if (state.type === 'rental' && state.slot) {
       when = fmtDate(state.date) + ', ' + state.slot + ' – ' + endTime(state.slot, hours()) + ' (' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов') + ')';
+    } else if (state.type === 'trainer' && state.slot) {
+      when = fmtDate(state.date) + ', ' + state.slot + ' – ' + endTime(state.slot, hours()) + ' (' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов') + ')';
     } else {
       when = fmtDate(state.date) + ', ' + (state.slot || state.time || 'время уточняется');
     }
@@ -2200,23 +2403,23 @@ body.no-scroll { overflow: hidden; }
       rows.push(['Стоимость', fmtPrice(tot) + '<span class="sub">' + f.price + ' ₽ × ' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов') + (add ? ' + инвентарь ' + add + ' ₽' : '') + '</span>']);
       var cnt = state.people.length;
       rows.push(['Участники', cnt ? 'Вы + ' + cnt + ' ' + pluralize(cnt, 'участник', 'участника', 'участников') : 'Только вы']);
+    } else if (state.type === 'trainer') {
+      var tr = trainerByName(state.trainer);
+      rows.push(['Тренер', tr.name + '<span class="sub">' + tr.spec + ' · рейтинг ' + tr.rating + '</span>']);
+      rows.push(['Место', 'Спорткомплекс']);
+      rows.push(['Стоимость', fmtPrice(tr.price * hours()) + '<span class="sub">' + tr.price + ' ₽ × ' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов') + '</span>']);
     } else {
       rows.push(['Название', state.title || '—']);
-      if (state.type === 'trainer') {
-        rows.push(['Тренер', state.trainer || '—']);
-        rows.push(['Место', 'Спорткомплекс']);
-      } else {
-        rows.push(['Место', state.place || '—']);
-        var tpl = templateById(state.template);
-        if (tpl) rows.push(['Шаблон', tpl.name]);
-        var ex = state.exercises;
-        if (ex.length) {
-          rows.push(['Упражнения', ex.length + ' ' + pluralize(ex.length, 'упражнение', 'упражнения', 'упражнений') +
-            '<span class="sub">' + ex.map(function (e) { return e.name + (e.sets ? ' · ' + e.sets : ''); }).join('<br>') + '</span>']);
-        }
-        if (state.note) rows.push(['Заметки', state.note]);
-        if (state.saveTpl) rows.push(['Сохранить', 'Как шаблон в профиле']);
+      rows.push(['Место', state.place || '—']);
+      var tpl = templateById(state.template);
+      if (tpl) rows.push(['Шаблон', tpl.name]);
+      var ex = state.exercises;
+      if (ex.length) {
+        rows.push(['Упражнения', ex.length + ' ' + pluralize(ex.length, 'упражнение', 'упражнения', 'упражнений') +
+          '<span class="sub">' + ex.map(function (e) { return e.name + (e.sets ? ' · ' + e.sets : ''); }).join('<br>') + '</span>']);
       }
+      if (state.note) rows.push(['Заметки', state.note]);
+      if (state.saveTpl) rows.push(['Сохранить', 'Как шаблон в профиле']);
     }
     return rows;
   }
@@ -2248,7 +2451,14 @@ body.no-scroll { overflow: hidden; }
       nm = state.title || (tn ? tn.name : 'Событие');
       when = fmtDate(state.date);
       if (state.type === 'trainer') {
-        when += ', ' + (state.slot || 'время уточняется');
+        var tr = state.trainer ? trainerByName(state.trainer) : null;
+        nm = 'С тренером · ' + (tr ? tr.name : (state.trainer || ''));
+        if (state.slot) {
+          when += ', ' + state.slot + ' – ' + endTime(state.slot, hours());
+        } else {
+          when += ', время уточняется';
+        }
+        if (tr) cost = fmtPrice(tr.price * hours());
       } else if (state.time) {
         when += ', ' + state.time;
       }
@@ -2265,12 +2475,14 @@ body.no-scroll { overflow: hidden; }
     var st = STATUS[tn.status];
     var card = el.doneCard;
     var when;
-    if (state.type === 'rental' && state.slot) {
+    if ((state.type === 'rental' || state.type === 'trainer') && state.slot) {
       when = fmtDate(state.date) + ', ' + state.slot + ' – ' + endTime(state.slot, hours());
     } else {
       when = fmtDate(state.date) + ', ' + (state.slot || state.time || 'время уточняется');
     }
-    var title = state.title || (state.type === 'rental' ? 'Аренда · ' + (state.facility || '') : tn.name);
+    var title = state.title ||
+      (state.type === 'rental' ? 'Аренда · ' + (state.facility || '') :
+       state.type === 'trainer' ? 'Занятие · ' + (state.trainer || '') : tn.name);
     var place = state.type === 'rental'
       ? ((state.facility || '') + (state.facility ? ' · ' + facilityByName(state.facility).addr : ''))
       : (state.type === 'trainer' ? 'Спорткомплекс' : (state.place || 'Место уточняется'));
@@ -2284,11 +2496,15 @@ body.no-scroll { overflow: hidden; }
       var add = invPrice();
       card.insertAdjacentHTML('beforeend',
         '<div class="dc-line"><svg><use href="#ic-barcode"/></svg>' + fmtPrice(f.price * hours() + add) + ' · ' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов') + (add ? ' · с инвентарём' : '') + '</div>');
+    } else if (state.type === 'trainer') {
+      var tr = trainerByName(state.trainer);
+      card.insertAdjacentHTML('beforeend',
+        '<div class="dc-line"><svg><use href="#ic-barcode"/></svg>' + fmtPrice(tr.price * hours()) + ' · ' + hours() + ' ' + pluralize(hours(), 'час', 'часа', 'часов') + '</div>');
     }
     if (state.people.length) {
       card.insertAdjacentHTML('beforeend', '<div class="dc-line"><svg><use href="#ic-chat"/></svg>Участники: ' + state.people.join(', ') + '</div>');
     }
-    if (state.type !== 'rental') {
+    if (state.type === 'me') {
       if (state.exercises.length) {
         card.insertAdjacentHTML('beforeend', '<div class="dc-line"><svg><use href="#ic-dumbbell"/></svg>Упражнения: ' + state.exercises.map(function (e) { return e.name + (e.sets ? ' · ' + e.sets : ''); }).join(', ') + '</div>');
       }
@@ -2296,7 +2512,7 @@ body.no-scroll { overflow: hidden; }
         card.insertAdjacentHTML('beforeend', '<div class="dc-line"><svg><use href="#ic-info"/></svg>' + state.note + '</div>');
       }
     }
-    el.doneSub.textContent = state.type === 'rental' ? 'Бронь площадки подтверждена' : 'Оно уже в вашем календаре';
+    el.doneSub.textContent = state.type === 'rental' ? 'Бронь площадки подтверждена' : (state.type === 'trainer' ? 'Заявка отправлена тренеру' : 'Оно уже в вашем календаре');
   }
 
   /* ── Навигация ───────────────────────────────────────────────────── */
@@ -2321,7 +2537,7 @@ body.no-scroll { overflow: hidden; }
       el.actNext.textContent = 'Готово';
       el.actBack.textContent = 'Поделиться';
     } else if (name === 'confirm') {
-      el.actNext.textContent = state.type === 'rental' ? 'Забронировать' : 'Создать событие';
+      el.actNext.textContent = state.type === 'rental' ? 'Забронировать' : (state.type === 'trainer' ? 'Отправить заявку' : 'Создать событие');
       el.actBack.textContent = 'Назад';
     } else {
       el.actNext.textContent = 'Далее';
@@ -2339,7 +2555,7 @@ body.no-scroll { overflow: hidden; }
     var titles = {
       type: ['Новое событие', 'Что создаём?'],
       common: [tn ? tn.name : 'Новое событие', 'Основное'],
-      slots: ['Выбор времени', 'Свободные слоты'],
+      trainer: ['С тренером', 'Тренер и время'],
       facility: ['Аренда площадки', 'Площадка и время'],
       extras: ['Аренда площадки', 'Дополнительно'],
       confirm: ['Проверка', 'Подтверждение'],
@@ -2354,14 +2570,16 @@ body.no-scroll { overflow: hidden; }
     switch (name) {
       case 'type': renderType(); break;
       case 'common': readCommon(); renderCommon(); break;
-      case 'slots': readCommon(); renderSlots(); break;
+      case 'trainer': renderTrainer(); break;
       case 'facility': renderFacility(); break;
       case 'extras': renderExtras(); break;
       case 'confirm':
         el.confirmNote.textContent = state.type === 'rental'
           ? 'Проверьте данные — бронь подтвердится сразу.'
-          : 'Проверьте данные перед созданием.';
-        if (state.type !== 'rental') readCommon();
+          : (state.type === 'trainer'
+            ? 'Проверьте данные — отправим заявку тренеру.'
+            : 'Проверьте данные перед созданием.');
+        if (state.type === 'me') readCommon();
         renderConfirm();
         break;
       case 'done': renderDone(); break;
@@ -2371,19 +2589,26 @@ body.no-scroll { overflow: hidden; }
     window.scrollTo(0, 0);
   }
 
+  function refreshCurrent() {
+    var name = steps[cur];
+    if (name === 'facility') { renderFacility(); return; }
+    if (name === 'trainer') { renderTrainer(); return; }
+    renderAll();
+  }
+
   function validate() {
     var name = steps[cur];
     if (name === 'facility') {
       if (!state.facility) { toast('Выберите площадку'); return false; }
       if (!state.slot) { toast('Слоты на эту дату заняты — выберите альтернативу или подпишитесь на освобождение'); return false; }
     }
+    if (name === 'trainer') {
+      if (!state.trainer) { toast('Выберите тренера'); return false; }
+      if (!state.slot) { toast('Выберите время'); return false; }
+    }
     if (name === 'common') {
       readCommon();
       if (!state.title) { toast('Введите название'); return false; }
-    }
-    if (name === 'slots') {
-      readCommon();
-      if (!state.slot) { toast('Выберите время'); return false; }
     }
     if (name === 'extras') {
       if (state.inv && !state.invItem) { toast('Выберите инвентарь'); return false; }
@@ -2413,8 +2638,6 @@ body.no-scroll { overflow: hidden; }
     cDate: byId('c-date'),
     cTime: byId('c-time'),
     cPlace: byId('c-place'),
-    cTrainer: byId('c-trainer'),
-    trainerCard: byId('trainer-card'),
     rowTime: byId('row-time'),
     rowPlace: byId('row-place'),
     tplCard: byId('tpl-card'),
@@ -2428,13 +2651,24 @@ body.no-scroll { overflow: hidden; }
     exList: byId('ex-list'),
     exSel: byId('ex-sel'),
     exAdd: byId('ex-add'),
+    exEditSheet: byId('ex-edit-sheet'),
+    exEditClose: byId('ex-edit-close'),
+    exEditName: byId('ex-edit-name'),
+    exEditSets: byId('ex-edit-sets'),
+    exEditSave: byId('ex-edit-save'),
+    exEditCancel: byId('ex-edit-cancel'),
     cNote: byId('c-note'),
     tplSave: byId('tpl-save'),
     cSport: byId('c-sport'),
-    slotsNote: byId('slots-note'),
-    slotsOwner: byId('slots-owner'),
-    slotsArea: byId('slots-area'),
-    slotsLegend: byId('slots-legend'),
+    trDate: byId('tr-date'),
+    trPick: byId('tr-pick'),
+    trPickLabel: byId('tr-pick-label'),
+    trPickSub: byId('tr-pick-sub'),
+    trOwner: byId('tr-owner'),
+    trSlots: byId('tr-slots'),
+    trDuration: byId('tr-duration'),
+    trRange: byId('tr-range'),
+    trLegend: byId('tr-legend'),
     rDate: byId('r-date'),
     facilityGroup: byId('facility-group'),
     facOwner: byId('fac-owner'),
@@ -2462,11 +2696,13 @@ body.no-scroll { overflow: hidden; }
     confirmSummary: byId('confirm-summary'),
     doneCard: byId('done-card'),
     doneSub: byId('done-sub'),
-    friendsSheet: byId('friends-sheet'),
-    sheetClose: byId('sheet-close'),
-    frSearch: byId('fr-search'),
-    frSheetList: byId('fr-sheet-list'),
-    sheetCounter: byId('sheet-counter'),
+    peopleSheet: byId('people-sheet'),
+    peopleClose: byId('people-close'),
+    peopleSearch: byId('people-search'),
+    peopleList: byId('people-list'),
+    peopleCounter: byId('people-counter'),
+    peopleTitle: byId('people-title'),
+    peopleNote: byId('people-note'),
     facInfo: byId('fac-info'),
     facInfoClose: byId('fac-info-close'),
     facInfoPhoto: byId('fac-info-photo'),
@@ -2482,7 +2718,7 @@ body.no-scroll { overflow: hidden; }
     hdTitle: byId('hd-title'),
     hdSub: byId('hd-sub')
   };
-  var names = ['type', 'common', 'slots', 'facility', 'extras', 'confirm', 'done'];
+  var names = ['type', 'common', 'trainer', 'facility', 'extras', 'confirm', 'done'];
   names.forEach(function (n) { stepEls[n] = byId('step-' + n); });
 
   el.cDate.value = state.date;
@@ -2518,22 +2754,31 @@ body.no-scroll { overflow: hidden; }
     state.exTouched = true;
     renderExercises();
   });
-  el.cTrainer.addEventListener('change', function () { state.trainer = this.value; state.slot = null; });
+  el.trPick.addEventListener('click', function () { openPicker('trainer'); });
+  el.trDate.addEventListener('change', function () { state.date = this.value || DEFAULT_DATE; state.slot = null; refreshCurrent(); });
   el.rDate.addEventListener('change', function () { state.date = this.value || DEFAULT_DATE; state.slot = null; renderFacility(); });
   el.invSw.addEventListener('change', function () { state.inv = this.checked; renderExtras(); });
   el.invSel.addEventListener('change', function () { state.invItem = this.value; updateCost(); renderRecap(); });
   el.frSw.addEventListener('change', function () { state.friends = this.checked; renderExtras(); });
-  el.frAdd.addEventListener('click', openSheet);
-  el.sheetClose.addEventListener('click', closeSheet);
-  el.frSearch.addEventListener('input', renderSheetList);
-  el.friendsSheet.addEventListener('click', function (e) { if (e.target === el.friendsSheet) closeSheet(); });
+  el.frAdd.addEventListener('click', function () { openPicker('friends'); });
+  el.peopleClose.addEventListener('click', closePicker);
+  el.peopleSearch.addEventListener('input', renderPicker);
+  el.peopleSheet.addEventListener('click', function (e) { if (e.target === el.peopleSheet) closePicker(); });
   el.facInfoClose.addEventListener('click', closeFacInfo);
   el.facInfo.addEventListener('click', function (e) { if (e.target === el.facInfo) closeFacInfo(); });
+  el.exEditClose.addEventListener('click', closeExEdit);
+  el.exEditCancel.addEventListener('click', closeExEdit);
+  el.exEditSave.addEventListener('click', saveExEdit);
+  el.exEditSheet.addEventListener('click', function (e) { if (e.target === el.exEditSheet) closeExEdit(); });
+  el.exEditSets.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter') { ev.preventDefault(); saveExEdit(); }
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     if (el.facInfo.style.display === 'flex') { closeFacInfo(); return; }
     if (el.tplSheet.style.display === 'flex') { closeTplSheet(); return; }
-    if (el.friendsSheet.style.display === 'flex') closeSheet();
+    if (el.peopleSheet.style.display === 'flex') { closePicker(); return; }
+    if (el.exEditSheet.style.display === 'flex') closeExEdit();
   });
 
   byId('act-next').addEventListener('click', function () {
@@ -2554,5 +2799,16 @@ body.no-scroll { overflow: hidden; }
   renderAll();
 })();
 </script>
+
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+<symbol id="ava-1" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#FDF3D9"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#ffc93c"/><path d="M21 27 C21 16 28 10 36 10 C44 10 51 16 51 27 L51 30 C47 22 43 19 36 19 C29 19 25 22 21 30 Z" fill="#5C3A21"/><circle cx="36" cy="8" r="5.5" fill="#5C3A21"/><circle cx="21.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="50.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="36" cy="33" r="15" fill="#E0AC79"/></symbol>
+<symbol id="ava-2" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#0b3d91"/><path d="M21 25 C21 16 27 10 36 10 C45 10 51 16 51 25 C51 22 46 18 36 18 C26 18 21 22 21 25 Z" fill="#0F0F0F"/><circle cx="21.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="50.5" cy="34" r="2.6" fill="#E0AC79"/><circle cx="36" cy="33" r="15" fill="#E0AC79"/></symbol>
+<symbol id="ava-3" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E8F6EC"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#2f9e54"/><circle cx="24" cy="22" r="5.5" fill="#1A1A1A"/><circle cx="30" cy="16" r="6" fill="#1A1A1A"/><circle cx="38" cy="14" r="6.5" fill="#1A1A1A"/><circle cx="46" cy="17" r="6" fill="#1A1A1A"/><circle cx="50" cy="24" r="5.5" fill="#1A1A1A"/><circle cx="21.5" cy="34" r="2.6" fill="#9C6640"/><circle cx="50.5" cy="34" r="2.6" fill="#9C6640"/><circle cx="36" cy="33" r="15" fill="#9C6640"/></symbol>
+<symbol id="ava-4" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#FDF3D9"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#ffc93c"/><path d="M20 25 C20 14 27 8 36 8 C45 8 52 14 52 25 C52 18 46 13 36 13 C26 13 20 18 20 25 Z" fill="#3B2B20"/><circle cx="21.5" cy="34" r="2.6" fill="#6B4226"/><circle cx="50.5" cy="34" r="2.6" fill="#6B4226"/><circle cx="36" cy="33" r="15" fill="#6B4226"/><circle cx="30" cy="33" r="4.2" fill="none" stroke="#12213b" stroke-width="1.6"/><circle cx="42" cy="33" r="4.2" fill="none" stroke="#12213b" stroke-width="1.6"/><line x1="34.2" y1="33" x2="37.8" y2="33" stroke="#12213b" stroke-width="1.6"/></symbol>
+<symbol id="ava-5" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#1a86e0"/><path d="M20 24 C20 14 27 8 36 8 C45 8 52 14 52 24 L52 27 C48 20 43 16 36 16 C29 16 24 20 20 27 Z" fill="#7A4B2A"/><circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="36" cy="33" r="15" fill="#F2C6A0"/><rect x="19" y="24" width="34" height="5.5" rx="2.5" fill="#ffc93c"/></symbol>
+<symbol id="ava-6" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E8F6EC"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#4a6fa5"/><path d="M20 46 C18 30 20 12 36 12 C52 12 54 30 52 46 L47 46 C48 32 46 20 36 20 C26 20 24 32 25 46 Z" fill="#2B2118"/><circle cx="21.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="50.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="36" cy="33" r="15" fill="#C68A57"/></symbol>
+<symbol id="ava-7" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#1a86e0"/><path d="M20 26 C20 15 28 9 36 9 C44 9 52 15 52 26 C52 20 47 15 36 15 C25 15 20 20 20 26 Z" fill="#2B2118"/><circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"/><circle cx="36" cy="33" r="15" fill="#F2C6A0"/></symbol>
+<symbol id="ava-8" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"/><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#4a6fa5"/><circle cx="21.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="50.5" cy="34" r="2.6" fill="#C68A57"/><circle cx="36" cy="33" r="15" fill="#C68A57"/><path d="M19 30 C19 15 26 6 36 6 C46 6 53 15 53 30 C53 33 50 34 47 32 C44 30 42 33 38 32 C35 31 33 33 30 32 C27 31 24 33 21 32 C18 31 19 32 19 30 Z" fill="#0b3d91"/></symbol>
+</svg>
 </body>
 </html>
