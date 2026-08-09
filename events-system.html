@@ -101,18 +101,17 @@
   --container-gutter-phone:   16px;
 }
 
-/* ── Токены каталога событий: тип ─────────────────────────────────── */
+/* ── Токены каталога событий: тип (канон v1.0) ─────────────────────── */
 :root {
-  --type-me:      #2f9e54;
-  --type-trainer: #ffc93c;
-  --type-event:   #0b3d91;
-  --type-club:    #7ec8ff;
-  --type-rental:  #4a6fa5;
+  --type-training: #2f9e54;
+  --type-event:    #e8622c;
+  --type-club:     #7ec8ff;
+  --type-rental:   #4a6fa5;
 }
 
 /* ── Токены каталога событий: статус ──────────────────────────────── */
 :root {
-  --st-confirmed: var(--accent);
+  --st-confirmed: var(--success);
   --st-pending:   var(--yellow);
   --st-open:      #0b3d91;
   --st-done:      var(--meta);
@@ -123,7 +122,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
+  background: var(--surface-warm);
   color: var(--fg);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -291,12 +290,12 @@ button { font-family: inherit; }
 /* ── Карточка события ──────────────────────────────────────────────── */
 .ev-card {
   background: var(--bg);
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--c, var(--border));
   border-radius: var(--radius-lg);
-  box-shadow: var(--elev-raised);
-  padding: 14px 14px 12px;
-  animation: rise 0.45s var(--ease-standard) both;
-  animation-delay: calc(var(--i, 0) * 30ms);
+  padding: 15px 16px 13px;
+  animation: rise 0.5s var(--ease-standard) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
 }
 .cards.anim-in .ev-card { animation: none; }
 @keyframes rise {
@@ -327,9 +326,10 @@ button { font-family: inherit; }
   margin: 0;
   flex: 1 1 auto;
   min-width: 0;
-  font-size: 17px;
+  font-family: var(--font-display);
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: -0.011em;
+  letter-spacing: 0.01em;
   color: var(--fg);
   white-space: nowrap;
   overflow: hidden;
@@ -342,13 +342,13 @@ button { font-family: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.01em;
-  color: color-mix(in oklab, var(--c), var(--fg) 40%);
-  background: color-mix(in srgb, var(--c) 13%, var(--bg));
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, var(--bg));
   border-radius: 7px;
-  padding: 2px 7px;
+  padding: 3px 8px;
 }
 .ev-badge-status .ev-bdot {
   flex: none;
@@ -382,9 +382,9 @@ button { font-family: inherit; }
   place-items: center;
   width: 32px;
   height: 32px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--border);
   border-radius: 50%;
-  background: var(--surface-warm);
+  background: var(--bg);
   color: var(--fg-2);
   cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard),
@@ -396,7 +396,7 @@ button { font-family: inherit; }
   inset: -6px;
   border-radius: 50%;
 }
-.ev-menu:hover { background: var(--surface); }
+.ev-menu:hover { background: var(--surface-warm); }
 .ev-menu:active { background: var(--border-soft); }
 .ev-menu:focus-visible {
   outline: none;
@@ -410,11 +410,11 @@ button { font-family: inherit; }
   line-height: 1.45;
   color: var(--muted);
 }
-.ev-meta b { font-weight: 600; color: var(--fg-2); }
+.ev-meta b { font-weight: 600; color: var(--fg-2); font-variant-numeric: tabular-nums; }
 
 .ev-sub {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.4;
   color: var(--muted);
 }
@@ -437,10 +437,10 @@ button { font-family: inherit; }
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 11px;
-  font-weight: 600;
-  color: color-mix(in oklab, var(--c), var(--fg) 35%);
-  background: color-mix(in srgb, var(--c) 16%, var(--bg));
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 20%, var(--bg));
   border: 2px solid var(--bg);
 }
 .ev-ava + .ev-ava { margin-left: -8px; }
@@ -448,12 +448,24 @@ button { font-family: inherit; }
   color: var(--accent-on);
   background: var(--accent);
 }
+.ev-ava.is-coach { position: relative; color: var(--surface); background: var(--c); }
+.ev-ava.is-coach .ev-coach-badge {
+  position: absolute; right: -3px; bottom: -3px; width: 11px; height: 11px;
+  padding: 2px; box-sizing: border-box; display: block;
+  color: var(--c); background: var(--bg); border: 1px solid var(--border-strong); border-radius: 50%;
+}
+.ev-fmts { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.gchip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: 12px; font-weight: 600; color: var(--fg-2);
+  background: var(--surface-2); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3);
+}
 .av { width: 100%; height: 100%; display: block; border-radius: 50%; }
 .ev-foot-text {
   flex: 1;
   min-width: 0;
   margin-left: 0;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.4;
   color: var(--muted);
 }
@@ -462,48 +474,6 @@ button { font-family: inherit; }
   font-weight: 600;
   color: color-mix(in oklab, var(--st-confirmed), var(--fg) 25%);
 }
-
-/* ── Свайп-действия ───────────────────────────────────────────────── */
-.swipe-container { position: relative; }
-.swipe-actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  display: flex;
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-  overflow: hidden;
-}
-.sw-act {
-  flex: 1 0 84px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  border: 0;
-  color: var(--accent-on);
-  background: var(--sw, var(--accent));
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: filter var(--motion-fast) var(--ease-standard);
-}
-.sw-act:hover { filter: brightness(1.08); }
-.sw-act:active { filter: brightness(0.95); }
-.sw-act:focus-visible {
-  outline: none;
-  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--sw, var(--accent)), white 45%);
-}
-.sw-act svg { width: 20px; height: 20px; }
-.swipe-card {
-  position: relative;
-  touch-action: pan-y;
-  transition: transform var(--motion-base) var(--ease-standard);
-  will-change: transform;
-}
-.swipe-card.swiped { transform: translateX(calc(-1 * var(--swipe-w, 100px))); }
 
 /* ── Кнопки ────────────────────────────────────────────────────────── */
 .btn {
@@ -640,6 +610,7 @@ button { font-family: inherit; }
   animation: rise 0.35s var(--ease-standard) both;
 }
 .modal-card h3 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.011em; }
+.modal-card.dv-card { max-height: 84vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .modal-sub { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
 .modal-body { margin-top: 18px; }
 .modal-hint { margin: 14px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
@@ -664,6 +635,93 @@ button { font-family: inherit; }
 .people-row + .people-row { border-top: 1px solid var(--border-soft); }
 .people-name { font-size: 15px; font-weight: 500; color: var(--fg); }
 .people-name small { font-size: 12px; font-weight: 400; color: var(--meta); margin-left: 6px; }
+
+/* ── Детальный просмотр события ─────────────────────────────────── */
+.dv-head { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; align-items: center; text-align: left; }
+.dv-dot {
+  flex: none; width: 42px; height: 42px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: color-mix(in srgb, var(--c) 18%, var(--bg));
+  color: var(--c);
+}
+.dv-dot svg { width: 22px; height: 22px; }
+.dv-title { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 600; line-height: 1.2; color: var(--fg); }
+.dv-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.dv-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--c); }
+.dv-status i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+.dv-rows { display: grid; gap: 10px; margin-top: 18px; text-align: left; }
+.dv-row { display: flex; align-items: flex-start; gap: 12px; }
+.dv-row .dv-r-ic {
+  flex: none; width: 34px; height: 34px; border-radius: 9px;
+  display: grid; place-items: center;
+  background: color-mix(in srgb, var(--c) 12%, var(--bg));
+  color: var(--c);
+}
+.dv-row .dv-r-ic svg { width: 17px; height: 17px; }
+.dv-row-tx { flex: 1; min-width: 0; }
+.dv-row-tx b { display: block; font-size: 13px; font-weight: 600; color: var(--fg); }
+.dv-row-tx span { display: block; font-size: 12.5px; line-height: 1.45; color: var(--muted); margin-top: 1px; }
+.dv-sec { margin-top: 20px; text-align: left; }
+.dv-sec-title {
+  margin: 0 0 10px; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--meta);
+}
+.dv-people { display: flex; flex-wrap: wrap; gap: 8px; text-align: left; }
+.dv-person {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: color-mix(in srgb, var(--c) 9%, var(--bg));
+  border-radius: var(--radius-pill);
+  padding: 5px 12px 5px 6px;
+  font-size: 13px; font-weight: 500; color: var(--fg-2);
+}
+.dv-person .ev-ava { width: 24px; height: 24px; }
+.dv-person .ev-ava .av { width: 24px; height: 24px; }
+.dv-rego { display: grid; gap: 0; text-align: left; }
+.dv-rego-item {
+  display: flex; gap: 12px; padding: 9px 2px;
+}
+.dv-rego-item + .dv-rego-item { border-top: 1px solid var(--border-soft); }
+.dv-rego-time {
+  flex: none; width: 74px; font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  color: var(--fg-2); padding-top: 2px;
+}
+.dv-rego-tx b { display: block; font-size: 13.5px; font-weight: 600; color: var(--fg); }
+.dv-rego-tx span { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); margin-top: 1px; }
+.dv-plan { display: grid; gap: 0; text-align: left; }
+.dv-plan-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; font-size: 13.5px; }
+.dv-plan-item + .dv-plan-item { border-top: 1px solid var(--border-soft); }
+.dv-plan-item b { font-weight: 600; color: var(--fg); }
+.dv-plan-item span { font-size: 12.5px; color: var(--muted); flex: none; }
+.dv-bracket { display: flex; gap: 14px; align-items: stretch; justify-content: center; text-align: left; }
+.dv-brd-col { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+.dv-brd-match {
+  background: color-mix(in srgb, var(--c) 9%, var(--bg));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 8px 10px; font-size: 12px; line-height: 1.45; color: var(--fg-2);
+}
+.dv-brd-match b { color: var(--fg); font-weight: 600; }
+.dv-brd-match .is-win { color: var(--success); font-weight: 600; }
+.dv-result { display: grid; gap: 8px; text-align: left; }
+.dv-result-line {
+  display: flex; justify-content: space-between; gap: 10px; align-items: center;
+  background: color-mix(in srgb, var(--c) 9%, var(--bg));
+  border-radius: var(--radius-md); padding: 10px 12px;
+  font-size: 13px; font-weight: 500; color: var(--fg-2);
+}
+.dv-result-line b { color: var(--fg); font-weight: 600; }
+.dv-result-line .is-win { color: var(--success); }
+.dv-note { margin: 14px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); text-align: left; }
+.dv-cta-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 18px; }
+.dv-cta-row .btn { margin-top: 0; }
+.dv-cta-mini {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg); color: var(--fg-2);
+  font-size: 15px; font-weight: 600; padding: 13px 16px; cursor: pointer;
+}
+.dv-cta-mini:hover { background: var(--surface); }
+.dv-cta-mini:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .inv-input {
   width: 100%;
   border: 1px solid var(--border-soft);
@@ -779,42 +837,18 @@ button { font-family: inherit; }
 .toast-act:hover { background: rgba(255, 255, 255, 0.32); }
 .toast-act:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6); }
 
-/* ── Подсказка свайпа (онбординг) ──────────────────────────────────── */
-.swipe-hint {
-  position: fixed;
-  left: 50%;
-  bottom: 76px;
-  transform: translateX(-50%);
-  display: none;
-  align-items: center;
-  gap: 9px;
-  max-width: calc(100vw - 40px);
-  border: 0;
-  background: var(--fg);
-  color: var(--surface-warm);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-  border-radius: var(--radius-pill);
-  padding: 10px 16px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
-  cursor: pointer;
-  z-index: 65;
+/* ── Подвал ────────────────────────────────────────────────────────── */
+.foot {
+  margin-top: 48px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--meta);
 }
-.swipe-hint.is-show { display: inline-flex; animation: toast-in 0.3s var(--ease-standard) both; }
-.swipe-hint svg { flex: none; width: 16px; height: 16px; }
-.swipe-hint .swh-chev {
-  color: var(--st-open);
-  transform: rotate(180deg);
-  animation: hint-slide 1.5s var(--ease-standard) infinite;
-}
-@keyframes hint-slide {
-  0% { transform: rotate(180deg) translateX(0); opacity: 1; }
-  60%, 100% { transform: rotate(180deg) translateX(-6px); opacity: 0.3; }
-}
+.foot b { color: var(--fg-2); font-weight: 600; }
 
-.swipe-card.shake { animation: shake-x 0.3s var(--ease-standard); }
+.ev-card.shake { animation: shake-x 0.3s var(--ease-standard); }
 @keyframes shake-x {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-2px); }
@@ -836,11 +870,9 @@ body.no-scroll { overflow: hidden; }
 .foot b { color: var(--fg-2); font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ev-card, .swipe-card.shake, .ev-badge-status.is-pending { animation: none; }
+  .ev-card, .ev-card.shake, .ev-badge-status.is-pending { animation: none; }
   .modal-card, .toast, .toast.hide { animation: none; }
-  .swipe-hint .swh-chev { animation: none; }
   .sheet { transition: none; }
-  .swipe-card { transition-duration: 1ms; }
 }
 
 /* ── Единый брендовый confirm-диалог ──────────────────────────────── */
@@ -939,6 +971,8 @@ body.no-scroll { overflow: hidden; }
   <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5M12 7.6v.1" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="page">
@@ -961,8 +995,8 @@ body.no-scroll { overflow: hidden; }
   </main>
 
   <footer class="foot" data-od-id="footer">
-    <b>5 типов</b> · Индивидуальная тренировка, тренировка с тренером, глобальный ивент, клубное событие, аренда.<br>
-    <b>4 статуса</b> · подтверждено, ожидает (иконка часов), завершено, отменено.<br>
+    <b>4 типа</b> · Тренировка (форматы: личная, с тренером, групповая, онлайн), ивент, клуб, аренда.<br>
+    <b>5 статусов</b> · ожидает, открыта запись, подтверждено, завершено, отменено.<br>
     <b>Открытая запись</b> · без бейджа: о записи говорят кнопка «Записаться» и строка «· Вы записаны».<br>
     <b>Свайп влево</b> — быстрые действия; карточка возвращается свайпом вправо, кликом мимо или сама через 3 секунды.<br>
     <b>«⋯»</b> — полное меню действий; пункты зависят от типа и статуса.<br>
@@ -980,9 +1014,9 @@ body.no-scroll { overflow: hidden; }
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Меню действий">
   <div class="sheet-grab"></div>
   <div class="sheet-head">
-    <span class="ev-dot" id="sheet-dot" style="--c: var(--type-me)"></span>
+    <span class="ev-dot" id="sheet-dot" style="--c: var(--type-training)"></span>
     <h3 class="sheet-title" id="sheet-title"></h3>
-    <span class="ev-badge" id="sheet-badge" style="--c: var(--type-me)">Моя</span>
+    <span class="ev-badge" id="sheet-badge" style="--c: var(--type-training)">Тренировка</span>
   </div>
   <div class="sheet-list" id="sheet-list"></div>
   <button class="sheet-cancel" id="sheet-cancel">Отмена</button>
@@ -1006,22 +1040,26 @@ body.no-scroll { overflow: hidden; }
 
 <div class="toast-wrap" id="toasts"></div>
 
-<button type="button" class="swipe-hint" id="swipe-hint">
-  <span>Свайпните карточку влево — быстрые действия</span>
-  <svg class="swh-chev" aria-hidden="true"><use href="#ic-chev"/></svg>
-</button>
-
 <script>
 (function () {
   'use strict';
 
   var TYPES = {
-    me:      { label: 'Индивидуальная', token: '--type-me' },
-    trainer: { label: 'С тренером', token: '--type-trainer' },
-    event:   { label: 'Ивент',      token: '--type-event' },
-    club:    { label: 'Клуб',       token: '--type-club' },
-    rental:  { label: 'Аренда',     token: '--type-rental' }
+    training: { label: 'Тренировка', token: '--type-training' },
+    event:    { label: 'Ивент',      token: '--type-event' },
+    club:     { label: 'Клуб',       token: '--type-club' },
+    rental:   { label: 'Аренда',     token: '--type-rental' }
   };
+  var FORMATS = {
+    personal: { label: 'Личная' },
+    trainer:  { label: 'С тренером' },
+    group:    { label: 'Групповая' },
+    online:   { label: 'Онлайн' }
+  };
+  function formatLabel(e) {
+    if (e.type !== 'training' || !e.format || !FORMATS[e.format]) return '';
+    return FORMATS[e.format].label;
+  }
   var STATUSES = {
     confirmed: { label: 'Подтверждено', token: '--st-confirmed' },
     pending:   { label: 'Ожидает',      token: '--st-pending' },
@@ -1030,36 +1068,70 @@ body.no-scroll { overflow: hidden; }
     cancelled: { label: 'Отменено',     token: '--st-cancelled' }
   };
   var FILTERS = [
-    { id: 'all',     label: 'Все',        token: '--st-done' },
-    { id: 'me',      label: 'Индивидуальные', token: '--type-me' },
-    { id: 'trainer', label: 'С тренером', token: '--type-trainer' },
-    { id: 'event',   label: 'Ивенты',     token: '--type-event' },
-    { id: 'club',    label: 'Клубы',      token: '--type-club' },
-    { id: 'rental',  label: 'Аренда',     token: '--type-rental' }
+    { id: 'all',      label: 'Все',          token: '--st-done' },
+    { id: 'training', label: 'Тренировки',   token: '--type-training' },
+    { id: 'event',    label: 'Ивенты',       token: '--type-event' },
+    { id: 'club',     label: 'Клубы',        token: '--type-club' },
+    { id: 'rental',   label: 'Аренда',       token: '--type-rental' }
   ];
 
   var state = {
     filter: 'all',
     entities: [
       {
-        id: 'str-today', type: 'me', title: 'Силовая тренировка', status: 'confirmed',
+        id: 'str-today', type: 'training', format: 'personal', title: 'Силовая тренировка', status: 'confirmed',
         day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал',
-        people: ['Вы', 'Игорь'], foot: 'Вы и ещё 1', trainer: null
+        people: ['Вы', 'Игорь'], foot: 'Вы и ещё 1', trainer: null,
+        plan: [
+          { name: 'Жим штанги лёжа', sets: '4 × 8 · 40 кг' },
+          { name: 'Приседания со штангой', sets: '4 × 10 · 50 кг' },
+          { name: 'Тяга верхнего блока', sets: '3 × 12 · 30 кг' },
+          { name: 'Подъём на бицепс стоя', sets: '3 × 12 · 12 кг' },
+          { name: 'Скручивания на пресс', sets: '3 × 20' }
+        ]
       },
       {
-        id: 'swim', type: 'me', title: 'Плавание', status: 'confirmed',
+        id: 'swim', type: 'training', format: 'personal', title: 'Плавание', status: 'confirmed',
         day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»',
-        people: ['Вы'], trainer: null
+        people: ['Вы'], trainer: null,
+        plan: [
+          { name: 'Разминка в воде', sets: '10 мин' },
+          { name: 'Кроль, техника', sets: '6 × 100 м' },
+          { name: 'Брасс, техника', sets: '4 × 50 м' },
+          { name: 'Заминка', sets: '5 мин' }
+        ]
       },
       {
-        id: 'str-coach', type: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending',
+        id: 'str-coach', type: 'training', format: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending',
         day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2',
         people: ['С'], foot: 'Тренер А. Соколов', coach: 'А. Соколов'
       },
       {
         id: 'cup', type: 'event', title: 'Летний Кубок Петровского', status: 'open',
         day: 'Сб, 16 авг', time: '10:00 – 18:00', place: 'Стадион «Центральный»',
-        people: ['Т', 'Л', 'М', 'К', 'В'], foot: '5 друзей идут', link: 'enrolled', bracket: true
+        people: ['Т', 'Л', 'М', 'К', 'В'], foot: '5 друзей идут', link: 'enrolled', bracket: true,
+        note: 'Турнир по теннису среди жителей посёлка. Участие свободное, инвентарь предоставляется.',
+        rego: [
+          { t: '10:00', what: 'Регистрация участников', note: 'Мандатная комиссия у главного входа' },
+          { t: '10:30', what: 'Открытие и жеребьёвка', note: 'Разбивка на пары, сетка 1/8 финала' },
+          { t: '11:00', what: '1/8 финала', note: '3 корта одновременно' },
+          { t: '14:00', what: '1/4 и полуфиналы', note: 'Центральный корт' },
+          { t: '17:00', what: 'Финал и награждение', note: 'Вручение кубка и медалей' }
+        ],
+        bracket: { rounds: [
+          [
+            { pairs: [{ n: 'Т' }, { n: 'Л' }] },
+            { pairs: [{ n: 'М' }, { n: 'К' }] },
+            { pairs: [{ n: 'В' }, { n: '—' }] }
+          ],
+          [
+            { pairs: [{ n: 'Т', win: true }, { n: 'М' }] },
+            { pairs: [{ n: 'В', win: true }, { n: '—' }] }
+          ],
+          [
+            { pairs: [{ n: 'Т', win: true }, { n: 'В' }] }
+          ]
+        ] }
       },
       {
         id: 'club-run', type: 'club', title: 'Вечерняя пробежка клуба', status: 'open',
@@ -1075,7 +1147,8 @@ body.no-scroll { overflow: hidden; }
       {
         id: 'boat', type: 'event', title: 'Сплав на байдарках', status: 'open',
         day: 'Сб, 23 авг', time: '09:00 – 15:00', place: 'Река Кудепста',
-        people: ['Л', 'М', 'К', 'В'], foot: 'Организует Андрей Волков', link: 'invited'
+        people: ['Л', 'М', 'К', 'В'], foot: 'Организует Андрей Волков', link: 'invited',
+        note: 'Маршрут лёгкий, подходит новичкам. Снаряжение выдают на старте, сухие вещи возьмите с собой.'
       },
       {
         id: 'chess', type: 'event', title: 'Шахматный турнир клуба', status: 'open',
@@ -1086,25 +1159,37 @@ body.no-scroll { overflow: hidden; }
         id: 'rental', type: 'rental', title: 'Аренда зала', status: 'confirmed',
         day: 'Ср, 20 авг', time: '20:00 – 22:00', place: 'Зал № 1',
         people: ['Вы', 'П', 'А', 'М'], foot: 'Вы и ещё 3',
+        price: '2 400 ₽/час · без инвентаря',
         reschedule: ['Чт, 21 авг · 20:00 – 22:00', 'Пт, 22 авг · 19:00 – 21:00', 'Сб, 23 авг · 12:00 – 14:00']
       },
       {
-        id: 'gto', type: 'trainer', title: 'ГТО: силовая подготовка', status: 'done',
+        id: 'gto', type: 'training', format: 'trainer', title: 'ГТО: силовая подготовка', status: 'done',
         day: 'Чт, 7 авг', time: '18:00 – 19:30', place: 'Тренажёрный зал',
         people: ['С']
       },
       {
-        id: 'evening', type: 'me', title: 'Вечерняя тренировка', status: 'cancelled',
+        id: 'evening', type: 'training', format: 'personal', title: 'Вечерняя тренировка', status: 'cancelled',
         day: 'Пн, 4 авг', time: '19:00 – 20:00', place: 'Зал № 3',
         people: ['Вы'], foot: 'Отменено вами'
       },
       {
-        id: 'str-pilates', type: 'trainer', title: 'Пилатес с тренером', status: 'pending',
+        id: 'badminton', type: 'event', title: 'Турнир по бадминтону', status: 'done',
+        day: 'Вс, 27 июл', time: '11:00 – 16:00', place: 'Спортзал школы',
+        people: ['Т', 'Л', 'М', 'К', 'В'], foot: '6 участников', link: 'enrolled', bracket: true,
+        note: 'Победитель получил переходящий кубок клуба.',
+        results: [
+          { n: '1 место — Тимофей', v: '2:0' },
+          { n: '2 место — Лена', v: '0:2' },
+          { n: '3 место — Максим', v: '2:1' }
+        ]
+      },
+      {
+        id: 'str-pilates', type: 'training', format: 'trainer', title: 'Пилатес с тренером', status: 'pending',
         day: 'Сб, 16 авг', time: '10:00 – 11:00', place: 'Зал № 1',
         people: ['С'], foot: 'Тренер Е. Волкова', coach: 'Е. Волкова'
       },
       {
-        id: 'str-stretch', type: 'trainer', title: 'Стретчинг-группа', status: 'pending',
+        id: 'str-stretch', type: 'training', format: 'trainer', title: 'Стретчинг-группа', status: 'pending',
         day: 'Вс, 17 авг', time: '12:00 – 13:00', place: 'Летняя площадка',
         people: ['С', 'Е'], foot: 'Тренеры: И. Мельник и Е. Волкова', coach: 'И. Мельник'
       }
@@ -1180,14 +1265,14 @@ body.no-scroll { overflow: hidden; }
   }
   function shakePendingCards() {
     pendingCards().forEach(function (e) {
-      var card = document.querySelector('[data-od-id="event-card-' + e.id + '"] .swipe-card');
+      var card = document.querySelector('[data-od-id="event-card-' + e.id + '"]');
       if (!card) return;
       card.classList.remove('shake');
       void card.offsetWidth;
       card.classList.add('shake');
     });
     setTimeout(function () {
-      document.querySelectorAll('.swipe-card.shake').forEach(function (c) { c.classList.remove('shake'); });
+      document.querySelectorAll('.ev-card.shake').forEach(function (c) { c.classList.remove('shake'); });
     }, 400);
   }
   function notifyPending() {
@@ -1206,7 +1291,7 @@ body.no-scroll { overflow: hidden; }
         render();
         var first = pendingCards();
         if (!first.length) return;
-        var card = document.querySelector('[data-od-id="event-card-' + first[0].id + '"] .swipe-card');
+        var card = document.querySelector('[data-od-id="event-card-' + first[0].id + '"]');
         if (card) {
           setTimeout(function () {
             var top = card.getBoundingClientRect().top + window.pageYOffset - window.innerHeight / 2;
@@ -1308,7 +1393,7 @@ body.no-scroll { overflow: hidden; }
         who, share
       ];
     } else if (myLink(e) === 'org') {
-      if (e.type === 'trainer') {
+      if (e.type === 'training' && e.format === 'trainer') {
         list = [
           act('check', 'Подтвердить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'confirmed'); }),
           act('x', 'Отклонить', e.status === 'pending', 'Только пока статус «Ожидает»', function () { setStatus(e.id, 'cancelled'); }),
@@ -1344,6 +1429,7 @@ body.no-scroll { overflow: hidden; }
         ];
       } else {
         list = [
+          act('check', 'Отметить выполненной', e.status === 'confirmed', 'Только после подтверждения', function () { if (started(e)) { setStatus(e.id, 'done'); } else { openDoneConfirm(e); } }),
           act('edit', 'Редактировать', !past, 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
           e.trainer
             ? act('user', 'Изменить тренера', true, null, function () { toast('Список тренеров откроется в полной версии'); })
@@ -1378,42 +1464,6 @@ body.no-scroll { overflow: hidden; }
     }
     if (role === 'admin' && e.type === 'club' && myLink(e) !== 'none') {
       list.push(act('plus', 'Создать тренировку клуба', true, null, function () { createClubTraining(); }));
-    }
-    return list;
-  }
-
-  /* ── Быстрые действия (свайп влево) ──────────────────────────────── */
-  var SW = { blue: '#1a86e0', green: '#2bb066', red: '#ff4d4d' };
-  function swipeFor(e) {
-    var act = function (sw, icon, label, cmd) { return { sw: sw, icon: icon, label: label, cmd: cmd + ':' + e.id }; };
-    var past = e.status === 'done' || e.status === 'cancelled';
-    if (past || myLink(e) === 'none') return [];
-    var list = [];
-    if (myLink(e) === 'invited') {
-      list.push(act(SW.green, 'check', 'Принять', 'accept'));
-      list.push(act(SW.red, 'x', 'Отклонить', 'refuse'));
-    } else if (myLink(e) === 'org') {
-      if (e.type === 'me') {
-        list.push(act(SW.green, 'check', 'Отметить', started(e) ? 'done' : 'doneEarly'));
-        list.push(act(SW.blue, 'edit', 'Редактировать', 'edit'));
-      } else if (e.type === 'trainer') {
-        if (e.status === 'pending') {
-          list.push(act(SW.green, 'check', 'Подтвердить', 'confirm'));
-          list.push(act(SW.red, 'x', 'Отклонить', 'decline'));
-        }
-      } else if (e.type === 'club') {
-        list.push(act(SW.blue, 'qr', 'QR-код', 'qr'));
-        list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
-      } else if (e.type === 'rental') {
-        list.push(act(SW.blue, 'qr', 'QR-код', 'qr'));
-        list.push(act(SW.blue, 'info', 'Легенда', 'legend'));
-      }
-    } else if (myLink(e) === 'enrolled') {
-      list.push(act(SW.red, 'minus', 'Отказаться', 'leave'));
-      list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
-    } else if (myLink(e) === 'open' && e.status === 'open') {
-      list.push(act(SW.green, 'plus', 'Записаться', 'join'));
-      list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
     }
     return list;
   }
@@ -1501,6 +1551,221 @@ body.no-scroll { overflow: hidden; }
     sheet.classList.add('open');
     var first = sheetList.querySelector('.sheet-item');
     if (first) setTimeout(function () { first.focus(); }, 60);
+  }
+
+  /* ── Детальный просмотр события ──────────────────────────────────── */
+  function statusInfo(e) {
+    var past = e.status === 'done' || e.status === 'cancelled';
+    if (past) return { label: e.status === 'done' ? 'Завершено' : 'Отменено', c: 'var(' + STATUSES[e.status].token + ')' };
+    if (myLink(e) === 'invited') return { label: 'Приглашение', c: 'var(--st-pending)' };
+    if (e.status === 'pending' && !(e.type === 'training' && e.format === 'personal')) return { label: 'Ожидает', c: 'var(--st-pending)' };
+    if (myLink(e) === 'enrolled') return { label: 'Вы записаны', c: 'var(--st-confirmed)' };
+    if (myLink(e) === 'org' && e.type !== 'training') return { label: 'Вы организатор', c: 'var(--type-club)' };
+    if (myLink(e) === 'open' && e.status === 'open') return { label: 'Запись открыта', c: 'var(--st-open)' };
+    return null;
+  }
+  function dvPersonHTML(e, p, isFirst) {
+    var isYou = p === 'Вы';
+    var coach = isCoachAvatar(e, p, isFirst);
+    return '<span class="dv-person" style="--c: var(' + TYPES[e.type].token + ')"><span class="ev-ava' + (isYou ? ' is-you' : '') + (coach ? ' is-coach' : '') + '">' + avaHTML(p) + (coach ? '<svg class="ev-coach-badge" aria-hidden="true"><use href="#ic-star"/></svg>' : '') + '</span>' + p + '</span>';
+  }
+  function openDetail(e) {
+    var type = TYPES[e.type];
+    var st = statusInfo(e);
+    var past = e.status === 'done' || e.status === 'cancelled';
+    var rows =
+      '<div class="dv-row"><span class="dv-r-ic" style="--c: var(' + type.token + ')"><svg><use href="#ic-cal"/></svg></span>' +
+      '<div class="dv-row-tx"><b>' + e.day + '</b><span>' + e.time + '</span></div></div>' +
+      '<div class="dv-row"><span class="dv-r-ic" style="--c: var(' + type.token + ')"><svg><use href="#ic-gear"/></svg></span>' +
+      '<div class="dv-row-tx"><b>' + (e.place || 'Место уточняется') + '</b><span>' + (e.club || 'Спорткомплекс «Петровское»') + '</span></div></div>';
+
+    var cta = '';
+    var link = myLink(e);
+    if (link === 'invited' && !past) {
+      cta = '<div class="dv-cta-row"><button class="btn btn-accent" id="dv-ok">Принять</button>' +
+        '<button class="dv-cta-mini" id="dv-cancel">Отклонить</button></div>';
+    } else if (link === 'open' && e.status === 'open') {
+      cta = '<button class="btn btn-accent" id="dv-join">Записаться</button>';
+    } else if (link === 'enrolled' && !past) {
+      cta = '<button class="btn btn-ghost" id="dv-leave">Отказаться от участия</button>';
+    } else if (link === 'org' && !past) {
+      cta = '<div class="dv-cta-row"><button class="btn btn-accent" id="dv-people">Кто идёт</button>' +
+        '<button class="dv-cta-mini" id="dv-share">Поделиться</button></div>';
+    }
+
+    var peopleSec = '<div class="dv-sec"><h4 class="dv-sec-title">Участники · ' + (e.people || []).length + '</h4>' +
+      '<div class="dv-people">' + (e.people || []).map(function (p, i) { return dvPersonHTML(e, p, i === 0); }).join('') + '</div></div>';
+
+    var fmt = formatLabel(e);
+    var html = '<div class="dv-head">' +
+      '<span class="dv-dot" style="--c: var(' + type.token + ')"><svg><use href="#ic-' + (e.type === 'event' ? 'grid' : e.type === 'club' ? 'users' : 'gear') + '"/></svg></span>' +
+      '<div><h3 class="dv-title">' + e.title + '</h3>' +
+      '<div class="dv-badges"><span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+      (fmt ? '<span class="gchip">' + fmt + '</span>' : '') +
+      (st ? '<span class="dv-status" style="--c: ' + st.c + '"><i></i>' + st.label + '</span>' : '') +
+      '</div></div></div>' +
+      '<div class="dv-rows">' + rows + '</div>';
+
+    if (e.rego) {
+      html += '<div class="dv-sec"><h4 class="dv-sec-title">Регламент</h4><div class="dv-rego">' +
+        e.rego.map(function (r) {
+          return '<div class="dv-rego-item"><span class="dv-rego-time">' + r.t + '</span>' +
+            '<div class="dv-rego-tx"><b>' + r.what + '</b>' + (r.note ? '<span>' + r.note + '</span>' : '') + '</div></div>';
+        }).join('') + '</div></div>';
+    }
+
+    if (e.bracket && e.bracket.rounds) {
+      html += '<div class="dv-sec"><h4 class="dv-sec-title">Турнирная сетка</h4><div class="dv-bracket">' +
+        e.bracket.rounds.map(function (r) {
+          return '<div class="dv-brd-col">' + r.map(function (m) {
+            return '<div class="dv-brd-match">' + m.pairs.map(function (pl) {
+              return '<div' + (pl.win ? ' class="is-win"' : '') + '>' + (pl.win ? '✓ ' : '') + pl.n + '</div>';
+            }).join('') + '</div>';
+          }).join('') + '</div>';
+        }).join('') + '</div></div>';
+    }
+
+    if (e.results) {
+      html += '<div class="dv-sec"><h4 class="dv-sec-title">Результаты</h4><div class="dv-result">' +
+        e.results.map(function (r) {
+          return '<div class="dv-result-line"><span' + (r.win ? ' class="is-win"' : '') + '>' + r.n + '</span><b>' + r.v + '</b></div>';
+        }).join('') + '</div></div>';
+    }
+
+    html += peopleSec;
+    html += (e.note ? '<p class="dv-note">' + e.note + '</p>' : '');
+    html += cta;
+
+    openOverlay();
+    modal.hidden = false;
+    modalCard.className = 'modal-card dv-card';
+    modalCard.innerHTML = html;
+
+    var ok = document.getElementById('dv-ok');
+    if (ok) ok.addEventListener('click', function () { closeOverlay(); acceptInvite(e.id); });
+    var cancel = document.getElementById('dv-cancel');
+    if (cancel) cancel.addEventListener('click', function () { closeOverlay(); refuseInvite(e.id); });
+    var join = document.getElementById('dv-join');
+    if (join) join.addEventListener('click', function () { closeOverlay(); join(e.id); });
+    var leave = document.getElementById('dv-leave');
+    if (leave) leave.addEventListener('click', function () { closeOverlay(); leave(e.id); });
+    var people = document.getElementById('dv-people');
+    if (people) people.addEventListener('click', function () { closeOverlay(); openPeople(e, 'Кто идёт'); });
+    var share = document.getElementById('dv-share');
+    if (share) share.addEventListener('click', function () { closeOverlay(); toast('Ссылка на событие скопирована', 'success'); });
+  }
+
+  /* ── Деталь тренировки: план + старт ─────────────────────────────── */
+  function openTrainingDetail(e) {
+    var type = TYPES[e.type];
+    var st = statusInfo(e);
+    var past = e.status === 'done' || e.status === 'cancelled';
+    var fmt = formatLabel(e);
+    var link = myLink(e);
+    var html = '<div class="dv-head">' +
+      '<span class="dv-dot" style="--c: var(' + type.token + ')"><svg><use href="#ic-gear"/></svg></span>' +
+      '<div><h3 class="dv-title">' + e.title + '</h3>' +
+      '<div class="dv-badges"><span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+      (fmt ? '<span class="gchip">' + fmt + '</span>' : '') +
+      (st ? '<span class="dv-status" style="--c: ' + st.c + '"><i></i>' + st.label + '</span>' : '') +
+      '</div></div></div>' +
+      '<div class="dv-rows">' +
+      '<div class="dv-row"><span class="dv-r-ic" style="--c: var(' + type.token + ')"><svg><use href="#ic-cal"/></svg></span>' +
+      '<div class="dv-row-tx"><b>' + e.day + '</b><span>' + e.time + '</span></div></div>' +
+      '<div class="dv-row"><span class="dv-r-ic" style="--c: var(' + type.token + ')"><svg><use href="#ic-gear"/></svg></span>' +
+      '<div class="dv-row-tx"><b>' + (e.place || 'Место уточняется') + '</b><span>' + (e.club || 'Спорткомплекс «Петровское»') + '</span></div></div>' +
+      '</div>';
+
+    var planSec = '';
+    if (e.plan && e.plan.length) {
+      planSec = '<div class="dv-sec"><h4 class="dv-sec-title">План упражнений</h4><div class="dv-plan">' +
+        e.plan.map(function (p) {
+          return '<div class="dv-plan-item"><b>' + p.name + '</b><span>' + p.sets + '</span></div>';
+        }).join('') + '</div></div>';
+    } else if (!past && e.format === 'personal') {
+      planSec = '<div class="dv-sec"><h4 class="dv-sec-title">План упражнений</h4>' +
+        '<p class="dv-note">План появится в разделе «Тренировки» перед занятием.</p></div>';
+    }
+
+    var peopleSec = '<div class="dv-sec"><h4 class="dv-sec-title">Участники · ' + (e.people || []).length + '</h4>' +
+      '<div class="dv-people">' + (e.people || []).map(function (p, i) { return dvPersonHTML(e, p, i === 0); }).join('') + '</div></div>';
+
+    var cta = '';
+    var canStart = e.plan && e.plan.length && !past && (link === 'org' || link === 'enrolled');
+    if (canStart) {
+      cta = '<div class="dv-cta-row"><button class="btn btn-accent" id="dv-start">Начать тренировку</button>' +
+        (link === 'org' ? '<button class="dv-cta-mini" id="dv-cancel">Отменить</button>' : '') + '</div>';
+    } else if (link === 'invited' && !past) {
+      cta = '<div class="dv-cta-row"><button class="btn btn-accent" id="dv-ok">Принять</button>' +
+        '<button class="dv-cta-mini" id="dv-cancel">Отклонить</button></div>';
+    } else if (link === 'enrolled' && !past) {
+      cta = '<button class="btn btn-ghost" id="dv-leave">Отказаться от участия</button>';
+    } else if (link === 'org' && !past) {
+      cta = '<button class="btn btn-ghost" id="dv-cancel">Отменить</button>';
+    }
+
+    html += planSec + peopleSec + cta;
+    openOverlay();
+    modal.hidden = false;
+    modalCard.className = 'modal-card dv-card';
+    modalCard.innerHTML = html;
+
+    var start = document.getElementById('dv-start');
+    if (start) start.addEventListener('click', function () { closeOverlay(); startTraining(e); });
+    var ok = document.getElementById('dv-ok');
+    if (ok) ok.addEventListener('click', function () { closeOverlay(); acceptInvite(e.id); });
+    var cancel = document.getElementById('dv-cancel');
+    if (cancel) cancel.addEventListener('click', function () {
+      closeOverlay();
+      if (link === 'invited') { refuseInvite(e.id); return; }
+      setStatus(e.id, 'cancelled');
+    });
+    var leave = document.getElementById('dv-leave');
+    if (leave) leave.addEventListener('click', function () { closeOverlay(); leave(e.id); });
+  }
+
+  function startTraining(e) {
+    var active = {
+      planId: e.id,
+      title: e.title,
+      time: e.time,
+      place: e.place,
+      dateLabel: e.day,
+      startTs: Date.now(),
+      exercises: (e.plan || []).map(function (p) {
+        return { name: p.name, sets: p.sets, done: false };
+      })
+    };
+    try { localStorage.setItem('trn:active', JSON.stringify(active)); } catch (err) { /* noop */ }
+    location.href = 'training-active.html';
+  }
+
+  /* ── Шит аренды: инвентарь, цена, зал ────────────────────────────── */
+  function openRentalDetail(e) {
+    activeEntity = e;
+    var type = TYPES[e.type];
+    sheetTitle.textContent = e.title;
+    sheetDot.style.setProperty('--c', 'var(' + type.token + ')');
+    sheetBadge.style.setProperty('--c', 'var(' + type.token + ')');
+    sheetBadge.textContent = type.label;
+    sheetList.innerHTML = '';
+    var items = [
+      { ic: 'clock', label: e.day + ', ' + e.time },
+      { ic: 'gear', label: e.place || 'Зал уточняется' },
+      { ic: 'users', label: (e.people || []).length + ' участник(а)' },
+      { ic: 'warn', label: e.price || 'Цена — по прайсу комплекса' }
+    ];
+    items.forEach(function (it) {
+      var row = document.createElement('button');
+      row.className = 'sheet-item';
+      row.innerHTML =
+        '<span class="sheet-ic"><svg><use href="#ic-' + it.ic + '"/></svg></span>' +
+        '<span class="sheet-it"><span class="sheet-il">' + it.label + '</span></span>';
+      row.addEventListener('click', function () { closeOverlay(); openMenu(e.id); });
+      sheetList.appendChild(row);
+    });
+    openOverlay();
+    sheet.classList.add('open');
   }
 
   function openQR(e) {
@@ -1675,9 +1940,13 @@ body.no-scroll { overflow: hidden; }
   function avaHTML(name) {
     return '<svg class="av" aria-hidden="true"><use href="#ava-' + avaId(name) + '"/></svg>';
   }
-  function avatarHTML(e, p) {
+  function isCoachAvatar(e, p, isFirst) {
+    return e.type === 'training' && e.format && e.format !== 'personal' && !!isFirst;
+  }
+  function avatarHTML(e, p, isFirst) {
     var isYou = p === 'Вы';
-    return '<span class="ev-ava' + (isYou ? ' is-you' : '') + '" style="--c: var(' + TYPES[e.type].token + ')" title="' + p + '">' + avaHTML(p) + '</span>';
+    var coach = isCoachAvatar(e, p, isFirst);
+    return '<span class="ev-ava' + (isYou ? ' is-you' : '') + (coach ? ' is-coach' : '') + '" style="--c: var(' + TYPES[e.type].token + ')" title="' + p + '">' + avaHTML(p) + (coach ? '<svg class="ev-coach-badge" aria-hidden="true"><use href="#ic-star"/></svg>' : '') + '</span>';
   }
 
   function cardHTML(e, idx) {
@@ -1686,68 +1955,37 @@ body.no-scroll { overflow: hidden; }
     var past = e.status === 'done' || e.status === 'cancelled';
     var meta = '<b>' + e.day + '</b> · ' + e.time;
     var sub = e.place + (e.club ? ' · <b>' + e.club + '</b>' : '');
-    var avatars = (e.people || []).map(function (p) { return avatarHTML(e, p); }).join('');
-    var swipes = swipeFor(e);
-    var swipeHTML = swipes.map(function (s) {
-      return '<button class="sw-act" tabindex="-1" style="--sw:' + s.sw + '" data-cmd="' + s.cmd + '" aria-label="' + s.label + '">' +
-        '<svg aria-hidden="true"><use href="#ic-' + s.icon + '"/></svg><span>' + s.label + '</span></button>';
-    }).join('');
+    var avatars = (e.people || []).map(function (p, i) { return avatarHTML(e, p, i === 0); }).join('');
     var statusBadge = '';
     var st = null;
     if (past) st = { label: e.status === 'done' ? 'Завершено' : 'Отменено', color: 'var(' + status.token + ')' };
     else if (myLink(e) === 'invited') st = { label: 'Приглашение', color: 'var(--st-pending)', pulse: true };
-    else if (e.status === 'pending' && e.type !== 'me') st = { label: 'Ожидает', color: 'var(--st-pending)', pulse: true };
+    else if (e.status === 'pending' && !(e.type === 'training' && e.format === 'personal')) st = { label: 'Ожидает', color: 'var(--st-pending)', pulse: true };
     else if (myLink(e) === 'enrolled') st = { label: 'Вы записаны', color: 'var(--st-confirmed)' };
-    else if (myLink(e) === 'org' && e.type !== 'me' && e.type !== 'trainer') st = { label: 'Вы организатор', color: 'var(--type-club)' };
+    else if (myLink(e) === 'org' && e.type !== 'training') st = { label: 'Вы организатор', color: 'var(--type-club)' };
     else if (myLink(e) === 'open' && e.status === 'open') st = { label: 'Запись открыта', color: 'var(--st-open)' };
     if (st) {
       statusBadge = '<span class="ev-badge ev-badge-status' + (st.pulse ? ' is-pending' : '') + '" style="--c: ' + st.color + '">' +
         (st.pulse ? '<svg class="ev-bdot-ico" aria-hidden="true"><use href="#ic-clock"/></svg>' : '<i class="ev-bdot"></i>') +
         st.label + '</span>';
     }
-    return '<div class="swipe-container" data-od-id="event-card-' + e.id + '">' +
-      '<div class="swipe-actions">' + swipeHTML + '</div>' +
-      '<div class="swipe-card" style="--swipe-w:' + (swipes.length * 84) + 'px; --i:' + idx + '">' +
-        '<article class="ev-card">' +
-          '<header class="ev-top">' +
-            '<div class="ev-title-row">' +
-              '<span class="ev-dot" style="--c: var(' + type.token + ')" aria-hidden="true"></span>' +
-              '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3>' +
-            '</div>' +
-            statusBadge +
-            '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
-          '</header>' +
-          '<p class="ev-meta">' + meta + '</p>' +
-          (sub ? '<p class="ev-sub">' + sub + '</p>' : '') +
-          '<footer class="ev-foot">' +
-            '<div class="ev-avatars">' + avatars + '</div>' +
-            (e.foot ? '<span class="ev-foot-text">' + e.foot + '</span>' : '') +
-            '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
-          '</footer>' +
-        '</article>' +
-      '</div>' +
-    '</div>';
-  }
-
-  /* ── Подсказка свайпа (онбординг) ────────────────────────────────── */
-  var swipeHintDismissed = sessionStorage.getItem('od-swipe-hint') === '1';
-  function dismissSwipeHint(persist) {
-    var hint = document.getElementById('swipe-hint');
-    if (!hint) return;
-    hint.classList.remove('is-show');
-    if (persist) {
-      swipeHintDismissed = true;
-      sessionStorage.setItem('od-swipe-hint', '1');
-    }
-  }
-  function maybeShowHint() {
-    if (swipeHintDismissed) return;
-    if (!document.querySelector('.swipe-container .sw-act')) return;
-    var hint = document.getElementById('swipe-hint');
-    if (!hint) return;
-    hint.classList.add('is-show');
-    hint.addEventListener('click', function () { dismissSwipeHint(true); });
-    setTimeout(function () { dismissSwipeHint(false); }, 9000);
+    return '<article class="ev-card" data-od-id="event-card-' + e.id + '" style="--c: var(' + type.token + '); --i:' + idx + '">' +
+      '<header class="ev-top">' +
+        '<div class="ev-title-row">' +
+          '<h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3>' +
+        '</div>' +
+        statusBadge +
+        '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
+      '</header>' +
+      (formatLabel(e) ? '<div class="ev-fmts"><span class="gchip">' + formatLabel(e) + '</span></div>' : '') +
+      '<p class="ev-meta">' + meta + '</p>' +
+      (sub ? '<p class="ev-sub">' + sub + '</p>' : '') +
+      '<footer class="ev-foot">' +
+        '<div class="ev-avatars">' + avatars + '</div>' +
+        (e.foot ? '<span class="ev-foot-text">' + e.foot + '</span>' : '') +
+        '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+      '</footer>' +
+    '</article>';
   }
 
   var enterDone = false;
@@ -1771,7 +2009,6 @@ body.no-scroll { overflow: hidden; }
     });
     if (!up.children.length) up.innerHTML = '<p class="ev-meta" style="padding:0 4px">По этому фильтру событий нет.</p>';
     if (!past.children.length) past.innerHTML = '<p class="ev-meta" style="padding:0 4px">Прошедших событий нет.</p>';
-    setupSwipeCards();
   }
 
   /* ── Легенда статусов ────────────────────────────────────────────── */
@@ -1802,64 +2039,8 @@ body.no-scroll { overflow: hidden; }
     });
   }
 
-  /* ── Свайп-действия ──────────────────────────────────────────────── */
-  var swipeTimer = null;
-  function closeSwipe(card) {
-    if (card) { card.classList.remove('swiped'); return; }
-    document.querySelectorAll('.swipe-card.swiped').forEach(function (c) {
-      c.classList.remove('swiped');
-    });
-  }
-  function openSwipe(card) {
-    var container = card.parentNode;
-    if (!container || !container.querySelector('.sw-act')) return;
-    document.querySelectorAll('.swipe-card.swiped').forEach(function (c) {
-      if (c !== card) c.classList.remove('swiped');
-    });
-    card.classList.add('swiped');
-    dismissSwipeHint(true);
-    clearTimeout(swipeTimer);
-    swipeTimer = setTimeout(function () { closeSwipe(card); }, 3000);
-  }
-  function setupSwipeCards() {
-    document.querySelectorAll('.swipe-card').forEach(function (card) {
-      if (card.dataset.swipe) return;
-      card.dataset.swipe = '1';
-      var startX = 0;
-      var startY = 0;
-      var dragging = false;
-      var onStart = function (ev) {
-        var t = ev.touches ? ev.touches[0] : ev;
-        startX = t.clientX;
-        startY = t.clientY;
-        dragging = true;
-      };
-      var onMove = function (ev) {
-        if (!dragging) return;
-        var t = ev.touches ? ev.touches[0] : ev;
-        var dx = t.clientX - startX;
-        var dy = t.clientY - startY;
-        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-        if (Math.abs(dy) > Math.abs(dx)) { dragging = false; return; }
-        ev.preventDefault();
-        if (dx < -40) { openSwipe(card); dragging = false; }
-        else if (dx > 40) { closeSwipe(card); dragging = false; }
-      };
-      var onEnd = function () { dragging = false; };
-      card.addEventListener('touchstart', onStart, { passive: true });
-      card.addEventListener('touchmove', onMove, { passive: false });
-      card.addEventListener('touchend', onEnd);
-      card.addEventListener('mousedown', onStart);
-      card.addEventListener('mousemove', onMove);
-      card.addEventListener('mouseup', onEnd);
-      card.addEventListener('mouseleave', onEnd);
-    });
-  }
-
   /* ── События ─────────────────────────────────────────────────────── */
   document.addEventListener('click', function (ev) {
-    if (!ev.target.closest('.swipe-actions') && !ev.target.closest('.swipe-card')) closeSwipe();
-
     var roleBtn = ev.target.closest('[data-role]');
     if (roleBtn) {
       role = roleBtn.getAttribute('data-role');
@@ -1877,31 +2058,19 @@ body.no-scroll { overflow: hidden; }
     var menuBtn = ev.target.closest('[data-menu]');
     if (menuBtn) { openMenu(menuBtn.getAttribute('data-menu')); return; }
 
-    var cmdBtn = ev.target.closest('[data-cmd]');
-    if (cmdBtn) {
-      var cmd = cmdBtn.getAttribute('data-cmd');
-      var parts = cmd.split(':');
-      var id = parts[1];
-      var e = getEntity(id);
-      if (!e) return;
-      if (parts[0] === 'confirm') setStatus(id, 'confirmed');
-      else if (parts[0] === 'decline') setStatus(id, 'cancelled');
-      else if (parts[0] === 'accept') acceptInvite(id);
-      else if (parts[0] === 'refuse') refuseInvite(id);
-      else if (parts[0] === 'join') join(id);
-      else if (parts[0] === 'leave') leave(id);
-      else if (parts[0] === 'done') setStatus(id, 'done');
-      else if (parts[0] === 'doneEarly') openDoneConfirm(e);
-      else if (parts[0] === 'qr') openQR(e);
-      else if (parts[0] === 'people') openPeople(e, 'Кто идёт');
-      else if (parts[0] === 'invite') openInvite(e);
-      else if (parts[0] === 'legend') openLegend();
-      else if (parts[0] === 'edit') toast('Редактирование откроется в полной версии', 'info');
-      else if (parts[0] === 'share') toast('Ссылка на событие скопирована', 'success');
-      else if (parts[0] === 'chat') toast('Чат откроется в мини-приложении ВКонтакте', 'info');
-      else if (parts[0] === 'link') toast('«' + e.link + '» откроется в полной версии', 'info');
-      if (ev.target.closest('.sw-act')) { closeSwipe(); dismissSwipeHint(true); }
-      return;
+    var detailCard = ev.target.closest('.ev-card');
+    if (detailCard && !ev.target.closest('.ev-menu')) {
+      var oid = detailCard.getAttribute('data-od-id');
+      if (oid) {
+        var id = oid.replace('event-card-', '');
+        var ent = getEntity(id);
+        if (ent) {
+          if (ent.type === 'event' || ent.type === 'club') openDetail(ent);
+          else if (ent.type === 'rental') openRentalDetail(ent);
+          else if (ent.type === 'training') openTrainingDetail(ent);
+          return;
+        }
+      }
     }
 
     var closeBtn = ev.target.closest('[data-close]');
@@ -1917,7 +2086,6 @@ body.no-scroll { overflow: hidden; }
   renderLegend();
   renderChips();
   render();
-  setTimeout(maybeShowHint, 450);
   setTimeout(notifyPending, 900);
 })();
 </script>

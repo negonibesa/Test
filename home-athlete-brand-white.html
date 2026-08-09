@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#eaf4ff">
-<title>Петровское СП — главный экран · Спортсмен (бренд: жёлтый/голубой/белый)</title>
+<title>Петровское СП — главный экран · Спортсмен (по дизайн-системе)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -70,6 +70,7 @@
   --radius-pill: 980px;
 
   --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --elev-card: 0 6px 20px rgba(18,33,59,0.10), 0 2px 6px rgba(18,33,59,0.06);
   --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
 
   --motion-fast: 150ms;
@@ -273,10 +274,12 @@ a { color: inherit; }
 @media (min-width: 560px) { .body { padding: 0 24px; } }
 
 /* ── Цель: круглый секундомер вместо линейного бара ───────────────── */
+.swipe-container { position: relative; margin-top: 24px; }
 .goal {
   position: relative;
   background: var(--surface);
   border-radius: var(--radius-lg);
+  box-shadow: var(--elev-card);
   padding: 20px 20px 18px;
   display: flex;
   align-items: center;
@@ -366,6 +369,7 @@ a { color: inherit; }
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--surface);
+  box-shadow: var(--elev-card);
   font: inherit;
   color: inherit;
   cursor: pointer;
@@ -427,6 +431,7 @@ a { color: inherit; }
   border: 0;
   border-radius: var(--radius-lg);
   background: var(--surface);
+  box-shadow: var(--elev-card);
   font: inherit;
   color: inherit;
   text-align: left;
@@ -475,6 +480,31 @@ a { color: inherit; }
 .ts-chip.tone-accent { background: color-mix(in srgb, var(--accent) 22%, var(--surface)); color: var(--accent); }
 .dash-card .goal-open { margin-top: 16px; }
 
+/* ── Свайп цели ────────────────────────────────────────────────────── */
+.swipe-actions {
+  position: absolute; top: 1px; right: 1px; bottom: 1px;
+  display: flex;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.sw-act {
+  flex: 1 0 84px; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; border: 0; color: var(--accent-on);
+  background: var(--sw, var(--accent));
+  font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.sw-act svg { width: 18px; height: 18px; flex: none; }
+.sw-act span { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sw-act-edit { background: var(--accent); color: var(--accent-on); }
+.sw-act-share { background: var(--warn); color: #0e1013; }
+.sw-act:focus-visible { outline: none; box-shadow: inset 0 0 0 2px rgba(0,0,0,0.4); }
+.swipe-card {
+  position: relative; touch-action: pan-y;
+  transition: transform var(--motion-base) var(--ease-standard); will-change: transform;
+}
+.swipe-card.swiped { transform: translateX(calc(-1 * var(--swipe-w, 168px))); }
+@media (prefers-reduced-motion: reduce) { .swipe-card { transition: none; } }
+
 /* ── События ───────────────────────────────────────────────────────── */
 .sec { margin-top: 32px; }
 .sec-head { display: flex; align-items: center; gap: 12px; padding: 0 2px 14px; }
@@ -498,6 +528,7 @@ a { color: inherit; }
 .sec-icon:hover { color: var(--accent-hover); text-decoration: underline; }
 .sec-icon:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
 .cards { display: grid; gap: 12px; }
+.cards .swipe-container { margin-top: 0; }
 .empty {
   border: 1px dashed var(--border-strong);
   border-radius: var(--radius-lg);
@@ -510,6 +541,7 @@ a { color: inherit; }
   border: 1px solid var(--border);
   border-left: 3px solid var(--c, var(--border));
   border-radius: var(--radius-lg);
+  box-shadow: var(--elev-card);
   padding: 15px 16px 13px;
   animation: rise 0.5s var(--ease-standard) both;
   animation-delay: calc(var(--i, 0) * 60ms);
@@ -589,6 +621,7 @@ a { color: inherit; }
   padding: 14px;
   background: var(--surface);
   border: 0; border-radius: var(--radius-lg);
+  box-shadow: var(--elev-card);
   font: inherit; color: inherit; text-align: left;
   cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
@@ -610,6 +643,7 @@ a { color: inherit; }
 .news-card {
   background: var(--surface);
   border-radius: var(--radius-lg);
+  box-shadow: var(--elev-card);
   padding: 14px 16px;
   cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
@@ -674,27 +708,6 @@ a { color: inherit; }
 .sheet-it { flex: 1; min-width: 0; }
 .sheet-il { display: block; font-size: 16px; font-weight: 500; color: var(--fg); }
 .sheet-ih { display: block; font-size: 12px; line-height: 1.35; color: var(--meta); margin-top: 1px; }
-.td-rows { display: grid; gap: 2px; }
-.td-row { display: flex; align-items: center; gap: 12px; padding: 10px 4px; }
-.td-row + .td-row { border-top: 1px solid var(--border-soft); }
-.td-ic { flex: none; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; color: var(--accent-on); background: var(--c, var(--accent)); }
-.td-ic svg { width: 18px; height: 18px; }
-.td-tx { flex: 1; min-width: 0; text-align: left; }
-.td-tx b { display: block; font-size: 15px; font-weight: 500; color: var(--fg); }
-.td-tx small { display: block; font-size: 12px; color: var(--meta); margin-top: 1px; }
-.td-plan { display: grid; gap: 6px; padding: 12px 4px 4px; text-align: left; }
-.td-plan-title { margin: 0 0 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--meta); }
-.td-plan-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 12px; background: var(--surface-2); border-radius: var(--radius-md); font-size: 14px; }
-.td-plan-item b { font-weight: 500; color: var(--fg); }
-.td-plan-item span { font-size: 13px; color: var(--meta); flex: none; }
-.td-cta-row { display: flex; gap: 8px; margin-top: 10px; }
-.td-cta-row .btn { flex: 1; }
-.td-cta-mini { flex: none; border: 0; background: none; color: var(--fg-2); font: inherit; font-size: 14px; font-weight: 600; padding: 10px 4px; cursor: pointer; }
-.td-cta-mini:hover { color: var(--danger); }
-.td-cta-mini:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
-.td-all { width: 100%; margin-top: 8px; border: 0; border-radius: var(--radius-md); background: var(--surface); color: var(--fg-2); font-size: 15px; font-weight: 600; padding: 13px; cursor: pointer; }
-.td-all:hover { background: var(--border-soft); }
-.td-all:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .sheet-cancel {
   margin-top: 8px; width: 100%; border: 0; border-radius: var(--radius-md);
   background: var(--surface-2); color: var(--fg-2); font-size: 16px; font-weight: 600; padding: 13px; cursor: pointer;
@@ -712,6 +725,7 @@ a { color: inherit; }
 .ach-item {
   display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
   background: var(--surface); border-radius: var(--radius-md); padding: 10px 12px;
+  box-shadow: var(--elev-card);
   cursor: default; transition: background var(--motion-fast) var(--ease-standard);
 }
 .ach-item.is-go { cursor: pointer; }
@@ -764,6 +778,7 @@ a { color: inherit; }
 .rating-row {
   display: flex; align-items: center; gap: 12px;
   background: var(--surface); border-radius: var(--radius-md); padding: 10px 12px;
+  box-shadow: var(--elev-card);
 }
 .rating-ico {
   flex: none; width: 36px; height: 36px; border-radius: 50%;
@@ -787,6 +802,7 @@ a { color: inherit; }
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
+  box-shadow: var(--elev-card);
   display: grid; grid-template-columns: repeat(5, 1fr);
   padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
   z-index: 30;
@@ -1134,19 +1150,8 @@ body.no-scroll { overflow: hidden; }
   var state = {
     search: '',
     entities: [
-      { id: 'str-today', type: 'training', format: 'personal', title: 'Силовая тренировка', status: 'confirmed', day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал', trainer: null, people: ['Вы', 'Игорь'], foot: 'Вы и ещё 1', plan: [
-        { name: 'Жим штанги лёжа', sets: '4 × 8 · 40 кг' },
-        { name: 'Приседания со штангой', sets: '4 × 10 · 50 кг' },
-        { name: 'Тяга верхнего блока', sets: '3 × 12 · 30 кг' },
-        { name: 'Подъём на бицепс стоя', sets: '3 × 12 · 12 кг' },
-        { name: 'Скручивания на пресс', sets: '3 × 20' }
-      ] },
-      { id: 'swim', type: 'training', format: 'personal', title: 'Плавание', status: 'confirmed', day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»', trainer: null, people: ['Вы'], plan: [
-        { name: 'Разминка в воде', sets: '10 мин' },
-        { name: 'Кроль, техника', sets: '6 × 100 м' },
-        { name: 'Брасс, техника', sets: '4 × 50 м' },
-        { name: 'Заминка', sets: '5 мин' }
-      ] },
+      { id: 'str-today', type: 'training', format: 'personal', title: 'Силовая тренировка', status: 'confirmed', day: 'Сегодня', time: '18:00 – 19:30', place: 'Тренажёрный зал', trainer: null, people: ['Вы', 'Игорь'], foot: 'Вы и ещё 1' },
+      { id: 'swim', type: 'training', format: 'personal', title: 'Плавание', status: 'confirmed', day: 'Вт, 26 авг', time: '07:00 – 08:00', place: 'Бассейн «Волна»', trainer: null, people: ['Вы'] },
       { id: 'str-coach', type: 'training', format: 'trainer', title: 'Силовая тренировка с тренером', status: 'pending', day: 'Завтра', time: '08:00 – 09:00', place: 'Зал № 2', coach: 'А. Соколов', people: ['С'], foot: 'Тренер А. Соколов' },
       { id: 'cup', type: 'event', title: 'Летний Кубок Петровского', status: 'open', day: 'Сб, 16 авг', time: '10:00 – 18:00', place: 'Стадион «Центральный»', link: 'enrolled', bracket: true, people: ['Т', 'Л', 'М', 'К', 'В'], foot: '5 друзей идут' },
       { id: 'club-run', type: 'club', title: 'Вечерняя пробежка клуба', status: 'open', day: 'Вс, 17 авг', time: '19:00 – 20:30', place: 'Парк Победы', link: 'org', club: 'Беговой клуб «Север»', people: ['Вы', 'Д', 'О', 'Н'], foot: '12 участников' },
@@ -1202,6 +1207,41 @@ body.no-scroll { overflow: hidden; }
   function cancelClub(id) { var e = getEntity(id); if (!e) return; e.status = 'cancelled'; render(); toast('Тренировка клуба отменена'); }
   function removeEntity(id) { state.entities = state.entities.filter(function (x) { return x.id !== id; }); render(); toast('Тренировка удалена'); }
 
+  var SW = { green: '#2f9e54', red: '#ff4d4d', blue: '#1a86e0' };
+  function swipeFor(e) {
+    var act = function (sw, icon, label, cmd) { return { sw: sw, icon: icon, label: label, cmd: cmd + ':' + e.id }; };
+    var past = e.status === 'done' || e.status === 'cancelled';
+    if (past || myLink(e) === 'none') return [];
+    var list = [];
+    if (myLink(e) === 'invited') {
+      list.push(act(SW.green, 'check', 'Принять', 'accept'));
+      list.push(act(SW.red, 'x', 'Отклонить', 'refuse'));
+    } else if (myLink(e) === 'org') {
+      if (e.type === 'training' && e.format === 'personal') {
+        list.push(act(SW.green, 'check', 'Отметить', 'done'));
+        list.push(act(SW.blue, 'edit', 'Редактировать', 'edit'));
+      } else if (e.type === 'training' && e.format === 'trainer') {
+        if (e.status === 'pending') {
+          list.push(act(SW.green, 'check', 'Подтвердить', 'confirm'));
+          list.push(act(SW.red, 'x', 'Отклонить', 'decline'));
+        }
+      } else if (e.type === 'club') {
+        list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
+        list.push(act(SW.blue, 'scan', 'QR-код', 'qr'));
+      } else if (e.type === 'rental') {
+        list.push(act(SW.blue, 'scan', 'QR-код', 'qr'));
+        list.push(act(SW.blue, 'grid', 'Легенда', 'legend'));
+      }
+    } else if (myLink(e) === 'enrolled') {
+      list.push(act(SW.red, 'minus', 'Отказаться', 'leave'));
+      list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
+    } else if (myLink(e) === 'open' && e.status === 'open') {
+      list.push(act(SW.green, 'plus', 'Записаться', 'join'));
+      list.push(act(SW.blue, 'users', 'Кто идёт', 'people'));
+    }
+    return list;
+  }
+
   function actionsFor(e) {
     var act = function (icon, label, ok, hint, run) { return { icon: icon, label: label, ok: ok, hint: hint, run: run }; };
     var past = !notPast(e);
@@ -1247,7 +1287,6 @@ body.no-scroll { overflow: hidden; }
         ];
       } else {
         list = [
-          act('check', 'Отметить выполненной', e.status === 'confirmed', 'Только после подтверждения', function () { setStatus(e.id, 'done'); }),
           act('edit', 'Редактировать', !past, 'Доступно до завершения', function () { toast('Редактирование откроется в полной версии'); }),
           e.trainer ? act('user', 'Изменить тренера', true, null, function () { toast('Список тренеров откроется в полной версии'); }) : act('plus', 'Добавить тренера', !past, 'Тренер ещё не назначен', function () { toast('Список тренеров откроется в полной версии'); }),
           act('x', 'Отменить', !past, 'Доступно до завершения', function () { setStatus(e.id, 'cancelled'); }),
@@ -1324,79 +1363,6 @@ body.no-scroll { overflow: hidden; }
     });
     openOverlay();
     sheet.classList.add('open');
-  }
-
-  /* ── Деталь карточки: тап вместо свайпа ──────────────────────────── */
-  function openCardDetail(id) {
-    var e = getEntity(id);
-    if (!e) return;
-    var type = TYPES[e.type];
-    var past = e.status === 'done' || e.status === 'cancelled';
-    var link = myLink(e);
-    sheetTitle.textContent = e.title;
-    sheetDot.style.setProperty('--c', 'var(' + type.token + ')');
-    sheetBadge.style.setProperty('--c', 'var(' + type.token + ')');
-    sheetBadge.textContent = type.label;
-
-    var rows =
-      '<div class="td-row"><span class="td-ic" style="--c: var(' + type.token + ')"><svg><use href="#ic-cal"/></svg></span>' +
-      '<span class="td-tx"><b>' + e.day + '</b><small>' + e.time + '</small></span></div>' +
-      '<div class="td-row"><span class="td-ic" style="--c: var(' + type.token + ')"><svg><use href="#ic-trend"/></svg></span>' +
-      '<span class="td-tx"><b>' + (e.place || 'Место уточняется') + '</b><small>' + (e.club || 'Спорткомплекс «Петровское»') + '</small></span></div>';
-    var html = '<div class="td-rows">' + rows + '</div>';
-
-    if (e.plan && e.plan.length) {
-      html += '<div class="td-plan"><p class="td-plan-title">План упражнений</p>' +
-        e.plan.map(function (p) {
-          return '<div class="td-plan-item"><b>' + p.name + '</b><span>' + p.sets + '</span></div>';
-        }).join('') + '</div>';
-    }
-
-    if (e.type === 'training') {
-      if (e.plan && e.plan.length && !past && (link === 'org' || link === 'enrolled')) {
-        html += '<div class="td-cta-row"><button type="button" class="btn btn-accent" id="td-start">Начать тренировку</button>' +
-          (link === 'org' ? '<button type="button" class="td-cta-mini" id="td-cancel">Отменить</button>' : '') + '</div>';
-      } else if (!past && link === 'invited') {
-        html += '<div class="td-cta-row"><button type="button" class="btn btn-accent" id="td-ok">Принять</button>' +
-          '<button type="button" class="td-cta-mini" id="td-cancel">Отклонить</button></div>';
-      } else if (!past && link === 'org') {
-        html += '<button type="button" class="btn btn-ghost td-cta-row" id="td-cancel">Отменить</button>';
-      }
-    }
-    html += '<button type="button" class="td-all" id="td-all">Все действия</button>';
-
-    sheetList.innerHTML = html;
-    openOverlay();
-    sheet.classList.add('open');
-
-    var start = document.getElementById('td-start');
-    if (start) start.addEventListener('click', function () { closeOverlay(); startTraining(e); });
-    var ok = document.getElementById('td-ok');
-    if (ok) ok.addEventListener('click', function () { closeOverlay(); acceptInvite(e.id); });
-    var cancel = document.getElementById('td-cancel');
-    if (cancel) cancel.addEventListener('click', function () {
-      closeOverlay();
-      if (link === 'invited') { refuseInvite(e.id); return; }
-      setStatus(e.id, 'cancelled');
-    });
-    var all = document.getElementById('td-all');
-    if (all) all.addEventListener('click', function () { closeOverlay(); openMenu(e.id); });
-  }
-
-  function startTraining(e) {
-    var active = {
-      planId: e.id,
-      title: e.title,
-      time: e.time,
-      place: e.place,
-      dateLabel: e.day,
-      startTs: Date.now(),
-      exercises: (e.plan || []).map(function (p) {
-        return { name: p.name, sets: p.sets, done: false };
-      })
-    };
-    try { localStorage.setItem('trn:active', JSON.stringify(active)); } catch (err) { /* noop */ }
-    location.href = 'training-active.html';
   }
 
   function achData() {
@@ -1477,21 +1443,30 @@ body.no-scroll { overflow: hidden; }
     var meta = '<b>' + e.day + '</b> · ' + e.time;
     var sub = e.place + (e.club ? ' · <b>' + e.club + '</b>' : '');
     var avatars = (e.people || []).map(function (p, i) { return avatarHTML(e, p, i === 0); }).join('');
-    return '<article class="ev-card" data-od-id="event-card-' + e.id + '" style="--c: var(' + type.token + '); --i:' + idx + '">' +
-      '<header class="ev-top">' +
-        '<div class="ev-title-row"><h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3></div>' +
-        statusBadge +
-        '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
-      '</header>' +
-      (formatLabel(e) ? '<div class="ev-fmts"><span class="gchip">' + formatLabel(e) + '</span></div>' : '') +
-      '<p class="ev-meta">' + meta + '</p>' +
-      '<p class="ev-sub">' + sub + '</p>' +
-      '<footer class="ev-foot">' +
-        '<div class="ev-avatars">' + avatars + '</div>' +
-        (e.foot ? '<span class="ev-foot-text">' + e.foot + '</span>' : '') +
-        '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
-      '</footer>' +
-    '</article>';
+    var swipes = swipeFor(e);
+    var swipeHTML = swipes.map(function (s) {
+      return '<button class="sw-act" tabindex="-1" style="--sw:' + s.sw + '" data-cmd="' + s.cmd + '" aria-label="' + s.label + '"><svg aria-hidden="true"><use href="#ic-' + s.icon + '"/></svg><span>' + s.label + '</span></button>';
+    }).join('');
+    return '<div class="swipe-container" data-od-id="event-card-' + e.id + '">' +
+      '<div class="swipe-actions">' + swipeHTML + '</div>' +
+      '<div class="swipe-card" style="--swipe-w:' + (swipes.length * 84) + 'px; --i:' + idx + '">' +
+        '<article class="ev-card" data-od-id="home-card-' + e.id + '" style="--c: var(' + type.token + ')">' +
+          '<header class="ev-top">' +
+            '<div class="ev-title-row"><h3 class="ev-title' + (past ? ' s-' + e.status : '') + '">' + e.title + '</h3></div>' +
+            statusBadge +
+            '<button class="ev-menu" data-menu="' + e.id + '" aria-label="Меню действий для «' + e.title + '»"><svg><use href="#ic-dots"/></svg></button>' +
+          '</header>' +
+          (formatLabel(e) ? '<div class="ev-fmts"><span class="gchip">' + formatLabel(e) + '</span></div>' : '') +
+          '<p class="ev-meta">' + meta + '</p>' +
+          '<p class="ev-sub">' + sub + '</p>' +
+          '<footer class="ev-foot">' +
+            '<div class="ev-avatars">' + avatars + '</div>' +
+            (e.foot ? '<span class="ev-foot-text">' + e.foot + '</span>' : '') +
+            '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>' +
+          '</footer>' +
+        '</article>' +
+      '</div>' +
+    '</div>';
   }
 
   function esc(s) {
@@ -1530,22 +1505,72 @@ body.no-scroll { overflow: hidden; }
       }
       box.insertAdjacentHTML('beforeend', empty);
     }
+    setupSwipeCards();
+  }
+
+  var swipeTimer = null;
+  function closeSwipe() { document.querySelectorAll('.swipe-card.swiped').forEach(function (c) { c.classList.remove('swiped'); }); }
+  function openSwipe(card) {
+    if (!card.parentNode.querySelector('.sw-act')) return;
+    closeSwipe();
+    card.classList.add('swiped');
+    clearTimeout(swipeTimer);
+    swipeTimer = setTimeout(closeSwipe, 3000);
+  }
+  function setupSwipeCards() {
+    document.querySelectorAll('.swipe-card').forEach(function (card) {
+      if (card.dataset.swipe) return;
+      card.dataset.swipe = '1';
+      var startX = 0, startY = 0, dragging = false;
+      var onStart = function (ev) { var t = ev.touches ? ev.touches[0] : ev; startX = t.clientX; startY = t.clientY; dragging = true; };
+      var onMove = function (ev) {
+        if (!dragging) return;
+        var t = ev.touches ? ev.touches[0] : ev;
+        var dx = t.clientX - startX, dy = t.clientY - startY;
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        if (Math.abs(dy) > Math.abs(dx)) { dragging = false; return; }
+        ev.preventDefault();
+        if (dx < -40) { openSwipe(card); dragging = false; }
+        else if (dx > 40) { closeSwipe(); dragging = false; }
+      };
+      var onEnd = function () { dragging = false; };
+      card.addEventListener('touchstart', onStart, { passive: true });
+      card.addEventListener('touchmove', onMove, { passive: false });
+      card.addEventListener('touchend', onEnd);
+      card.addEventListener('mousedown', onStart);
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseup', onEnd);
+      card.addEventListener('mouseleave', onEnd);
+    });
   }
 
   document.addEventListener('click', function (ev) {
+    if (!ev.target.closest('.swipe-card') && !ev.target.closest('.swipe-actions')) closeSwipe();
     var goalCard = ev.target.closest('[data-goal-open]');
     if (goalCard && !ev.target.closest('[data-menu]') && !ev.target.closest('.goal-open')) { location.href = 'gto.html'; return; }
+    var cmdBtn = ev.target.closest('[data-cmd]');
+    if (cmdBtn) {
+      var parts = cmdBtn.getAttribute('data-cmd').split(':');
+      var id = parts[1];
+      var e = getEntity(id);
+      if (e) {
+        if (parts[0] === 'confirm') setStatus(id, 'confirmed');
+        else if (parts[0] === 'decline') setStatus(id, 'cancelled');
+        else if (parts[0] === 'accept') acceptInvite(id);
+        else if (parts[0] === 'refuse') refuseInvite(id);
+        else if (parts[0] === 'join') join(id);
+        else if (parts[0] === 'leave') leave(id);
+        else if (parts[0] === 'done') setStatus(id, 'done');
+        else if (parts[0] === 'qr') toast('QR-код входа откроется в полной версии');
+        else if (parts[0] === 'people') toast('Список участников — в полной версии');
+        else if (parts[0] === 'legend') toast('Легенда зала откроется в полной версии');
+        else if (parts[0] === 'edit') toast('Редактирование откроется в полной версии');
+      }
+      closeSwipe();
+      return;
+    }
     var menuBtn = ev.target.closest('[data-menu]');
     if (menuBtn) { openMenu(menuBtn.getAttribute('data-menu')); return; }
-    var card = ev.target.closest('.ev-card');
-    if (card && !ev.target.closest('.ev-menu')) {
-      var oid = card.getAttribute('data-od-id');
-      if (oid) {
-        var id = oid.replace('event-card-', '');
-        openCardDetail(id);
-        return;
-      }
-    }
     if (ev.target.closest('[data-od-id="home-ach"]')) { openAch(); return; }
     if (ev.target.closest('[data-od-id="home-points"]') || ev.target.closest('[data-od-id="home-rating"]')) { openRating(); return; }
     var toastBtn = ev.target.closest('[data-toast]');
@@ -1606,6 +1631,7 @@ body.no-scroll { overflow: hidden; }
     syncPh();
   }
 
+  setupSwipeCards();
   render();
   showStatusToast();
 

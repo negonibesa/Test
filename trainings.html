@@ -47,6 +47,16 @@
   --tracking-display: 0.01em;
   --tracking-caps: 0.08em;
 
+  --fs-title: 18px;
+  --fs-meta: 13px;
+  --fs-caption: 11px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+
   --radius-sm: 10px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -66,7 +76,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: linear-gradient(180deg, #deefff 0%, #f6fbff 35%, #eef6ff 100%);
+  background: var(--surface-warm);
   color: var(--fg);
   font-family: var(--font-body);
   line-height: var(--leading-body);
@@ -218,49 +228,38 @@ a { color: inherit; }
   background: var(--surface);
   border-radius: var(--radius-lg);
   border-left: 3px solid var(--type-me);
-  padding: 18px 18px 16px;
+  padding: var(--space-5) var(--space-5) var(--space-4);
   animation: rise 0.5s var(--ease-standard) both;
 }
 @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .today-card { animation: none; } }
-.today-top { display: flex; align-items: flex-start; gap: 12px; }
-.today-ic {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  color: var(--type-me);
-  background: color-mix(in srgb, var(--type-me) 16%, var(--surface));
-}
-.today-ic svg { width: 20px; height: 20px; }
+.today-top { display: flex; align-items: flex-start; gap: var(--space-3); }
 .today-txt { flex: 1; min-width: 0; }
 .today-title {
-  margin: 2px 0 0;
+  margin: var(--space-1) 0 0;
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: var(--fs-title);
   font-weight: 600;
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
 }
-.today-meta { margin: 3px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
+.today-meta { margin: var(--space-1) 0 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
 .today-badge {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 12px;
+  gap: var(--space-1);
+  font-size: var(--fs-meta);
   font-weight: 700;
   letter-spacing: 0.01em;
   color: var(--type-me);
   background: color-mix(in srgb, var(--type-me) 12%, var(--surface));
-  border-radius: 7px;
-  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
 }
 .today-badge .dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--type-me); }
 .today-ex {
-  margin: 14px 0 0;
+  margin: var(--space-4) 0 0;
   padding: 0;
   list-style: none;
   display: grid;
@@ -281,13 +280,13 @@ a { color: inherit; }
   display: grid;
   place-items: center;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 600;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 14%, var(--surface));
 }
 .today-ex .ex-name { flex: 1; min-width: 0; color: var(--fg); }
-.today-ex .ex-sets { flex: none; font-size: 13px; color: var(--meta); font-variant-numeric: tabular-nums; }
+.today-ex .ex-sets { flex: none; font-size: var(--fs-meta); color: var(--meta); font-variant-numeric: tabular-nums; }
 .cta {
   margin-top: 14px;
   width: 100%;
@@ -521,7 +520,6 @@ a { color: inherit; }
       </div>
       <div class="today-card" id="today-card">
         <div class="today-top">
-          <span class="today-ic" aria-hidden="true"><svg><use href="#ic-run"/></svg></span>
           <div class="today-txt">
             <h3 class="today-title" id="today-title"></h3>
             <p class="today-meta" id="today-meta"></p>
