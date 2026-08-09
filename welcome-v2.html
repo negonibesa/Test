@@ -12,11 +12,12 @@
   --bg: #eaf4ff;
   --surface: #ffffff;
   --surface-2: #eef6ff;
-  --surface-warm: #f5faff;
+  --surface-warm: #f8fbff;
   --fg: #12213b;
   --fg-2: #445269;
   --muted: #5d6b82;
   --meta: #66748e;
+  --placeholder: #9aa5b7;
   --border: rgba(18,33,59,0.08);
   --border-soft: rgba(18,33,59,0.05);
   --border-strong: rgba(18,33,59,0.16);
@@ -186,8 +187,8 @@ body {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 112px;
-  height: 112px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -195,8 +196,8 @@ body {
 }
 .brand-logo img {
   display: block;
-  width: 96px;
-  height: 96px;
+  width: 88px;
+  height: 88px;
   object-fit: contain;
 }
 
@@ -248,16 +249,16 @@ body {
     box-shadow var(--motion-fast) var(--ease-standard);
 }
 .btn-block { display: flex; width: 100%; max-width: none; }
-.btn-primary { background: var(--accent); color: var(--accent-on); }
-.btn-primary:hover { background: var(--accent-hover); }
-.btn-primary:active { background: var(--accent-active); transform: scale(0.98); }
-.btn-secondary {
-  background: var(--bg);
-  color: var(--fg);
+.btn-accent { background: var(--accent); color: var(--accent-on); }
+.btn-accent:hover { background: var(--accent-hover); }
+.btn-accent:active { background: var(--accent-active); transform: scale(0.98); }
+.btn-ghost {
+  background: var(--surface-warm);
+  color: var(--fg-2);
   border: 1px solid var(--border);
 }
-.btn-secondary:hover { border-color: var(--meta); background: var(--surface-warm); }
-.btn-secondary:active { transform: scale(0.98); background: var(--surface); }
+.btn-ghost:hover { border-color: var(--meta); background: var(--surface); }
+.btn-ghost:active { transform: scale(0.98); background: var(--border-soft); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 .btn.is-busy {
   opacity: 1;
@@ -296,7 +297,7 @@ body {
   height: 44px;
   border-radius: 50%;
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg);
   display: grid;
   place-items: center;
@@ -307,7 +308,7 @@ body {
     transform var(--motion-fast) var(--ease-standard),
     box-shadow var(--motion-fast) var(--ease-standard);
 }
-.back:hover { background: var(--surface-warm); border-color: var(--meta); }
+.back:hover { background: var(--surface-2); border-color: var(--meta); }
 .back:active { transform: scale(0.96); }
 .back:focus-visible {
   outline: none;
@@ -334,8 +335,8 @@ body {
 
 .tabs {
   display: flex;
-  gap: 40px;
-  margin-top: 32px;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
   border-bottom: 1px solid var(--border-soft);
 }
 .tab {
@@ -388,7 +389,7 @@ body {
   height: 56px;
   padding: 0 16px;
   background: var(--surface);
-  border: 1px solid transparent;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   transition:
     background-color var(--motion-fast) var(--ease-standard),
@@ -397,13 +398,13 @@ body {
 }
 .field-inner:hover { border-color: var(--border); }
 .field:focus-within .field-inner {
-  background: var(--bg);
+  background: var(--surface);
   border-color: var(--accent);
   box-shadow: var(--focus-ring);
 }
-.field.is-error .field-inner { background: var(--bg); border-color: var(--danger); }
+.field.is-error .field-inner { background: var(--surface); border-color: var(--danger); }
 .field.is-error:focus-within .field-inner { box-shadow: none; }
-.field.is-success .field-inner { background: var(--bg); border-color: var(--success); }
+.field.is-success .field-inner { background: var(--surface); border-color: var(--success); }
 .field-inner .field-icon { flex: 0 0 auto; color: var(--muted); }
 .field-inner input {
   flex: 1;
@@ -416,7 +417,7 @@ body {
   font-size: var(--text-base);
   color: var(--fg);
 }
-.field-inner input::placeholder { color: var(--muted); opacity: 1; }
+.field-inner input::placeholder { color: var(--placeholder); opacity: 1; }
 .field-inner input[type="password"] { letter-spacing: 0.14em; }
 .field-inner input[type="password"]::placeholder { letter-spacing: normal; }
 .field-msg {
@@ -482,6 +483,7 @@ body {
   cursor: pointer;
 }
 .link:hover { text-decoration: underline; }
+.guest-link { margin-top: 4px; color: #ffffff; }
 .link:focus-visible {
   outline: none;
   border-radius: 4px;
@@ -511,8 +513,8 @@ body {
   gap: 12px;
   width: 100%;
   height: 56px;
-  border-radius: var(--radius-md);
-  background: var(--bg);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
   border: 1px solid var(--border);
   color: var(--fg);
   font-family: var(--font-body);
@@ -538,10 +540,11 @@ body {
   height: 30px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--surface);
   color: var(--fg);
 }
 .mark-box svg { display: block; }
+.gosuslugi-logo { flex: 0 0 auto; display: block; height: 26px; width: auto; }
 
 .strength { display: none; margin-top: 12px; }
 .strength-bars { display: flex; gap: 6px; }
@@ -589,7 +592,7 @@ body {
   margin-top: 1px;
   border: 1.5px solid var(--meta);
   border-radius: 6px;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--accent-on);
   transition:
     background-color var(--motion-fast) var(--ease-standard),
@@ -694,7 +697,7 @@ body {
   padding: 20px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--bg);
+  background: var(--surface);
   cursor: pointer;
   transition:
     border-color var(--motion-fast) var(--ease-standard),
@@ -708,10 +711,10 @@ body {
   height: 1px;
   margin: 0;
 }
-.role-card:hover { border-color: var(--meta); background: var(--surface-warm); }
+.role-card:hover { border-color: var(--meta); background: var(--border-soft); }
 .role-card.is-active {
   border-color: var(--accent);
-  background: var(--surface-warm);
+  background: var(--surface);
 }
 .role-card:active { transform: scale(0.99); }
 .role-card:focus-within {
@@ -719,23 +722,28 @@ body {
   box-shadow: var(--focus-ring);
 }
 
-.role-icon {
+.role-avatar {
   flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: var(--radius-md);
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
   background: var(--surface);
-  color: var(--fg-2);
+  overflow: hidden;
   transition:
-    background-color var(--motion-fast) var(--ease-standard),
-    color var(--motion-fast) var(--ease-standard);
+    border-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard);
 }
-.role-icon svg { display: block; }
-.role-card.is-active .role-icon {
-  background: color-mix(in oklab, var(--accent), transparent 90%);
-  color: var(--accent);
+.role-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.role-card.is-active .role-avatar {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent), transparent 82%);
 }
 
 .role-body { flex: 1; min-width: 0; }
@@ -755,20 +763,31 @@ body {
 
 .role-check {
   flex: 0 0 auto;
+  position: relative;
   display: grid;
   place-items: center;
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--meta);
   color: var(--accent-on);
   transition:
-    background-color var(--motion-fast) var(--ease-standard),
-    border-color var(--motion-fast) var(--ease-standard);
+    border-color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard);
 }
-.role-check svg { opacity: 0; transition: opacity var(--motion-fast) var(--ease-standard); }
-.role-card.is-active .role-check { background: var(--accent); border-color: var(--accent); }
-.role-card.is-active .role-check svg { opacity: 1; }
+.role-check svg { display: none; }
+.role-check::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+.role-card.is-active .role-check { border-color: var(--accent); }
+.role-card.is-active .role-check::after { opacity: 1; transform: scale(1); }
 
 .role-scroll .cta {
   margin-top: 40px;
@@ -971,6 +990,7 @@ body {
   line-height: 1.45;
   color: var(--fg);
 }
+.field-inner.is-area textarea::placeholder { color: var(--placeholder); opacity: 1; }
 .chips { display: flex; gap: 10px; }
 .chips.is-wrap { flex-wrap: wrap; }
 .chips.is-wrap .chip { flex: 1 1 calc(50% - 5px); }
@@ -1020,7 +1040,7 @@ body {
   padding: 20px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--bg);
+  background: var(--surface);
 }
 .home-icon {
   flex: 0 0 auto;
@@ -1029,7 +1049,8 @@ body {
   width: 52px;
   height: 52px;
   border-radius: var(--radius-md);
-  background: color-mix(in oklab, var(--accent), transparent 90%);
+  background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--accent);
 }
 .home-icon svg { display: block; }
@@ -1053,8 +1074,28 @@ body {
   font-size: var(--text-xs);
   font-weight: 600;
 }
+.home-badge.is-guest {
+  background: var(--border-soft);
+  color: var(--fg-2);
+}
 .home-scroll .btn { margin-top: 24px; }
 .home-scroll .version { text-align: center; }
+
+.guest-cta {
+  width: 100%;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+}
+.guest-cta-text {
+  margin: 0 0 16px;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: var(--muted);
+}
 
 .home-goal { margin-top: 24px; }
 .goal-card {
@@ -1065,7 +1106,7 @@ body {
   padding: 20px;
   border: 1.5px dashed var(--border);
   border-radius: var(--radius-lg);
-  background: var(--bg);
+  background: var(--surface);
   text-align: left;
   cursor: pointer;
   transition:
@@ -1073,7 +1114,7 @@ body {
     background-color var(--motion-fast) var(--ease-standard),
     transform var(--motion-fast) var(--ease-standard);
 }
-.goal-card:hover { border-color: var(--meta); background: var(--surface-warm); }
+.goal-card:hover { border-color: var(--meta); background: var(--border-soft); }
 .goal-card:active { transform: scale(0.99); }
 .goal-card:focus-visible {
   outline: none;
@@ -1111,7 +1152,7 @@ body {
   padding: 20px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--bg);
+  background: var(--surface);
 }
 .goal-set-head {
   display: flex;
@@ -1230,7 +1271,7 @@ body {
   overscroll-behavior: contain;
   padding: 8px 24px calc(24px + env(safe-area-inset-bottom, 0px));
   border-radius: 20px 20px 0 0;
-  background: var(--bg);
+  background: var(--surface);
   transform: translateY(100%);
   transition: transform var(--motion-base) var(--ease-standard);
 }
@@ -1272,7 +1313,7 @@ body {
   padding: 14px 16px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
-  background: var(--bg);
+  background: var(--surface);
   cursor: pointer;
   transition:
     border-color var(--motion-fast) var(--ease-standard),
@@ -1327,20 +1368,31 @@ body {
 }
 .goal-option-check {
   flex: 0 0 auto;
+  position: relative;
   display: grid;
   place-items: center;
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--meta);
   color: var(--accent-on);
   transition:
-    background-color var(--motion-fast) var(--ease-standard),
-    border-color var(--motion-fast) var(--ease-standard);
+    border-color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard);
 }
-.goal-option-check svg { opacity: 0; transition: opacity var(--motion-fast) var(--ease-standard); }
-.goal-option.is-active .goal-option-check { background: var(--accent); border-color: var(--accent); }
-.goal-option.is-active .goal-option-check svg { opacity: 1; }
+.goal-option-check svg { display: none; }
+.goal-option-check::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+.goal-option.is-active .goal-option-check { border-color: var(--accent); }
+.goal-option.is-active .goal-option-check::after { opacity: 1; transform: scale(1); }
 .sheet-actions {
   display: flex;
   flex-direction: column;
@@ -1385,7 +1437,7 @@ body {
     <div class="scroll">
       <div class="brand r r-1">
         <span class="brand-logo" aria-hidden="true">
-          <img src="/api/projects/70f2c5f4-fba6-4067-84f7-ae1f37d6970f/raw/Logo.png?workspaceId=dd2n7ydj2v65r2v24rls2lxe&amp;workspaceMemberId=vlsaw47smfcyrq6outx9stha" alt="" width="96" height="96">
+          <img src="/api/projects/70f2c5f4-fba6-4067-84f7-ae1f37d6970f/raw/Logo.png?workspaceId=dd2n7ydj2v65r2v24rls2lxe&amp;workspaceMemberId=vlsaw47smfcyrq6outx9stha" alt="" width="88" height="88">
         </span>
         <h1>Петровское СП</h1>
         <p class="sub">Спортивная платформа</p>
@@ -1395,8 +1447,9 @@ body {
       <div class="grow" aria-hidden="true"></div>
 
       <footer class="cta r r-4">
-        <button type="button" class="btn btn-primary" id="btn-login">Войти</button>
-        <button type="button" class="btn btn-secondary" id="btn-register">Зарегистрироваться</button>
+        <button type="button" class="btn btn-accent" id="btn-login">Войти</button>
+        <button type="button" class="btn btn-ghost" id="btn-register">Зарегистрироваться</button>
+        <button type="button" class="link guest-link" id="btn-guest">Войти как гость</button>
       </footer>
     </div>
   </section>
@@ -1478,7 +1531,7 @@ body {
 
           <div class="form-alert" id="alert-login" role="alert"></div>
 
-          <button type="submit" class="btn btn-primary btn-block" id="btn-submit-login" disabled=""><span class="spinner" aria-hidden="true"></span>Войти</button>
+          <button type="submit" class="btn btn-accent btn-block" id="btn-submit-login" disabled=""><span class="spinner" aria-hidden="true"></span>Войти</button>
         </form>
 
         <div class="divider" aria-hidden="true"><span>Или</span></div>
@@ -1489,7 +1542,7 @@ body {
             Войти через ВКонтакте
           </button>
           <button type="button" class="btn-social" data-name="Госуслуги">
-            <span class="mark-box"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.2 4.5 4.9v6.1c0 4.6 3.1 8.6 7.5 9.9 4.4-1.3 7.5-5.3 7.5-9.9V4.9L12 2.2Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"></path><path d="M9 12l2 2 4-4.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <img class="gosuslugi-logo" src="assets/gosuslugi-logo.svg" alt="Госуслуги">
             Войти через Госуслуги
           </button>
         </div>
@@ -1589,7 +1642,7 @@ body {
 
           <div class="form-alert" id="alert-reg" role="alert"></div>
 
-          <button type="submit" class="btn btn-primary btn-block" id="btn-submit-reg" disabled=""><span class="spinner" aria-hidden="true"></span>Зарегистрироваться</button>
+          <button type="submit" class="btn btn-accent btn-block" id="btn-submit-reg" disabled=""><span class="spinner" aria-hidden="true"></span>Зарегистрироваться</button>
         </form>
 
         <p class="switch-note">Уже есть аккаунт? <button type="button" class="link-inline" id="goto-login">Войти</button></p>
@@ -1632,14 +1685,8 @@ body {
       <div class="role-list" role="radiogroup" aria-label="Выберите роль">
         <label class="role-card" data-role="athlete">
           <input type="radio" name="role" value="athlete">
-          <span class="role-icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="5" r="2.3"></circle>
-              <path d="M12 7.3v4.7"></path>
-              <path d="M8.2 9.2 12 12l3.8-2.8"></path>
-              <path d="M12 12 9 16.5"></path>
-              <path d="M12 12 14.8 16.5"></path>
-            </svg>
+          <span class="role-avatar" aria-hidden="true">
+            <img src="assets/avatar-sportsman.svg" alt="" width="56" height="56">
           </span>
           <span class="role-body">
             <span class="role-title">Спортсмен</span>
@@ -1652,16 +1699,8 @@ body {
 
         <label class="role-card" data-role="coach">
           <input type="radio" name="role" value="coach">
-          <span class="role-icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6.5 8.5v7"></path>
-              <path d="M8 8.5v7"></path>
-              <path d="M10 10.5v3"></path>
-              <path d="M14 10.5v3"></path>
-              <path d="M16 8.5v7"></path>
-              <path d="M17.5 8.5v7"></path>
-              <path d="M10 12h4"></path>
-            </svg>
+          <span class="role-avatar" aria-hidden="true">
+            <img src="assets/avatar-trener.svg" alt="" width="56" height="56">
           </span>
           <span class="role-body">
             <span class="role-title">Тренер</span>
@@ -1674,7 +1713,7 @@ body {
       </div>
 
       <footer class="cta">
-        <button type="button" class="btn btn-primary btn-block" id="btn-role-continue" disabled=""><span class="spinner" aria-hidden="true"></span>Продолжить</button>
+        <button type="button" class="btn btn-accent btn-block" id="btn-role-continue" disabled=""><span class="spinner" aria-hidden="true"></span>Продолжить</button>
       </footer>
     </div>
   </section>
@@ -1764,7 +1803,7 @@ body {
           <span class="od-dot"></span>
         </div>
         <p class="od-status" id="od-status" aria-live="polite">Слайд 1 из 4</p>
-        <button type="button" class="btn btn-primary btn-block" id="od-next">Далее</button>
+        <button type="button" class="btn btn-accent btn-block" id="od-next">Далее</button>
       </footer>
     </div>
   </section>
@@ -1927,7 +1966,7 @@ body {
       </form>
 
       <footer class="cta">
-        <button type="submit" form="form-questionnaire" class="btn btn-primary btn-block" id="btn-q-save" disabled=""><span class="spinner" aria-hidden="true"></span>Сохранить и начать</button>
+        <button type="submit" form="form-questionnaire" class="btn btn-accent btn-block" id="btn-q-save" disabled=""><span class="spinner" aria-hidden="true"></span>Сохранить и начать</button>
       </footer>
     </div>
   </section>
@@ -1957,7 +1996,7 @@ body {
       <header class="role-head">
         <p class="eyebrow">Профиль</p>
         <h2>Добро пожаловать!</h2>
-        <p class="role-sub">Анкета сохранена. Поставьте цель — и следите за прогрессом.</p>
+        <p class="role-sub" id="home-sub">Анкета сохранена. Поставьте цель — и следите за прогрессом.</p>
       </header>
 
       <div class="home-card">
@@ -1972,10 +2011,10 @@ body {
           <span class="home-card-title" id="home-name">Спортсмен</span>
           <span class="home-card-desc" id="home-role">Роль: спортсмен</span>
         </div>
-        <span class="home-badge">Анкета готова</span>
+        <span class="home-badge" id="home-badge">Анкета готова</span>
       </div>
 
-      <div class="home-goal" data-od-id="goal-dashboard">
+      <div class="home-goal" id="home-goal-wrap" data-od-id="goal-dashboard">
         <button type="button" class="goal-card" id="goal-add" data-od-id="goal-add-card" aria-haspopup="dialog" aria-label="Добавить цель">
           <span class="goal-card-icon" aria-hidden="true">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -2010,7 +2049,12 @@ body {
         </div>
       </div>
 
-      <button type="button" class="btn btn-secondary btn-block" id="btn-home-exit">На главный экран</button>
+      <div class="guest-cta" id="guest-cta" data-od-id="guest-cta" hidden="">
+        <p class="guest-cta-text">Вы вошли как гость. Войдите в аккаунт, чтобы ставить цели и следить за прогрессом.</p>
+        <button type="button" class="btn btn-ghost btn-block" id="btn-guest-auth">Войти</button>
+      </div>
+
+      <button type="button" class="btn btn-ghost btn-block" id="btn-home-exit">На главный экран</button>
       <p class="version">Петровское СП · Версия 1.0.0</p>
     </div>
   </section>
@@ -2109,8 +2153,8 @@ body {
       </label>
 
       <div class="sheet-actions">
-        <button type="button" class="btn btn-primary btn-block" id="goal-save" disabled=""><span class="spinner" aria-hidden="true"></span>Сохранить цель</button>
-        <button type="button" class="btn btn-secondary btn-block" id="goal-cancel">Отмена</button>
+        <button type="button" class="btn btn-accent btn-block" id="goal-save" disabled=""><span class="spinner" aria-hidden="true"></span>Сохранить цель</button>
+        <button type="button" class="btn btn-ghost btn-block" id="goal-cancel">Отмена</button>
       </div>
     </div>
   </div>
@@ -2144,12 +2188,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   $('btn-login').addEventListener('click', function () { switchTab(false); show('screen-auth', 'login-id'); });
   $('btn-register').addEventListener('click', function () { switchTab(true); show('screen-auth'); });
+  $('btn-guest').addEventListener('click', function () { enterHome(true); });
   $('btn-back-top').addEventListener('click', function () { show('screen-welcome', 'btn-login'); });
   $('btn-role-back').addEventListener('click', function () { show('screen-auth', 'login-id'); });
 
   var roleCards = document.querySelectorAll('.role-card');
   var roleContinue = $('btn-role-continue');
   var roleValue = 'athlete';
+  var isGuest = false;
   $('btn-role-skip').addEventListener('click', function () {
     roleValue = 'athlete';
     show('screen-onboarding', 'od-skip');
@@ -2417,6 +2463,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  function enterHome(guest) {
+    isGuest = !!guest;
+    if (guest) {
+      $('home-name').textContent = 'Гость';
+      $('home-role').textContent = 'Вы вошли без аккаунта';
+      $('home-badge').textContent = 'Без аккаунта';
+      $('home-badge').classList.add('is-guest');
+      $('home-sub').textContent = 'Просматривайте расписание и события без аккаунта. Войдите, чтобы сохранить данные и ставить цели.';
+      $('home-goal-wrap').style.display = 'none';
+      $('guest-cta').hidden = false;
+      $('btn-home-back').style.display = 'none';
+      $('btn-home-exit').textContent = 'Выйти';
+    } else {
+      var words = qFio.value.trim().split(/\s+/).filter(Boolean);
+      $('home-name').textContent = words.length ? words[0] : 'Спортсмен';
+      $('home-role').textContent = 'Роль: ' + (roleValue === 'coach' ? 'тренер' : 'спортсмен');
+      $('home-badge').textContent = 'Анкета готова';
+      $('home-badge').classList.remove('is-guest');
+      $('home-sub').textContent = 'Анкета сохранена. Поставьте цель — и следите за прогрессом.';
+      $('home-goal-wrap').style.display = '';
+      $('guest-cta').hidden = true;
+      $('btn-home-back').style.display = '';
+      $('btn-home-exit').textContent = 'На главный экран';
+    }
+    show('screen-home', 'btn-home-exit');
+  }
+
   $('form-questionnaire').addEventListener('submit', function (e) {
     e.preventDefault();
     var ok = checkQFio(true) & checkQBirth(true) & checkQExp(true) & checkQSex(true) &
@@ -2430,14 +2503,15 @@ document.addEventListener('DOMContentLoaded', function () {
       btn.classList.remove('is-busy');
       btn.removeAttribute('aria-busy');
       btn.disabled = false;
-      var words = countWords(qFio.value) ? qFio.value.trim().split(/\s+/) : [];
-      $('home-name').textContent = words.length ? words[0] : 'Спортсмен';
-      $('home-role').textContent = 'Роль: ' + (roleValue === 'coach' ? 'тренер' : 'спортсмен');
-      show('screen-home', 'btn-home-exit');
+      enterHome(false);
     }, 600);
   });
   $('btn-q-back').addEventListener('click', function () { show('screen-onboarding', 'od-skip'); });
-  $('btn-home-back').addEventListener('click', function () { show('screen-questionnaire', 'q-fio'); });
+  $('btn-home-back').addEventListener('click', function () {
+    if (isGuest) show('screen-welcome', 'btn-login');
+    else show('screen-questionnaire', 'q-fio');
+  });
+  $('btn-guest-auth').addEventListener('click', function () { show('screen-auth', 'login-id'); });
   $('btn-home-exit').addEventListener('click', function () { show('screen-welcome', 'btn-login'); });
 
   var authTitle = $('auth-title'), authSub = $('auth-sub');

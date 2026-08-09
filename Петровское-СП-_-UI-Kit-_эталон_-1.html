@@ -13,7 +13,7 @@
   --bg: #eaf4ff;
   --surface: #ffffff;
   --surface-2: #eef6ff;
-  --surface-warm: #f5faff;
+  --surface-warm: #f8fbff;
 
   --fg: #12213b;
   --fg-2: #445269;
@@ -164,9 +164,12 @@ select.input { background-image: none; }
 .switch { position: relative; display: inline-block; width: 48px; height: 28px; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .switch .track { position: absolute; inset: 0; background: var(--border-strong); border-radius: var(--radius-pill); transition: background var(--motion-fast); }
-.switch .thumb { position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transition: transform var(--motion-fast); }
+.switch .thumb { position: absolute; left: 3px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-on); transition: transform var(--motion-fast); }
 .switch input:checked + .track { background: var(--accent); }
 .switch input:checked + .track .thumb { transform: translateX(20px); }
+.switch input:focus-visible + .track { box-shadow: var(--focus-ring); }
+.switch input:disabled + .track { background: var(--border); cursor: default; }
+.switch:has(input:disabled) { opacity: 0.55; }
 
 /* ── Бейджи / чипы ─────────────────────────────────────────────────── */
 .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }

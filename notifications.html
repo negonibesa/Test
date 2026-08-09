@@ -13,7 +13,7 @@
   --bg: #ffffff;
   --surface: #eef6ff;
   --surface-2: #eef6ff;
-  --surface-warm: #f5faff;
+  --surface-warm: #f8fbff;
 
   --fg: #12213b;
   --fg-2: #445269;
@@ -418,7 +418,7 @@ a { color: inherit; }
   border: 0;
   padding: 3px;
   cursor: pointer;
-  transition: background var(--motion-base) var(--ease-standard);
+  transition: background var(--motion-fast) var(--ease-standard);
 }
 .switch::after {
   content: "";
@@ -426,9 +426,8 @@ a { color: inherit; }
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(18,33,59,0.2);
-  transition: transform var(--motion-base) var(--ease-standard);
+  background: var(--accent-on);
+  transition: transform var(--motion-fast) var(--ease-standard);
 }
 .switch.is-on { background: var(--accent); }
 .switch.is-on::after { transform: translateX(20px); }

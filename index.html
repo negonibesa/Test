@@ -13,7 +13,7 @@
   --bg: #eaf4ff;
   --surface: #ffffff;
   --surface-2: #eef6ff;
-  --surface-warm: #f5faff;
+  --surface-warm: #f8fbff;
 
   --fg: #12213b;
   --fg-2: #445269;
@@ -276,7 +276,7 @@ a.l-card:active { background: var(--surface-2); }
     <div class="l-group">
       <a class="l-card" href="design-system.html" data-od-id="ln-design-system" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-grid"/></svg></span>
-        <span class="l-body"><span class="l-name">Дизайн-система · источник правды</span><span class="l-desc">Токены, 53 иконки, 8 аватаров, кнопки, бейджи, карточки, инпуты, таббар, тосты</span></span>
+        <span class="l-body"><span class="l-name">Дизайн-система · источник правды</span>        <span class="l-desc">Токены, 53 иконки, 12 аватаров (8 персонажей + 4 роли матча), кнопки, бейджи, карточки, инпуты, таббар, тосты</span></span>
         <span class="l-badge">стиль</span>
       </a>
     </div>
@@ -482,17 +482,51 @@ a.l-card:active { background: var(--surface-2); }
   </section>
 
   <section class="l-view" id="view-v2" role="tabpanel" aria-labelledby="tab-v2" hidden>
-    <h2 class="l-section">V2 · пересборка по дизайн-системе</h2>
+    <h2 class="l-section">Старт · V2</h2>
     <div class="l-group">
       <a class="l-card" href="splash-v2.html" data-od-id="ln-splash-v2" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-flag"/></svg></span>
-        <span class="l-body"><span class="l-name">Сплэш · V2</span><span class="l-desc">Пересборка по канону §29: плоский фон --bg, лёгкий герб, wordmark Oswald, автопереход</span></span>
+        <span class="l-body"><span class="l-name">Сплэш · V2</span><span class="l-desc">Пересборка по канону: плоский фон, лёгкий герб, wordmark Oswald, автопереход</span></span>
         <span class="l-badge is-main">V2</span>
       </a>
       <a class="l-card" href="welcome-v2.html#welcome" data-od-id="ln-welcome-v2" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-welcome"/></svg></span>
-        <span class="l-body"><span class="l-name">Welcome · V2</span><span class="l-desc">Фоновый пейзаж «Петровское СП», плоские токены канона, флоу welcome → auth → home</span></span>
+        <span class="l-body"><span class="l-name">Welcome · V2</span><span class="l-desc">Фоновый пейзаж «Петровское СП», флоу welcome → auth → role → home, «Войти как гость»</span></span>
         <span class="l-badge is-main">V2</span>
+      </a>
+    </div>
+
+    <h2 class="l-section">Вход и профиль · V2</h2>
+    <div class="l-group">
+      <a class="l-card" href="welcome-v2.html#auth" data-od-id="ln-auth-v2" style="--c: var(--accent)">
+        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-login"/></svg></span>
+        <span class="l-body"><span class="l-name">Вход · V2</span><span class="l-desc">Телефон / email, пароль, соцвход ВКонтакте и Госуслуги</span></span>
+        <svg class="l-chev"><use href="#ic-chev"/></svg>
+      </a>
+      <a class="l-card" href="welcome-v2.html#register" data-od-id="ln-register-v2" style="--c: var(--accent)">
+        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-user"/></svg></span>
+        <span class="l-body"><span class="l-name">Регистрация · V2</span><span class="l-desc">ФИО, email, телефон, пароль с индикатором надёжности, согласие на данные</span></span>
+        <svg class="l-chev"><use href="#ic-chev"/></svg>
+      </a>
+      <a class="l-card" href="welcome-v2.html#role" data-od-id="ln-role-v2" style="--c: var(--accent)">
+        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-role"/></svg></span>
+        <span class="l-body"><span class="l-name">Выбор роли · V2</span><span class="l-desc">Спортсмен / тренер · аватарки ролей · шаг 1 из 3</span></span>
+        <svg class="l-chev"><use href="#ic-chev"/></svg>
+      </a>
+      <a class="l-card" href="welcome-v2.html#onboarding" data-od-id="ln-onboarding-v2" style="--c: var(--accent)">
+        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-onboard"/></svg></span>
+        <span class="l-body"><span class="l-name">Онбординг · V2</span><span class="l-desc">4 шага знакомства, точки-индикаторы, пропустить</span></span>
+        <svg class="l-chev"><use href="#ic-chev"/></svg>
+      </a>
+      <a class="l-card" href="welcome-v2.html#questionnaire" data-od-id="ln-questionnaire-v2" style="--c: var(--accent)">
+        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-form"/></svg></span>
+        <span class="l-body"><span class="l-name">Анкета участника · V2</span><span class="l-desc">ФИО, дата рождения, пол, вид спорта, контакты</span></span>
+        <svg class="l-chev"><use href="#ic-chev"/></svg>
+      </a>
+      <a class="l-card" href="welcome-v2.html#home" data-od-id="ln-home-v2" style="--c: var(--accent)">
+        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-star"/></svg></span>
+        <span class="l-body"><span class="l-name">Успех по анкете · V2</span><span class="l-desc">Приветствие, роль и цель после заполнения; гостевой режим</span></span>
+        <svg class="l-chev"><use href="#ic-chev"/></svg>
       </a>
     </div>
   </section>
