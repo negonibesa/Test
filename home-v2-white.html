@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Петровское СП — главный экран · белый</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Roboto+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+/* ── Токены (канон design-system.html, единственный источник правды) ── */
+:root {
+  /* Поверхности */
+  --bg: #ffffff;            /* подложка компонентов: поля, чипы */
+  --surface: #ffffff;       /* фон карточек */
+  --surface-2: #e8f2fd;     /* светло-голубой тон: hover и заливка плиток */
+  --surface-warm: #ffffff;  /* глобальный фон приложения — белый */
+
+  /* Текст */
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #5d6b82;
+  --meta: #66748e;
+
+  /* Границы */
+  --border: rgba(18,33,59,0.14);      /* обводка карточек (вариант на белом) */
+  --border-soft: rgba(18,33,59,0.07);
+  --border-strong: rgba(18,33,59,0.20);
+
+  /* Акцент */
+  --accent: #0d6fc4;
+  --accent-on: #ffffff;
+  --accent-hover: #2b8fe0;
+  --accent-active: #0a5da8;
+  --yellow: #ffd200;
+  --yellow-on: #12213b;
+  --amber: #f59e0b;          /* читаемый «тёплый янтарь» для статусов/текста */
+
+  /* Семантика */
+  --success: #0fa968;
+  --warn: var(--yellow);
+  --danger: #ff3b30;
+  --danger-hover: #ff5545;
+  --danger-active: #d6251c;
+
+  /* Типографика */
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, Menlo, monospace;
+
+  --fs-display: 28px;
+  --fs-title: 18px;
+  --fs-body: 16px;
+  --fs-meta: 13px;
+  --fs-caption: 11px;
+
+  --leading-body: 1.5;
+  --tracking-display: 0.06em;
+  --tracking-caps: 0.08em;
+
+  /* Отступы (чётные, шкала 4pt) */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;        /* карточки, как на экране «Успех по анкете» */
+  --radius-pill: 980px;
+
+  /* Высоты контролов */
+  --h-sm: 32px;
+  --h-md: 40px;
+  --h-base: 44px;
+  --h-lg: 56px;
+
+  /* Размеры иконок */
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+
+  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
+  --focus-ring: 0 0 0 4px rgba(13,111,196,0.30);
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --ease-standard: cubic-bezier(0.28,0,0.22,1);
+
+  --container-max: 700px;
+}
+:root {
+  --type-training: #0fa968;
+  --type-event: #ff6b00;
+  --type-club: #7ec8ff;
+  --type-rental: #4a6fa5;
+}
+:root {
+  --st-confirmed: var(--success);
+  --st-pending: var(--amber);
+  --st-open: var(--accent);
+  --st-done: var(--meta);
+  --st-cancelled: var(--danger);
+}
+:root {
+  --gto-gold: var(--yellow);
+  --rating: #7c4dff;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--surface-warm);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 0 calc(96px + env(safe-area-inset-bottom));
+  min-height: 100vh;
+}
+
+/* ── Шапка (канон DS секции 14) ─────────────────────────────────── */
+.hd {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 12px 22px;
+}
+@media (min-width: 560px) { .hd { padding: 40px 24px 26px; } }
+.avatar {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  color: var(--accent-on);
+  background: var(--accent);
+  overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar svg { width: 100%; height: 100%; display: block; border-radius: 50%; }
+.avatar.is-photo { background: transparent; }
+.hd-txt { flex: 1; min-width: 0; }
+.hd h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  color: var(--fg);
+  overflow-wrap: anywhere;
+  hyphens: none;
+}
+.hd .sub { margin: 2px 0 0; font-size: var(--fs-meta); color: var(--muted); }
+.hd-acts { display: flex; gap: 8px; flex: none; }
+.icon-btn {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--fg-2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.icon-btn:hover { background: var(--surface-2); }
+.icon-btn:active { background: var(--surface-2); }
+.icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.icon-btn svg { width: var(--icon-md); height: var(--icon-md); }
+.notif {
+  position: absolute;
+  z-index: 2;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  border-radius: var(--radius-pill);
+  background: var(--danger);
+  color: var(--accent-on);
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+}
+.icon-btn .notif { top: 4px; right: 2px; }
+
+/* ── Кнопки (канон DS секции 04) ─────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  height: var(--h-base); border: 0; border-radius: var(--radius-pill);
+  padding: 0 var(--space-5);
+  font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: background var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.btn svg { width: var(--icon-sm); height: var(--icon-sm); }
+.btn-accent { background: var(--accent); color: var(--accent-on); }
+.btn-accent:hover { background: var(--accent-hover); }
+.btn-accent:active { background: var(--accent-active); }
+.btn-ghost { background: var(--surface-warm); color: var(--fg-2); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--surface); }
+.btn-ghost:active { background: var(--border-soft); }
+.btn-danger { background: var(--danger); color: var(--accent-on); }
+.btn-danger:hover { background: var(--danger-hover); }
+.btn-danger:active { background: var(--danger-active); }
+.btn-sm { height: var(--h-sm); padding: 0 var(--space-4); font-size: var(--fs-meta); font-weight: 600; }
+.btn-lg { height: var(--h-lg); padding: 0 var(--space-6); font-size: var(--fs-body); }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Контейнер под шапкой (заполнится следующими шагами) ──────────── */
+.body { padding: 0 12px; }
+@media (min-width: 560px) { .body { padding: 0 24px; } }
+
+/* ── Полоска статуса комплекса: режим работы + погода, шеврон по центру ─ */
+.status-strip {
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  min-height: var(--h-base);
+  background: var(--surface); border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2);
+  text-align: left; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+.status-strip:hover { background: var(--surface-2); }
+.status-strip:active { transform: scale(0.99); }
+.status-strip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.status-strip-item { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.status-strip-item .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--success)); }
+.status-strip-item svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--muted); }
+.status-strip-sep { flex: none; color: var(--meta); }
+.status-strip-chev { flex: none; display: grid; place-items: center; color: var(--accent); margin-left: auto; }
+.status-strip-chev svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+/* ── Дашборд с целью (канон DS секции 07) ─────────────────────────── */
+.dash-card { margin-top: var(--space-3); background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: var(--space-5); }
+.dash-title { margin: 0; font-family: var(--font-display); font-size: var(--fs-title); font-weight: 500; letter-spacing: var(--tracking-display); text-transform: uppercase; }
+.goal-top { display: flex; align-items: center; gap: var(--space-3); }
+.goal-top .ev-menu-wrap { margin-left: auto; }
+.ev-menu {
+  flex: none; position: relative;
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  border: 1px solid var(--border); border-radius: 50%;
+  background: var(--surface); color: var(--fg-2); cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.ev-menu:hover { background: var(--surface-2); }
+.ev-menu:active { background: var(--border-soft); }
+.ev-menu:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ev-menu svg { width: var(--icon-sm); height: var(--icon-sm); }
+.ev-menu-wrap { position: relative; }
+.ev-menu-pop {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 50;
+  min-width: 212px; padding: var(--space-2);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+  box-shadow: var(--elev-raised);
+  display: none;
+}
+.ev-menu.is-open + .ev-menu-pop { display: block; }
+.ev-menu-pop button {
+  display: flex; align-items: center; gap: var(--space-2);
+  width: 100%; min-height: 40px; padding: var(--space-2) var(--space-3);
+  border: 0; border-radius: var(--radius-sm); background: none; cursor: pointer;
+  font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2);
+  text-align: left;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.ev-menu-pop button:hover { background: var(--surface-2); }
+.ev-menu-pop button:active { background: var(--border-soft); }
+.ev-menu-pop button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ev-menu-pop button svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--muted); }
+.ev-menu-pop button.danger { color: var(--danger); }
+.ev-menu-pop button.danger svg { color: var(--danger); }
+.dash-ring-row { display: flex; align-items: center; gap: var(--space-5); margin-top: var(--space-4); }
+.goal-ring { flex: none; position: relative; width: 112px; height: 112px; }
+.goal-ring svg { width: 112px; height: 112px; transform: rotate(-90deg); }
+.goal-ring circle { fill: none; stroke-width: 8; }
+.goal-ring .trk { stroke: rgba(18,33,59,0.08); }
+.goal-ring .fill { stroke: var(--gto-gold); stroke-linecap: round; }
+.goal-ring .pct { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--fs-title); font-weight: 600; color: var(--fg); }
+.dash-ring-info { flex: 1; min-width: 0; }
+.dash-ring-value { font-family: var(--font-mono); font-size: var(--fs-display); font-weight: 600; color: var(--fg); line-height: 1; font-variant-numeric: tabular-nums; }
+.dash-ring-value small { font-size: var(--fs-meta); color: var(--muted); font-weight: 500; }
+.dash-ring-label { margin-top: var(--space-1); font-size: var(--fs-meta); color: var(--muted); }
+.goal-badges { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.gchip { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2); background: var(--surface-2); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); }
+.gchip .dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
+.dash-stats { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--space-1); margin-top: var(--space-2); }
+@media (max-width: 520px) { .dash-stats { grid-template-columns: 1fr; } }
+.stat-tile {
+  display: flex; align-items: center; gap: var(--space-2); text-align: left;
+  padding: var(--space-3);
+  border: 1px solid var(--border-soft); border-radius: var(--radius-md);
+  background: var(--surface); font: inherit; color: inherit; text-decoration: none; cursor: pointer;
+  transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+.stat-tile:hover { background: var(--surface-2); }
+.stat-tile:active { transform: scale(0.97); }
+.stat-tile:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.stat-tile-top { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-meta); font-weight: 600; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--meta); }
+.stat-tile-top svg { width: var(--icon-sm); height: var(--icon-sm); }
+.metric-ic { flex: none; width: 40px; height: 40px; border-radius: var(--radius-md); display: grid; place-items: center; color: var(--c, var(--muted)); background: var(--surface-2); }
+.metric-ic.is-outline { background: var(--surface); border: 1px solid var(--border); }
+.metric-ic svg { width: var(--icon-md); height: var(--icon-md); }
+.stat-tile-val, .stat-rating-val {
+  flex: none; display: flex; flex-direction: column; align-items: flex-end;
+  font-family: var(--font-mono); font-size: var(--fs-title); font-weight: 600; color: var(--fg);
+  line-height: 1; font-variant-numeric: tabular-nums;
+}
+.stat-tile-val .stat-tile-val-tx, .stat-rating-val .stat-tile-val-tx { line-height: 1; }
+.stat-tile-val .stat-tile-val-tx small, .stat-rating-val .stat-tile-val-tx small { font-size: var(--fs-meta); font-weight: 500; color: var(--muted); margin-left: var(--space-1); letter-spacing: 0; }
+.stat-tile-val .stat-tile-val-sub, .stat-rating-val .stat-tile-val-sub {
+  margin-top: var(--space-1); font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 500; color: var(--muted); line-height: 1.35; letter-spacing: 0;
+}
+.stat-tile-val .is-up, .stat-rating-val .is-up { color: var(--success); font-weight: 600; }
+.stat-tile-main { flex: 1; min-width: 0; }
+.stat-rating {
+  display: flex; align-items: center; gap: var(--space-2);
+  width: 100%; grid-column: 1 / -1; padding: var(--space-3);
+  border: 1px solid var(--border-soft); border-radius: var(--radius-md);
+  background: var(--surface); font: inherit; color: inherit; text-decoration: none; text-align: left; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.stat-rating:hover { background: var(--surface-2); }
+.stat-rating:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Секции главной (канон DS секций 06, 13) ──────────────────────── */
+.sec { margin-top: var(--space-8); }
+.sec-head { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-1) var(--space-4); }
+.sec-head h2 {
+  margin: 0; flex: 1;
+  font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600;
+  letter-spacing: var(--tracking-display); text-transform: uppercase;
+}
+.sec-all {
+  flex: none; display: inline-flex; align-items: center; gap: var(--space-1);
+  border: 0; background: none; min-height: 44px; padding: 0;
+  font-size: var(--fs-meta); font-weight: 600; color: var(--accent); cursor: pointer;
+  text-decoration: none;
+}
+.sec-all:hover { color: var(--accent-hover); text-decoration: underline; }
+.sec-all:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+.sec-all svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+.cards { display: grid; gap: var(--space-3); }
+.ev-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--c, var(--border));
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+.ev-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  grid-template-areas: "title menu" "badge badge";
+  align-items: center; column-gap: var(--space-3); row-gap: var(--space-2);
+}
+.ev-title-row { grid-area: title; display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.ev-type-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.ev-title {
+  margin: 0; flex: 1 1 auto; min-width: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-title); font-weight: 500; letter-spacing: 0.01em; color: var(--fg);
+  overflow-wrap: anywhere;
+}
+.ev-badge {
+  flex: none;
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  font-size: var(--fs-meta); font-weight: 600; letter-spacing: 0.01em;
+  color: color-mix(in oklab, var(--c, var(--muted)), var(--fg) 45%);
+  background: color-mix(in srgb, var(--c, var(--muted)) 12%, var(--surface));
+  border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3);
+}
+.ev-badge.is-quiet {
+  background: var(--surface);
+  color: color-mix(in oklab, var(--c, var(--muted)) 70%, var(--fg));
+  font-weight: 500;
+}
+.ev-badge-status { grid-area: badge; justify-self: start; background: color-mix(in srgb, var(--c) 12%, var(--surface)); color: color-mix(in oklab, var(--c), var(--fg) 45%); }
+.ev-badge-status .ev-bdot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+.ev-badge-status.is-pending { animation: pending-blink 1.6s var(--ease-standard) infinite; }
+@keyframes pending-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+.ev-meta { margin: var(--space-3) 0 var(--space-4); font-size: var(--fs-meta); line-height: 1.45; color: var(--muted); }
+.ev-meta b { font-weight: 600; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.ev-sub { margin: 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
+.ev-sub b { font-weight: 600; color: var(--fg-2); }
+.ev-fmts { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
+.ev-fmts .gchip { color: var(--c, var(--fg-2)); background: var(--surface-warm); }
+.ev-foot {
+  margin-top: var(--space-3);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3); min-height: 26px;
+}
+.ev-foot .ev-badge { margin-left: auto; }
+.ev-avatars { display: flex; flex: none; }
+.ev-ava {
+  flex: none; width: var(--h-sm); height: var(--h-sm); border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: var(--fs-meta); font-weight: 700; color: var(--c);
+  background: color-mix(in srgb, var(--c) 20%, var(--surface));
+  border: 2px solid var(--surface);
+}
+.ev-ava + .ev-ava { margin-left: -8px; }
+.ev-ava.is-you { color: var(--accent-on); background: var(--accent); }
+.ev-ava.is-coach { position: relative; color: var(--surface); background: var(--c); }
+.ev-ava.is-coach .ev-coach-badge { position: absolute; right: -3px; bottom: -3px; width: 14px; height: 14px; padding: 2px; box-sizing: border-box; display: block; color: var(--c); background: var(--surface); border: 1px solid var(--border-strong); border-radius: 50%; }
+.ev-ava.is-more { color: var(--muted); background: var(--surface-2); font-weight: 600; }
+.av { width: 100%; height: 100%; display: block; border-radius: 50%; object-fit: cover; }
+.ev-foot-text { flex: 1; min-width: 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
+
+.club-row { display: flex; gap: var(--space-3); overflow-x: auto; padding: 0 var(--space-1) var(--space-1); scrollbar-width: none; }
+.club-row::-webkit-scrollbar { display: none; }
+.club-card {
+  flex: none; width: 136px;
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 0; border-radius: var(--radius-md);
+  font: inherit; color: inherit; text-align: left;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.club-card:hover { background: var(--surface-2); }
+.club-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.club-ic {
+  width: 40px; height: 40px; border-radius: var(--radius-md);
+  display: grid; place-items: center;
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.club-ic svg { width: var(--icon-md); height: var(--icon-md); }
+.club-card b { font-size: var(--fs-meta); font-weight: 600; color: var(--fg); }
+.club-card small { font-size: var(--fs-meta); line-height: 1.35; color: var(--meta); }
+
+/* ── Новости (канон DS: карточка .news-card) ───────────────────────── */
+.news-card {
+  display: flex; gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  width: 100%; text-align: left; font: inherit; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.news-card:hover { background: var(--surface-2); }
+.news-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.news-card .pic {
+  flex: none; width: 64px; height: 64px; border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--type-club) 14%, var(--surface));
+  color: var(--type-club);
+  display: grid; place-items: center;
+}
+.news-card .pic svg { width: var(--icon-lg); height: var(--icon-lg); }
+.news-card .tx { flex: 1; min-width: 0; }
+.news-card .tx h4 { margin: 0 0 var(--space-1); font-size: var(--fs-meta); font-weight: 600; line-height: 1.35; }
+.news-card .tx p { margin: 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
+.news-card .meta { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-meta); color: var(--meta); }
+.news-card .meta svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+/* ── Нижний таббар (канон DS секции 10: активный — цвет, без подчёркивания) ─ */
+.tabbar {
+  position: fixed; left: 50%; bottom: 0; transform: translateX(-50%);
+  display: flex;
+  width: 100%; max-width: 700px;
+  box-sizing: border-box;
+  padding: var(--space-2) 0 calc(var(--space-2) + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--border-soft);
+  z-index: 30;
+}
+.tab {
+  position: relative; flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 44px; padding: 0 var(--space-2);
+  border: 0; background: none; text-decoration: none;
+  color: var(--muted); cursor: pointer;
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 600;
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.tab:hover { color: var(--fg); }
+.tab.is-on, .tab.is-active { color: var(--accent); }
+.tab:active { color: var(--fg-2); }
+.tab svg { width: var(--icon-md); height: var(--icon-md); }
+.tab-ic { position: relative; display: grid; place-items: center; }
+.tab-ic .notif { top: -6px; right: -8px; }
+.tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Тост ─────────────────────────────────────────────────────────── */
+.toast-wrap { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 70; width: max-content; max-width: calc(100vw - 40px); }
+.toast {
+  background: var(--fg); color: #fff; font-size: 14px; font-weight: 500;
+  border-radius: var(--radius-pill); padding: 10px 18px; box-shadow: var(--elev-raised);
+  animation: toast-in 0.3s var(--ease-standard) both;
+}
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ── Вариант на белом: обводка вместо заливок, синие обводные иконки,
+   цвет — только в акцентах (канон «Успех по анкете»). ────────────────── */
+.status-strip,
+.dash-card,
+.stat-tile,
+.stat-rating,
+.ev-card,
+.news-card,
+.club-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.ev-card { border-left: 1.5px solid var(--border); }
+.icon-btn { border: 1px solid var(--border); background: var(--surface); }
+.metric-ic,
+.metric-ic.is-outline { background: transparent; border: 0; color: var(--accent); }
+.club-ic { background: var(--surface); border: 1px solid var(--border); color: var(--accent); }
+.news-card .pic { background: var(--surface); border: 1px solid var(--border); color: var(--accent); }
+.gchip { background: var(--surface); border: 1px solid var(--border); color: var(--fg-2); }
+.ev-fmts .gchip { background: var(--surface); color: var(--c, var(--accent)); }
+.stat-tile, .stat-rating { background: var(--surface-2); border: 0; padding: var(--space-3) var(--space-4); }
+.stat-tile:hover, .stat-rating:hover { background: color-mix(in srgb, var(--surface-2) 88%, var(--border-strong) 12%); }
+.dash-card { background: var(--accent); border: 0; }
+.dash-card .dash-title { color: var(--accent-on); }
+.dash-card .ev-menu { background: transparent; border-color: color-mix(in srgb, var(--accent-on) 45%, transparent); color: var(--accent-on); }
+.dash-card .ev-menu:hover { background: color-mix(in srgb, var(--accent-on) 16%, transparent); }
+.dash-card .ev-menu:active { background: color-mix(in srgb, var(--accent-on) 24%, transparent); }
+.dash-card .ev-menu:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-on) 35%, transparent); }
+.goal-ring .trk { fill: none; stroke: color-mix(in srgb, var(--accent-on) 28%, transparent); }
+.goal-ring .fill { stroke: var(--accent-on); }
+.goal-ring .pct { color: var(--accent-on); }
+.dash-card .dash-ring-value { color: var(--accent-on); }
+.dash-card .dash-ring-value small { color: color-mix(in srgb, var(--accent-on) 75%, transparent); }
+.dash-card .dash-ring-label { color: color-mix(in srgb, var(--accent-on) 80%, transparent); }
+.dash-card .gchip { background: color-mix(in srgb, var(--accent-on) 16%, transparent); border-color: transparent; color: var(--accent-on); }
+.dash-card .gchip .dot { background: var(--yellow); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body data-od-id="home-v2-white">
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M20 17.3702V10.3353C20 9.24543 19.5203 8.21325 18.6935 7.52387L14.249 3.81841C12.9402 2.72719 11.0598 2.7272 9.75099 3.81841L5.30654 7.52387C4.47968 8.21325 4 9.24543 4 10.3353V17.3702C4 19.3749 5.59188 21 7.55556 21H16.4444C18.4081 21 20 19.3749 20 17.3702Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><path d="M10 17H14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-events" viewBox="0 0 24 24"><path d="M8.4 5.7L7.5 3M15.6 5.7L16.5 3M20.55 9.3H3.45M3 9.9003C3 6.834 5.4174 4.35 8.4 4.35H15.6C18.5826 4.35 21 6.834 21 9.9003V15.4497C21 18.516 18.5826 21 15.6 21H8.4C5.4174 21 3 18.516 3 15.4497V9.9003Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><path d="M16.5714 6.44444H15.8214C15.8214 8.46505 14.1306 10.1389 12 10.1389V10.8889V11.6389C14.9189 11.6389 17.3214 9.33303 17.3214 6.44444H16.5714ZM12 10.8889V10.1389C9.86943 10.1389 8.17857 8.46505 8.17857 6.44444H7.42857H6.67857C6.67857 9.33303 9.08111 11.6389 12 11.6389V10.8889ZM7.42857 6.44444H8.17857C8.17857 4.42384 9.86943 2.75 12 2.75V2V1.25C9.08111 1.25 6.67857 3.55586 6.67857 6.44444H7.42857ZM12 2V2.75C14.1306 2.75 15.8214 4.42384 15.8214 6.44444H16.5714H17.3214C17.3214 3.55586 14.9189 1.25 12 1.25V2ZM20 18.1111H19.25C19.25 18.7367 18.7051 19.5175 17.329 20.1864C16.004 20.8305 14.1208 21.25 12 21.25V22V22.75C14.2975 22.75 16.4143 22.2989 17.9847 21.5355C19.5041 20.7969 20.75 19.6333 20.75 18.1111H20ZM12 22V21.25C9.87917 21.25 7.99604 20.8305 6.67104 20.1864C5.29495 19.5175 4.75 18.7367 4.75 18.1111H4H3.25C3.25 19.6333 4.49592 20.7969 6.01525 21.5355C7.58568 22.2989 9.70255 22.75 12 22.75V22ZM4 18.1111H4.75C4.75 17.4855 5.29495 16.7047 6.67104 16.0358C7.99604 15.3917 9.87917 14.9722 12 14.9722V14.2222V13.4722C9.70255 13.4722 7.58568 13.9233 6.01525 14.6867C4.49592 15.4253 3.25 16.589 3.25 18.1111H4ZM12 14.2222V14.9722C14.1208 14.9722 16.004 15.3917 17.329 16.0358C18.7051 16.7047 19.25 17.4855 19.25 18.1111H20H20.75C20.75 16.589 19.5041 15.4253 17.9847 14.6867C16.4143 13.9233 14.2975 13.4722 12 13.4722V14.2222Z" fill="currentColor"></path></symbol>
+  <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M17.5554 11.9999H15.4686C15.3868 11.9999 15.3133 12.0497 15.2829 12.1256L13.3609 16.9308C13.287 17.1155 13.0181 17.0908 12.9791 16.8957L11.0207 7.10406C10.9817 6.90899 10.7128 6.8843 10.6389 7.069L8.71685 11.8742C8.68647 11.9501 8.61293 11.9999 8.53115 11.9999H6.44434" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M2 12C2 7.28556 2 4.92889 3.46444 3.46444C4.92889 2 7.28667 2 12 2C16.7133 2 19.0711 2 20.5356 3.46444C22 4.92889 22 7.28667 22 12C22 16.7133 22 19.0711 20.5356 20.5356C19.0711 22 16.7133 22 12 22C7.28667 22 4.92889 22 3.46444 20.5356C2 19.0711 2 16.7133 2 12Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M15.7933 3C17.6814 3.10705 18.876 3.41116 19.7324 4.26758C20.5888 5.124 20.8929 6.31863 21 8.20674M8.20674 3C6.31863 3.10705 5.124 3.41116 4.26758 4.26758C3.41116 5.124 3.10705 6.31863 3 8.20674M21 15.7933C20.8929 17.6814 20.5888 18.876 19.7324 19.7324C18.876 20.5888 17.6814 20.8929 15.7933 21M3 15.7933C3.10705 17.6814 3.41116 18.876 4.26758 19.7324C5.124 20.5888 6.31863 20.8929 8.20674 21M5.36842 12H18.6316" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><path d="M2.40039 22.8002C2.67639 19.3166 5.61759 16.4066 9.22599 16.2362C9.52999 16.2218 9.85479 16.2098 10.2004 16.2002L11.17 16.2626C12.8062 16.3624 14.3637 16.9998 15.6004 18.0758M17.4004 11.9954C18.9596 12.1416 20.4312 12.7824 21.6004 13.8242M17.986 8.4002C18.5424 8.04805 19.0006 7.56074 19.3179 6.98371C19.6352 6.40667 19.8012 5.7587 19.8004 5.1002C19.8004 2.9462 18.0604 1.2002 15.9124 1.2002C14.8576 1.2002 13.9012 1.6214 13.2004 2.3054M14.1004 9.3002C14.1004 10.3345 13.6895 11.3265 12.9581 12.0579C12.2267 12.7893 11.2347 13.2002 10.2004 13.2002C9.16605 13.2002 8.17407 12.7893 7.44267 12.0579C6.71128 11.3265 6.30039 10.3345 6.30039 9.3002C6.30039 8.26585 6.71128 7.27387 7.44267 6.54248C8.17407 5.81109 9.16605 5.4002 10.2004 5.4002C11.2347 5.4002 12.2267 5.81109 12.9581 6.54248C13.6895 7.27387 14.1004 8.26585 14.1004 9.3002Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-rain" viewBox="0 0 24 24"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 15.5v2.5M15 15.5v2.5M12 18.5v2.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M20 16l-4-4 4-4M4 16l4-4-4-4M20 8l-4 4 4 4M4 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"></circle><circle cx="12" cy="12" r="1.6" fill="currentColor"></circle><circle cx="19" cy="12" r="1.6" fill="currentColor"></circle></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-star-fill" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="currentColor"></path></symbol>
+  <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.5H5a0 0 0 0 0 0 0v1.5A3 3 0 0 0 8 10M16 5.5h3a0 0 0 0 1 0 0V7a3 3 0 0 1-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 13v3M8.5 20h7M9.5 16h5l.5 4h-6l.5-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M10.4 10 7.5 3.4M13.6 10l2.9-6.6M8 6.4h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="13.9" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"></circle></symbol>
+  <symbol id="ic-star-solar" viewBox="0 0 24 24"><path d="M18.4832 16.7671C17.1164 17.0953 15.6895 17.0794 14.3303 16.7208C12.9712 16.3622 11.7221 15.6721 10.6951 14.7124C9.66804 13.7526 8.89506 12.5531 8.44535 11.2213C7.99564 9.88951 7.88325 8.46696 8.11824 7.08105C8.08303 7.11615 8.04526 7.14858 8.00524 7.17805C7.72524 7.39105 7.37524 7.47005 6.67524 7.62805L6.04024 7.77205C3.58024 8.32905 2.35024 8.60706 2.05723 9.54806C1.76523 10.4881 2.60324 11.4691 4.28024 13.4301L4.71424 13.9371C5.19024 14.4941 5.42923 14.7731 5.53623 15.1171C5.64323 15.4621 5.60723 15.8341 5.53523 16.5771L5.46923 17.2541C5.21623 19.8711 5.08924 21.1791 5.85524 21.7601C6.62124 22.3411 7.77323 21.8121 10.0752 20.7511L10.6722 20.4771C11.3262 20.1751 11.6532 20.0251 12.0002 20.0251C12.3472 20.0251 12.6742 20.1751 13.3292 20.4771L13.9242 20.7511C16.2272 21.8111 17.3792 22.3411 18.1442 21.7611C18.9112 21.1791 18.7842 19.8711 18.5312 17.2541L18.4832 16.7671Z" fill="currentColor"></path><path d="M9.1527 5.408L8.8247 5.996C8.4647 6.642 8.2847 6.965 8.0047 7.178C8.0447 7.148 8.08237 7.11567 8.1177 7.081C7.88265 8.46701 7.99504 9.88967 8.4448 11.2216C8.89455 12.5535 9.66763 13.7531 10.6948 14.7128C11.722 15.6726 12.9712 16.3627 14.3305 16.7212C15.6898 17.0797 17.1168 17.0954 18.4837 16.767L18.4637 16.577C18.3927 15.834 18.3567 15.462 18.4637 15.117C18.5707 14.773 18.8087 14.494 19.2857 13.937L19.7197 13.43C21.3967 11.47 22.2347 10.489 21.9417 9.548C21.6497 8.607 20.4197 8.328 17.9597 7.772L17.3237 7.628C16.6247 7.47 16.2747 7.391 15.9937 7.178C15.7137 6.965 15.5337 6.642 15.1737 5.996L14.8467 5.408C13.5797 3.136 12.9467 2 11.9997 2C11.0527 2 10.4197 3.136 9.1527 5.408Z" fill="currentColor" fill-opacity="0.5"></path></symbol>
+  <symbol id="ic-medal-solar" viewBox="0 0 24 24"><path d="M12.8949 0.791992H10.6949C8.62032 0.791992 7.58302 0.791992 6.93952 1.41706C6.29492 2.04213 6.29492 3.04693 6.29492 5.05866V8.79199H17.2949V5.05866C17.2949 3.04693 17.2949 2.04213 16.6503 1.41706C16.0057 0.791992 14.9695 0.791992 12.8949 0.791992Z" fill="currentColor" fill-opacity="0.5"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M13.3604 5.19952C12.88 4.93211 12.3415 4.79199 11.7944 4.79199C11.2472 4.79199 10.7088 4.93211 10.2284 5.19952L5.00048 8.11007C4.48435 8.39738 4.05357 8.82137 3.75344 9.33746C3.45331 9.85355 3.29492 10.4427 3.29492 11.0429V16.5411C3.29492 17.1413 3.45331 17.7304 3.75344 18.2465C4.05357 18.7626 4.48435 19.1866 5.00048 19.4739L10.2284 22.3845C10.7088 22.6519 11.2472 22.792 11.7944 22.792C12.3415 22.792 12.88 22.6519 13.3604 22.3845L18.5894 19.4739C19.1055 19.1866 19.5363 18.7626 19.8364 18.2465C20.1365 17.7304 20.2949 17.1413 20.2949 16.5411V11.0418C20.2949 10.4416 20.1365 9.85244 19.8364 9.33634C19.5363 8.82025 19.1055 8.39626 18.5894 8.10896L13.3604 5.19952ZM11.7944 10.4517C11.4847 10.4517 11.2775 10.8302 10.8631 11.5907L10.7562 11.7867C10.6384 12.0027 10.5795 12.1096 10.4879 12.1808C10.3963 12.2521 10.2807 12.2788 10.0528 12.3311L9.84563 12.3801C9.03974 12.5661 8.63734 12.6585 8.54247 12.9725C8.4465 13.2876 8.72022 13.615 9.26875 14.2697L9.41052 14.4389C9.56755 14.6249 9.64498 14.7173 9.67987 14.8331C9.71477 14.9489 9.70386 15.0725 9.67987 15.3208L9.65806 15.5468C9.57518 16.4208 9.53374 16.8584 9.78456 17.0522C10.0354 17.2459 10.4116 17.0689 11.1652 16.7148L11.3604 16.6235C11.5741 16.5233 11.681 16.4732 11.7944 16.4732C11.9078 16.4732 12.0158 16.5233 12.2295 16.6235L12.4247 16.7148C13.1771 17.07 13.5545 17.2459 13.8053 17.0522C14.0561 16.8584 14.0147 16.4208 13.9318 15.5468L13.91 15.3208C13.886 15.0725 13.874 14.9489 13.91 14.8331C13.9449 14.7184 14.0223 14.6249 14.1782 14.4389L14.32 14.2697C14.8696 13.615 15.1433 13.2876 15.0474 12.9725C14.9514 12.6585 14.549 12.5661 13.7453 12.3801L13.537 12.3311C13.308 12.2788 13.1935 12.2532 13.1019 12.1808C13.0103 12.1096 12.9514 12.0027 12.8336 11.7867L12.7268 11.5907C12.3124 10.8313 12.1052 10.4517 11.7944 10.4517Z" fill="currentColor"></path></symbol>
+  <symbol id="ic-cup-solar" viewBox="0 0 24 24"><path d="M6 3C6 2.448 6.448 2 7 2H17C17.552 2 18 2.448 18 3V4V10C18 13.314 15.314 16 12 16C8.686 16 6 13.314 6 10V3Z" fill="currentColor"></path><path d="M6 5H4.5C3.119 5 2 6.119 2 7.5C2 8.881 3.119 10 4.5 10H6V8H4.5C4.224 8 4 7.776 4 7.5C4 7.224 4.224 7 4.5 7H6V5Z" fill="currentColor" fill-opacity="0.5"></path><path d="M18 5H19.5C20.881 5 22 6.119 22 7.5C22 8.881 20.881 10 19.5 10H18V8H19.5C19.776 8 20 7.776 20 7.5C20 7.224 19.776 7 19.5 7H18V5Z" fill="currentColor" fill-opacity="0.5"></path><rect x="10.5" y="16" width="3" height="3" fill="currentColor" fill-opacity="0.5"></rect><path d="M8 19H16C16.552 19 17 19.448 17 20V21C17 21.552 16.552 22 16 22H8C7.448 22 7 21.552 7 21V20C7 19.448 7.448 19 8 19Z" fill="currentColor" fill-opacity="0.5"></path></symbol>
+  <symbol id="ava-1" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#FDF3D9"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#ffd200"></path><path d="M21 27 C21 16 28 10 36 10 C44 10 51 16 51 27 L51 30 C47 22 43 19 36 19 C29 19 25 22 21 30 Z" fill="#5C3A21"></path><circle cx="36" cy="8" r="5.5" fill="#5C3A21"></circle><circle cx="21.5" cy="34" r="2.6" fill="#E0AC79"></circle><circle cx="50.5" cy="34" r="2.6" fill="#E0AC79"></circle><circle cx="36" cy="33" r="15" fill="#E0AC79"></circle></symbol>
+  <symbol id="ava-2" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#0b3d91"></path><path d="M21 25 C21 16 27 10 36 10 C45 10 51 16 51 25 C51 22 46 18 36 18 C26 18 21 22 21 25 Z" fill="#0F0F0F"></path><circle cx="21.5" cy="34" r="2.6" fill="#E0AC79"></circle><circle cx="50.5" cy="34" r="2.6" fill="#E0AC79"></circle><circle cx="36" cy="33" r="15" fill="#E0AC79"></circle></symbol>
+  <symbol id="ava-3" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E8F6EC"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#0fa968"></path><circle cx="24" cy="22" r="5.5" fill="#1A1A1A"></circle><circle cx="30" cy="16" r="6" fill="#1A1A1A"></circle><circle cx="38" cy="14" r="6.5" fill="#1A1A1A"></circle><circle cx="46" cy="17" r="6" fill="#1A1A1A"></circle><circle cx="50" cy="24" r="5.5" fill="#1A1A1A"></circle><circle cx="21.5" cy="34" r="2.6" fill="#9C6640"></circle><circle cx="50.5" cy="34" r="2.6" fill="#9C6640"></circle><circle cx="36" cy="33" r="15" fill="#9C6640"></circle></symbol>
+  <symbol id="ava-4" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#FDF3D9"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#ffd200"></path><path d="M20 25 C20 14 27 8 36 8 C45 8 52 14 52 25 C52 18 46 13 36 13 C26 13 20 18 20 25 Z" fill="#3B2B20"></path><circle cx="21.5" cy="34" r="2.6" fill="#6B4226"></circle><circle cx="50.5" cy="34" r="2.6" fill="#6B4226"></circle><circle cx="36" cy="33" r="15" fill="#6B4226"></circle><circle cx="30" cy="33" r="4.2" fill="none" stroke="#12213b" stroke-width="1.6"></circle><circle cx="42" cy="33" r="4.2" fill="none" stroke="#12213b" stroke-width="1.6"></circle><line x1="34.2" y1="33" x2="37.8" y2="33" stroke="#12213b" stroke-width="1.6"></line></symbol>
+  <symbol id="ava-5" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#0d6fc4"></path><path d="M20 24 C20 14 27 8 36 8 C45 8 52 14 52 24 L52 27 C48 20 43 16 36 16 C29 16 24 20 20 27 Z" fill="#7A4B2A"></path><circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"></circle><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"></circle><circle cx="36" cy="33" r="15" fill="#F2C6A0"></circle><rect x="19" y="24" width="34" height="5.5" rx="2.5" fill="#ffd200"></rect></symbol>
+  <symbol id="ava-6" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E8F6EC"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#4a6fa5"></path><path d="M20 46 C18 30 20 12 36 12 C52 12 54 30 52 46 L47 46 C48 32 46 20 36 20 C26 20 24 32 25 46 Z" fill="#2B2118"></path><circle cx="21.5" cy="34" r="2.6" fill="#C68A57"></circle><circle cx="50.5" cy="34" r="2.6" fill="#C68A57"></circle><circle cx="36" cy="33" r="15" fill="#C68A57"></circle></symbol>
+  <symbol id="ava-7" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#0d6fc4"></path><path d="M20 26 C20 15 28 9 36 9 C44 9 52 15 52 26 C52 20 47 15 36 15 C25 15 20 20 20 26 Z" fill="#2B2118"></path><circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"></circle><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"></circle><circle cx="36" cy="33" r="15" fill="#F2C6A0"></circle></symbol>
+  <symbol id="ava-8" viewBox="0 0 72 72"><circle cx="36" cy="36" r="36" fill="#E6F1FB"></circle><path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#4a6fa5"></path><circle cx="21.5" cy="34" r="2.6" fill="#C68A57"></circle><circle cx="50.5" cy="34" r="2.6" fill="#C68A57"></circle><circle cx="36" cy="33" r="15" fill="#C68A57"></circle><path d="M19 30 C19 15 26 6 36 6 C46 6 53 15 53 30 C53 33 50 34 47 32 C44 30 42 33 38 32 C35 31 33 33 30 32 C27 31 24 33 21 32 C18 31 19 32 19 30 Z" fill="#0b3d91"></path></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-photo" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"></rect><circle cx="9" cy="10" r="1.8" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M5 17.5l4.5-4.5 3 3 3.5-3.5 3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-sport-running-shoe" viewBox="0 0 24 24"><g fill="none"><path d="M2.00004 15C1.0576 11.7018 1.89112 8.84756 3.66412 7.27419C3.85023 7.10904 4.12758 7.1333 4.31151 7.30087C4.88109 7.81979 5.85038 8.5 7.49988 8.5C9.13615 8.5 10.438 7.38443 11.1313 6.52231C11.3351 6.26882 11.6999 6.24334 11.8902 6.50717C12.6283 7.53068 14.152 9.59312 17.0002 10C20.5002 10.5 22.5001 12 22.5001 15L22.5 17C22.5 17.2762 22.2761 17.5 22 17.5H2.49997C2.22382 17.5 1.99995 17.2762 1.99997 17.0001C2 16.4345 2.00004 15.5241 2.00004 15ZM22.5001 15H2.00004M11.5002 10L12.7502 8.33494M14.0002 11L15.0002 9.49939" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></symbol>
+  <symbol id="ic-sport-swimming-cap" viewBox="0 0 24 24"><g fill="none"><path d="M6.42514 12C6.79442 10.9326 7 9.74771 7 8.5C7 7.05397 6.72388 5.69228 6.23682 4.50018M17.5749 12.0002C17.2056 10.9328 17 9.74789 17 8.50018C17 7.05415 17.2761 5.69246 17.7632 4.50035M3.5 17.5L1.5 17M3.5 17.5C3.5 18.8807 5.567 20 7.5 20C9.433 20 10.5 18.8807 10.5 17.5C10.5 16.1193 9.433 15 7.5 15C5.567 15 3.5 16.1193 3.5 17.5ZM22.5 17L20.5 17.5M20.5 17.5C20.5 18.8807 18.433 20 16.5 20C14.567 20 13.5 18.8807 13.5 17.5C13.5 16.1193 14.567 15 16.5 15C18.433 15 20.5 16.1193 20.5 17.5ZM10.5 16.5C10.5 16.5 11 16 12 16C13 16 13.5 16.5 13.5 16.5M2.05958 11.0027C2.5771 6.61774 6.42529 2 12 2C17.5747 2 21.4229 6.61774 21.9404 11.0027C22.0052 11.5511 21.5523 12 21 12H3C2.44772 12 1.99484 11.5511 2.05958 11.0027Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></symbol>
+  <symbol id="ic-sport-bicycle" viewBox="0 0 24 24"><g fill="none"><path d="M18 15L16 4C16 4 19.5 4 20 6.5M5 8L6 12L16.5 7M3 8H7M9 16C9 18.2091 7.20914 20 5 20C2.79086 20 1 18.2091 1 16C1 13.7909 2.79086 12 5 12C7.20914 12 9 13.7909 9 16ZM23 15C23 17.7614 20.7614 20 18 20C15.2386 20 13 17.7614 13 15C13 12.2386 15.2386 10 18 10C20.7614 10 23 12.2386 23 15Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></symbol>
+  <symbol id="ic-sport-jump-rope" viewBox="0 0 24 24"><g fill="none"><path d="M4 11.5V8.09013C4 5.43206 5.92087 3.15071 8.53607 2.67522C9.771 2.45069 10.9736 2.65783 12 3.17945M20 11.5V8.09013C20 5.43206 18.0791 3.15071 15.4639 2.67522C14.229 2.45069 13.0264 2.65783 12 3.17945M12 3.17945C10.2413 4.07322 9 5.89028 9 8.04098V10.5C9 12.1568 10.3431 13.5 12 13.5C13.6569 13.5 15 12.1568 15 10.5V8.04098C15 5.89028 13.7587 4.07322 12 3.17945ZM5.66303 12.8949C5.23376 13.6104 5.06005 14.4503 5.17032 15.2774L5.73567 19.5175C5.87563 20.5672 5.059 21.5 4 21.5C2.94099 21.5 2.12436 20.5672 2.26433 19.5175L2.82968 15.2774C2.93995 14.4503 2.76624 13.6104 2.33697 12.8949C1.96862 12.281 2.41083 11.5 3.12677 11.5H4.87323C5.58916 11.5 6.03138 12.281 5.66303 12.8949ZM21.663 12.8949C21.2338 13.6104 21.06 14.4503 21.1703 15.2774L21.7357 19.5175C21.8756 20.5672 21.059 21.5 20 21.5C18.941 21.5 18.1244 20.5672 18.2643 19.5175L18.8297 15.2774C18.9399 14.4503 18.7662 13.6104 18.337 12.8949C17.9686 12.281 18.4108 11.5 19.1268 11.5H20.8732C21.5892 11.5 22.0314 12.281 21.663 12.8949Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></symbol>
+  <symbol id="ic-sport-kettlebell" viewBox="0 0 24 24"><g fill="none"><path d="M16.5 9L17.7398 5.59055C18.1913 4.3489 17.7404 2.98187 16.4759 2.59893C15.4245 2.28051 13.946 2 12 2C10.054 2 8.57551 2.28051 7.52411 2.59893C6.25964 2.98187 5.80869 4.3489 6.2602 5.59055L7.5 9M15 16C15 17.6569 13.6569 19 12 19C10.3431 19 9 17.6569 9 16C9 14.3431 10.3431 13 12 13C13.6569 13 15 14.3431 15 16ZM4 16C4 11.5817 7.58172 8 12 8C16.4183 8 20 11.5817 20 16C20 18.1174 19.1774 20.0426 17.8344 21.4736C17.5009 21.829 17.0227 22 16.5353 22H7.46473C6.97732 22 6.49914 21.829 6.16559 21.4736C4.82257 20.0426 4 18.1174 4 16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></symbol>
+  <symbol id="ic-sport-target" viewBox="0 0 24 24"><g fill="none"><path d="M16 12C16 14.2091 14.2091 16 12 16M16 12C16 9.79086 14.2091 8 12 8M16 12L22.5 12M12 16C9.79086 16 8 14.2091 8 12M12 16V22.5M8 12C8 9.79086 9.79086 8 12 8M8 12L1.5 12M12 8V1.5M20.5 12C20.5 16.6944 16.6944 20.5 12 20.5C7.30558 20.5 3.5 16.6944 3.5 12C3.5 7.30558 7.30558 3.5 12 3.5C16.6944 3.5 20.5 7.30558 20.5 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd" data-od-id="home-header">
+    <div class="avatar is-photo" aria-hidden="true"><img class="av" src="https://randomuser.me/api/portraits/men/32.jpg" alt=""></div>
+    <div class="hd-txt">
+      <h1>Константин</h1>
+      <span class="sub">Спортсмен · 24 лет · 65 кг</span>
+    </div>
+    <div class="hd-acts">
+      <a class="icon-btn" href="search.html" aria-label="Поиск" data-od-id="home-search"><svg aria-hidden="true"><use href="#ic-search"></use></svg></a>
+      <a class="icon-btn" href="notifications.html" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"></use></svg><span class="notif" aria-hidden="true">2</span></a>
+    </div>
+  </header>
+
+  <main class="body">
+    <button class="status-strip" type="button" data-toast="Спорткомплекс — в следующей итерации" aria-label="Статус работы комплекса и погода">
+      <span class="status-strip-item"><span class="dot" style="--c:var(--success)"></span>СП работает до 23:00</span>
+      <span class="status-strip-sep" aria-hidden="true">·</span>
+      <span class="status-strip-item" style="font-weight: 500;"><svg aria-hidden="true"><use href="#ic-rain"></use></svg>Дождь, -3°C</span>
+      <span class="status-strip-chev" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
+    </button>
+
+    <section class="dash-card" data-od-id="home-goal" aria-labelledby="goal-title" style="background-color: rgb(33, 110, 194);">
+      <div class="goal-top">
+        <h2 class="dash-title" id="goal-title">Моя цель</h2>
+        <div class="ev-menu-wrap">
+          <button class="ev-menu" type="button" aria-label="Меню цели" aria-haspopup="menu" aria-expanded="false"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
+          <div class="ev-menu-pop" role="menu">
+            <button type="button" data-toast="Редактирование цели — в следующей итерации">Изменить цель</button>
+            <button type="button" data-toast="Ссылка скопирована">Поделиться</button>
+            <button type="button" class="danger" data-toast="Карточка скрыта">Скрыть карточку</button>
+          </div>
+        </div>
+      </div>
+      <div class="dash-ring-row">
+        <div class="goal-ring" aria-hidden="true">
+          <svg viewBox="0 0 112 112">
+            <circle class="trk" cx="56" cy="56" r="48"></circle>
+            <circle class="fill" cx="56" cy="56" r="48" stroke-dasharray="301.6" stroke-dashoffset="75"></circle>
+          </svg>
+          <span class="pct">75%</span>
+        </div>
+        <div class="dash-ring-info">
+          <div class="dash-ring-value">18<small> / 24</small></div>
+          <div class="dash-ring-label" style="font-weight: 500;">из 24 тренировок в квартале</div>
+          <div class="goal-badges">
+            <span class="gchip" style="font-size: 11px;"><span class="dot"></span>В процессе</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="dash-stats" data-od-id="home-stats">
+      <a class="stat-tile" href="points-ratings.html">
+        <span class="metric-ic is-outline" aria-hidden="true" style="--c: var(--yellow); color: rgb(245, 158, 11);"><svg><use href="#ic-star-solar"></use></svg></span>
+        <span class="stat-tile-main">
+          <span class="stat-tile-top" style="font-size: 11px; font-weight: 900;">Баллы</span>
+        </span>
+        <span class="stat-tile-val">
+          <span class="stat-tile-val-tx">2490</span>
+          <span class="stat-tile-val-sub"><span class="is-up">+1 233</span> за 7 дн.</span>
+        </span>
+      </a>
+      <a class="stat-tile" href="profile-v2.html">
+        <span class="metric-ic is-outline" aria-hidden="true" style="--c: var(--success); color: rgb(34, 197, 94);"><svg><use href="#ic-medal-solar"></use></svg></span>
+        <span class="stat-tile-main">
+          <span class="stat-tile-top" style="font-size: 11px;">Достижения</span>
+        </span>
+        <span class="stat-tile-val">
+          <span class="stat-tile-val-tx">14</span>
+          <span class="stat-tile-val-sub"><span class="is-up">+1</span> за 7 дн.</span>
+        </span>
+      </a>
+      <a class="stat-rating" href="points-ratings.html">
+        <span class="metric-ic is-outline" aria-hidden="true" style="--c: var(--accent);"><svg><use href="#ic-cup-solar"></use></svg></span>
+        <span class="stat-tile-main">
+          <span class="stat-tile-top" style="font-size: 11px;">Рейтинг</span>
+        </span>
+        <span class="stat-tile-val">
+          <span class="stat-tile-val-tx">12</span>
+          <span class="stat-tile-val-sub">место в регионе</span>
+        </span>
+      </a>
+    </div>
+
+    <section class="sec" data-od-id="home-events" aria-labelledby="events-title">
+      <div class="sec-head">
+        <h2 id="events-title">Ближайшие события</h2>
+        <a class="sec-all" href="schedule-calendar.html">Все</a>
+      </div>
+      <div class="cards">
+        <article class="ev-card" style="--c:var(--type-training)">
+          <header class="ev-top">
+            <div class="ev-title-row"><span class="ev-type-dot" aria-hidden="true"></span><h3 class="ev-title">Утренняя пробежка</h3></div>
+            <div class="ev-menu-wrap">
+              <button class="ev-menu" type="button" aria-label="Меню события «Утренняя пробежка»" aria-haspopup="menu" aria-expanded="false"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
+              <div class="ev-menu-pop" role="menu">
+                <button type="button" class="danger" data-toast="Запись отменена">Отменить запись</button>
+                <button type="button" data-toast="Чат с тренером — в следующей итерации">Написать тренеру</button>
+                <button type="button" data-toast="Событие добавлено в календарь">Добавить в календарь</button>
+                <button type="button" data-toast="Сообщение отправлено">Сообщить о проблеме</button>
+              </div>
+            </div>
+            <span class="ev-badge ev-badge-status" style="--c: var(--st-confirmed);"><span class="ev-bdot"></span>Вы записаны</span>
+          </header>
+          <div class="ev-fmts"><span class="gchip" style="--c: var(--success);">Групповая</span></div>
+          <p class="ev-meta"><b>Сегодня · 07:30</b> · парк у спорткомплекса</p>
+          <footer class="ev-foot">
+            <div class="ev-avatars">
+              <span class="ev-ava is-coach"><img class="av" src="https://randomuser.me/api/portraits/men/52.jpg" alt=""><svg class="ev-coach-badge" aria-hidden="true"><use href="#ic-star"></use></svg></span>
+              <span class="ev-ava is-you"><img class="av" src="https://randomuser.me/api/portraits/men/32.jpg" alt=""></span>
+              <span class="ev-ava"><img class="av" src="https://randomuser.me/api/portraits/men/45.jpg" alt=""></span>
+              <span class="ev-ava is-more">+5</span>
+            </div>
+            <span class="ev-foot-text">Тренер А. Соколов</span>
+            <span class="ev-badge is-quiet" style="--c: var(--type-training);">Тренировка</span>
+          </footer>
+        </article>
+
+        <article class="ev-card" style="--c:var(--type-training)">
+          <header class="ev-top">
+            <div class="ev-title-row"><span class="ev-type-dot" aria-hidden="true"></span><h3 class="ev-title">Силовая с тренером</h3></div>
+            <div class="ev-menu-wrap">
+              <button class="ev-menu" type="button" aria-label="Меню события «Силовая с тренером»" aria-haspopup="menu" aria-expanded="false"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
+              <div class="ev-menu-pop" role="menu">
+                <button type="button" data-toast="Приглашение принято">Принять приглашение</button>
+                <button type="button" class="danger" data-toast="Приглашение отклонено">Отклонить приглашение</button>
+                <button type="button" data-toast="Чат с тренером — в следующей итерации">Написать тренеру</button>
+              </div>
+            </div>
+            <span class="ev-badge ev-badge-status is-pending" style="--c: var(--st-pending);">Приглашение</span>
+          </header>
+          <div class="ev-fmts"><span class="gchip" style="--c: var(--accent);">С тренером</span></div>
+          <p class="ev-meta"><b>Завтра · 08:00</b> · зал № 2</p>
+          <footer class="ev-foot">
+            <div class="ev-avatars">
+              <span class="ev-ava is-coach"><img class="av" src="https://randomuser.me/api/portraits/men/52.jpg" alt=""><svg class="ev-coach-badge" aria-hidden="true"><use href="#ic-star"></use></svg></span>
+              <span class="ev-ava is-you"><img class="av" src="https://randomuser.me/api/portraits/men/32.jpg" alt=""></span>
+            </div>
+            <span class="ev-foot-text">Тренер А. Соколов</span>
+            <span class="ev-badge is-quiet" style="--c: var(--type-training);">Тренировка</span>
+          </footer>
+        </article>
+
+        <article class="ev-card" style="--c:var(--type-event)">
+          <header class="ev-top">
+            <div class="ev-title-row"><span class="ev-type-dot" aria-hidden="true"></span><h3 class="ev-title">Открытие сезона пляжного волейбола</h3></div>
+            <div class="ev-menu-wrap">
+              <button class="ev-menu" type="button" aria-label="Меню события «Открытие сезона пляжного волейбола»" aria-haspopup="menu" aria-expanded="false"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
+              <div class="ev-menu-pop" role="menu">
+                <button type="button" data-toast="Заявка отправлена">Записаться</button>
+                <button type="button" data-toast="Событие добавлено в календарь">Добавить в календарь</button>
+                <button type="button" data-toast="Ссылка скопирована">Поделиться</button>
+                <button type="button" data-toast="Сообщение отправлено">Сообщить о проблеме</button>
+              </div>
+            </div>
+            <span class="ev-badge ev-badge-status" style="--c: var(--st-open);">Открыт набор</span>
+          </header>
+          <p class="ev-meta"><b>Сб · 12 июня</b> · с 10:00</p>
+          <p class="ev-sub"><b>12 участников</b> · Максимум 16</p>
+          <footer class="ev-foot">
+            <div class="ev-avatars">
+              <span class="ev-ava"><img class="av" src="https://randomuser.me/api/portraits/men/22.jpg" alt=""></span>
+              <span class="ev-ava"><img class="av" src="https://randomuser.me/api/portraits/women/44.jpg" alt=""></span>
+              <span class="ev-ava is-more">+10</span>
+            </div>
+            <span class="ev-foot-text">пляжный волейбол · 3 площадки</span>
+            <span class="ev-badge is-quiet" style="--c: var(--type-event);">Ивент</span>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="sec" data-od-id="home-news" aria-labelledby="news-title">
+      <div class="sec-head">
+        <h2 id="news-title">Новости</h2>
+        <button class="sec-all" type="button" data-toast="Все новости — в следующей итерации">Все</button>
+      </div>
+      <div class="cards">
+        <button type="button" class="news-card" data-toast="Новость — в следующей итерации">
+          <span class="pic" aria-hidden="true"><svg><use href="#ic-photo"></use></svg></span>
+          <span class="tx">
+            <h4>Новое расписание бассейна с сентября</h4>
+            <p>С 1 сентября меняется расписание дорожек в будни.</p>
+            <span class="meta"><svg aria-hidden="true"><use href="#ic-clock"></use></svg>12 авг</span>
+          </span>
+        </button>
+        <button type="button" class="news-card" data-toast="Новость — в следующей итерации">
+          <span class="pic" aria-hidden="true"><svg><use href="#ic-medal"></use></svg></span>
+          <span class="tx">
+            <h4>Летние нормативы ГТО — приём заявок</h4>
+            <p>Регистрация на сдачу норм открыта до 31 августа.</p>
+            <span class="meta"><svg aria-hidden="true"><use href="#ic-clock"></use></svg>8 авг</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="sec" data-od-id="home-clubs" aria-labelledby="clubs-title">
+      <div class="sec-head">
+        <h2 id="clubs-title">Клубы</h2>
+        <button class="sec-all" type="button" data-toast="Все клубы — в следующей итерации">Все</button>
+      </div>
+      <div class="club-row">
+        <button type="button" class="club-card" data-toast="Страница клуба — в следующей итерации" style="--c:var(--accent)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-running-shoe"></use></svg></span><b>Бег</b><small>28 участников</small></button>
+        <button type="button" class="club-card" data-toast="Страница клуба — в следующей итерации" style="--c:var(--accent)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-swimming-cap"></use></svg></span><b>Плавание</b><small>41 участник</small></button>
+        <button type="button" class="club-card" data-toast="Страница клуба — в следующей итерации" style="--c:var(--accent)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-bicycle"></use></svg></span><b>Велосипед</b><small>19 участников</small></button>
+        <button type="button" class="club-card" data-toast="Страница клуба — в следующей итерации" style="--c:var(--accent)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-jump-rope"></use></svg></span><b>ОФП</b><small>36 участников</small></button>
+        <button type="button" class="club-card" data-toast="Страница клуба — в следующей итерации" style="--c:var(--accent)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-kettlebell"></use></svg></span><b>Силовые</b><small>25 участников</small></button>
+        <button type="button" class="club-card" data-toast="Страница клуба — в следующей итерации" style="--c:var(--accent)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-target"></use></svg></span><b>ГТО</b><small>47 участников</small></button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
+  <button class="tab is-on" aria-label="Главная"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-home"></use></svg></span>Главная</button>
+  <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"></use></svg><span class="notif" aria-hidden="true">3</span></span>Расписание</a>
+  <a class="tab" href="trainings.html" aria-label="Тренировки"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-trend"></use></svg></span>Тренировки</a>
+  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-users"></use></svg></span>Сообщество</button>
+  <a class="tab" href="profile-v2.html" aria-label="Профиль"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-user"></use></svg></span>Профиль</a>
+</nav>
+
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  function toast(msg) {
+    var wrap = document.getElementById('toasts');
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function () { t.remove(); }, 2200);
+  }
+  document.addEventListener('click', function (ev) {
+    var t = ev.target.closest('[data-toast]');
+    if (t) { toast(t.getAttribute('data-toast')); return; }
+  });
+
+  function closeMenus() {
+    var open = document.querySelectorAll('.ev-menu.is-open');
+    for (var i = 0; i < open.length; i++) {
+      open[i].classList.remove('is-open');
+      open[i].setAttribute('aria-expanded', 'false');
+    }
+  }
+  document.addEventListener('click', function (ev) {
+    var btn = ev.target.closest('.ev-menu');
+    if (btn) {
+      var wasOpen = btn.classList.contains('is-open');
+      closeMenus();
+      if (!wasOpen) {
+        btn.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+      return;
+    }
+    closeMenus();
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') { closeMenus(); } });
+})();
+</script>
+
+
+</body></html>

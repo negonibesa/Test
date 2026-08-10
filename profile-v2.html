@@ -1,33 +1,33 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eaf4ff">
-<title>Петровское СП — профиль · Спортсмен</title>
+<meta name="theme-color" content="#f8fbff">
+<title>РџРµС‚СЂРѕРІСЃРєРѕРµ РЎРџ вЂ” РїСЂРѕС„РёР»СЊ В· РЎРїРѕСЂС‚СЃРјРµРЅ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Roboto+Mono:wght@500;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Roboto+Mono:wght@500;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
 <style>
-/* ── Токены (канон design-system.html, единственный источник правды) ── */
+/* в”Ђв”Ђ РўРѕРєРµРЅС‹ (РєР°РЅРѕРЅ design-system.html, РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ РёСЃС‚РѕС‡РЅРёРє РїСЂР°РІРґС‹) в”Ђв”Ђ */
 :root {
-  /* Поверхности */
-  --bg: #eaf4ff;            /* подложка компонентов: поля, чипы */
-  --surface: #ffffff;       /* фон карточек */
+  /* РџРѕРІРµСЂС…РЅРѕСЃС‚Рё */
+  --bg: #eaf4ff;            /* РїРѕРґР»РѕР¶РєР° РєРѕРјРїРѕРЅРµРЅС‚РѕРІ: РїРѕР»СЏ, С‡РёРїС‹ */
+  --surface: #ffffff;       /* С„РѕРЅ РєР°СЂС‚РѕС‡РµРє */
   --surface-2: #eef6ff;
-  --surface-warm: #f8fbff;  /* глобальный фон приложения */
+  --surface-warm: #f8fbff;  /* РіР»РѕР±Р°Р»СЊРЅС‹Р№ С„РѕРЅ РїСЂРёР»РѕР¶РµРЅРёСЏ */
 
-  /* Текст */
+  /* РўРµРєСЃС‚ */
   --fg: #12213b;
   --fg-2: #445269;
   --muted: #5d6b82;
   --meta: #66748e;
 
-  /* Границы */
+  /* Р“СЂР°РЅРёС†С‹ */
   --border: rgba(18,33,59,0.08);
   --border-soft: rgba(18,33,59,0.05);
   --border-strong: rgba(18,33,59,0.16);
 
-  /* Акцент */
+  /* РђРєС†РµРЅС‚ */
   --accent: #0d6fc4;
   --accent-on: #ffffff;
   --accent-hover: #2b8fe0;
@@ -37,15 +37,15 @@
   --yellow-ink: #9a6a00;
   --yellow-ink-strong: #7a5500;
 
-  /* Семантика */
+  /* РЎРµРјР°РЅС‚РёРєР° */
   --success: #2bb066;
   --warn: #ffc93c;
   --danger: #ff4d4d;
   --danger-hover: #ff6b6b;
   --danger-active: #e64545;
 
-  /* Типографика */
-  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  /* РўРёРїРѕРіСЂР°С„РёРєР° */
+  --font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 
@@ -59,7 +59,7 @@
   --tracking-display: 0.01em;
   --tracking-caps: 0.08em;
 
-  /* Отступы (чётные, шкала 4pt) */
+  /* РћС‚СЃС‚СѓРїС‹ (С‡С‘С‚РЅС‹Рµ, С€РєР°Р»Р° 4pt) */
   --space-0: 0px;
   --space-1: 4px;
   --space-2: 8px;
@@ -74,13 +74,13 @@
   --radius-md: 12px;
   --radius-pill: 980px;
 
-  /* Высоты контролов */
+  /* Р’С‹СЃРѕС‚С‹ РєРѕРЅС‚СЂРѕР»РѕРІ */
   --h-sm: 32px;
   --h-md: 40px;
   --h-base: 44px;
   --h-lg: 56px;
 
-  /* Размеры иконок */
+  /* Р Р°Р·РјРµСЂС‹ РёРєРѕРЅРѕРє */
   --icon-sm: 16px;
   --icon-md: 20px;
   --icon-lg: 24px;
@@ -130,7 +130,7 @@ a { color: inherit; }
   min-height: 100vh;
 }
 
-/* ── Шапка профиля (канон DS секции 14) ─────────────────────────── */
+/* в”Ђв”Ђ РЁР°РїРєР° РїСЂРѕС„РёР»СЏ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 14) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .hd {
   display: flex;
   align-items: center;
@@ -189,7 +189,7 @@ a { color: inherit; }
 }
 .icon-btn .notif { top: 4px; right: 2px; }
 
-/* ── Кнопки (канон DS секции 04) ─────────────────────────────────── */
+/* в”Ђв”Ђ РљРЅРѕРїРєРё (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 04) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
   height: var(--h-base); border: 0; border-radius: var(--radius-pill);
@@ -208,11 +208,11 @@ a { color: inherit; }
 .btn-ghost:active { background: var(--border-soft); }
 .btn-sm { height: var(--h-sm); padding: 0 var(--space-4); font-size: var(--fs-meta); font-weight: 600; }
 
-/* ── Контейнер под шапкой ────────────────────────────────────────── */
+/* в”Ђв”Ђ РљРѕРЅС‚РµР№РЅРµСЂ РїРѕРґ С€Р°РїРєРѕР№ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .body { padding: 0 12px; }
 @media (min-width: 560px) { .body { padding: 0 24px; } }
 
-/* ── Секции (канон DS секции 19/22) ──────────────────────────────── */
+/* в”Ђв”Ђ РЎРµРєС†РёРё (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 19/22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .sec { margin-top: var(--space-8); }
 .sec-head { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-1) var(--space-4); }
 .sec-head h2 {
@@ -228,7 +228,7 @@ a { color: inherit; }
 .sec-all:hover { color: var(--accent-hover); text-decoration: underline; }
 .sec-all svg { width: var(--icon-sm); height: var(--icon-sm); }
 
-/* ── Hero (канон DS секции 22) ───────────────────────────────────── */
+/* в”Ђв”Ђ Hero (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .hero { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
 .hero-ava {
   position: relative;
@@ -272,7 +272,7 @@ a { color: inherit; }
 .hchip.is-gto { color: var(--gto-silver); background: color-mix(in srgb, var(--gto-silver) 18%, var(--surface)); }
 .hchip.is-pts { color: var(--yellow-ink); background: color-mix(in srgb, var(--yellow) 18%, var(--surface)); }
 
-/* ── Статы (канон DS секции 22) ──────────────────────────────────── */
+/* в”Ђв”Ђ РЎС‚Р°С‚С‹ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
 @media (max-width: 380px) { .stats { grid-template-columns: 1fr; } }
 .stat {
@@ -290,7 +290,7 @@ a { color: inherit; }
 .stat-sub { display: block; margin-top: var(--space-2); font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
 .stat-sub.is-up { color: var(--success); }
 
-/* ── Цель ГТО (канон DS секции 22) ───────────────────────────────── */
+/* в”Ђв”Ђ Р¦РµР»СЊ Р“РўРћ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); }
 .card-title { margin: 0 0 var(--space-3); font-size: var(--fs-meta); font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .gto-row { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; }
@@ -306,7 +306,7 @@ a { color: inherit; }
 .row-chev { flex: none; color: var(--meta); }
 .row-chev svg { width: var(--icon-sm); height: var(--icon-sm); }
 
-/* ── Достижения (канон DS секции 12/22) ──────────────────────────── */
+/* в”Ђв”Ђ Р”РѕСЃС‚РёР¶РµРЅРёСЏ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 12/22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .ach-list { display: grid; gap: var(--space-2); }
 .ach-item {
   display: flex; align-items: center; gap: var(--space-3);
@@ -329,7 +329,7 @@ a { color: inherit; }
 .ach-more:hover { background: var(--surface-2); }
 .ach-more:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-/* ── Друзья (канон DS секции 22) ─────────────────────────────────── */
+/* в”Ђв”Ђ Р”СЂСѓР·СЊСЏ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .friends-row { display: flex; align-items: center; gap: var(--space-3); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-4); }
 .friends-avas { display: flex; flex: none; }
 .f-ava {
@@ -343,7 +343,7 @@ a { color: inherit; }
 .friends-tx { flex: 1; min-width: 0; font-size: var(--fs-meta); color: var(--muted); }
 .friends-tx b { color: var(--fg); }
 
-/* ── Мои записи (канон DS секции 22) ─────────────────────────────── */
+/* в”Ђв”Ђ РњРѕРё Р·Р°РїРёСЃРё (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 22) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .bk-list { display: grid; gap: var(--space-2); }
 .bk-row {
   display: flex; align-items: center; gap: var(--space-3);
@@ -355,7 +355,7 @@ a { color: inherit; }
 .bk-meta { display: block; margin-top: var(--space-1); font-size: var(--fs-meta); color: var(--muted); }
 .bk-badge { flex: none; font-size: var(--fs-caption); font-weight: 700; color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--surface)); border-radius: var(--radius-sm); padding: var(--space-1) var(--space-2); }
 
-/* ── Настройки / выход (канон DS секции 19) ──────────────────────── */
+/* в”Ђв”Ђ РќР°СЃС‚СЂРѕР№РєРё / РІС‹С…РѕРґ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 19) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .card-rows { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-2) var(--space-1); }
 .row { display: flex; align-items: center; gap: var(--space-3); width: 100%; text-align: left; border: 0; background: none; padding: var(--space-3) var(--space-1); cursor: pointer; border-radius: var(--radius-md); }
 .row:hover { background: var(--surface-2); }
@@ -366,7 +366,7 @@ a { color: inherit; }
 .row.is-danger .row-ic { color: var(--danger); background: rgba(255,77,77,0.1); }
 .row.is-danger .row-tx { color: var(--danger); font-weight: 600; }
 
-/* ── Нижний таббар (канон DS секции 10) ──────────────────────────── */
+/* в”Ђв”Ђ РќРёР¶РЅРёР№ С‚Р°Р±Р±Р°СЂ (РєР°РЅРѕРЅ DS СЃРµРєС†РёРё 10) в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .tabbar {
   position: fixed; left: 50%; bottom: 0; transform: translateX(-50%);
   display: flex;
@@ -394,7 +394,7 @@ a { color: inherit; }
 .tab-ic .notif { top: -6px; right: -8px; }
 .tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-/* ── Тост ─────────────────────────────────────────────────────────── */
+/* в”Ђв”Ђ РўРѕСЃС‚ в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 .toast-wrap { position: fixed; left: 50%; bottom: 96px; transform: translateX(-50%); display: grid; gap: 8px; z-index: 70; width: max-content; max-width: calc(100vw - 40px); }
 .toast {
   background: var(--fg); color: #fff; font-size: 14px; font-weight: 500;
@@ -432,30 +432,30 @@ a { color: inherit; }
 
 <div class="app">
   <header class="hd" data-od-id="profile-header">
-    <a class="back" href="home-v2.html" aria-label="Назад на главную"><svg aria-hidden="true"><use href="#ic-back"/></svg></a>
+    <a class="back" href="home-v2.html" aria-label="РќР°Р·Р°Рґ РЅР° РіР»Р°РІРЅСѓСЋ"><svg aria-hidden="true"><use href="#ic-back"/></svg></a>
     <div class="hd-txt">
-      <h1>Профиль</h1>
-      <span class="sub">личная карточка и достижения</span>
+      <h1>РџСЂРѕС„РёР»СЊ</h1>
+      <span class="sub">Р»РёС‡РЅР°СЏ РєР°СЂС‚РѕС‡РєР° Рё РґРѕСЃС‚РёР¶РµРЅРёСЏ</span>
     </div>
     <div class="hd-acts">
-      <button type="button" class="icon-btn" data-od-id="profile-scan" data-to="qrscan.html" aria-label="Сканер QR-кодов"><svg aria-hidden="true"><use href="#ic-scan"/></svg></button>
-      <button type="button" class="icon-btn" id="edit-btn" data-od-id="profile-edit" data-toast="Редактирование профиля откроется в полной версии" aria-label="Редактировать профиль"><svg aria-hidden="true"><use href="#ic-edit"/></svg></button>
+      <button type="button" class="icon-btn" data-od-id="profile-scan" data-to="qrscan.html" aria-label="РЎРєР°РЅРµСЂ QR-РєРѕРґРѕРІ"><svg aria-hidden="true"><use href="#ic-scan"/></svg></button>
+      <button type="button" class="icon-btn" id="edit-btn" data-od-id="profile-edit" data-toast="Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РїСЂРѕС„РёР»СЏ РѕС‚РєСЂРѕРµС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё" aria-label="Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ РїСЂРѕС„РёР»СЊ"><svg aria-hidden="true"><use href="#ic-edit"/></svg></button>
     </div>
   </header>
 
   <main class="body">
     <section class="hero" data-od-id="profile-hero">
-      <button type="button" class="hero-ava" data-toast="Смена фото откроется в полной версии" aria-label="Сменить фото">
+      <button type="button" class="hero-ava" data-toast="РЎРјРµРЅР° С„РѕС‚Рѕ РѕС‚РєСЂРѕРµС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё" aria-label="РЎРјРµРЅРёС‚СЊ С„РѕС‚Рѕ">
         <svg aria-hidden="true"><use href="#ava-1"/></svg>
         <span class="cam" aria-hidden="true"><svg><use href="#ic-cam"/></svg></span>
       </button>
       <div class="hero-tx">
-        <h2>Константин</h2>
-        <span class="hero-role">Спортсмен · плавание, лёгкая атлетика</span>
+        <h2>РљРѕРЅСЃС‚Р°РЅС‚РёРЅ</h2>
+        <span class="hero-role">РЎРїРѕСЂС‚СЃРјРµРЅ В· РїР»Р°РІР°РЅРёРµ, Р»С‘РіРєР°СЏ Р°С‚Р»РµС‚РёРєР°</span>
         <div class="hero-chips">
-          <span class="hchip is-gto" data-od-id="profile-gto"><svg aria-hidden="true"><use href="#ic-medal"/></svg>ГТО · серебро</span>
-          <span class="hchip" data-od-id="profile-rating"><svg aria-hidden="true"><use href="#ic-trophy"/></svg>12-е место в регионе</span>
-          <span class="hchip is-pts" data-od-id="profile-streak"><svg aria-hidden="true"><use href="#ic-star"/></svg>Серия · 6 дней</span>
+          <span class="hchip is-gto" data-od-id="profile-gto"><svg aria-hidden="true"><use href="#ic-medal"/></svg>Р“РўРћ В· СЃРµСЂРµР±СЂРѕ</span>
+          <span class="hchip" data-od-id="profile-rating"><svg aria-hidden="true"><use href="#ic-trophy"/></svg>12-Рµ РјРµСЃС‚Рѕ РІ СЂРµРіРёРѕРЅРµ</span>
+          <span class="hchip is-pts" data-od-id="profile-streak"><svg aria-hidden="true"><use href="#ic-star"/></svg>РЎРµСЂРёСЏ В· 6 РґРЅРµР№</span>
         </div>
       </div>
     </section>
@@ -463,29 +463,29 @@ a { color: inherit; }
     <section class="sec">
       <div class="stats" data-od-id="profile-stats">
         <button type="button" class="stat" data-od-id="profile-workouts" data-to="trainings.html">
-          <span class="stat-label"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировок</span>
-          <span class="stat-value">38<small> за сезон</small></span>
-          <span class="stat-sub is-up">+3 на этой неделе</span>
+          <span class="stat-label"><svg aria-hidden="true"><use href="#ic-trend"/></svg>РўСЂРµРЅРёСЂРѕРІРѕРє</span>
+          <span class="stat-value">38<small> Р·Р° СЃРµР·РѕРЅ</small></span>
+          <span class="stat-sub is-up">+3 РЅР° СЌС‚РѕР№ РЅРµРґРµР»Рµ</span>
         </button>
         <button type="button" class="stat" data-od-id="profile-ach-btn" id="ach-jump">
-          <span class="stat-label"><svg aria-hidden="true"><use href="#ic-trophy"/></svg>Достижений</span>
+          <span class="stat-label"><svg aria-hidden="true"><use href="#ic-trophy"/></svg>Р”РѕСЃС‚РёР¶РµРЅРёР№</span>
           <span class="stat-value">14<small> / 20</small></span>
-          <span class="stat-sub">+1 за неделю</span>
+          <span class="stat-sub">+1 Р·Р° РЅРµРґРµР»СЋ</span>
         </button>
         <button type="button" class="stat" data-od-id="profile-qr" data-to="qrscan.html">
-          <span class="stat-label"><svg aria-hidden="true"><use href="#ic-qr"/></svg>Мой QR</span>
-          <span class="stat-value">Активен</span>
-          <span class="stat-sub">вход в клуб</span>
+          <span class="stat-label"><svg aria-hidden="true"><use href="#ic-qr"/></svg>РњРѕР№ QR</span>
+          <span class="stat-value">РђРєС‚РёРІРµРЅ</span>
+          <span class="stat-sub">РІС…РѕРґ РІ РєР»СѓР±</span>
         </button>
       </div>
     </section>
 
     <section class="sec">
       <div class="card" data-od-id="profile-gto-card">
-        <p class="card-title">Моя цель · ГТО</p>
+        <p class="card-title">РњРѕСЏ С†РµР»СЊ В· Р“РўРћ</p>
         <a class="gto-row" href="gto.html">
           <span class="gto-ic" aria-hidden="true"><svg><use href="#ic-medal"/></svg></span>
-          <span class="gto-tx"><b>Серебряный знак · Ступень VII</b><small>Сдано 3 из 5 нормативов</small></span>
+          <span class="gto-tx"><b>РЎРµСЂРµР±СЂСЏРЅС‹Р№ Р·РЅР°Рє В· РЎС‚СѓРїРµРЅСЊ VII</b><small>РЎРґР°РЅРѕ 3 РёР· 5 РЅРѕСЂРјР°С‚РёРІРѕРІ</small></span>
           <span class="gto-progress">
             <span class="gto-bar"><span style="width:60%"></span></span>
             <small>60%</small>
@@ -497,33 +497,33 @@ a { color: inherit; }
 
     <section class="sec" id="ach-section" data-od-id="profile-achievements">
       <div class="sec-head">
-        <h2>Достижения</h2>
+        <h2>Р”РѕСЃС‚РёР¶РµРЅРёСЏ</h2>
       </div>
       <div class="ach-list">
         <div class="ach-item">
           <span class="ach-chip tone-silver" aria-hidden="true"><svg><use href="#ic-medal"/></svg></span>
-          <span class="ach-it"><span class="ach-il">Знак ГТО · Серебро</span><span class="ach-ih">Получен 12 августа 2026</span></span>
+          <span class="ach-it"><span class="ach-il">Р—РЅР°Рє Р“РўРћ В· РЎРµСЂРµР±СЂРѕ</span><span class="ach-ih">РџРѕР»СѓС‡РµРЅ 12 Р°РІРіСѓСЃС‚Р° 2026</span></span>
         </div>
         <div class="ach-item">
           <span class="ach-chip tone-accent" aria-hidden="true"><svg><use href="#ic-trophy"/></svg></span>
-          <span class="ach-it"><span class="ach-il">3-е место · Летний Кубок Петровского</span><span class="ach-ih">Плавание · июнь 2026</span></span>
+          <span class="ach-it"><span class="ach-il">3-Рµ РјРµСЃС‚Рѕ В· Р›РµС‚РЅРёР№ РљСѓР±РѕРє РџРµС‚СЂРѕРІСЃРєРѕРіРѕ</span><span class="ach-ih">РџР»Р°РІР°РЅРёРµ В· РёСЋРЅСЊ 2026</span></span>
         </div>
         <div class="ach-item">
           <span class="ach-chip tone-accent" aria-hidden="true"><svg><use href="#ic-trend"/></svg></span>
-          <span class="ach-it"><span class="ach-il">100 тренировок</span><span class="ach-ih">Пройдено за сезон</span></span>
+          <span class="ach-it"><span class="ach-il">100 С‚СЂРµРЅРёСЂРѕРІРѕРє</span><span class="ach-ih">РџСЂРѕР№РґРµРЅРѕ Р·Р° СЃРµР·РѕРЅ</span></span>
         </div>
         <div class="ach-item is-locked">
           <span class="ach-chip" aria-hidden="true"><svg><use href="#ic-medal"/></svg></span>
-          <span class="ach-it"><span class="ach-il">Знак ГТО · Золото</span><span class="ach-ih">Сдайте ещё 2 норматива</span></span>
+          <span class="ach-it"><span class="ach-il">Р—РЅР°Рє Р“РўРћ В· Р—РѕР»РѕС‚Рѕ</span><span class="ach-ih">РЎРґР°Р№С‚Рµ РµС‰С‘ 2 РЅРѕСЂРјР°С‚РёРІР°</span></span>
         </div>
       </div>
-      <button type="button" class="ach-more" id="ach-more" data-od-id="profile-ach-more">Показать ещё 16 →</button>
+      <button type="button" class="ach-more" id="ach-more" data-od-id="profile-ach-more">РџРѕРєР°Р·Р°С‚СЊ РµС‰С‘ 16 в†’</button>
     </section>
 
     <section class="sec" data-od-id="profile-friends">
       <div class="sec-head">
-        <h2>Друзья</h2>
-        <button type="button" class="sec-all" data-toast="Полный список друзей откроется в полной версии">Все · 24<svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
+        <h2>Р”СЂСѓР·СЊСЏ</h2>
+        <button type="button" class="sec-all" data-toast="РџРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє РґСЂСѓР·РµР№ РѕС‚РєСЂРѕРµС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё">Р’СЃРµ В· 24<svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
       </div>
       <div class="friends-row">
         <div class="friends-avas" aria-hidden="true">
@@ -533,54 +533,54 @@ a { color: inherit; }
           <span class="f-ava"><svg class="av"><use href="#ava-4"/></svg></span>
           <span class="f-ava is-more">+20</span>
         </div>
-        <span class="friends-tx"><b>6</b> онлайн сейчас</span>
-        <button type="button" class="btn btn-sm btn-ghost" data-toast="Поиск друзей откроется в полной версии"><svg aria-hidden="true"><use href="#ic-plus"/></svg>Добавить</button>
+        <span class="friends-tx"><b>6</b> РѕРЅР»Р°Р№РЅ СЃРµР№С‡Р°СЃ</span>
+        <button type="button" class="btn btn-sm btn-ghost" data-toast="РџРѕРёСЃРє РґСЂСѓР·РµР№ РѕС‚РєСЂРѕРµС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё"><svg aria-hidden="true"><use href="#ic-plus"/></svg>Р”РѕР±Р°РІРёС‚СЊ</button>
       </div>
     </section>
 
     <section class="sec" data-od-id="profile-bookings">
       <div class="sec-head">
-        <h2>Мои записи</h2>
-        <a class="sec-all" href="schedule-calendar.html">Все записи<svg aria-hidden="true"><use href="#ic-chev"/></svg></a>
+        <h2>РњРѕРё Р·Р°РїРёСЃРё</h2>
+        <a class="sec-all" href="schedule-calendar.html">Р’СЃРµ Р·Р°РїРёСЃРё<svg aria-hidden="true"><use href="#ic-chev"/></svg></a>
       </div>
       <div class="bk-list">
         <div class="bk-row" style="--c: var(--type-training)">
-          <div class="bk-tx"><span class="bk-title">Силовая тренировка</span><span class="bk-meta">Сегодня · 18:00 – 19:30 · Тренажёрный зал</span></div>
-          <span class="bk-badge">Подтверждено</span>
+          <div class="bk-tx"><span class="bk-title">РЎРёР»РѕРІР°СЏ С‚СЂРµРЅРёСЂРѕРІРєР°</span><span class="bk-meta">РЎРµРіРѕРґРЅСЏ В· 18:00 вЂ“ 19:30 В· РўСЂРµРЅР°Р¶С‘СЂРЅС‹Р№ Р·Р°Р»</span></div>
+          <span class="bk-badge">РџРѕРґС‚РІРµСЂР¶РґРµРЅРѕ</span>
         </div>
         <div class="bk-row" style="--c: var(--type-rental)">
-          <div class="bk-tx"><span class="bk-title">Аренда зала</span><span class="bk-meta">Ср, 20 авг · 20:00 – 22:00 · Зал № 1</span></div>
-          <span class="bk-badge">Вы организатор</span>
+          <div class="bk-tx"><span class="bk-title">РђСЂРµРЅРґР° Р·Р°Р»Р°</span><span class="bk-meta">РЎСЂ, 20 Р°РІРі В· 20:00 вЂ“ 22:00 В· Р—Р°Р» в„– 1</span></div>
+          <span class="bk-badge">Р’С‹ РѕСЂРіР°РЅРёР·Р°С‚РѕСЂ</span>
         </div>
         <div class="bk-row" style="--c: var(--type-event)">
-          <div class="bk-tx"><span class="bk-title">Летний Кубок Петровского</span><span class="bk-meta">Сб, 16 авг · 10:00 · Стадион «Центральный»</span></div>
-          <span class="bk-badge">Вы записаны</span>
+          <div class="bk-tx"><span class="bk-title">Р›РµС‚РЅРёР№ РљСѓР±РѕРє РџРµС‚СЂРѕРІСЃРєРѕРіРѕ</span><span class="bk-meta">РЎР±, 16 Р°РІРі В· 10:00 В· РЎС‚Р°РґРёРѕРЅ В«Р¦РµРЅС‚СЂР°Р»СЊРЅС‹Р№В»</span></div>
+          <span class="bk-badge">Р’С‹ Р·Р°РїРёСЃР°РЅС‹</span>
         </div>
       </div>
     </section>
 
     <section class="sec" data-od-id="profile-settings">
       <div class="card-rows">
-        <button type="button" class="row" data-toast="Настройки аккаунта откроются в полной версии">
+        <button type="button" class="row" data-toast="РќР°СЃС‚СЂРѕР№РєРё Р°РєРєР°СѓРЅС‚Р° РѕС‚РєСЂРѕСЋС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё">
           <span class="row-ic" aria-hidden="true"><svg><use href="#ic-settings"/></svg></span>
-          <span class="row-tx">Настройки аккаунта</span>
+          <span class="row-tx">РќР°СЃС‚СЂРѕР№РєРё Р°РєРєР°СѓРЅС‚Р°</span>
           <span class="row-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>
         </button>
         <button type="button" class="row is-danger" id="logout-btn" data-od-id="profile-logout">
           <span class="row-ic" aria-hidden="true"><svg><use href="#ic-logout"/></svg></span>
-          <span class="row-tx">Выйти из аккаунта</span>
+          <span class="row-tx">Р’С‹Р№С‚Рё РёР· Р°РєРєР°СѓРЅС‚Р°</span>
         </button>
       </div>
     </section>
   </main>
 </div>
 
-<nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
-  <a class="tab" href="home-v2.html" aria-label="Главная"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-home"></use></svg></span>Главная</a>
-  <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"></use></svg><span class="notif" aria-hidden="true">3</span></span>Расписание</a>
-  <a class="tab" href="trainings.html" aria-label="Тренировки"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-trend"></use></svg></span>Тренировки</a>
-  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-users"></use></svg></span>Сообщество</button>
-  <button class="tab is-on" aria-label="Профиль"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-user"></use></svg></span>Профиль</button>
+<nav class="tabbar" data-od-id="tabbar" aria-label="Р Р°Р·РґРµР»С‹">
+  <a class="tab" href="home-v2.html" aria-label="Р“Р»Р°РІРЅР°СЏ"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-home"></use></svg></span>Р“Р»Р°РІРЅР°СЏ</a>
+  <a class="tab" href="schedule-calendar.html" aria-label="Р Р°СЃРїРёСЃР°РЅРёРµ"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"></use></svg><span class="notif" aria-hidden="true">3</span></span>Р Р°СЃРїРёСЃР°РЅРёРµ</a>
+  <a class="tab" href="trainings.html" aria-label="РўСЂРµРЅРёСЂРѕРІРєРё"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-trend"></use></svg></span>РўСЂРµРЅРёСЂРѕРІРєРё</a>
+  <button class="tab" data-toast="РЎРѕРѕР±С‰РµСЃС‚РІРѕ вЂ” РІ СЃР»РµРґСѓСЋС‰РµР№ РёС‚РµСЂР°С†РёРё" aria-label="РЎРѕРѕР±С‰РµСЃС‚РІРѕ"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-users"></use></svg></span>РЎРѕРѕР±С‰РµСЃС‚РІРѕ</button>
+  <button class="tab is-on" aria-label="РџСЂРѕС„РёР»СЊ"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-user"></use></svg></span>РџСЂРѕС„РёР»СЊ</button>
 </nav>
 
 <div class="toast-wrap" id="toasts" aria-live="polite"></div>
@@ -606,10 +606,10 @@ a { color: inherit; }
     document.getElementById('ach-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   document.getElementById('ach-more').addEventListener('click', function () {
-    toast('Полный список достижений откроется в полной версии');
+    toast('РџРѕР»РЅС‹Р№ СЃРїРёСЃРѕРє РґРѕСЃС‚РёР¶РµРЅРёР№ РѕС‚РєСЂРѕРµС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё');
   });
   document.getElementById('logout-btn').addEventListener('click', function () {
-    toast('Подтверждение выхода откроется в полной версии');
+    toast('РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РІС‹С…РѕРґР° РѕС‚РєСЂРѕРµС‚СЃСЏ РІ РїРѕР»РЅРѕР№ РІРµСЂСЃРёРё');
   });
 })();
 </script>

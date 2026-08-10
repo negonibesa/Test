@@ -1,470 +1,83 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eaf4ff">
+<meta name="theme-color" content="#f8fbff">
 <title>Петровское СП — Тренировки</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Roboto+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 <style>
-:root {
-  --bg: #eaf4ff;
-  --surface: #ffffff;
-  --surface-2: #eef6ff;
-  --surface-warm: #f5faff;
+/* ── Токены — в base.css (канон design-system.html) ────────────────── */
 
-  --fg: #12213b;
-  --fg-2: #445269;
-  --muted: #78859b;
-  --meta: #99a4b7;
-
-  --border: rgba(18,33,59,0.08);
-  --border-soft: rgba(18,33,59,0.05);
-  --border-strong: rgba(18,33,59,0.16);
-
-  --accent: #1a86e0;
-  --accent-on: #ffffff;
-  --accent-hover: #2f97f0;
-  --accent-active: #1473c9;
-  --yellow: #ffc93c;
-  --yellow-on: #12213b;
-
-  --success: #2bb066;
-  --warn: #ffc93c;
-  --danger: #ff4d4d;
-
-  --type-me: #2f9e54;
-  --type-trainer: var(--yellow);
-  --st-done: var(--meta);
-
-  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
-
-  --leading-body: 1.5;
-  --tracking-display: 0.01em;
-  --tracking-caps: 0.08em;
-
-  --fs-title: 18px;
-  --fs-meta: 13px;
-  --fs-caption: 11px;
-
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-pill: 980px;
-
-  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
-  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
-
-  --motion-fast: 150ms;
-  --motion-base: 220ms;
-  --ease-standard: cubic-bezier(0.28,0,0.22,1);
-
-  --container-max: 700px;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--surface-warm);
-  color: var(--fg);
-  font-family: var(--font-body);
-  line-height: var(--leading-body);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-button { font-family: inherit; }
-a { color: inherit; }
-
-.app {
-  position: relative;
-  z-index: 1;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 0 calc(108px + env(safe-area-inset-bottom));
-  min-height: 100vh;
-}
-
-/* ── Шапка ─────────────────────────────────────────────────────────── */
-.hd {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 28px 12px 22px;
-}
-@media (min-width: 560px) { .hd { padding: 40px 24px 26px; } }
-.avatar {
-  flex: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--accent-on);
-  background: var(--type-me);
-}
-.hd-txt { flex: 1; min-width: 0; }
-.hd h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  line-height: 1.3;
-  text-transform: uppercase;
-  color: var(--fg);
-}
-.hd .sub { margin: 3px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
-.hd-acts { display: flex; gap: 8px; flex: none; }
-.icon-btn {
-  position: relative;
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 0;
-  border-radius: 50%;
+/* Статы: компактные метрики (компонент dash-stats → 3 колонки) */
+.trn-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); margin-top: var(--space-2); }
+.trn-stat {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--border-soft); border-radius: var(--radius-md);
   background: var(--surface);
-  color: var(--fg-2);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
 }
-.icon-btn:hover { background: var(--surface-2); }
-.icon-btn:active { background: var(--surface-2); }
-.icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.icon-btn svg { width: 22px; height: 22px; }
+.trn-stat .metric-ic { width: 36px; height: 36px; border-radius: var(--radius-sm); }
+.trn-stat .metric-ic svg { width: var(--icon-sm); height: var(--icon-sm); }
+.trn-stat-val {
+  font-family: var(--font-mono); font-size: var(--fs-title); font-weight: 600; line-height: 1;
+  color: var(--fg); font-variant-numeric: tabular-nums;
+}
+.trn-stat-val small { font-size: var(--fs-meta); font-weight: 500; color: var(--muted); }
+.trn-stat-sub { font-size: var(--fs-caption); line-height: 1.35; color: var(--muted); }
 
-/* ── Тело ──────────────────────────────────────────────────────────── */
-.body { padding: 0 12px; }
-@media (min-width: 560px) { .body { padding: 0 24px; } }
-
-/* ── Статы ─────────────────────────────────────────────────────────── */
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-@media (min-width: 560px) { .stats { gap: 12px; } }
-.stat {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 14px 15px;
-}
-.stat-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--meta);
-}
-.stat-label svg { width: 14px; height: 14px; color: var(--accent); }
-.stat-value {
-  margin-top: 8px;
-  font-family: var(--font-mono);
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.stat-value small { font-size: 13px; font-weight: 500; color: var(--muted); }
-.stat-sub { margin-top: 6px; font-size: 12px; line-height: 1.4; color: var(--muted); }
-
-/* ── Секции ────────────────────────────────────────────────────────── */
-.sec { margin-top: 32px; }
-.sec-head { display: flex; align-items: center; gap: 12px; padding: 0 2px 14px; }
-.sec-head h2 {
-  margin: 0; flex: 1;
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-}
-.sec-all {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  border: 0;
-  background: none;
-  min-height: 44px;
-  padding: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent);
-  cursor: pointer;
-}
-.sec-all:hover { color: var(--accent-hover); text-decoration: underline; }
-.sec-all:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 6px; }
-.sec-all svg { width: 16px; height: 16px; }
-.cards { display: grid; gap: 12px; }
-.empty {
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-lg);
-  padding: 26px 16px;
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-.empty b { display: block; font-size: 16px; font-weight: 600; color: var(--fg-2); margin-bottom: 3px; }
-
-/* ── Сегодняшняя тренировка ────────────────────────────────────────── */
-.today-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  border-left: 3px solid var(--type-me);
-  padding: var(--space-5) var(--space-5) var(--space-4);
-  animation: rise 0.5s var(--ease-standard) both;
-}
-@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
-@media (prefers-reduced-motion: reduce) { .today-card { animation: none; } }
+/* Сегодня: план упражнений (карточка §06 + CTA §21) */
 .today-top { display: flex; align-items: flex-start; gap: var(--space-3); }
 .today-txt { flex: 1; min-width: 0; }
-.today-title {
-  margin: var(--space-1) 0 0;
-  font-family: var(--font-display);
-  font-size: var(--fs-title);
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-}
-.today-meta { margin: var(--space-1) 0 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
-.today-badge {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-size: var(--fs-meta);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--type-me);
-  background: color-mix(in srgb, var(--type-me) 12%, var(--surface));
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-}
-.today-badge .dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--type-me); }
-.today-ex {
-  margin: var(--space-4) 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 8px;
-}
-.today-ex li {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-size: 15px;
-  line-height: 1.4;
-}
+.today-ex { margin: var(--space-4) 0 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
+.today-ex li { display: flex; align-items: baseline; gap: var(--space-3); font-size: var(--fs-body); line-height: 1.4; }
 .today-ex .ex-num {
-  flex: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  font-size: var(--fs-caption);
-  font-weight: 600;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 600;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--surface));
 }
 .today-ex .ex-name { flex: 1; min-width: 0; color: var(--fg); }
 .today-ex .ex-sets { flex: none; font-size: var(--fs-meta); color: var(--meta); font-variant-numeric: tabular-nums; }
-.cta {
-  margin-top: 14px;
-  width: 100%;
-  border: 0;
-  border-radius: var(--radius-md);
-  background: var(--type-me);
-  color: var(--accent-on);
-  font-size: 16px;
-  font-weight: 700;
-  padding: 13px;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.cta:hover { background: color-mix(in srgb, var(--type-me) 88%, var(--bg)); }
-.cta:active { background: color-mix(in srgb, var(--type-me) 80%, var(--bg)); }
-.cta:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-/* ── Неделя / стрик ────────────────────────────────────────────────── */
-.week-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 16px 18px;
-}
-.week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  text-align: center;
-}
-.wk-dow { font-size: 11px; font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--meta); margin-bottom: 5px; }
+/* Неделя / стрик */
+.week-card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: var(--space-4); }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-1); text-align: center; }
+.wk-dow { font-size: var(--fs-caption); font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--meta); margin-bottom: var(--space-1); }
 .wk-day {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  margin: 0 auto;
-  border-radius: 50%;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--fg-2);
-  background: var(--surface-2);
-  border: 1px solid transparent;
+  display: grid; place-items: center; width: 36px; height: 36px; margin: 0 auto; border-radius: 50%;
+  font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 600;
+  color: var(--fg-2); background: var(--surface-2); border: 1px solid transparent;
 }
-.wk-day.is-done { background: color-mix(in srgb, var(--type-me) 16%, var(--surface)); color: var(--type-me); }
+.wk-day.is-done { background: color-mix(in srgb, var(--type-training) 16%, var(--surface)); color: var(--type-training); }
 .wk-day.is-today { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
 .wk-day.is-miss { color: var(--meta); opacity: 0.5; }
-.week-foot { margin: 12px 2px 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.week-foot { margin: var(--space-3) var(--space-1) 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
 .week-foot b { font-weight: 600; color: var(--fg-2); }
 
-/* ── Карточка лога ─────────────────────────────────────────────────── */
-.log-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  border-left: 3px solid var(--c, var(--border));
-  padding: 15px 16px 13px;
-  animation: rise 0.5s var(--ease-standard) both;
-  animation-delay: calc(var(--i, 0) * 60ms);
-}
+/* Журнал: карточки на базе ev-card (§06) */
+.log-card { animation: rise 0.5s var(--ease-standard) both; animation-delay: calc(var(--i, 0) * 60ms); }
+@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .log-card { animation: none; } }
-.log-top { display: flex; align-items: center; gap: 10px; }
-.log-title {
-  margin: 0;
-  flex: 1;
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-}
-.log-badge {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--st-done);
-  background: color-mix(in srgb, var(--st-done) 12%, var(--surface));
-  border-radius: 7px;
-  padding: 3px 8px;
-}
-.log-badge.is-cancelled { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
-.log-meta { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.log-top { display: flex; align-items: center; gap: var(--space-3); }
+.log-top .ev-badge { margin-left: auto; }
+.log-meta { margin: var(--space-3) 0 0; font-size: var(--fs-meta); line-height: 1.45; color: var(--muted); }
 .log-meta b { font-weight: 600; color: var(--fg-2); font-variant-numeric: tabular-nums; }
-.log-foot { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.log-stat { font-size: 12px; line-height: 1.4; color: var(--muted); }
+.log-foot { margin-top: var(--space-3); display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.log-stat { font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
 .log-replay {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 0;
-  background: var(--surface-2);
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: var(--radius-pill);
-  padding: 8px 15px;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  border: 0; background: var(--surface-2); color: var(--accent);
+  font-size: var(--fs-meta); font-weight: 600; border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4); cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
 }
 .log-replay:hover { background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.log-replay:active { transform: scale(0.985); }
 .log-replay:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .log-replay svg { width: 14px; height: 14px; }
-
-/* ── Таб-бар: плавающая «капсула» ─────────────────────────────────── */
-.tabbar {
-  position: fixed;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  width: calc(100% - 24px);
-  max-width: calc(var(--container-max) - 24px);
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-  z-index: 30;
-}
-.tab {
-  position: relative;
-  border: 0;
-  background: none;
-  text-decoration: none;
-  display: grid;
-  place-items: center;
-  padding: 5px 0;
-  color: var(--meta);
-  cursor: pointer;
-  border-radius: var(--radius-md);
-}
-.tab svg { width: 24px; height: 24px; }
-.tab-ic { position: relative; display: grid; place-items: center; }
-.tab.is-on { color: var(--accent); }
-.tab.is-on svg {
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  border-radius: var(--radius-pill);
-  padding: 7px;
-  width: 42px;
-  height: 42px;
-  box-sizing: border-box;
-}
-.tab:not(.is-on):active { color: var(--fg-2); }
-.tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-
-/* ── Тост ──────────────────────────────────────────────────────────── */
-.toast-wrap {
-  position: fixed;
-  left: 50%;
-  bottom: 100px;
-  transform: translateX(-50%);
-  display: grid;
-  gap: 8px;
-  z-index: 70;
-  width: max-content;
-  max-width: calc(100vw - 40px);
-}
-.toast {
-  background: var(--fg);
-  color: var(--bg);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
-  box-shadow: var(--elev-raised);
-  animation: toast-in 0.3s var(--ease-standard) both;
-}
-.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
-@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
-@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
 </style>
 </head>
 <body data-od-id="trainings">
@@ -496,21 +109,21 @@ a { color: inherit; }
   </header>
 
   <main class="body">
-    <section class="stats" data-od-id="trn-stats">
-      <div class="stat">
-        <div class="stat-label"><svg aria-hidden="true"><use href="#ic-trend"/></svg>Тренировок</div>
-        <div class="stat-value">2<small> / 3</small></div>
-        <div class="stat-sub">по плану на неделе</div>
+    <section class="trn-stats" data-od-id="trn-stats">
+      <div class="trn-stat">
+        <span class="metric-ic" aria-hidden="true" style="--c: var(--accent)"><svg><use href="#ic-trend"/></svg></span>
+        <span class="trn-stat-val">2<small> / 3</small></span>
+        <span class="trn-stat-sub">по плану на неделе</span>
       </div>
-      <div class="stat">
-        <div class="stat-label"><svg aria-hidden="true"><use href="#ic-clock"/></svg>Часов</div>
-        <div class="stat-value">3,5</div>
-        <div class="stat-sub">активной работы</div>
+      <div class="trn-stat">
+        <span class="metric-ic" aria-hidden="true" style="--c: var(--yellow)"><svg><use href="#ic-clock"/></svg></span>
+        <span class="trn-stat-val">3,5</span>
+        <span class="trn-stat-sub">активной работы</span>
       </div>
-      <div class="stat">
-        <div class="stat-label"><svg aria-hidden="true"><use href="#ic-cal"/></svg>Подряд</div>
-        <div class="stat-value">3</div>
-        <div class="stat-sub">дня с тренировкой</div>
+      <div class="trn-stat">
+        <span class="metric-ic" aria-hidden="true" style="--c: var(--success)"><svg><use href="#ic-cal"/></svg></span>
+        <span class="trn-stat-val">3</span>
+        <span class="trn-stat-sub">дня с тренировкой</span>
       </div>
     </section>
 
@@ -518,13 +131,13 @@ a { color: inherit; }
       <div class="sec-head">
         <h2>Сегодня</h2>
       </div>
-      <div class="today-card" id="today-card">
+      <div class="ev-card" style="--c: var(--type-training)">
         <div class="today-top">
           <div class="today-txt">
-            <h3 class="today-title" id="today-title"></h3>
-            <p class="today-meta" id="today-meta"></p>
+            <h3 class="ev-title" id="today-title"></h3>
+            <p class="ev-meta" id="today-meta"></p>
           </div>
-          <span class="today-badge" data-od-id="trn-today-badge"><span class="dot" aria-hidden="true"></span>План</span>
+          <span class="gchip" data-od-id="trn-today-badge" style="--c: var(--type-training)"><span class="dot" aria-hidden="true"></span>План</span>
         </div>
         <ul class="today-ex" id="today-ex"></ul>
         <button type="button" class="cta" id="trn-start" data-od-id="trn-start">Начать тренировку</button>
@@ -552,11 +165,11 @@ a { color: inherit; }
 </div>
 
 <nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
-  <a class="tab" href="home-athlete-brand.html" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg></a>
-  <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><svg aria-hidden="true"><use href="#ic-events"/></svg></a>
-  <button class="tab is-on" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg></button>
-  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><svg aria-hidden="true"><use href="#ic-users"/></svg></button>
-  <a class="tab" href="profile.html" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg></a>
+  <a class="tab" href="home-v2.html" aria-label="Главная"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-home"/></svg></span>Главная</a>
+  <a class="tab" href="schedule-calendar.html" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"/></svg><span class="notif" aria-hidden="true">3</span></span>Расписание</a>
+  <button class="tab is-on" aria-label="Тренировки"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-trend"/></svg></span>Тренировки</button>
+  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-users"/></svg></span>Сообщество</button>
+  <a class="tab" href="profile-v2.html" aria-label="Профиль"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-user"/></svg></span>Профиль</a>
 </nav>
 
 <div class="toast-wrap" id="toasts" aria-live="polite"></div>
@@ -577,7 +190,7 @@ a { color: inherit; }
       date: 'Сегодня',
       time: '18:00 – 19:30',
       place: 'Тренажёрный зал',
-      type: 'me',
+      type: 'training',
       exercises: [
         { name: 'Жим штанги лёжа', sets: '4 × 8 · 40 кг' },
         { name: 'Приседания со штангой', sets: '4 × 10 · 50 кг' },
@@ -695,20 +308,20 @@ a { color: inherit; }
     var wrap = byId('trn-logs');
     wrap.innerHTML = '';
     if (!logs.length) {
-      wrap.innerHTML = '<div class="empty"><b>Тренировок пока нет</b>Начните первую — план уже готов на сегодня</div>';
+      wrap.innerHTML = '<div class="empty"><b>Тренировок пока нет</b><span>Начните первую — план уже готов на сегодня</span></div>';
       return;
     }
     logs.slice(0, 4).forEach(function (log, i) {
       var card = document.createElement('div');
-      card.className = 'log-card';
+      card.className = 'log-card ev-card';
       card.style.setProperty('--i', i);
-      card.style.setProperty('--c', log.status === 'cancelled' ? 'var(--danger)' : 'var(--type-me)');
+      card.style.setProperty('--c', log.status === 'cancelled' ? 'var(--st-cancelled)' : 'var(--type-training)');
       var donePct = log.total ? Math.round(log.done / log.total * 100) : 100;
       var badge = log.status === 'cancelled'
-        ? '<span class="log-badge is-cancelled">Отменено</span>'
-        : '<span class="log-badge">Завершено</span>';
+        ? '<span class="ev-badge" style="--c: var(--st-cancelled)">Отменено</span>'
+        : '<span class="ev-badge" style="--c: var(--st-done)">Завершено</span>';
       card.innerHTML =
-        '<div class="log-top"><h4 class="log-title">' + esc(log.title) + '</h4>' + badge + '</div>' +
+        '<div class="log-top"><h4 class="ev-title">' + esc(log.title) + '</h4>' + badge + '</div>' +
         '<p class="log-meta">' + esc(log.date) + ' · ' + esc(log.time) +
         '<br>Выполнено <b>' + log.done + ' из ' + log.total + '</b> упражнений · ' + log.dur + ' мин</p>' +
         '<div class="log-foot">' +
@@ -749,7 +362,7 @@ a { color: inherit; }
       date: 'Сегодня',
       time: log.time,
       place: log.place || 'Тренажёрный зал',
-      type: log.type || 'me',
+      type: 'training',
       exercises: log.exercises
     };
     lsSet(LS_PLAN, JSON.stringify(plan));

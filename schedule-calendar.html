@@ -1,1055 +1,184 @@
-<!doctype html>
-<html lang="ru">
-<head>
+﻿<!doctype html>
+<html lang="ru"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eaf4ff">
+<meta name="theme-color" content="#f8fbff">
 <title>Петровское СП — расписание</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Roboto+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 <style>
-:root {
-  /* ── Поверхности: небо / белый / карта ────────────────────────────── */
-  --bg: #eaf4ff;
-  --surface: #ffffff;
-  --surface-2: #eef6ff;
-  --surface-warm: #f8fbff;
+/* ── Токены — в base.css (канон design-system.html) ────────────────── */
 
-  /* ── Текст ─────────────────────────────────────────────────────── */
-  --fg: #12213b;
-  --fg-2: #445269;
-  --muted: #78859b;
-  --meta: #99a4b7;
+/* Вид: сегмент */
+.view-tabs { padding: var(--space-2) var(--space-3) 0; }
+.view-tabs .seg { width: 100%; }
+@media (min-width: 560px) { .view-tabs { padding: var(--space-2) var(--space-6) 0; } }
 
-  /* ── Границы ───────────────────────────────────────────────────── */
-  --border: rgba(18,33,59,0.08);
-  --border-soft: rgba(18,33,59,0.05);
-  --border-strong: rgba(18,33,59,0.16);
-
-  /* ── Акцент ─────────────────────────────────────────────────────── */
-  --accent: #1a86e0;
-  --accent-on: #ffffff;
-  --accent-hover: #2f97f0;
-  --accent-active: #1473c9;
-  --yellow: #ffc93c;
-  --yellow-on: #12213b;
-
-  /* ── Семантика ─────────────────────────────────────────────────── */
-  --success: #2bb066;
-  --warn: #ffc93c;
-  --danger: #ff4d4d;
-
-  /* ── Типографика ───────────────────────────────────────────────── */
-  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
-
-  --leading-body: 1.5;
-  --tracking-display: 0.01em;
-  --tracking-caps: 0.08em;
-
-  /* ── Отступы ────────────────────────────────────────────────────── */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-pill: 980px;
-
-  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
-  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
-
-  --motion-fast: 150ms;
-  --motion-base: 220ms;
-  --ease-standard: cubic-bezier(0.28,0,0.22,1);
-
-  --container-max: 700px;
-}
-
-/* ── Типы событий ─────────────────────────────────────────────────── */
-:root {
-  --type-me: #2f9e54;
-  --type-trainer: var(--yellow);
-  --type-event: #0b3d91;
-  --type-club: #7ec8ff;
-  --type-rental: #4a6fa5;
-  --type-gto: #c9a06b;
-}
-:root {
-  --sport-run: #e8622c;
-  --sport-swim: #1a8fd6;
-  --sport-bike: #2f9e54;
-  --sport-ofp: #9b5de5;
-  --sport-strength: #d6485b;
-  --sport-gto: #c9a06b;
-  --sport-general: var(--type-me);
-}
-:root {
-  --st-confirmed: var(--success);
-  --st-pending: var(--yellow);
-  --st-open: #0b3d91;
-  --st-done: var(--meta);
-  --st-cancelled: var(--danger);
-}
-:root {
-  --gto-bronze: #c9a06b;
-  --gto-silver: #a9b6c9;
-  --gto-gold: var(--yellow);
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--surface-warm);
-  color: var(--fg);
-  font-family: var(--font-body);
-  line-height: var(--leading-body);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-button { font-family: inherit; }
-a { color: inherit; }
-
-.app {
-  position: relative;
-  z-index: 1;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 0 calc(100px + env(safe-area-inset-bottom));
-  min-height: 100vh;
-}
-
-/* ── Шапка ─────────────────────────────────────────────────────────── */
-.hd {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 28px 12px 18px;
-}
-@media (min-width: 560px) { .hd { padding: 40px 24px 22px; } }
-.avatar {
-  flex: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--accent-on);
-  background: var(--accent);
-}
-.hd-txt { flex: 1; min-width: 0; }
-.hd h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  line-height: 1.3;
-  color: var(--fg);
-}
-.hd-sub { margin: 2px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
-.hd-acts { display: flex; gap: 8px; flex: none; }
-.icon-btn {
-  position: relative;
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--fg-2);
-  cursor: pointer;
-  text-decoration: none;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.icon-btn:hover { background: var(--surface-2); }
-.icon-btn:active { background: var(--surface-2); }
-.icon-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.icon-btn svg { width: 22px; height: 22px; }
-.icon-btn.is-accent { background: var(--accent); color: var(--accent-on); }
-.icon-btn.is-accent:hover { background: var(--accent-hover); }
-.icon-btn.is-accent:active { background: var(--accent-active); }
-.notif {
-  position: absolute;
-  z-index: 2;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 3px;
-  box-sizing: border-box;
-  border-radius: var(--radius-pill);
-  background: var(--danger);
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 700;
-  line-height: 16px;
-  text-align: center;
-}
-.icon-btn .notif { top: 4px; right: 2px; }
-
-/* ── Фильтры-чипсы ────────────────────────────────────────────────── */
+/* Фильтры: горизонтальный скролл */
 .chips {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
+  display: flex; gap: var(--space-2); overflow-x: auto;
+  padding: var(--space-3) var(--space-3) 0;
   scrollbar-width: none;
-  padding: 0 12px 10px;
 }
-@media (min-width: 560px) { .chips { padding: 0 24px 12px; } }
 .chips::-webkit-scrollbar { display: none; }
-.chip {
-  position: relative;
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 38px;
-  padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--fg-2);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
-}
-.chip:hover { background: var(--surface-2); }
-.chip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.chip-dot {
-  flex: none;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--c);
-  opacity: 0.45;
-  transition: opacity var(--motion-fast) var(--ease-standard);
-}
-.chip.is-on {
-  color: color-mix(in srgb, var(--c) 100%, var(--fg) 25%);
-  background: color-mix(in srgb, var(--c) 12%, var(--surface));
-  border-color: color-mix(in srgb, var(--c) 45%, var(--border));
-}
-.chip.is-on .chip-dot { opacity: 1; }
+@media (min-width: 560px) { .chips { padding-left: var(--space-6); padding-right: var(--space-6); } }
+.chips > .fchip { flex: none; }
+.fchip .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--meta)); }
+.fchip.is-on .dot { background: var(--accent-on); }
 
-/* ── Кнопка фильтра статусов ──────────────────────────────────────── */
-.filter-row { display: flex; align-items: center; gap: 10px; padding: 0 12px 4px; }
-@media (min-width: 560px) { .filter-row { padding: 0 24px 6px; } }
+.filter-row { padding: var(--space-3) var(--space-3) var(--space-2); }
+@media (min-width: 560px) { .filter-row { padding-left: var(--space-6); padding-right: var(--space-6); } }
 .filter-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 40px;
-  padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--fg-2);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  height: var(--h-sm); padding: 0 var(--space-4);
+  border: 1px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--surface); color: var(--fg-2);
+  font-family: inherit; font-size: var(--fs-meta); font-weight: 600;
   cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
+  transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
 }
 .filter-btn:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.filter-btn:active { transform: scale(0.98); }
 .filter-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.filter-btn .f-ic { width: 16px; height: 16px; color: var(--accent); flex: none; }
+.filter-btn .f-ic { width: var(--icon-sm); height: var(--icon-sm); color: var(--accent); flex: none; }
 .filter-btn .f-chev { width: 13px; height: 13px; color: var(--meta); flex: none; }
-.filter-btn .f-hint {
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: var(--meta);
-}
+.filter-btn .f-hint { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--fs-caption); font-weight: 500; color: var(--meta); }
 
-/* ── Тело ──────────────────────────────────────────────────────────── */
-/* ── Поиск (раскрывающийся) ─────────────────────────────────────────── */
+/* Поиск: раскрытие под шапкой */
 .search-wrap {
-  max-height: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  overflow: hidden;
-  transition:
-    max-height var(--motion-base) var(--ease-standard),
-    opacity var(--motion-fast) var(--ease-standard),
-    visibility 0s linear var(--motion-base);
+  overflow: hidden; max-height: 0; opacity: 0; transform: translateY(-6px);
+  transition: max-height var(--motion-base) var(--ease-standard),
+              opacity var(--motion-base) var(--ease-standard),
+              transform var(--motion-base) var(--ease-standard);
 }
-.search-wrap.is-open {
-  max-height: 76px;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition:
-    max-height var(--motion-base) var(--ease-standard),
-    opacity var(--motion-fast) var(--ease-standard),
-    visibility 0s;
+.search-wrap.is-open { max-height: 84px; opacity: 1; transform: none; margin: var(--space-2) 0 var(--space-3); }
+.search-clear {
+  flex: none; width: 40px; height: 40px;
+  border: 0; background: none; color: var(--meta);
+  display: grid; place-items: center; cursor: pointer;
 }
-.searchbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 10px 0 4px;
-  padding: 0 12px;
-  height: 40px;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-}
-.searchbar-ic { flex: none; width: 17px; height: 17px; color: var(--meta); }
-.searchbar input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  background: none;
-  font-family: inherit;
-  font-size: 15px;
-  color: var(--fg);
-  outline: none;
-}
-.searchbar input::placeholder { color: var(--meta); }
-.searchbar input::-webkit-search-cancel-button { display: none; }
-.searchbar-clear {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--surface-2);
-  color: var(--fg-2);
-  cursor: pointer;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--motion-fast) var(--ease-standard);
-}
-.searchbar-clear svg { width: 12px; height: 12px; }
-.searchbar-clear:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.search-wrap.has-text .searchbar-clear { opacity: 1; pointer-events: auto; }
-@media (prefers-reduced-motion: reduce) { .search-wrap { transition: none; } }
+.search-clear svg { width: var(--icon-sm); height: var(--icon-sm); }
+.search-clear:hover { color: var(--fg-2); }
+.search-clear:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: 50%; }
 
-.body { padding: 4px 12px 0; }
-@media (min-width: 560px) { .body { padding: 4px 24px 0; } }
+/* Календарь: кнопки навигации */
+.cal-nav .icon-btn-sm { width: 36px; height: 36px; }
+.cal-nav .prev svg { transform: rotate(180deg); }
 
-/* ── Календарь ────────────────────────────────────────────────────── */
-.cal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 14px 10px 10px;
-}
-.cal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2px 6px 10px;
-}
-.cal-month {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-}
-.cal-nav { display: flex; gap: 6px; }
-.nav-btn {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface-warm);
-  color: var(--fg-2);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.nav-btn:hover { background: var(--surface-2); }
-.nav-btn:active { background: var(--surface-2); }
-.nav-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.nav-btn svg { width: 16px; height: 16px; }
-.nav-btn.prev svg { transform: rotate(180deg); }
+/* День и карточки */
+.day { margin-top: var(--space-8); }
+.day-head { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-1) var(--space-3); }
+.day-head h2 { flex: 1; min-width: 0; margin: 0; font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; letter-spacing: var(--tracking-display); text-transform: uppercase; }
+.sec-count { flex: none; font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 600; color: var(--meta); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); }
+.cards { display: grid; gap: var(--space-3); }
+.ev-card { animation: card-in 0.28s var(--ease-standard) both; animation-delay: calc(var(--i, 0) * 40ms); }
+@keyframes card-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.ev-card.is-link { cursor: pointer; transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard); }
+.ev-card.is-link:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.ev-card.is-link:active { transform: scale(0.99); animation: none; }
 
-.cal-week,
-.cal-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-.cal-week { padding-bottom: 4px; }
-.cal-grid { row-gap: 4px; }
-.cal-wd {
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--meta);
-  padding: 6px 0;
-}
-.cal-cell {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  width: 44px;
-  height: 44px;
-  margin: 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--fg);
-  cursor: pointer;
-  transition: border-color var(--motion-fast) var(--ease-standard),
-              background var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard),
-              box-shadow var(--motion-fast) var(--ease-standard);
-}
-@media (max-width: 340px) { .cal-cell { width: 38px; height: 38px; } }
-.cal-cell:hover { border-color: var(--border-strong); background: var(--surface-2); }
-.cal-cell:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.cal-cell.is-other { opacity: 0.4; }
-.cal-num {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1;
-  padding: 0 2px;
-}
-.cal-cell.is-today {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
-  color: var(--accent);
-}
-.cal-cell.is-today .cal-num { font-weight: 700; }
-.cal-cell.is-sel {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-on);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, var(--surface));
-}
-.cal-cell.is-sel .cal-num { font-weight: 700; }
-.cal-dots {
-  display: flex;
-  gap: 2px;
-  height: 6px;
-  align-items: center;
-}
-.cal-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--c);
-}
-.cal-cell.is-sel .cal-dot { background: #fff; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
-
-/* ── События дня ──────────────────────────────────────────────────── */
-.day { margin-top: 28px; }
-.day-head { display: flex; align-items: center; gap: 12px; padding: 0 2px 14px; }
-.day-head h2 {
-  margin: 0;
-  flex: 1;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-}
-.sec-count {
-  flex: none;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--meta);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  padding: 3px 9px;
-  font-variant-numeric: tabular-nums;
-}
-.cards { display: grid; gap: 12px; }
-.empty {
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-lg);
-  padding: 26px 16px;
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-.empty b { display: block; font-size: 15px; font-weight: 600; color: var(--fg-2); margin-bottom: 3px; }
-
-.ev-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--surface);
-  border-left: 3px solid var(--c, var(--border));
-  border-radius: var(--radius-lg);
-  padding: 12px 14px;
-  animation: rise 0.5s var(--ease-standard) both;
-  animation-delay: calc(var(--i, 0) * 60ms);
-}
-@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
-@media (prefers-reduced-motion: reduce) { .ev-card { animation: none; } }
-.ev-card.is-link { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.ev-card.is-link:hover { background: var(--surface-2); }
-.ev-main { flex: 1; min-width: 0; }
-.ev-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--fg);
-}
-.ev-card.is-link .ev-title { color: var(--fg); }
-.ev-meta { margin: 3px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
-.ev-meta b { font-weight: 600; color: var(--fg-2); font-variant-numeric: tabular-nums; }
-.ev-badges { flex: none; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 44%; }
-.ev-badge {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--c);
-  background: color-mix(in srgb, var(--c) 12%, var(--surface));
-  border-radius: 7px;
-  padding: 3px 8px;
-}
-.ev-badge .b-dot { flex: none; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
-.ev-chev { flex: none; color: var(--meta); display: grid; place-items: center; }
-.ev-chev svg { width: 16px; height: 16px; }
-
-/* ── Шиты ──────────────────────────────────────────────────────────── */
-.scrim {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  opacity: 0;
-  transition: opacity var(--motion-base) var(--ease-standard);
-  z-index: 40;
-  pointer-events: none;
-}
-.scrim.open { opacity: 1; pointer-events: auto; }
-.sheet {
-  position: fixed;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%) translateY(105%);
-  transition: transform var(--motion-base) var(--ease-standard);
-  width: 100%;
-  max-width: var(--container-max);
-  background: var(--surface-warm);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  border: 1px solid var(--border);
-  border-bottom: 0;
-  padding: 10px 16px calc(16px + env(safe-area-inset-bottom));
-  z-index: 50;
-}
-.sheet.open { transform: translateX(-50%) translateY(0); }
-@media (min-width: 560px) { .sheet { bottom: 24px; border-radius: var(--radius-lg); border-bottom: 1px solid var(--border); box-shadow: var(--elev-raised); } }
-.sheet-grab { width: 40px; height: 5px; border-radius: var(--radius-pill); background: var(--border-strong); margin: 0 auto 12px; }
-.sheet-head { display: flex; align-items: center; gap: 8px; padding: 4px 4px 8px; }
-.sheet-title {
-  margin: 0;
-  flex: 1;
-  min-width: 0;
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-.sheet-close {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--fg-2);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.sheet-close:hover { background: var(--surface-2); }
-.sheet-close:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.sheet-close svg { width: 15px; height: 15px; }
-.sheet-cancel {
-  margin-top: 8px;
-  width: 100%;
-  border: 0;
-  border-radius: var(--radius-md);
-  background: var(--surface-2);
-  color: var(--fg-2);
-  font-size: 15px;
-  font-weight: 600;
-  padding: 13px;
-  cursor: pointer;
-}
-.sheet-cancel:hover { background: var(--surface); }
-.sheet-cancel:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.sheet-primary {
-  margin-top: 8px;
-  width: 100%;
-  border: 0;
-  border-radius: var(--radius-md);
-  background: var(--accent);
-  color: var(--accent-on);
-  font-size: 15px;
-  font-weight: 700;
-  padding: 13px;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.sheet-primary:hover { background: var(--accent-hover); }
-.sheet-primary:active { background: var(--accent-active); }
-.sheet-primary:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-
-/* ── Шторка статусов ──────────────────────────────────────────────── */
-.stat-list { display: flex; flex-direction: column; gap: 2px; }
-.stat-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 48px;
-  padding: 0 8px;
-  border-radius: var(--radius-md);
-}
-.stat-row:hover { background: var(--surface-2); }
-.stat-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
-.stat-name { flex: 1; font-size: 15px; font-weight: 500; color: var(--fg); }
-.switch {
-  position: relative;
-  flex: none;
-  width: 48px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--border-strong);
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.switch:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.switch .knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--accent-on);
-  transition: transform var(--motion-fast) var(--ease-standard);
-}
-.switch.on { background: var(--accent); }
-.switch.on .knob { transform: translateX(20px); }
-
-/* ── Форма создания события ───────────────────────────────────────── */
-.add-form { display: grid; gap: 14px; padding-top: 4px; }
-.add-field { display: grid; gap: 6px; }
-.add-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--meta);
-}
-.add-input {
-  width: 100%;
-  height: 46px;
-  padding: 0 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  color: var(--fg);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  transition: border-color var(--motion-fast) var(--ease-standard);
-}
-.add-input::placeholder { color: var(--meta); }
-.add-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus-ring); }
-.add-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.add-types,
-.add-statuses { display: flex; flex-wrap: wrap; gap: 8px; }
-.add-type,
-.add-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--fg-2);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
-}
-.add-type:hover,
-.add-status:hover { background: var(--surface-2); }
-.add-type:focus-visible,
-.add-status:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.add-type.is-on,
-.add-status.is-on {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-on);
-}
-.add-type .t-dot,
-.add-status .s-dot {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c);
-}
-.add-type.is-on .t-dot,
-.add-status.is-on .s-dot { background: #fff; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
-
-/* ── Таб-бар: плавающая «капсула» ─────────────────────────────────── */
-.tabbar {
-  position: fixed;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  width: calc(100% - 24px);
-  max-width: calc(var(--container-max) - 24px);
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-  z-index: 30;
-}
-.tab {
-  position: relative;
-  border: 0;
-  background: none;
-  text-decoration: none;
-  display: grid;
-  place-items: center;
-  padding: 5px 0;
-  color: var(--meta);
-  cursor: pointer;
-  border-radius: var(--radius-md);
-}
-.tab svg { width: 24px; height: 24px; }
-.tab-ic { position: relative; display: grid; place-items: center; }
-.tab-ic .notif { top: -6px; right: -8px; }
-.tab.is-on { color: var(--accent); }
-.tab.is-on svg {
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  border-radius: var(--radius-pill);
-  padding: 7px;
-  width: 42px;
-  height: 42px;
-  box-sizing: border-box;
-}
-.tab:not(.is-on):active { color: var(--fg-2); }
-.tab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-
-/* ── Плавающая кнопка «+» ──────────────────────────────────────────── */
-.fab {
-  position: fixed;
-  right: 20px;
-  bottom: calc(96px + env(safe-area-inset-bottom));
-  width: 56px;
-  height: 56px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-on);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  z-index: 20;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.24);
-  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-}
-.fab:hover { background: var(--accent-hover); box-shadow: 0 10px 24px rgba(0,0,0,0.28); }
-.fab:active { transform: scale(0.94); background: var(--accent-active); }
-.fab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.fab svg { width: 26px; height: 26px; }
-
-/* ── Тост ──────────────────────────────────────────────────────────── */
-.toast-wrap {
-  position: fixed;
-  left: 50%;
-  bottom: 100px;
-  transform: translateX(-50%);
-  display: grid;
-  gap: 8px;
-  z-index: 70;
-  width: max-content;
-  max-width: calc(100vw - 40px);
-}
-.toast {
-  background: var(--fg);
-  color: var(--bg);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
-  box-shadow: var(--elev-raised);
-  animation: toast-in 0.3s var(--ease-standard) both;
-}
-.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
-@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
-
-@media (prefers-reduced-motion: reduce) {
-  .ev-card { animation: none; }
-  .toast { animation: none; }
-}
-body.no-scroll { overflow: hidden; }
-
-/* ── План тренировок ───────────────────────────────────────────────── */
-.view-tabs { padding: 4px 12px 6px; }
-@media (min-width: 560px) { .view-tabs { padding: 6px 24px 8px; } }
-.view-tabs .chips { padding: 0; }
-
-.plan-body { padding: 2px 16px 0; }
-@media (min-width: 560px) { .plan-body { padding: 6px 24px 0; } }
-.plan-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.plan-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: var(--fg);
-}
-.plan-sub { margin: 3px 0 0; font-size: 13.5px; color: var(--muted); }
-.plan-time { width: 104px; display: grid; gap: 5px; }
-
+/* План тренировок */
+.plan-body { padding-top: var(--space-3); }
+.plan-head { display: flex; align-items: flex-end; gap: var(--space-3); }
+.plan-head-txt { flex: 1; min-width: 0; }
+.plan-title { margin: 0; font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; letter-spacing: var(--tracking-display); text-transform: uppercase; }
+.plan-sub { margin: var(--space-1) 0 0; font-size: var(--fs-meta); color: var(--meta); }
+.plan-time { flex: none; width: 116px; }
+.plan-time .input { height: var(--h-sm); font-size: var(--fs-meta); padding: 0 var(--space-3); }
+.plan-days { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
 .plan-day {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  margin-bottom: 8px;
-  padding: 13px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  text-align: left;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard);
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); text-align: left; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
 }
-.plan-day:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.plan-day:hover { background: var(--surface-2); }
+.plan-day:active { transform: scale(0.995); }
 .plan-day:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.plan-day-name {
-  flex: none;
-  width: 34px;
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--fg);
-}
+.plan-day.is-empty { border-style: dashed; }
+.plan-day-name { flex: none; width: 108px; font-size: var(--fs-meta); font-weight: 700; color: var(--fg-2); }
 .plan-day-main { flex: 1; min-width: 0; }
-.plan-day-tpl {
-  display: block;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--fg);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.plan-day-line { display: flex; align-items: center; gap: 7px; }
-.plan-sport-dot {
-  flex: none;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-}
-.plan-day-time {
-  display: block;
-  font-size: 12.5px;
-  color: var(--muted);
-  margin-top: 1px;
-  font-variant-numeric: tabular-nums;
-}
+.plan-day-line { display: flex; align-items: center; gap: var(--space-2); min-width: 0; }
+.plan-sport-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+.plan-day-tpl { display: block; font-size: var(--fs-body); font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .plan-day.is-empty .plan-day-tpl { color: var(--meta); font-weight: 500; }
+.plan-day-time { display: block; margin-top: 2px; font-size: var(--fs-meta); color: var(--meta); }
 .plan-day-chev { flex: none; color: var(--meta); display: grid; place-items: center; }
-.plan-day-chev svg { width: 16px; height: 16px; }
+.plan-day-chev svg { width: var(--icon-sm); height: var(--icon-sm); }
+.plan-actions { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
+.plan-hint { margin: var(--space-3) var(--space-1) 0; font-size: var(--fs-meta); line-height: 1.5; color: var(--meta); }
 
-.plan-actions { display: grid; gap: 8px; margin-top: 16px; }
-.plan-cta {
-  height: 50px;
-  border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--accent);
-  color: var(--accent-on);
-  font-family: inherit;
-  font-size: 15.5px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.plan-cta:hover { background: var(--accent-hover); }
-.plan-cta:active { background: var(--accent-active); }
-.plan-cta:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.plan-cta[disabled] { opacity: 0.5; cursor: default; pointer-events: none; }
-.plan-remove {
-  height: 46px;
-  border: 1px solid rgba(255,77,77,0.4);
-  border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--danger) 6%, var(--surface));
-  color: var(--danger);
-  font-family: inherit;
-  font-size: 14.5px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.plan-remove:hover { background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
-.plan-remove:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.plan-hint {
-  margin: 12px 2px 0;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--meta);
-}
-
-.plan-picker { display: grid; gap: 8px; padding-top: 2px; }
+/* Шторка выбора шаблона */
+.plan-picker { display: grid; gap: var(--space-2); padding-top: 2px; }
+.plan-pick-group { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-2) 2px 0; font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .plan-pick-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  text-align: left;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard),
-              border-color var(--motion-fast) var(--ease-standard);
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); text-align: left; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
 }
 .plan-pick-row:hover { background: var(--surface-2); }
+.plan-pick-row:active { transform: scale(0.995); }
 .plan-pick-row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.plan-pick-row.is-on {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
-}
+.plan-pick-row.is-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
 .plan-pick-main { flex: 1; min-width: 0; }
-.plan-pick-name { font-size: 15px; font-weight: 600; color: var(--fg); }
-.plan-pick-count { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+.plan-pick-name { display: block; font-size: var(--fs-body); font-weight: 600; color: var(--fg); }
+.plan-pick-count { display: block; margin-top: 1px; font-size: var(--fs-meta); color: var(--meta); }
 .plan-pick-check { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border-strong); color: transparent; display: grid; place-items: center; transition: all var(--motion-fast) var(--ease-standard); }
-.plan-pick-row.is-on .plan-pick-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+.plan-pick-row.is-on .plan-pick-check { background: var(--accent); border-color: var(--accent); color: var(--accent-on); }
 .plan-pick-check svg { width: 13px; height: 13px; }
-.plan-coach-tag {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 2px 7px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  vertical-align: 1px;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
-}
+.plan-coach-tag { display: inline-block; margin-left: var(--space-2); padding: 2px 7px; border-radius: var(--radius-pill); font-size: var(--fs-caption); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; vertical-align: 1px; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface)); }
 
-.plan-pick-group {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin: 6px 2px 0;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.plan-pick-group:first-child { margin-top: 0; }
-
-.load-preview { margin-top: 12px; }
-.load-note {
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--meta);
-  padding: 2px 2px 6px;
-}
-.load-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 2px;
-  border-bottom: 1px solid var(--border-soft);
-  font-size: 13.5px;
-}
+/* Загрузка плана в календарь */
+.load-preview { margin-top: var(--space-2); }
+.load-note { font-size: var(--fs-meta); line-height: 1.5; color: var(--meta); padding: var(--space-1) var(--space-1) var(--space-2); }
+.load-count { display: block; font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2); padding: 0 var(--space-1) var(--space-2); }
+.load-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-1); border-bottom: 1px solid var(--border-soft); font-size: var(--fs-meta); }
 .load-row:last-child { border-bottom: 0; }
-.lr-date {
-  flex: none;
-  width: 128px;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-.lr-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--type-me); }
+.lr-date { flex: none; width: 128px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.lr-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--type-training); }
 .lr-tpl { flex: 1; min-width: 0; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .load-row.is-skip .lr-dot { background: var(--meta); }
 .load-row.is-skip .lr-tpl { color: var(--meta); font-weight: 500; text-decoration: line-through; }
 .load-row.is-skip .lr-date { color: var(--meta); }
-.load-count {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--fg-2);
-  padding: 0 2px 4px;
+
+/* Статусы: переключатели */
+.stat-list { padding-top: var(--space-1); }
+.stat-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-1); }
+.stat-dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.stat-name { flex: 1; min-width: 0; font-size: var(--fs-body); font-weight: 500; color: var(--fg); }
+.switch {
+  flex: none; position: relative; width: 44px; height: 26px;
+  border: 0; border-radius: var(--radius-pill);
+  background: var(--border-strong); cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
 }
+.switch.on { background: var(--accent); }
+.switch .knob { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(18, 33, 59, 0.3); transition: transform var(--motion-fast) var(--ease-standard); }
+.switch.on .knob { transform: translateX(18px); }
+.switch:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* Меню события: опасные действия */
+.sheet-item.is-danger .sheet-ic { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
+.sheet-item.is-danger .sheet-il { color: var(--danger); }
+
+/* FAB «добавить» */
+.fab {
+  position: fixed; right: 20px; bottom: calc(96px + env(safe-area-inset-bottom));
+  width: 56px; height: 56px; border: 0; border-radius: 50%;
+  background: var(--accent); color: var(--accent-on);
+  display: grid; place-items: center; cursor: pointer; z-index: 20;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+  transition: transform var(--motion-fast) var(--ease-standard), background var(--motion-fast) var(--ease-standard);
+}
+.fab:hover { background: var(--accent-hover); }
+.fab:active { transform: scale(0.94); background: var(--accent-active); }
+.fab:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.fab svg { width: 24px; height: 24px; }
 </style>
 </head>
 <body data-od-id="schedule-calendar">
@@ -1065,24 +194,16 @@ body.no-scroll { overflow: hidden; }
   <symbol id="ic-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6.5V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5M7 6.5l.8 12a1.5 1.5 0 0 0 1.5 1.4h5.4a1.5 1.5 0 0 0 1.5-1.4l.8-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10.5v6M14 10.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8c-1.3 0-2.6-.3-3.7-.8L4 20l1.3-4.3A8 8 0 1 1 20 11.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-share" viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-grid" viewBox="0 0 24 24"><path d="M4 8.5L12 3l8 5.5v7L12 21l-8-5.5v-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 8.5l8 5.5 8-5.5M12 14v7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4 1.1-2.2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
   <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="1.1" fill="currentColor"/></symbol>
-  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M9.2 12l-3-6.3 4.4.9M14.8 12l3-6.3-4.4.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13.8" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
   <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-scan" viewBox="0 0 24 24"><path d="M3.5 7.5V5.5A2 2 0 0 1 5.5 3.5h2M16.5 3.5h2a2 2 0 0 1 2 2v2M20.5 16.5v2a2 2 0 0 1-2 2h-2M7.5 20.5h-2a2 2 0 0 1-2-2v-2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 12h9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
-  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="ic-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 5.5H5a0 0 0 0 0 0 0v1.5A3 3 0 0 0 8 10M16 5.5h3a0 0 0 0 1 0 0V7a3 3 0 0 1-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 13v3M8.5 20h7M9.5 16h5l.5 4h-6l.5-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
-  <symbol id="ic-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 11a6 6 0 0 0 12 0M12 17v3M9 20h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="ic-run" viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M13 8l-2 3 2 2 1.5 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11L7.5 8.5M13 13l3 2M16 15l1 5M6.5 8.5L8 5.5 5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-sliders" viewBox="0 0 24 24"><path d="M4.5 7h15M4.5 12h15M4.5 17h15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="10" cy="7" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/><circle cx="15" cy="12" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/><circle cx="8.5" cy="17" r="2.2" fill="#fff" stroke="currentColor" stroke-width="1.9"/></symbol>
   <symbol id="ic-chev-up" viewBox="0 0 24 24"><path d="M6 14l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
@@ -1092,7 +213,7 @@ body.no-scroll { overflow: hidden; }
     <div class="avatar" aria-hidden="true">И</div>
     <div class="hd-txt">
       <h1>Расписание</h1>
-      <p class="hd-sub">События, тренировки и план ГТО</p>
+      <p class="sub">События, тренировки и план ГТО</p>
     </div>
     <div class="hd-acts">
       <button type="button" class="icon-btn" data-search-toggle aria-label="Поиск по расписанию"><svg aria-hidden="true"><use href="#ic-search"/></svg></button>
@@ -1101,9 +222,9 @@ body.no-scroll { overflow: hidden; }
   </header>
 
   <div class="view-tabs" data-od-id="view-tabs">
-    <div class="chips" id="view-tabs" role="tablist" aria-label="Вид">
-      <button type="button" class="chip is-on" id="tab-cal" style="--c: var(--accent)" role="tab" aria-selected="true" data-od-id="view-cal">Календарь</button>
-      <button type="button" class="chip" id="tab-plan" style="--c: var(--accent)" role="tab" aria-selected="false" data-od-id="view-plan">План тренировок</button>
+    <div class="seg" role="tablist" aria-label="Вид">
+      <button type="button" class="seg-btn is-active" id="tab-cal" role="tab" aria-selected="true" data-od-id="view-cal">Календарь</button>
+      <button type="button" class="seg-btn" id="tab-plan" role="tab" aria-selected="false" data-od-id="view-plan">План тренировок</button>
     </div>
   </div>
 
@@ -1120,18 +241,19 @@ body.no-scroll { overflow: hidden; }
 
   <main class="body">
     <div class="search-wrap" id="search-wrap" data-od-id="schedule-search">
-      <div class="searchbar" role="search">
-        <svg class="searchbar-ic" aria-hidden="true"><use href="#ic-search"/></svg>
+      <div class="search-field" role="search">
+        <svg aria-hidden="true"><use href="#ic-search"/></svg>
         <input id="search-input" type="search" placeholder="Поиск по расписанию" aria-label="Поиск по событиям" autocomplete="off">
-        <button type="button" class="searchbar-clear" id="search-clear" aria-label="Очистить поиск"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+        <button type="button" class="search-clear" id="search-clear" aria-label="Очистить поиск"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
       </div>
     </div>
+
     <section class="cal" data-od-id="calendar">
       <div class="cal-head">
         <h2 class="cal-month" id="cal-month">Июнь 2026</h2>
         <div class="cal-nav">
-          <button class="nav-btn prev" id="prev" aria-label="Предыдущий месяц"><svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
-          <button class="nav-btn next" id="next" aria-label="Следующий месяц"><svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
+          <button type="button" class="icon-btn-sm prev" id="prev" aria-label="Предыдущий месяц"><svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
+          <button type="button" class="icon-btn-sm next" id="next" aria-label="Следующий месяц"><svg aria-hidden="true"><use href="#ic-chev"/></svg></button>
         </div>
       </div>
       <div class="cal-week" id="week"></div>
@@ -1148,19 +270,19 @@ body.no-scroll { overflow: hidden; }
 
     <section class="plan-body" id="plan-view" style="display:none" data-od-id="plan-view">
       <div class="plan-head">
-        <div>
+        <div class="plan-head-txt">
           <h2 class="plan-title">Недельный план</h2>
           <p class="plan-sub" id="plan-summary"></p>
         </div>
         <div class="plan-time">
-          <label class="add-label" for="plan-time">Время</label>
-          <input class="add-input" id="plan-time" type="time" value="19:00" aria-label="Время тренировок по плану">
+          <label class="field-label" for="plan-time">Время</label>
+          <input class="input" id="plan-time" type="time" value="19:00" aria-label="Время тренировок по плану">
         </div>
       </div>
       <div class="plan-days" id="plan-days"></div>
       <div class="plan-actions">
-        <button type="button" class="plan-cta" id="plan-load" data-od-id="plan-load">Загрузить в календарь</button>
-        <button type="button" class="plan-remove" id="plan-remove" style="display:none" data-od-id="plan-remove">Убрать план из календаря</button>
+        <button type="button" class="btn btn-accent btn-lg btn-block" id="plan-load" data-od-id="plan-load">Загрузить в календарь</button>
+        <button type="button" class="btn btn-danger btn-block" id="plan-remove" style="display:none" data-od-id="plan-remove">Убрать план из календаря</button>
       </div>
       <p class="plan-hint" id="plan-hint">Шаблоны из «Моей тренировки» появляются здесь автоматически.</p>
     </section>
@@ -1181,44 +303,6 @@ body.no-scroll { overflow: hidden; }
   <button type="button" class="sheet-primary" id="sheet-done" data-od-id="status-sheet-done">Готово</button>
 </div>
 
-<div class="sheet" id="add-sheet" role="dialog" aria-modal="true" aria-label="Новое событие" data-od-id="add-sheet">
-  <div class="sheet-grab" aria-hidden="true"></div>
-  <div class="sheet-head">
-    <h3 class="sheet-title">Новое событие</h3>
-    <button type="button" class="sheet-close" id="add-close" aria-label="Закрыть форму"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
-  </div>
-  <form class="add-form" id="add-form" novalidate>
-    <div class="add-field">
-      <label class="add-label" for="add-title">Название</label>
-      <input class="add-input" id="add-title" type="text" placeholder="Например: Плавание" maxlength="60" required>
-    </div>
-    <div class="add-field">
-      <span class="add-label">Тип</span>
-      <div class="add-types" id="add-types"></div>
-    </div>
-    <div class="add-row">
-      <div class="add-field">
-        <label class="add-label" for="add-date">Дата</label>
-        <input class="add-input" id="add-date" type="date" required>
-      </div>
-      <div class="add-field">
-        <label class="add-label" for="add-time">Время</label>
-        <input class="add-input" id="add-time" type="text" placeholder="18:00 – 19:30">
-      </div>
-    </div>
-    <div class="add-field">
-      <label class="add-label" for="add-place">Место</label>
-      <input class="add-input" id="add-place" type="text" placeholder="Например: Тренажёрный зал">
-    </div>
-    <div class="add-field">
-      <span class="add-label">Статус</span>
-      <div class="add-statuses" id="add-statuses"></div>
-    </div>
-    <button type="submit" class="sheet-primary add-save" data-od-id="add-save">Добавить</button>
-    <button type="button" class="sheet-cancel" id="add-cancel">Отмена</button>
-  </form>
-</div>
-
 <div class="sheet" id="plan-sheet" role="dialog" aria-modal="true" aria-label="Выбор шаблона на день" data-od-id="plan-day-sheet">
   <div class="sheet-grab" aria-hidden="true"></div>
   <div class="sheet-head">
@@ -1235,21 +319,30 @@ body.no-scroll { overflow: hidden; }
     <button type="button" class="sheet-close" id="load-close" aria-label="Закрыть загрузку"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
   </div>
   <div class="chips" id="load-period">
-    <button type="button" class="chip is-on" data-w="2" style="--c: var(--accent)">2 недели</button>
-    <button type="button" class="chip" data-w="4" style="--c: var(--accent)">4 недели</button>
-    <button type="button" class="chip" data-w="8" style="--c: var(--accent)">8 недель</button>
+    <button type="button" class="fchip is-on" data-w="2" style="--c: var(--accent)">2 недели</button>
+    <button type="button" class="fchip" data-w="4" style="--c: var(--accent)">4 недели</button>
+    <button type="button" class="fchip" data-w="8" style="--c: var(--accent)">8 недель</button>
   </div>
   <div class="load-preview" id="load-preview"></div>
   <button type="button" class="sheet-primary" id="load-go" data-od-id="plan-load-go">Добавить в календарь</button>
   <button type="button" class="sheet-cancel" id="load-cancel">Отмена</button>
 </div>
 
+<div class="sheet" id="menu-sheet" role="dialog" aria-modal="true" aria-label="Меню события" data-od-id="event-menu-sheet">
+  <div class="sheet-grab" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <h3 class="sheet-title" id="menu-title">Событие</h3>
+    <button type="button" class="sheet-close" id="menu-close" aria-label="Закрыть меню"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
+  </div>
+  <div class="sheet-list" id="menu-list"></div>
+</div>
+
 <nav class="tabbar" data-od-id="tabbar" aria-label="Разделы">
-  <a class="tab" href="home-athlete-brand.html" aria-label="Главная"><svg aria-hidden="true"><use href="#ic-home"/></svg></a>
-  <button class="tab is-on" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"/></svg><span class="notif" aria-hidden="true">3</span></span></button>
-  <a class="tab" href="trainings.html" aria-label="Тренировки"><svg aria-hidden="true"><use href="#ic-trend"/></svg></a>
-  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><svg aria-hidden="true"><use href="#ic-users"/></svg></button>
-  <a class="tab" href="profile.html" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"/></svg></a>
+  <a class="tab" href="home-v2.html" aria-label="Главная"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-home"/></svg></span>Главная</a>
+  <button class="tab is-on" aria-label="Расписание"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-events"/></svg><span class="notif" aria-hidden="true">3</span></span>Расписание</button>
+  <a class="tab" href="trainings.html" aria-label="Тренировки"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-trend"/></svg></span>Тренировки</a>
+  <button class="tab" data-toast="Сообщество — в следующей итерации" aria-label="Сообщество"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-users"/></svg></span>Сообщество</button>
+  <a class="tab" href="profile-v2.html" aria-label="Профиль"><span class="tab-ic"><svg aria-hidden="true"><use href="#ic-user"/></svg></span>Профиль</a>
 </nav>
 
 <div class="toast-wrap" id="toasts" aria-live="polite"></div>
@@ -1261,15 +354,16 @@ body.no-scroll { overflow: hidden; }
   var MONTHS = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
                 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
-  var TYPES = {
-    me:      { label: 'Тренировка', token: '--type-me' },
-    trainer: { label: 'С тренером', token: '--type-trainer' },
-    event:   { label: 'Ивент',      token: '--type-event' },
-    club:    { label: 'Клуб',       token: '--type-club' },
-    rental:  { label: 'Аренда',     token: '--type-rental' },
-    gto:     { label: 'ГТО',        token: '--type-gto' }
+  /* Категории события (канон design-system.html §06) */
+  var CATS = {
+    training: { label: 'Тренировка', token: '--type-training' },
+    event:    { label: 'Ивент',      token: '--type-event' },
+    club:     { label: 'Клуб',       token: '--type-club' },
+    rental:   { label: 'Аренда',     token: '--type-rental' },
+    gto:      { label: 'ГТО',        token: '--sport-gto' }
   };
-  var TYPE_ORDER = ['me', 'gto', 'trainer', 'rental', 'club', 'event'];
+  var CAT_ORDER = ['training', 'gto', 'rental', 'club', 'event'];
+
   var STATUSES = {
     confirmed: { label: 'Подтверждено', token: '--st-confirmed' },
     pending:   { label: 'Ожидает',      token: '--st-pending' },
@@ -1279,51 +373,50 @@ body.no-scroll { overflow: hidden; }
   };
 
   var FILTERS = [
-    { id: 'all',     label: 'Все',         token: '--st-done' },
-    { id: 'me',      label: 'Тренировки',  token: '--type-me' },
-    { id: 'gto',     label: 'ГТО',         token: '--type-gto' },
-    { id: 'trainer', label: 'С тренером',  token: '--type-trainer' },
-    { id: 'rental',  label: 'Аренда',      token: '--type-rental' },
-    { id: 'club',    label: 'Клубы',       token: '--type-club' },
-    { id: 'event',   label: 'Ивенты',      token: '--type-event' }
+    { id: 'all',      label: 'Все',        token: '--st-done' },
+    { id: 'training', label: 'Тренировки', token: '--type-training' },
+    { id: 'gto',      label: 'ГТО',        token: '--sport-gto' },
+    { id: 'rental',   label: 'Аренда',     token: '--type-rental' },
+    { id: 'club',     label: 'Клубы',      token: '--type-club' },
+    { id: 'event',    label: 'Ивенты',     token: '--type-event' }
   ];
 
   var STATUS_ORDER = ['pending', 'confirmed', 'open', 'done', 'cancelled'];
 
   var EVENTS = [
-    { y: 2026, m: 5, d: 15, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 16, type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 18, type: 'club',    title: 'Вечерняя пробежка клуба',     time: '19:00 – 20:30', place: 'Парк Победы',      status: 'open' },
-    { y: 2026, m: 5, d: 20, type: 'event',   title: 'Летний Кубок Петровского',    time: '10:00 – 18:00', place: 'Стадион «Центральный»', status: 'open' },
-    { y: 2026, m: 5, d: 21, type: 'me',      sport: 'swim',     title: 'Тренировка по плаванию',      time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 21, type: 'event',   title: 'Турнир по бадминтону',        time: '14:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
-    { y: 2026, m: 5, d: 22, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 23, type: 'me',      sport: 'run',      title: 'Лёгкая атлетика',             time: '07:30 – 09:00', place: 'Стадион',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 24, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 25, type: 'me',      sport: 'swim',     title: 'Плавание',                    time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 26, type: 'me',      sport: 'run',      title: 'Кросс',                       time: '19:00 – 20:00', place: 'Парк',             status: 'confirmed' },
-    { y: 2026, m: 5, d: 27, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 5, d: 28, type: 'me',      sport: 'run',      title: 'Лёгкая атлетика',             time: '08:00 – 09:30', place: 'Стадион',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 28, type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
-    { y: 2026, m: 5, d: 30, type: 'trainer', title: 'ГТО: силовая подготовка',     time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'pending' },
-    { y: 2026, m: 6, d: 3,  type: 'rental',  title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
-    { y: 2026, m: 6, d: 5,  type: 'event',   title: 'Кубок района',                time: '11:00 – 16:00', place: 'Стадион',          status: 'open' },
-    { y: 2026, m: 6, d: 12, type: 'me',      sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 6, d: 19, type: 'club',    title: 'Клубный турнир',              time: '15:00 – 18:00', place: 'Спорткомплекс',    status: 'open' },
-    { y: 2026, m: 6, d: 26, type: 'event',   title: 'Итоги сезона',                time: '12:00 – 15:00', place: 'ДК «Петровское»', status: 'open' },
-    { y: 2026, m: 6, d: 26, type: 'me',      sport: 'general',  title: 'Тренировка',                  time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
-    { y: 2026, m: 7, d: 9,  type: 'club',    title: 'Вечерняя пробежка',           time: '19:00 – 20:30', place: 'Парк',             status: 'open' },
-    { y: 2026, m: 7, d: 23, type: 'event',   title: 'Турнир по бадминтону',        time: '12:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
-    { y: 2026, m: 5, d: 1,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
-    { y: 2026, m: 5, d: 3,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
-    { y: 2026, m: 5, d: 5,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 1',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
-    { y: 2026, m: 5, d: 8,  type: 'gto',     title: 'ГТО · Подтягивания · неделя 2',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
-    { y: 2026, m: 5, d: 10, type: 'gto',     title: 'ГТО · Подтягивания · неделя 2',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
-    { y: 2026, m: 5, d: 12, type: 'gto',     title: 'ГТО · Подтягивания · неделя 2',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
-    { y: 2026, m: 5, d: 15, type: 'gto',     title: 'ГТО · Подтягивания · неделя 3',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
-    { y: 2026, m: 5, d: 17, type: 'gto',     title: 'ГТО · Подтягивания · неделя 3',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
-    { y: 2026, m: 5, d: 19, type: 'gto',     title: 'ГТО · Подтягивания · неделя 3',  time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
-    { y: 2026, m: 8, d: 12, type: 'gto',     title: 'ГТО · Сдача норматива · Подтягивания', time: '10:00 – 11:00', place: 'Стадион «Центральный»', status: 'pending', to: 'gto-test.html' }
+    { y: 2026, m: 5, d: 15, type: 'training', sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 16, type: 'rental',   title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 18, type: 'club',     title: 'Вечерняя пробежка клуба',     time: '19:00 – 20:30', place: 'Парк Победы',      status: 'open' },
+    { y: 2026, m: 5, d: 20, type: 'event',    title: 'Летний Кубок Петровского',    time: '10:00 – 18:00', place: 'Стадион «Центральный»', status: 'open' },
+    { y: 2026, m: 5, d: 21, type: 'training', sport: 'swim',     title: 'Тренировка по плаванию',      time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 21, type: 'event',    title: 'Турнир по бадминтону',        time: '14:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
+    { y: 2026, m: 5, d: 22, type: 'training', sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 23, type: 'training', sport: 'run',      title: 'Лёгкая атлетика',             time: '07:30 – 09:00', place: 'Стадион',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 24, type: 'training', sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 25, type: 'training', sport: 'swim',     title: 'Плавание',                    time: '09:00 – 10:30', place: 'Бассейн',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 26, type: 'training', sport: 'run',      title: 'Кросс',                       time: '19:00 – 20:00', place: 'Парк',             status: 'confirmed' },
+    { y: 2026, m: 5, d: 27, type: 'training', sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 5, d: 28, type: 'training', sport: 'run',      title: 'Лёгкая атлетика',             time: '08:00 – 09:30', place: 'Стадион',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 28, type: 'rental',   title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
+    { y: 2026, m: 5, d: 30, type: 'training', sport: 'strength', fmt: 'С тренером', title: 'ГТО: силовая подготовка', time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'pending' },
+    { y: 2026, m: 6, d: 3,  type: 'rental',   title: 'Аренда зала',                 time: '20:00 – 22:00', place: 'Зал № 1',          status: 'confirmed' },
+    { y: 2026, m: 6, d: 5,  type: 'event',    title: 'Кубок района',                time: '11:00 – 16:00', place: 'Стадион',          status: 'open' },
+    { y: 2026, m: 6, d: 12, type: 'training', sport: 'strength', title: 'Силовая тренировка',          time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 6, d: 19, type: 'club',     title: 'Клубный турнир',              time: '15:00 – 18:00', place: 'Спорткомплекс',    status: 'open' },
+    { y: 2026, m: 6, d: 26, type: 'event',    title: 'Итоги сезона',                time: '12:00 – 15:00', place: 'ДК «Петровское»', status: 'open' },
+    { y: 2026, m: 6, d: 26, type: 'training', sport: 'general',  title: 'Тренировка',                  time: '18:00 – 19:30', place: 'Тренажёрный зал', status: 'confirmed' },
+    { y: 2026, m: 7, d: 9,  type: 'club',     title: 'Вечерняя пробежка',           time: '19:00 – 20:30', place: 'Парк',             status: 'open' },
+    { y: 2026, m: 7, d: 23, type: 'event',    title: 'Турнир по бадминтону',        time: '12:00 – 17:00', place: 'Спорткомплекс',    status: 'open' },
+    { y: 2026, m: 5, d: 1,  type: 'gto',      title: 'ГТО · Подтягивания · неделя 1', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
+    { y: 2026, m: 5, d: 3,  type: 'gto',      title: 'ГТО · Подтягивания · неделя 1', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
+    { y: 2026, m: 5, d: 5,  type: 'gto',      title: 'ГТО · Подтягивания · неделя 1', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
+    { y: 2026, m: 5, d: 8,  type: 'gto',      title: 'ГТО · Подтягивания · неделя 2', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
+    { y: 2026, m: 5, d: 10, type: 'gto',      title: 'ГТО · Подтягивания · неделя 2', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
+    { y: 2026, m: 5, d: 12, type: 'gto',      title: 'ГТО · Подтягивания · неделя 2', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
+    { y: 2026, m: 5, d: 15, type: 'gto',      title: 'ГТО · Подтягивания · неделя 3', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 1 },
+    { y: 2026, m: 5, d: 17, type: 'gto',      title: 'ГТО · Подтягивания · неделя 3', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 3 },
+    { y: 2026, m: 5, d: 19, type: 'gto',      title: 'ГТО · Подтягивания · неделя 3', time: '18:00 – 19:00', place: 'Турники на стадионе', status: 'confirmed', to: 'gto-plan.html', gtoDay: 5 },
+    { y: 2026, m: 8, d: 12, type: 'gto',      title: 'ГТО · Сдача норматива · Подтягивания', time: '10:00 – 11:00', place: 'Стадион «Центральный»', status: 'pending', to: 'gto-test.html' }
   ];
 
   var now = new Date();
@@ -1337,7 +430,7 @@ body.no-scroll { overflow: hidden; }
     selected: { y: 2026, m: 5, d: 15 }
   };
 
-  /* ── Библиотека шаблонов и хранилища (общие с create-event) ──────── */
+  /* ── Хранилища и шаблоны (общие с create-event) ──────────────────── */
   var TPL_KEY = 'ce_templates';
   var PLAN_KEY = 'ce_plan';
   var EVT_KEY = 'ce_events';
@@ -1376,7 +469,17 @@ body.no-scroll { overflow: hidden; }
     try { return JSON.parse(localStorage.getItem(EVT_KEY)) || []; } catch (e) { return []; }
   }
   function saveOverlayEvents(arr) { localStorage.setItem(EVT_KEY, JSON.stringify(arr)); }
-  function allEvents() { return EVENTS.concat(overlayEvents()); }
+  function normalize(e) {
+    if (!e || (e.type !== 'me' && e.type !== 'trainer')) return e;
+    return {
+      y: e.y, m: e.m, d: e.d,
+      type: 'training',
+      title: e.title, time: e.time, place: e.place, status: e.status,
+      sport: e.sport || 'general', to: e.to, plan: e.plan, gtoDay: e.gtoDay,
+      fmt: e.type === 'trainer' ? 'С тренером' : e.fmt
+    };
+  }
+  function allEvents() { return EVENTS.concat(overlayEvents().map(normalize)); }
 
   function loadPlan() {
     try { return JSON.parse(localStorage.getItem(PLAN_KEY)) || null; } catch (e) { return null; }
@@ -1398,12 +501,8 @@ body.no-scroll { overflow: hidden; }
     t.className = 'toast';
     t.textContent = msg;
     wrap.appendChild(t);
-    setTimeout(function () {
-      t.classList.add('hide');
-      setTimeout(function () { t.remove(); }, 260);
-    }, 2200);
+    setTimeout(function () { t.remove(); }, 2200);
   }
-
   document.addEventListener('click', function (ev) {
     var t = ev.target.closest('[data-toast]');
     if (t) { toast(t.getAttribute('data-toast')); return; }
@@ -1416,11 +515,12 @@ body.no-scroll { overflow: hidden; }
   function visibleEvents(y, m, d) {
     var q = state.query.trim().toLowerCase();
     return eventsFor(y, m, d).filter(function (e) {
+      var cat = CATS[e.type] || CATS.event;
       var hit = !q ||
         e.title.toLowerCase().indexOf(q) >= 0 ||
-        (TYPES[e.type] && TYPES[e.type].label.toLowerCase().indexOf(q) >= 0) ||
+        cat.label.toLowerCase().indexOf(q) >= 0 ||
         (e.place || '').toLowerCase().indexOf(q) >= 0;
-      var sportHit = state.sport === 'all' || (e.type === 'me' && sportOf(e) === state.sport);
+      var sportHit = state.sport === 'all' || (e.type === 'training' && sportOf(e) === state.sport);
       return hit &&
         (state.filter === 'all' || e.type === state.filter) &&
         sportHit &&
@@ -1453,9 +553,10 @@ body.no-scroll { overflow: hidden; }
     box.innerHTML = '';
     FILTERS.forEach(function (f) {
       var b = document.createElement('button');
-      b.className = 'chip' + (state.filter === f.id ? ' is-on' : '');
+      b.className = 'fchip' + (state.filter === f.id ? ' is-on' : '');
+      b.type = 'button';
       b.style.setProperty('--c', 'var(' + f.token + ')');
-      b.innerHTML = '<span class="chip-dot" aria-hidden="true"></span>' + f.label;
+      b.innerHTML = '<span class="dot" aria-hidden="true"></span>' + f.label;
       b.addEventListener('click', function () {
         state.filter = f.id;
         refreshViews();
@@ -1465,7 +566,7 @@ body.no-scroll { overflow: hidden; }
   }
   function renderSportChips() {
     var box = document.getElementById('sport-chips');
-    var visible = state.filter === 'all' || state.filter === 'me';
+    var visible = state.filter === 'all' || state.filter === 'training';
     box.style.display = visible ? '' : 'none';
     if (!visible) return;
     box.innerHTML = '';
@@ -1473,9 +574,10 @@ body.no-scroll { overflow: hidden; }
     SPORT_ORDER.forEach(function (s) { list.push({ id: s, label: SPORTS[s].label, token: SPORTS[s].token }); });
     list.forEach(function (f) {
       var b = document.createElement('button');
-      b.className = 'chip' + (state.sport === f.id ? ' is-on' : '');
+      b.className = 'fchip' + (state.sport === f.id ? ' is-on' : '');
+      b.type = 'button';
       b.style.setProperty('--c', 'var(' + (f.token || '--st-done') + ')');
-      b.innerHTML = '<span class="chip-dot" aria-hidden="true"></span>' + f.label;
+      b.innerHTML = '<span class="dot" aria-hidden="true"></span>' + f.label;
       b.addEventListener('click', function () {
         state.sport = f.id;
         refreshViews();
@@ -1493,6 +595,7 @@ body.no-scroll { overflow: hidden; }
       '<span class="stat-name">Все</span>';
     var ms = document.createElement('button');
     ms.className = 'switch' + (allStatusesOn() ? ' on' : '');
+    ms.type = 'button';
     ms.setAttribute('role', 'switch');
     ms.setAttribute('aria-checked', allStatusesOn() ? 'true' : 'false');
     ms.setAttribute('aria-label', 'Все статусы');
@@ -1514,6 +617,7 @@ body.no-scroll { overflow: hidden; }
         '<span class="stat-name">' + st.label + '</span>';
       var sw = document.createElement('button');
       sw.className = 'switch' + (state.statusOn[s] ? ' on' : '');
+      sw.type = 'button';
       sw.setAttribute('role', 'switch');
       sw.setAttribute('aria-checked', state.statusOn[s] ? 'true' : 'false');
       sw.setAttribute('aria-label', st.label);
@@ -1543,8 +647,8 @@ body.no-scroll { overflow: hidden; }
     var keys = [];
     function push(k) { if (keys.indexOf(k) < 0) keys.push(k); }
     evs.forEach(function (e) {
-      if (e.type === 'me') push('sport:' + sportOf(e));
-      else if (TYPES[e.type]) push('type:' + e.type);
+      if (e.type === 'training') push('sport:' + sportOf(e));
+      else if (CATS[e.type]) push('type:' + e.type);
     });
     return keys;
   }
@@ -1553,7 +657,7 @@ body.no-scroll { overflow: hidden; }
       var sp = SPORTS[k.slice(6)] || SPORTS.general;
       return 'var(' + sp.token + ')';
     }
-    return 'var(' + TYPES[k.slice(5)].token + ')';
+    return 'var(' + CATS[k.slice(5)].token + ')';
   }
   function renderCalendar() {
     var y = state.viewY, m = state.viewM;
@@ -1603,21 +707,15 @@ body.no-scroll { overflow: hidden; }
       num.textContent = cd;
       cell.appendChild(num);
 
-      if (keys.length) {
-        var dots = document.createElement('span');
-        dots.className = 'cal-dots';
-        keys.slice(0, 3).forEach(function (k) {
-          var dot = document.createElement('i');
-          dot.className = 'cal-dot';
-          dot.style.setProperty('--c', dotColor(k));
-          dots.appendChild(dot);
-        });
-        cell.appendChild(dots);
-      } else {
-        var pad = document.createElement('span');
-        pad.className = 'cal-dots';
-        cell.appendChild(pad);
-      }
+      var dots = document.createElement('span');
+      dots.className = 'cal-dots';
+      keys.slice(0, 3).forEach(function (k) {
+        var dot = document.createElement('i');
+        dot.className = 'cal-dot';
+        dot.style.setProperty('--c', dotColor(k));
+        dots.appendChild(dot);
+      });
+      cell.appendChild(dots);
 
       var isToday = cy === now.getFullYear() && cm === now.getMonth() && cd === now.getDate();
       var isSel = state.selected && state.selected.y === cy && state.selected.m === cm && state.selected.d === cd;
@@ -1646,7 +744,7 @@ body.no-scroll { overflow: hidden; }
     if (!state.selected) {
       title.textContent = 'Выберите день';
       count.textContent = '';
-      list.innerHTML = '<div class="empty"><b>Выберите день</b>Нажмите на число в календаре — здесь появятся события</div>';
+      list.innerHTML = '<div class="empty"><b>Выберите день</b><span>Нажмите на число в календаре — здесь появятся события</span></div>';
       return;
     }
 
@@ -1662,39 +760,58 @@ body.no-scroll { overflow: hidden; }
       var why = state.query.trim()
         ? 'По вашему запросу ничего не найдено'
         : (state.filter !== 'all' || !allStatusesOn() ? 'События скрыты текущими фильтрами' : 'В этот день ничего не запланировано');
-      list.innerHTML = '<div class="empty"><b>Событий нет</b>' + why + '</div>';
+      list.innerHTML = '<div class="empty"><b>Событий нет</b><span>' + why + '</span></div>';
       return;
     }
 
     list.innerHTML = '';
     evs.forEach(function (e, i) {
-      var type = TYPES[e.type];
-      var status = STATUSES[e.status];
+      var cat = CATS[e.type] || CATS.event;
+      var status = STATUSES[e.status] || STATUSES.open;
       var row = document.createElement('div');
-      row.className = 'ev-card' + (e.to ? ' is-link' : '');
-      row.style.setProperty('--c', 'var(' + type.token + ')');
+      row.className = 'ev-card is-link';
+      row.style.setProperty('--c', 'var(' + cat.token + ')');
       row.style.setProperty('--i', i);
-      if (e.to) row.setAttribute('data-od-id', 'ev-' + e.type);
-      row.innerHTML =
-        '<div class="ev-main">' +
-          '<h3 class="ev-title">' + e.title + '</h3>' +
-          '<p class="ev-meta">' + e.time + ' · ' + e.place + '</p>' +
-        '</div>' +
-        '<div class="ev-badges">' +
-          (e.type === 'me'
-            ? '<span class="ev-badge" style="--c: var(--sport-' + sportOf(e) + ')"><i class="b-dot"></i>' + sportLabel(e) + '</span>'
-            : '<span class="ev-badge" style="--c: var(' + type.token + ')">' + type.label + '</span>') +
-          (e.status === 'open'
-            ? ''
-            : '<span class="ev-badge" style="--c: var(' + status.token + ')"><i class="b-dot"></i>' + status.label + '</span>') +
-          (e.plan ? '<span class="ev-badge" style="--c: var(--accent)">План</span>' : '') +
-        '</div>' +
-        (e.to
-          ? '<span class="ev-chev" aria-hidden="true"><svg><use href="#ic-chev"/></svg></span>'
-          : '');
-      if (e.to) {
-        row.addEventListener('click', function () { location.href = e.to; });
+      row.setAttribute('data-od-id', 'ev-' + e.type);
+
+      var fmts = '';
+      if (e.type === 'training') {
+        fmts = '<div class="ev-fmts"><span class="gchip" style="--c: var(--accent)">' + (e.fmt || 'Личная') + '</span></div>';
+      } else if (e.type === 'gto') {
+        fmts = '<div class="ev-fmts"><span class="gchip" style="--c: var(--sport-gto)">С тренером</span></div>';
       }
+
+      var avatars = '';
+      if (e.status !== 'open') {
+        if (e.type === 'gto' || e.fmt === 'С тренером') {
+          avatars = '<div class="ev-avatars"><span class="ev-ava is-coach" style="--c: var(--sport-gto)"><svg class="ev-coach-badge" aria-hidden="true"><use href="#ic-star"/></svg>Т</span></div>';
+        } else {
+          avatars = '<div class="ev-avatars"><span class="ev-ava is-you">И</span></div>';
+        }
+      }
+
+      row.innerHTML =
+        '<header class="ev-top">' +
+          '<div class="ev-title-row"><h3 class="ev-title">' + e.title + '</h3></div>' +
+          '<button type="button" class="ev-menu" aria-label="Меню события" aria-haspopup="dialog" aria-expanded="false"><svg aria-hidden="true"><use href="#ic-dots"/></svg></button>' +
+          '<span class="ev-badge ev-badge-status' + (e.status === 'pending' ? ' is-pending' : '') + '" style="--c: var(' + status.token + ')"><i class="ev-bdot" aria-hidden="true"></i>' + status.label + '</span>' +
+        '</header>' +
+        fmts +
+        '<p class="ev-meta"><b>' + e.time + '</b>' + (e.place ? ' · ' + e.place : '') + '</p>' +
+        '<footer class="ev-foot">' +
+          avatars +
+          '<span class="ev-badge" style="--c: var(' + cat.token + ')">' + cat.label + '</span>' +
+        '</footer>';
+
+      var menuBtn = row.querySelector('.ev-menu');
+      menuBtn.addEventListener('click', function (ev) {
+        ev.stopPropagation();
+        renderMenu(e, menuBtn);
+      });
+      row.addEventListener('click', function () {
+        if (e.to) location.href = e.to;
+        else renderMenu(e);
+      });
       list.appendChild(row);
     });
   }
@@ -1707,8 +824,8 @@ body.no-scroll { overflow: hidden; }
   function setView(v) {
     viewMode = v;
     var isPlan = v === 'plan';
-    document.getElementById('tab-cal').classList.toggle('is-on', !isPlan);
-    document.getElementById('tab-plan').classList.toggle('is-on', isPlan);
+    document.getElementById('tab-cal').classList.toggle('is-active', !isPlan);
+    document.getElementById('tab-plan').classList.toggle('is-active', isPlan);
     document.getElementById('tab-cal').setAttribute('aria-selected', isPlan ? 'false' : 'true');
     document.getElementById('tab-plan').setAttribute('aria-selected', isPlan ? 'true' : 'false');
     document.getElementById('plan-view').style.display = isPlan ? '' : 'none';
@@ -1776,23 +893,24 @@ body.no-scroll { overflow: hidden; }
   /* ── Шиты: единый механизм ───────────────────────────────────────── */
   var scrim = document.getElementById('scrim');
   var statusSheet = document.getElementById('status-sheet');
-  var addSheet = document.getElementById('add-sheet');
   var planSheet = document.getElementById('plan-sheet');
   var loadSheet = document.getElementById('load-sheet');
-  var sheets = [statusSheet, addSheet, planSheet, loadSheet];
+  var menuSheet = document.getElementById('menu-sheet');
+  var sheets = [statusSheet, planSheet, loadSheet, menuSheet];
 
   function openSheet(el) {
-    closeSheet();
+    closeSheet(false);
     el.classList.add('open');
     scrim.classList.add('open');
     document.body.classList.add('no-scroll');
-    document.getElementById('filter-open').setAttribute('aria-expanded', 'false');
   }
-  function closeSheet() {
+  function closeSheet(resetAria) {
     sheets.forEach(function (s) { s.classList.remove('open'); });
     scrim.classList.remove('open');
     document.body.classList.remove('no-scroll');
-    document.getElementById('filter-open').setAttribute('aria-expanded', 'false');
+    [].forEach.call(document.querySelectorAll('.ev-menu[aria-expanded="true"]'), function (b) {
+      b.setAttribute('aria-expanded', 'false');
+    });
   }
   scrim.addEventListener('click', closeSheet);
   document.addEventListener('keydown', function (e) {
@@ -1824,13 +942,11 @@ body.no-scroll { overflow: hidden; }
   });
   searchInput.addEventListener('input', function () {
     state.query = searchInput.value;
-    searchWrap.classList.toggle('has-text', !!state.query.trim());
     refreshViews();
   });
   searchClear.addEventListener('click', function () {
     state.query = '';
     searchInput.value = '';
-    searchWrap.classList.remove('has-text');
     refreshViews();
     searchInput.focus();
   });
@@ -1841,89 +957,84 @@ body.no-scroll { overflow: hidden; }
     openSheet(statusSheet);
     this.setAttribute('aria-expanded', 'true');
   });
-  document.getElementById('sheet-close').addEventListener('click', closeSheet);
-  document.getElementById('sheet-done').addEventListener('click', closeSheet);
+  document.getElementById('sheet-close').addEventListener('click', function () { closeSheet(); });
+  document.getElementById('sheet-done').addEventListener('click', function () { closeSheet(); });
 
-  /* ── Форма создания события ─────────────────────────────────────── */
-  var addType = 'me';
-  var addStatus = 'confirmed';
+  /* ── Меню события ────────────────────────────────────────────────── */
+  function menuFor(e) {
+    var isTraining = e.type === 'training';
+    var isClosed = e.status === 'done' || e.status === 'cancelled';
+    var items = [];
+    function push(icon, label, hint, fn, danger) {
+      items.push({ icon: icon, label: label, hint: hint, fn: fn, danger: !!danger });
+    }
+    if (isClosed) {
+      push('ic-check', e.status === 'cancelled' ? 'Событие отменено' : 'Событие завершено',
+        'Действия недоступны', null, false);
+      return items;
+    }
+    if (isTraining) {
+      push('ic-edit', 'Редактировать', 'Название и место', function () { toast('Редактирование появится в деталях тренировки'); });
+      push('ic-clock', 'Изменить время', null, function () { toast('Время меняется в деталях тренировки'); });
+      push('ic-check', 'Начать тренировку', 'Если есть план', function () { location.href = 'training-active.html'; });
+      push('ic-share', 'Поделиться', null, function () { toast('Ссылка скопирована'); });
+      push('ic-scan', 'QR-код входа', null, function () { toast('QR-код — в сканере профиля'); });
+      push('ic-trash', 'Отменить / Удалить', 'Доступно до начала', function () { toast('Тренировка отменена (демо)'); }, true);
+      return items;
+    }
+    if (e.type === 'gto') {
+      if (e.to) push('ic-target', 'Цель и нормативы', null, function () { location.href = e.to; });
+      push('ic-share', 'Поделиться', null, function () { toast('Ссылка скопирована'); });
+      push('ic-trash', 'Убрать из расписания', null, function () { toast('Убрано из расписания (демо)'); }, true);
+      return items;
+    }
+    if (e.type === 'club') {
+      if (e.status === 'open') push('ic-plus', 'Записаться', null, function () { toast('Запись отправлена'); });
+      else push('ic-users', 'Кто идёт', null, function () { toast('Участники (демо)'); });
+      push('ic-chat', 'Клубный чат', 'Чат в мини-приложении ВКонтакте', function () { toast('Чат клуба (демо)'); });
+      push('ic-share', 'Поделиться', null, function () { toast('Ссылка скопирована'); });
+      push('ic-trash', 'Покинуть клуб', null, function () { toast('Вы вышли из клуба (демо)'); }, true);
+      return items;
+    }
+    if (e.status === 'open') push('ic-plus', 'Записаться', null, function () { toast('Запись отправлена'); });
+    else push('ic-users', 'Кто идёт', null, function () { toast('Участники (демо)'); });
+    push('ic-share', 'Поделиться', null, function () { toast('Ссылка скопирована'); });
+    if (e.type === 'rental') push('ic-trash', 'Отменить бронь', 'Доступно до начала', function () { toast('Бронь отменена (демо)'); }, true);
+    else push('ic-trash', 'Отменить участие', null, function () { toast('Участие отменено (демо)'); }, true);
+    return items;
+  }
 
-  function renderAddPickers() {
-    var tb = document.getElementById('add-types');
-    tb.innerHTML = '';
-    TYPE_ORDER.forEach(function (t) {
+  var menuTitle = document.getElementById('menu-title');
+  var menuList = document.getElementById('menu-list');
+  function renderMenu(e, menuBtn) {
+    menuTitle.textContent = e.title;
+    menuList.innerHTML = '';
+    menuFor(e).forEach(function (it) {
       var b = document.createElement('button');
       b.type = 'button';
-      b.className = 'add-type' + (addType === t ? ' is-on' : '');
-      b.style.setProperty('--c', 'var(' + TYPES[t].token + ')');
-      b.innerHTML = '<span class="t-dot" aria-hidden="true"></span>' + TYPES[t].label;
-      b.addEventListener('click', function () { addType = t; renderAddPickers(); });
-      tb.appendChild(b);
+      b.className = 'sheet-item' + (it.danger ? ' is-danger' : '');
+      b.innerHTML =
+        '<span class="sheet-ic"><svg aria-hidden="true"><use href="#' + it.icon + '"/></svg></span>' +
+        '<span class="sheet-it"><span class="sheet-il">' + it.label + '</span>' +
+        (it.hint ? '<span class="sheet-ih">' + it.hint + '</span>' : '') +
+        '</span>';
+      b.addEventListener('click', function () {
+        closeSheet();
+        if (it.fn) it.fn();
+      });
+      menuList.appendChild(b);
     });
-    var sb = document.getElementById('add-statuses');
-    sb.innerHTML = '';
-    STATUS_ORDER.forEach(function (s) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'add-status' + (addStatus === s ? ' is-on' : '');
-      b.style.setProperty('--c', 'var(' + STATUSES[s].token + ')');
-      b.innerHTML = '<span class="s-dot" aria-hidden="true"></span>' + STATUSES[s].label;
-      b.addEventListener('click', function () { addStatus = s; renderAddPickers(); });
-      sb.appendChild(b);
-    });
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
+    openSheet(menuSheet);
   }
+  document.getElementById('menu-close').addEventListener('click', function () { closeSheet(); });
 
-  function defaultAddDate() {
-    var base = state.selected || { y: state.viewY, m: state.viewM, d: 1 };
-    var p = function (n) { return (n < 10 ? '0' : '') + n; };
-    return base.y + '-' + p(base.m + 1) + '-' + p(base.d);
-  }
-
-  function openAddSheet() {
-    addType = 'me';
-    addStatus = 'confirmed';
-    renderAddPickers();
-    document.getElementById('add-title').value = '';
-    document.getElementById('add-date').value = defaultAddDate();
-    document.getElementById('add-time').value = '';
-    document.getElementById('add-place').value = '';
-    openSheet(addSheet);
-    document.getElementById('add-title').focus();
-  }
+  /* ── Добавить событие (FAB → create-event) ───────────────────────── */
   document.getElementById('add-open').addEventListener('click', function () {
     var p = function (n) { return (n < 10 ? '0' : '') + n; };
     var base = state.selected || { y: state.viewY, m: state.viewM, d: 1 };
     var d = base.y + '-' + p(base.m + 1) + '-' + p(base.d);
     location.href = 'create-event.html?date=' + d;
-  });
-  document.getElementById('add-close').addEventListener('click', closeSheet);
-  document.getElementById('add-cancel').addEventListener('click', closeSheet);
-
-  document.getElementById('add-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var title = document.getElementById('add-title').value.trim();
-    var dateVal = document.getElementById('add-date').value;
-    var time = document.getElementById('add-time').value.trim();
-    var place = document.getElementById('add-place').value.trim();
-    if (!title) { toast('Введите название события'); return; }
-    if (!dateVal) { toast('Укажите дату'); return; }
-    var parts = dateVal.split('-');
-    var ev = {
-      y: +parts[0], m: +parts[1] - 1, d: +parts[2],
-      type: addType, title: title,
-      time: time || 'Время уточняется', place: place || 'Место уточняется',
-      status: addStatus
-    };
-    if (addType === 'me') ev.sport = 'general';
-    var overlay = overlayEvents();
-    overlay.push(ev);
-    saveOverlayEvents(overlay);
-    state.viewY = ev.y;
-    state.viewM = ev.m;
-    state.selected = { y: ev.y, m: ev.m, d: ev.d };
-    closeSheet();
-    refreshViews();
-    toast('Событие добавлено');
   });
 
   /* ── Навигация по месяцам ───────────────────────────────────────── */
@@ -1996,7 +1107,7 @@ body.no-scroll { overflow: hidden; }
   /* ── План: загрузка в календарь ─────────────────────────────────── */
   var loadWeeks = 4;
   function renderPeriodChips() {
-    [].forEach.call(document.querySelectorAll('#load-period .chip'), function (b) {
+    [].forEach.call(document.querySelectorAll('#load-period .fchip'), function (b) {
       b.classList.toggle('is-on', +b.getAttribute('data-w') === loadWeeks);
     });
   }
@@ -2075,7 +1186,7 @@ body.no-scroll { overflow: hidden; }
       if (!first) first = pd;
       overlay.push({
         y: pd.y, m: pd.m, d: pd.d,
-        type: 'me', title: pd.tpl.name,
+        type: 'training', title: pd.tpl.name,
         time: timeRange(plan.time),
         place: 'По плану',
         status: 'confirmed',
@@ -2108,12 +1219,12 @@ body.no-scroll { overflow: hidden; }
   document.getElementById('tab-plan').addEventListener('click', function () { setView('plan'); });
   document.getElementById('plan-load').addEventListener('click', openLoadSheet);
   document.getElementById('plan-remove').addEventListener('click', removePlanEvents);
-  document.getElementById('plan-sheet-close').addEventListener('click', closeSheet);
-  document.getElementById('load-close').addEventListener('click', closeSheet);
-  document.getElementById('load-cancel').addEventListener('click', closeSheet);
+  document.getElementById('plan-sheet-close').addEventListener('click', function () { closeSheet(); });
+  document.getElementById('load-close').addEventListener('click', function () { closeSheet(); });
+  document.getElementById('load-cancel').addEventListener('click', function () { closeSheet(); });
   document.getElementById('load-go').addEventListener('click', doLoadPlan);
   document.getElementById('load-period').addEventListener('click', function (ev) {
-    var b = ev.target.closest('.chip');
+    var b = ev.target.closest('.fchip');
     if (!b) return;
     loadWeeks = +b.getAttribute('data-w');
     renderPeriodChips();

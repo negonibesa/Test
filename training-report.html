@@ -1,429 +1,164 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eaf4ff">
+<meta name="theme-color" content="#f8fbff">
 <title>Петровское СП — Итог тренировки</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Roboto+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
 <style>
-:root {
-  --bg: #eaf4ff;
-  --surface: #ffffff;
-  --surface-2: #eef6ff;
-  --surface-warm: #f5faff;
+/* ── Токены — в base.css (канон design-system.html) ────────────────── */
+.back svg { transform: rotate(180deg); }
 
-  --fg: #12213b;
-  --fg-2: #445269;
-  --muted: #78859b;
-  --meta: #99a4b7;
-
-  --border: rgba(18,33,59,0.08);
-  --border-soft: rgba(18,33,59,0.05);
-  --border-strong: rgba(18,33,59,0.16);
-
-  --accent: #1a86e0;
-  --accent-on: #ffffff;
-  --accent-hover: #2f97f0;
-  --accent-active: #1473c9;
-  --yellow: #ffc93c;
-  --yellow-on: #12213b;
-
-  --success: #2bb066;
-  --warn: #ffc93c;
-  --danger: #ff4d4d;
-
-  --type-me: #2f9e54;
-  --type-trainer: var(--yellow);
-
-  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
-
-  --leading-body: 1.5;
-  --tracking-display: 0.01em;
-  --tracking-caps: 0.08em;
-
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-pill: 980px;
-
-  --elev-raised: 0 16px 36px rgba(18,33,59,0.10);
-  --focus-ring: 0 0 0 4px rgba(26,134,224,0.30);
-
-  --motion-fast: 150ms;
-  --motion-base: 220ms;
-  --ease-standard: cubic-bezier(0.28,0,0.22,1);
-
-  --container-max: 700px;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--surface-warm);
-  color: var(--fg);
-  font-family: var(--font-body);
-  line-height: var(--leading-body);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-button { font-family: inherit; }
-a { color: inherit; }
-
-.app {
-  position: relative;
-  z-index: 1;
-  max-width: var(--container-max);
-  margin: 0 auto;
-  padding: 0 0 calc(108px + env(safe-area-inset-bottom));
-  min-height: 100vh;
-}
-
-/* ── Шапка ─────────────────────────────────────────────────────────── */
-.hd {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 28px 12px 22px;
-}
-@media (min-width: 560px) { .hd { padding: 40px 24px 26px; } }
-.hd-txt { flex: 1; min-width: 0; }
-.hd h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  line-height: 1.3;
-  text-transform: uppercase;
-  color: var(--fg);
-}
-.hd .sub { margin: 3px 0 0; font-size: 14px; line-height: 1.4; color: var(--muted); }
-
-/* ── Тело ──────────────────────────────────────────────────────────── */
-.body { padding: 0 12px; }
-@media (min-width: 560px) { .body { padding: 0 24px; } }
-
-/* ── Итоговая карточка ─────────────────────────────────────────────── */
-.summary {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  border-left: 3px solid var(--success);
-  padding: 20px 18px 18px;
-  text-align: center;
-  animation: rise 0.5s var(--ease-standard) both;
-}
+/* Итоговая карточка (карточка §06, левый цвет — --c) */
+.summary { text-align: center; animation: rise 0.5s var(--ease-standard) both; }
 @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .summary { animation: none; } }
 .sum-ic {
-  width: 68px;
-  height: 68px;
-  margin: 0 auto;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  color: var(--success);
-  background: color-mix(in srgb, var(--success) 16%, var(--surface));
+  width: 68px; height: 68px; margin: 0 auto; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--c); background: color-mix(in srgb, var(--c) 16%, var(--surface));
 }
 .sum-ic svg { width: 34px; height: 34px; }
 .sum-title {
-  margin: 14px 0 0;
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
+  margin: var(--space-4) 0 0; font-family: var(--font-display);
+  font-size: 22px; font-weight: 600; letter-spacing: var(--tracking-display); text-transform: uppercase;
+  line-height: 1.3;
 }
-.sum-sub { margin: 6px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.sum-sub { margin: var(--space-2) 0 0; font-size: var(--fs-meta); line-height: 1.45; color: var(--muted); }
 
 .sum-stats {
-  margin-top: 18px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  margin-top: var(--space-4);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2);
   text-align: left;
 }
-.sum-stat {
-  background: var(--surface-2);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-}
+.sum-stat { min-width: 0; background: var(--surface-2); border-radius: var(--radius-md); padding: var(--space-3) var(--space-3); }
 .sum-stat-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--meta);
+  font-size: var(--fs-caption); font-weight: 700; letter-spacing: var(--tracking-caps);
+  text-transform: uppercase; color: var(--meta);
 }
 .sum-stat-value {
-  margin-top: 6px;
-  font-family: var(--font-mono);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  font-variant-numeric: tabular-nums;
+  margin-top: var(--space-2); font-family: var(--font-mono);
+  font-size: 22px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums;
 }
-.sum-stat-value small { font-size: 13px; font-weight: 500; color: var(--muted); }
+.sum-stat-value small { font-size: var(--fs-meta); font-weight: 500; color: var(--muted); }
 
-/* ── Секции ────────────────────────────────────────────────────────── */
-.sec { margin-top: 32px; }
-.sec-head { display: flex; align-items: center; gap: 12px; padding: 0 2px 14px; }
-.sec-head h2 {
-  margin: 0; flex: 1;
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
+@media (max-width: 379px) {
+  .sum-stats { gap: var(--space-1); }
+  .sum-stat { padding: var(--space-2) var(--space-2); }
+  .sum-stat-value { font-size: 18px; }
+  .sum-stat-value small { font-size: var(--fs-caption); }
 }
 
-/* ── Упражнения ────────────────────────────────────────────────────── */
-.ex-list { display: grid; gap: 8px; }
+/* Упражнения */
+.ex-list { display: grid; gap: var(--space-2); }
 .ex-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--surface);
-  border-radius: var(--radius-md);
-  padding: 13px 16px;
+  display: flex; align-items: center; gap: var(--space-3);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
 }
 .ex-check {
-  flex: none;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
   border: 2px solid var(--border-strong);
-  display: grid;
-  place-items: center;
-  color: transparent;
+  display: grid; place-items: center; color: transparent;
 }
 .ex-row.is-done .ex-check { background: var(--success); border-color: var(--success); color: #fff; }
 .ex-check svg { width: 14px; height: 14px; }
 .ex-txt { flex: 1; min-width: 0; }
-.ex-name { display: block; font-size: 16px; font-weight: 600; color: var(--fg); }
+.ex-name { display: block; font-size: var(--fs-body); font-weight: 600; color: var(--fg); }
 .ex-row.is-done .ex-name { color: var(--meta); text-decoration: line-through; text-decoration-color: var(--border-strong); }
-.ex-sets { display: block; font-size: 13px; line-height: 1.4; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.ex-sets { display: block; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
 .ex-row.is-miss { opacity: 0.55; }
 
-/* ── Действия ──────────────────────────────────────────────────────── */
-.actions { display: grid; gap: 10px; margin-top: 0; }
+/* «Что дальше»: действия-карточки */
 .act {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  text-align: left;
-  background: var(--surface);
-  border: 0;
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%; text-align: left;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
   cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
 }
 .act:hover { background: var(--surface-2); }
+.act:active { background: var(--border-soft); }
 .act:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .act-ic {
-  flex: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 16%, var(--surface));
+  flex: none; width: 40px; height: 40px; border-radius: var(--radius-md);
+  display: grid; place-items: center;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 16%, var(--surface));
 }
 .act-ic.is-trainer { color: var(--yellow-on); background: color-mix(in srgb, var(--yellow) 40%, var(--surface)); }
-.act-ic svg { width: 20px; height: 20px; }
+.act-ic svg { width: var(--icon-md); height: var(--icon-md); }
 .act-txt { flex: 1; min-width: 0; }
-.act-title { display: block; font-size: 16px; font-weight: 600; color: var(--fg); }
-.act-sub { display: block; font-size: 13px; line-height: 1.4; color: var(--meta); margin-top: 1px; }
+.act-title { display: block; font-size: var(--fs-body); font-weight: 600; color: var(--fg); }
+.act-sub { display: block; font-size: var(--fs-meta); line-height: 1.4; color: var(--meta); margin-top: 1px; }
 .act-chev { flex: none; color: var(--meta); }
-.act-chev svg { width: 18px; height: 18px; }
+.act-chev svg { width: var(--icon-sm); height: var(--icon-sm); }
 
-.cta {
-  margin-top: 24px;
-  width: 100%;
-  border: 0;
-  border-radius: var(--radius-md);
-  background: var(--accent);
-  color: var(--accent-on);
-  font-size: 16px;
-  font-weight: 700;
-  padding: 14px;
-  cursor: pointer;
-  transition: background var(--motion-fast) var(--ease-standard);
-}
-.cta:hover { background: var(--accent-hover); }
-.cta:active { background: var(--accent-active); }
-.cta:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-
-/* ── Чат ───────────────────────────────────────────────────────────── */
-.scrim {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  opacity: 0;
-  transition: opacity var(--motion-base) var(--ease-standard);
-  z-index: 40;
-  pointer-events: none;
-}
-.scrim.open { opacity: 1; pointer-events: auto; }
-.chat-sheet {
-  position: fixed;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%) translateY(105%);
-  transition: transform var(--motion-base) var(--ease-standard);
-  width: 100%;
-  max-width: var(--container-max);
-  height: min(72vh, 560px);
-  display: flex;
-  flex-direction: column;
-  background: var(--surface-warm);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  border: 1px solid var(--border);
-  border-bottom: 0;
-  z-index: 50;
-}
-.chat-sheet.open { transform: translateX(-50%) translateY(0); }
-@media (min-width: 560px) { .chat-sheet { bottom: 24px; border-radius: var(--radius-lg); border-bottom: 1px solid var(--border); box-shadow: var(--elev-raised); } }
-.sheet-grab { width: 40px; height: 5px; border-radius: var(--radius-pill); background: var(--border-strong); margin: 10px auto 6px; flex: none; }
-.chat-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 16px 12px;
-  flex: none;
-}
+/* Чат с тренером: шторка-поверх базового sheet (§17) */
+.chat-sheet { display: flex; flex-direction: column; height: min(72vh, 560px); padding: var(--space-3) 0 calc(var(--space-4) + env(safe-area-inset-bottom)); }
+.chat-head { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-4) var(--space-3); flex: none; }
 .chat-ava {
-  flex: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--yellow-on);
-  background: var(--type-trainer);
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-size: var(--fs-body); font-weight: 600;
+  color: var(--yellow-on); background: var(--yellow);
 }
 .chat-txt { flex: 1; min-width: 0; }
-.chat-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-}
-.chat-sub { display: block; font-size: 12px; color: var(--meta); margin-top: 1px; }
+.chat-title { margin: 0; font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; letter-spacing: var(--tracking-display); text-transform: uppercase; }
+.chat-sub { display: block; font-size: var(--fs-caption); color: var(--meta); margin-top: 1px; }
 .chat-x {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--fg-2);
-  cursor: pointer;
+  flex: none; display: grid; place-items: center;
+  width: var(--h-md); height: var(--h-md); border: 0; border-radius: 50%;
+  background: var(--surface-2); color: var(--fg-2); cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
 }
-.chat-x:hover { background: var(--surface-2); }
+.chat-x:hover { background: var(--border-soft); }
+.chat-x:active { background: var(--border-strong); }
 .chat-x:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.chat-x svg { width: 18px; height: 18px; }
+.chat-x svg { width: var(--icon-sm); height: var(--icon-sm); }
 .chat-msgs {
-  flex: 1;
-  min-height: 0;
-  overflow: auto;
-  padding: 6px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex: 1; min-height: 0; overflow: auto;
+  padding: var(--space-2) var(--space-4);
+  display: flex; flex-direction: column; gap: var(--space-2);
 }
 .msg {
-  max-width: 82%;
-  padding: 10px 14px;
-  font-size: 15px;
-  line-height: 1.42;
-  border-radius: 16px;
+  max-width: 82%; padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-meta); line-height: 1.42; border-radius: var(--radius-md);
   animation: rise 0.3s var(--ease-standard) both;
 }
-.msg.is-in { align-self: flex-start; background: var(--surface); color: var(--fg); border-bottom-left-radius: 5px; }
+.msg.is-in { align-self: flex-start; background: var(--surface-2); color: var(--fg); border-bottom-left-radius: 5px; }
 .msg.is-out { align-self: flex-end; background: var(--accent); color: var(--accent-on); border-bottom-right-radius: 5px; }
-.chat-send {
-  flex: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px calc(12px + env(safe-area-inset-bottom));
+.chat-empty {
+  margin: auto; padding: var(--space-5) var(--space-4); text-align: center;
+  color: var(--meta); font-size: var(--fs-meta); line-height: 1.5;
 }
+.chat-empty svg { display: block; width: 26px; height: 26px; margin: 0 auto var(--space-2); opacity: 0.55; }
+.chat-empty b { display: block; font-weight: 600; color: var(--fg-2); }
+.chat-empty span { display: block; margin-top: var(--space-1); }
+.chat-send { flex: none; display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4) 0; }
 .chat-input {
-  flex: 1;
-  min-width: 0;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--fg);
-  font: inherit;
-  font-size: 15px;
-  padding: 11px 16px;
-  outline: none;
+  flex: 1; min-width: 0;
+  border: 1px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--surface); color: var(--fg); font: inherit; font-size: var(--fs-meta);
+  padding: var(--space-2) var(--space-4); outline: none; height: var(--h-md);
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
 }
 .chat-input:focus { border-color: var(--accent); box-shadow: var(--focus-ring); }
 .chat-input::placeholder { color: var(--meta); }
 .chat-btn {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--accent-on);
-  cursor: pointer;
+  flex: none; display: grid; place-items: center;
+  width: var(--h-md); height: var(--h-md); border: 0; border-radius: 50%;
+  background: var(--accent); color: var(--accent-on); cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
 }
 .chat-btn:hover { background: var(--accent-hover); }
+.chat-btn:active { background: var(--accent-active); }
 .chat-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.chat-btn svg { width: 20px; height: 20px; }
-
-/* ── Тост ──────────────────────────────────────────────────────────── */
-.toast-wrap {
-  position: fixed;
-  left: 50%;
-  bottom: 100px;
-  transform: translateX(-50%);
-  display: grid;
-  gap: 8px;
-  z-index: 70;
-  width: max-content;
-  max-width: calc(100vw - 40px);
-}
-.toast {
-  background: var(--fg);
-  color: var(--bg);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.35;
-  border-radius: var(--radius-pill);
-  padding: 10px 18px;
-  box-shadow: var(--elev-raised);
-  animation: toast-in 0.3s var(--ease-standard) both;
-}
-.toast.hide { animation: toast-out 0.25s var(--ease-standard) both; }
-@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes toast-out { to { opacity: 0; transform: translateY(8px); } }
-@media (prefers-reduced-motion: reduce) { .toast { animation: none; } }
-body.no-scroll { overflow: hidden; }
+.chat-btn svg { width: var(--icon-sm); height: var(--icon-sm); }
 </style>
 </head>
 <body data-od-id="training-report">
@@ -439,6 +174,7 @@ body.no-scroll { overflow: hidden; }
 
 <div class="app">
   <header class="hd" data-od-id="trn-report-header">
+    <a class="back" href="trainings.html" aria-label="К тренировкам" data-od-id="trn-report-back"><svg aria-hidden="true"><use href="#ic-chev"/></svg></a>
     <div class="hd-txt">
       <h1>Итог тренировки</h1>
       <p class="sub" id="meta"></p>
@@ -446,7 +182,7 @@ body.no-scroll { overflow: hidden; }
   </header>
 
   <main class="body">
-    <section class="summary" data-od-id="trn-summary">
+    <section class="summary ev-card" style="--c: var(--success)" data-od-id="trn-summary">
       <div class="sum-ic" aria-hidden="true"><svg><use href="#ic-check"/></svg></div>
       <h2 class="sum-title" id="sum-title"></h2>
       <p class="sum-sub" id="sum-sub"></p>
@@ -477,8 +213,8 @@ body.no-scroll { overflow: hidden; }
       <div class="sec-head">
         <h2>Что дальше</h2>
       </div>
-      <div class="actions">
-        <button type="button" class="act" id="act-chat" data-od-id="trn-ask-coach">
+      <div class="cards">
+        <button type="button" class="act" id="act-chat" data-od-id="trn-ask-coach" aria-haspopup="dialog" aria-expanded="false" aria-controls="chat-sheet">
           <span class="act-ic is-trainer" aria-hidden="true"><svg><use href="#ic-chat"/></svg></span>
           <span class="act-txt">
             <span class="act-title">Задать вопрос тренеру</span>
@@ -497,12 +233,12 @@ body.no-scroll { overflow: hidden; }
       </div>
     </section>
 
-    <button type="button" class="cta" id="cta-done" data-od-id="trn-done">К тренировкам</button>
+    <button type="button" class="btn btn-lg btn-block btn-accent" id="cta-done" data-od-id="trn-done" style="margin-top:var(--space-6)">К тренировкам</button>
   </main>
 </div>
 
 <div class="scrim" id="chat-scrim"></div>
-<div class="chat-sheet" id="chat-sheet" role="dialog" aria-modal="true" aria-label="Чат с тренером">
+<div class="sheet chat-sheet" id="chat-sheet" role="dialog" aria-modal="true" aria-label="Чат с тренером">
   <div class="sheet-grab"></div>
   <div class="chat-head">
     <span class="chat-ava" aria-hidden="true">С</span>
@@ -512,7 +248,9 @@ body.no-scroll { overflow: hidden; }
     </div>
     <button type="button" class="chat-x" id="chat-close" aria-label="Закрыть чат"><svg aria-hidden="true"><use href="#ic-x"/></svg></button>
   </div>
-  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="chat-empty" id="chat-empty"><svg aria-hidden="true"><use href="#ic-chat"/></svg><b>Чат пока пуст</b><span>Задайте вопрос — тренер ответит в течение дня</span></div>
+  </div>
   <form class="chat-send" id="chat-form">
     <input type="text" class="chat-input" id="chat-input" placeholder="Сообщение…" autocomplete="off" aria-label="Сообщение тренеру">
     <button type="submit" class="chat-btn" aria-label="Отправить"><svg aria-hidden="true"><use href="#ic-send"/></svg></button>
@@ -582,13 +320,22 @@ body.no-scroll { overflow: hidden; }
     if (raw) report = JSON.parse(raw);
   } catch (e) { /* ignore */ }
   if (!report) report = DEFAULT_REPORT;
+  if (!report.exercises || !report.exercises.length) {
+    report.exercises = DEFAULT_REPORT.exercises;
+    if (!report.done && !report.total) { report.done = DEFAULT_REPORT.done; report.total = DEFAULT_REPORT.total; }
+  }
 
   function render() {
-    var done = report.done;
-    var total = report.total;
+    var done = Math.max(0, +report.done || 0);
+    var total = Math.max(0, +report.total || 0);
     var pct = total ? Math.round(done / total * 100) : 0;
 
-    byId('meta').textContent = report.title + ' · ' + (report.date || '') + (report.time ? ' · ' + report.time : '');
+    var sum = document.querySelector('.summary');
+    if (sum) {
+      sum.style.setProperty('--c', pct >= 100 ? 'var(--success)' : pct > 0 ? 'var(--accent)' : 'var(--meta)');
+    }
+
+    byId('meta').textContent = (report.title || 'Тренировка') + ' · ' + (report.date || '') + (report.time ? ' · ' + report.time : '');
     byId('sum-title').textContent = pct >= 100 ? 'Отличная работа!' : (pct > 0 ? 'Тренировка завершена' : 'Тренировка отмечена');
     byId('sum-sub').textContent = pct >= 100
       ? 'Выполнены все ' + total + ' упражнений программы'
@@ -618,15 +365,22 @@ body.no-scroll { overflow: hidden; }
   function openChat() {
     chatScrim.classList.add('open');
     chatSheet.classList.add('open');
+    document.body.classList.add('no-scroll');
+    byId('act-chat').setAttribute('aria-expanded', 'true');
     setTimeout(function () { byId('chat-input').focus(); }, 250);
   }
   function closeChat() {
     chatScrim.classList.remove('open');
     chatSheet.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+    byId('act-chat').setAttribute('aria-expanded', 'false');
+    byId('act-chat').focus();
   }
 
   function addMsg(text, isOut) {
     var wrap = byId('chat-msgs');
+    var empty = byId('chat-empty');
+    if (empty) empty.style.display = 'none';
     var div = document.createElement('div');
     div.className = 'msg ' + (isOut ? 'is-out' : 'is-in');
     div.textContent = text;
