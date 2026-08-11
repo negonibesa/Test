@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)file:///C:/Users/Rakutin/Downloads/dash-card_1.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Голубой блок дашборда</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Голубой блок дашборда_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg: #eaf4ff;
+  --surface: #ffffff;
+  --fg: #12213b;
+  --fg-2: #445269;
+  --muted: #78859b;
+  --border: rgba(18,33,59,0.08);
+  --accent: #1a86e0;
+  --accent-light: #cfe8fb;
+  --track: #e3f0fb;
+  --font-display: "Oswald", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: var(--font-body);
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+.card {
+  width: 100%;
+  max-width: 358px;
+  background: linear-gradient(180deg, #eaf6ff 0%, #d7ecfb 100%);
+  border-radius: 20px;
+  padding: 18px 18px 20px;
+  box-shadow: 0 16px 36px rgba(18,33,59,0.10);
+}
+.card-top { display: flex; align-items: center; justify-content: space-between; }
+.card-title { margin: 0; font-family: var(--font-body); font-size: 15px; font-weight: 700; color: var(--fg); }
+.card-menu { border: 0; background: none; padding: 4px; color: var(--fg-2); cursor: pointer; line-height: 0; }
+.card-menu svg { width: 18px; height: 18px; }
+
+.ring-row { display: flex; align-items: center; gap: 18px; margin-top: 14px; }
+.ring-wrap { position: relative; flex: none; width: 108px; height: 108px; }
+.ring-wrap svg { width: 108px; height: 108px; transform: rotate(-90deg); }
+.ring-wrap circle { fill: none; stroke-width: 9; }
+.ring-track { stroke: var(--track); }
+.ring-fill { stroke: var(--accent); stroke-linecap: round; }
+.ring-info { flex: 1; min-width: 0; }
+.ring-label { margin: 0; font-size: 13px; color: var(--fg-2); font-weight: 500; }
+.ring-value { margin: 4px 0 0; font-family: var(--font-display); font-size: 30px; font-weight: 700; color: var(--fg); line-height: 1; }
+.ring-sub { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+
+.divider { height: 1px; background: rgba(18,33,59,0.08); margin: 16px 0; }
+
+.days-row { display: flex; align-items: baseline; justify-content: space-between; }
+.days-label { font-size: 13px; font-weight: 600; color: var(--fg-2); }
+.days-value { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--fg); }
+.days-bar { margin-top: 8px; height: 5px; border-radius: 999px; background: var(--track); overflow: hidden; }
+.days-bar span { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.stat-col-val { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--fg); }
+.stat-col-label { margin-top: 2px; font-size: 11px; color: var(--muted); }
+.stat-col-bar { margin-top: 8px; height: 4px; border-radius: 999px; background: var(--track); overflow: hidden; }
+.stat-col-bar span { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-top">
+    <h3 class="card-title">Прогресс цикла подготовки</h3>
+    <button class="card-menu" type="button" aria-label="Ещё">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"></circle><circle cx="12" cy="12" r="1.6" fill="currentColor"></circle><circle cx="19" cy="12" r="1.6" fill="currentColor"></circle></svg>
+    </button>
+  </div>
+
+  <div class="ring-row">
+    <div class="ring-wrap">
+      <svg viewBox="0 0 108 108">
+        <circle class="ring-track" cx="54" cy="54" r="46"></circle>
+        <circle class="ring-fill" cx="54" cy="54" r="46" stroke-dasharray="289" stroke-dashoffset="87"></circle>
+      </svg>
+    </div>
+    <div class="ring-info">
+      <p class="ring-label">Баллы</p>
+      <p class="ring-value">1&nbsp;270</p>
+      <p class="ring-sub">из 1500 целевых</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="days-row">
+    <span class="days-label">Дней цикла</span>
+    <span class="days-value">16&nbsp;|&nbsp;21</span>
+  </div>
+  <div class="days-bar"><span style="width:76%"></span></div>
+
+  <div class="divider"></div>
+
+  <div class="stats-row">
+    <div>
+      <div class="stat-col-val">20<span style="font-size:12px;font-weight:600">мин</span></div>
+      <div class="stat-col-label">Разминка</div>
+      <div class="stat-col-bar"><span style="width:70%"></span></div>
+    </div>
+    <div>
+      <div class="stat-col-val">16<span style="font-size:12px;font-weight:600">мин</span></div>
+      <div class="stat-col-label">Основная</div>
+      <div class="stat-col-bar"><span style="width:55%"></span></div>
+    </div>
+    <div>
+      <div class="stat-col-val">10<span style="font-size:12px;font-weight:600">мин</span></div>
+      <div class="stat-col-label">Заминка</div>
+      <div class="stat-col-bar"><span style="width:40%"></span></div>
+    </div>
+  </div>
+</div>
+
+
+
+</body></html>

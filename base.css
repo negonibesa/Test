@@ -459,7 +459,7 @@ body.no-scroll { overflow: hidden; }
 .dash-ring-row { display: flex; align-items: center; gap: var(--space-5); margin-top: var(--space-4); }
 .goal-ring { flex: none; position: relative; width: 112px; height: 112px; }
 .goal-ring svg { width: 112px; height: 112px; transform: rotate(-90deg); }
-.goal-ring circle { fill: none; stroke-width: 7; }
+.goal-ring circle { fill: none; stroke-width: 5; }
 .goal-ring .trk { stroke: var(--surface-2); }
 .goal-ring .fill { stroke: var(--success); stroke-linecap: round; filter: drop-shadow(0 0 12px var(--accent-mint-glow)); }
 .goal-ring .pct {
