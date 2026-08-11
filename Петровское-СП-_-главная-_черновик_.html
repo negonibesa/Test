@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///C:/Users/Rakutin/Downloads/home-draft.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eef1f7">
+<title>Петровское СП — главная (черновик)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./Петровское СП — главная (черновик)_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg: #eef1f7;
+  --surface: #ffffff;
+  --surface-2: #e8ecf4;
+  --surface-warm: #f5f7fc;
+  --fg: #1a1f2e;
+  --fg-2: #3d445a;
+  --muted: #6f7a94;
+  --meta: #9aa4b8;
+  --border: rgba(0,0,0,0.08);
+  --border-soft: rgba(0,0,0,0.04);
+  --accent: #3b7bff;
+  --accent-on: #ffffff;
+  --amber: #e6a800;
+  --success: #3ab5ad;
+  --danger: #ff5a5a;
+  --gto-silver: #a9b6c9;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --fs-display: 28px; --fs-title: 18px; --fs-body: 16px; --fs-meta: 13px; --fs-caption: 11px; --fs-time: 17px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-12: 48px;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 20px; --radius-pill: 980px;
+  --icon-sm: 16px; --icon-md: 20px; --icon-lg: 24px;
+  --elev-card: 0 2px 12px rgba(0,0,0,0.06);
+  --focus-ring: 0 0 0 3px rgba(59,123,255,0.30);
+  --motion-fast: 150ms; --ease-standard: cubic-bezier(.28,0,.22,1);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface-warm); font-family: var(--font-body); color: var(--fg); -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+.app { max-width: 420px; margin: 0 auto; padding: 0 0 calc(88px + env(safe-area-inset-bottom)); }
+.body { padding: 0 var(--space-4); }
+
+/* Шапка */
+.hd { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-5) var(--space-4) var(--space-3); }
+.hd-ava { flex: none; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: var(--surface-2); }
+.hd-ava svg { width: 100%; height: 100%; }
+.hd-title { flex: 1; min-width: 0; margin: 0; font-size: var(--fs-title); font-weight: 700; }
+.hd-acts { display: flex; gap: var(--space-2); flex: none; }
+.icon-btn { position: relative; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--surface); box-shadow: var(--elev-card); display: grid; place-items: center; color: var(--fg-2); cursor: pointer; }
+.icon-btn svg { width: var(--icon-md); height: var(--icon-md); }
+.icon-btn .badge { position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px; padding: 0 3px; border-radius: 50%; background: var(--danger); color: #fff; font-size: 10px; font-weight: 700; display: grid; place-items: center; }
+
+/* Статус-строка */
+.status-row { display: flex; align-items: center; gap: var(--space-2); background: var(--surface); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); box-shadow: var(--elev-card); font-size: var(--fs-meta); color: var(--fg-2); }
+.status-row .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex: none; }
+.status-row .sep { color: var(--border); }
+.status-row svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--muted); flex: none; }
+
+/* Карточка комплекса */
+.complex-card { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-3); background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-4); box-shadow: var(--elev-card); cursor: pointer; border: 0; width: 100%; text-align: left; }
+.complex-tx .cap { display: block; font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.complex-tx .title { display: block; margin-top: 2px; font-size: var(--fs-title); font-weight: 700; }
+.complex-card .go { flex: none; color: var(--meta); }
+.complex-card .go svg { width: var(--icon-md); height: var(--icon-md); }
+
+/* Карточка цели */
+.goal-card { margin-top: var(--space-3); background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-4) var(--space-5); box-shadow: var(--elev-card); }
+.goal-top { display: flex; align-items: baseline; justify-content: space-between; }
+.goal-label { font-size: var(--fs-title); font-weight: 700; }
+.goal-val { font-size: var(--fs-title); color: var(--fg-2); }
+.goal-val b { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--fg); }
+.goal-top .go { color: var(--meta); }
+.goal-top .go svg { width: var(--icon-md); height: var(--icon-md); }
+
+.arc-wrap { position: relative; margin-top: var(--space-4); width: 100%; height: 148px; }
+.arc-wrap svg { width: 100%; height: 100%; }
+.arc-track { fill: none; stroke: var(--surface-2); stroke-width: 16; }
+.arc-fill { fill: none; stroke: var(--success); stroke-width: 16; stroke-linecap: round; }
+.arc-pill {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: var(--space-2); white-space: nowrap;
+  background: var(--surface); border: 1px solid var(--border-soft); box-shadow: var(--elev-card);
+  border-radius: var(--radius-pill); padding: 8px 16px; font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2);
+}
+.arc-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gto-silver); }
+
+/* Баллы / достижения / рейтинг */
+.stats-card { margin-top: var(--space-3); background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--elev-card); overflow: hidden; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.stats-grid > div { padding: var(--space-4); }
+.stats-grid > div:first-child { border-right: 1px solid var(--border-soft); }
+.stat-cap { font-size: var(--fs-meta); color: var(--muted); font-weight: 500; }
+.stat-num { display: flex; align-items: center; gap: 6px; margin-top: var(--space-1); font-family: var(--font-mono); font-size: 24px; font-weight: 700; }
+.stat-num svg { width: var(--icon-md); height: var(--icon-md); }
+.stat-num .ic-amber { color: var(--amber); }
+.stat-num .ic-silver { color: var(--gto-silver); }
+.stat-delta { display: inline-block; margin-top: var(--space-2); background: color-mix(in srgb, var(--success) 14%, var(--surface)); color: color-mix(in oklab, var(--success), var(--fg) 20%); font-size: var(--fs-caption); font-weight: 700; padding: 3px 9px; border-radius: var(--radius-pill); }
+.rating-row { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border-top: 1px solid var(--border-soft); font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2); cursor: pointer; background: none; border-left: 0; border-right: 0; border-bottom: 0; width: 100%; text-align: left; }
+.rating-row svg { width: var(--icon-md); height: var(--icon-md); color: var(--accent); flex: none; }
+
+/* Секция событий */
+.sec { margin-top: var(--space-6); }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 var(--space-1) var(--space-3); }
+.sec-head h2 { margin: 0; font-size: var(--fs-title); font-weight: 700; }
+.sec-all { font-size: var(--fs-meta); font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 3px; }
+.sec-all svg { width: 14px; height: 14px; }
+
+.ev-card { display: flex; align-items: center; gap: var(--space-3); background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--elev-card); padding: var(--space-4); border-left: 4px solid var(--c, var(--success)); }
+.ev-when { flex: none; width: 56px; text-align: left; }
+.ev-when .day { display: block; font-size: var(--fs-caption); color: var(--muted); }
+.ev-when .time { display: block; margin-top: 2px; font-family: var(--font-mono); font-size: var(--fs-time); font-weight: 700; }
+.ev-body { flex: 1; min-width: 0; }
+.ev-title { margin: 0; font-size: var(--fs-body); font-weight: 700; line-height: 1.25; }
+.ev-fmt { display: inline-block; margin-top: 4px; font-size: var(--fs-caption); color: var(--muted); }
+.ev-status { flex: none; font-size: var(--fs-caption); font-weight: 700; color: color-mix(in oklab, var(--success), var(--fg) 20%); background: color-mix(in srgb, var(--success) 14%, var(--surface)); border-radius: var(--radius-pill); padding: 5px 10px; }
+.ev-menu { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--surface-2); color: var(--fg-2); display: grid; place-items: center; cursor: pointer; }
+.ev-menu svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+/* Таббар */
+.tabbar { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: 100%; max-width: 420px; background: var(--surface); border-top: 1px solid var(--border-soft); display: grid; grid-template-columns: repeat(5,1fr); padding: var(--space-2) var(--space-2) calc(var(--space-2) + env(safe-area-inset-bottom)); }
+.tab { border: 0; background: none; display: grid; place-items: center; padding: var(--space-2) 0; color: var(--meta); cursor: pointer; }
+.tab svg { width: 22px; height: 22px; }
+.tab.is-on svg { color: var(--accent-on); }
+.tab.is-on span { background: var(--accent); border-radius: var(--radius-md); width: 44px; height: 32px; display: grid; place-items: center; }
+</style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-rain" viewBox="0 0 24 24"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 15.5v2.5M15 15.5v2.5M12 18.5v2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 17l-5.3 2.6 1-5.8-4.2-4.1 5.9-.9L12 3.5z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-medal" viewBox="0 0 24 24"><path d="M10.4 10 7.5 3.4M13.6 10l2.9-6.6M8 6.4h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="12" cy="13.9" r="4.4" fill="none" stroke="currentColor" stroke-width="1.7"></circle></symbol>
+  <symbol id="ic-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2 7 4-14 2 7h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"></circle><circle cx="12" cy="12" r="1.6" fill="currentColor"></circle><circle cx="19" cy="12" r="1.6" fill="currentColor"></circle></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M20 17.4V10.3c0-1.1-.5-2.1-1.3-2.8l-4.4-3.7c-1.3-1.1-3.2-1.1-4.5 0L5.3 7.5C4.5 8.2 4 9.2 4 10.3v7.1c0 2 1.6 3.6 3.6 3.6h8.9c1.9 0 3.5-1.6 3.5-3.6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M10 17h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-basket" viewBox="0 0 24 24"><path d="M4 9h16l-1.4 9.2A2 2 0 0 1 16.6 20H7.4a2 2 0 0 1-2-1.8L4 9z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M8 9l1.5-5h5L16 9M9.5 12.5v4M14.5 12.5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-key" viewBox="0 0 24 24"><circle cx="7.5" cy="14.5" r="4" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M10.5 11.5L19 3M16 6l2.5 2.5M18.5 3.5L21 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M3.5 18.5c0-2.7 2.4-4.7 5.5-4.7s5.5 2 5.5 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path><path d="M16 6a3 3 0 0 1 0 5.6M17.6 14c1.8.6 3 2 3 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
+</svg>
+
+<div class="app">
+  <header class="hd">
+    <div class="hd-ava">
+      <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="36" cy="36" r="36" fill="#E6F1FB"></circle>
+        <path d="M14 72 C14 54 22 46 36 46 C50 46 58 54 58 72 Z" fill="#3b7bff"></path>
+        <path d="M20 24 C20 14 27 8 36 8 C45 8 52 14 52 24 L52 27 C48 20 43 16 36 16 C29 16 24 20 20 27 Z" fill="#2B2118"></path>
+        <rect x="19" y="24" width="34" height="5.5" rx="2.5" fill="#ffd200"></rect>
+        <circle cx="21.5" cy="34" r="2.6" fill="#F2C6A0"></circle><circle cx="50.5" cy="34" r="2.6" fill="#F2C6A0"></circle>
+        <circle cx="36" cy="33" r="15" fill="#F2C6A0"></circle>
+      </svg>
+    </div>
+    <h1 class="hd-title">Привет, Андрей</h1>
+    <div class="hd-acts">
+      <button class="icon-btn" aria-label="Поиск"><svg aria-hidden="true"><use href="#ic-search"></use></svg></button>
+      <button class="icon-btn" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"></use></svg><span class="badge">2</span></button>
+    </div>
+  </header>
+
+  <main class="body">
+    <div class="status-row">
+      <span class="dot"></span><span>Открыто до 23:00</span>
+      <span class="sep">·</span>
+      <svg aria-hidden="true"><use href="#ic-rain"></use></svg><span>Дождь · -3°C</span>
+    </div>
+
+    <button class="complex-card" type="button">
+      <span class="complex-tx"><span class="cap">Спорткомплекс</span><span class="title">«СП Петровское»</span></span>
+      <span class="go"><svg aria-hidden="true"><use href="#ic-chev"></use></svg></span>
+    </button>
+
+    <section class="goal-card">
+      <div class="goal-top">
+        <span class="goal-label">Моя цель</span>
+        <span class="goal-val"><b>4</b> / 5 нормативов</span>
+        <span class="go"><svg aria-hidden="true"><use href="#ic-chev"></use></svg></span>
+      </div>
+      <div class="arc-wrap">
+        <svg viewBox="0 0 280 148">
+          <path class="arc-track" d="M20 138 A120 120 0 0 1 260 138"></path>
+          <path class="arc-fill" d="M20 138 A120 120 0 0 1 236 62" stroke-dasharray="380" stroke-dashoffset="0"></path>
+        </svg>
+        <span class="arc-pill"><span class="dot"></span>Знак ГТО · Серебро</span>
+      </div>
+    </section>
+
+    <div class="stats-card">
+      <div class="stats-grid">
+        <div>
+          <div class="stat-cap">Баллы</div>
+          <div class="stat-num">2&nbsp;490<svg class="ic-amber" aria-hidden="true"><use href="#ic-star"></use></svg></div>
+          <span class="stat-delta">+1&nbsp;233 за 7 дн.</span>
+        </div>
+        <div>
+          <div class="stat-cap">Достижения</div>
+          <div class="stat-num">14<svg class="ic-silver" aria-hidden="true"><use href="#ic-medal"></use></svg></div>
+          <span class="stat-delta">+1 за 7 дн.</span>
+        </div>
+      </div>
+      <button class="rating-row" type="button">
+        <svg aria-hidden="true"><use href="#ic-pulse"></use></svg>12 место в рейтинге
+      </button>
+    </div>
+
+    <section class="sec">
+      <div class="sec-head">
+        <h2>«СП Петровское»</h2>
+        <a class="sec-all" href="file:///C:/Users/Rakutin/Downloads/schedule-calendar.html">все<svg aria-hidden="true"><use href="#ic-chev"></use></svg></a>
+      </div>
+      <article class="ev-card" style="--c:#3ab5ad">
+        <div class="ev-when"><span class="day">Сегодня</span><span class="time">05:40</span></div>
+        <div class="ev-body">
+          <h3 class="ev-title">Утренняя пробежка</h3>
+          <span class="ev-fmt">личная</span>
+        </div>
+        <span class="ev-status">Подтв.</span>
+        <button class="ev-menu" type="button" aria-label="Ещё"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
+      </article>
+    </section>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="Разделы">
+  <button class="tab is-on" aria-label="Главная"><span><svg aria-hidden="true"><use href="#ic-home"></use></svg></span></button>
+  <button class="tab" aria-label="Аренда"><svg aria-hidden="true"><use href="#ic-basket"></use></svg></button>
+  <button class="tab" aria-label="Доступ / QR"><svg aria-hidden="true"><use href="#ic-key"></use></svg></button>
+  <button class="tab" aria-label="Сообщество"><svg aria-hidden="true"><use href="#ic-users"></use></svg></button>
+  <button class="tab" aria-label="Профиль"><svg aria-hidden="true"><use href="#ic-user"></use></svg></button>
+</nav>
+
+
+
+</body></html>

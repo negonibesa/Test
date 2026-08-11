@@ -568,6 +568,7 @@ pre.code .t2 { color: #fbbf24; }
 .gchip.is-progress { color: var(--amber); background: color-mix(in srgb, var(--amber) 12%, var(--surface)); border-color: color-mix(in srgb, var(--amber) 20%, transparent); }
 .dash-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-top: var(--space-2); }
 @media (max-width: 520px) { .dash-stats { grid-template-columns: 1fr; } }
+.dash-stats .dash-card { padding: var(--space-5) var(--space-4); }
 .stat-tile {
   display: flex; align-items: center; gap: var(--space-3); text-align: left;
   padding: var(--space-3) var(--space-4);
@@ -605,6 +606,31 @@ pre.code .t2 { color: #fbbf24; }
 }
 .stat-rating:hover { background: var(--surface-2); border-color: var(--border-strong); }
 .stat-rating:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Вариант 2 · единая карточка «Баллы · Достижения · Рейтинг» (черновик) ── */
+.stats-card {
+  margin-top: var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  box-shadow: var(--elev-card); overflow: hidden;
+}
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.stats-grid > div { padding: var(--space-4); }
+.stats-grid > div + div { border-left: 1px solid var(--border); }
+.stat-cap { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--fs-meta); font-weight: 500; color: var(--muted); }
+.stat-cap svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--amber); }
+.stat-num { margin-top: var(--space-2); font-family: var(--font-body); font-size: var(--fs-title); font-weight: 500; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--fg); }
+.stat-delta { display: inline-flex; margin-top: var(--space-2); background: color-mix(in srgb, var(--success) 14%, var(--surface)); color: color-mix(in oklab, var(--success), var(--fg) 20%); font-size: var(--fs-caption); font-weight: 600; padding: var(--space-1) 9px; border-radius: var(--radius-pill); white-space: nowrap; }
+.stats-rating-row {
+  display: flex; align-items: center; gap: var(--space-3); width: 100%;
+  padding: var(--space-4); border: 0; border-top: 1px solid var(--border);
+  background: none; font: inherit; font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2);
+  text-align: left; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
+.stats-rating-row:hover { background: var(--surface-2); }
+.stats-rating-row:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.stats-rating-row svg { flex: none; width: var(--icon-md); height: var(--icon-md); color: var(--accent); }
 
 /* ── Плашка состояния комплекса (главная) ── */
 .status-strip {
@@ -2798,6 +2824,27 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
         </button>
       </div>
     </div>
+
+    <h3 class="ds-sub" style="margin-top:var(--space-4)">Вариант 2 — единая карточка «Баллы · Достижения · Рейтинг»</h3>
+    <p class="ds-desc">Одна карточка вместо трёх плиток: сетка 2 колонки с вертикальным разделителем и строка рейтинга на всю ширину снизу. Иконки — перед подписью, обе янтарные (<code>--amber</code>), как на главной. Числа — Inter 500 с <code>tabular-nums</code>, размер <code>--fs-title</code>. Обводка — единая <code>--border</code>, как у всех карточек главной.</p>
+    <div class="stats-card" style="max-width:480px;margin-top:0">
+      <div class="stats-grid">
+        <div>
+          <span class="stat-cap"><svg aria-hidden="true"><use href="#ic-star-solar"></use></svg>Баллы</span>
+          <div class="stat-num">2&nbsp;400</div>
+          <span class="stat-delta">+125 за 7 дн.</span>
+        </div>
+        <div>
+          <span class="stat-cap"><svg aria-hidden="true"><use href="#ic-medal-solar"></use></svg>Достижения</span>
+          <div class="stat-num">14</div>
+          <span class="stat-delta">+1 за 7 дн.</span>
+        </div>
+      </div>
+      <button class="stats-rating-row" type="button">
+        <svg aria-hidden="true"><use href="#ic-cup-solar"></use></svg>12 место в рейтинге
+      </button>
+    </div>
+    <p class="ds-note">Структура повторяет черновик, типографика — наша: моно убрано, числа Inter 500 <code>tabular-nums</code>, подписи <code>--fs-meta</code>. Дельта — чип <code>--success</code> в тон 14% (как <code>.ev-status</code>), иконка рейтинга — кубок <code>ic-cup-solar</code> акцентного цвета.</p>
 
     <h3 class="ds-sub" style="margin-top:var(--space-4)">Плашка состояния комплекса</h3>
     <p class="ds-desc"><code>.status-strip</code> — живой статус на главной: режим работы комплекса и погода. Статус — текстом, цвет через <code>--c</code>, без точек.</p>
