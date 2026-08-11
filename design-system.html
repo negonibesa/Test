@@ -59,6 +59,7 @@
 
   --fs-display: 34px;
   --fs-title: 20px;
+  --fs-title-sm: 17px;   /* компактный заголовок карточек и секций */
   --fs-time: 17px;   /* крупное время в карточке события */
   --fs-body: 15px;
   --fs-meta: 13px;
@@ -1516,6 +1517,11 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .sp-track { flex: 1; min-width: 0; display: flex; align-items: center; height: 28px; background: var(--surface-2); border-radius: var(--radius-sm); padding: 0 var(--space-1); }
 .sp-bar { height: 16px; border-radius: var(--radius-sm); background: var(--accent); min-width: 2px; }
 .sp-val { flex: none; width: 84px; font-size: var(--fs-meta); color: var(--meta); font-family: var(--font-mono); text-align: right; }
+.fs-scale { display: grid; gap: var(--space-1); }
+.fs-row { display: flex; align-items: baseline; gap: var(--space-3); }
+.fs-name { flex: none; width: 128px; font-size: var(--fs-meta); font-family: var(--font-mono); color: var(--fg-2); }
+.fs-val { flex: none; width: 84px; font-size: var(--fs-meta); color: var(--meta); font-family: var(--font-mono); text-align: right; }
+.fs-sample { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sz-row { display: flex; align-items: flex-end; gap: var(--space-4); flex-wrap: wrap; }
 .sz-cell {
   display: grid; place-items: center; gap: var(--space-1);
@@ -2092,10 +2098,21 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub">Типографика</h3>
-    <p class="ds-desc">Шрифтовая сетка — ровно 5 размеров: <code>--fs-display</code> 34 · <code>--fs-title</code> 20 · <code>--fs-body</code> 15 · <code>--fs-meta</code> 13 · <code>--fs-caption</code> 11. Меньше 11px не используем. Моно-шрифтов нет — всё, включая цифры (баллы, время, рейтинг, прогресс), набирается Inter с <code>font-variant-numeric: tabular-nums</code>, из той же сетки или из отведённых под числа размеров.</p>
+    <p class="ds-desc">Шрифтовая сетка — 6 размеров от 34 до 11px (см. шкалу). Меньше 11px не используем. Моно-шрифтов нет — всё, включая цифры (баллы, время, рейтинг, прогресс), набирается Inter с <code>font-variant-numeric: tabular-nums</code>, из той же сетки или из отведённых под числа размеров.</p>
+    <div class="fs-scale">
+      <div class="fs-row"><span class="fs-name">--fs-display</span><span class="fs-val">34px</span><span class="fs-sample" style="font-size:34px;font-weight:700;line-height:1.1;letter-spacing:var(--tracking-tight)">Заголовок 1 · дисплейный</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-title</span><span class="fs-val">20px</span><span class="fs-sample" style="font-size:20px;font-weight:600">Заголовок карточки события</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-title-sm</span><span class="fs-val">17px</span><span class="fs-sample" style="font-size:17px;font-weight:600">Компактный заголовок карточек и секций</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-time</span><span class="fs-val">17px</span><span class="fs-sample" style="font-size:17px;font-weight:500">05:40 · 10:00 — крупное время события</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-body</span><span class="fs-val">15px</span><span class="fs-sample" style="font-size:15px">Основной текст инпутов</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-meta</span><span class="fs-val">13px</span><span class="fs-sample" style="font-size:13px;color:var(--muted)">Метаданные, подписи</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-caption</span><span class="fs-val">11px</span><span class="fs-sample" style="font-size:11px;color:var(--muted)">Бейджи, чипы-статусы, таббар</span></div>
+    </div>
     <div class="ds-grid">
       <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-display); font-weight:700; letter-spacing:var(--tracking-tight); line-height:1.1">Inter 34/700 — заголовки · Заголовок 1</div>
       <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-title); font-weight:600">Inter 20/600 — заголовок карточки события</div>
+      <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-title-sm); font-weight:600">Inter 17/600 — компактный заголовок карточек и секций</div>
+      <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-time); font-weight:500">Inter 17 — крупное время в карточке события: 05:40 · 10:00</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-body)">Inter 15 — основной текст инпутов · Абзац основного текста</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-meta); color:var(--muted)">Inter 13 — метаданные, подписи</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-caption); color:var(--muted)">Inter 11 — бейджи, чипы-статусы, таббар</div>
@@ -2162,6 +2179,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <span class="t2">--font-body</span>: <span class="t2">"Inter", "Helvetica Neue", Arial, sans-serif</span>;
   <span class="t2">--font-mono</span>: <span class="t2">"JetBrains Mono", ui-monospace, Menlo, monospace</span>;
   <span class="t2">--fs-display</span>: <span class="t2">34px</span>; <span class="t2">--fs-title</span>: <span class="t2">20px</span>;
+  <span class="t2">--fs-title-sm</span>: <span class="t2">17px</span>; <span class="t2">--fs-time</span>: <span class="t2">17px</span>;
   <span class="t2">--fs-body</span>: <span class="t2">15px</span>; <span class="t2">--fs-meta</span>: <span class="t2">13px</span>;
   <span class="t2">--fs-caption</span>: <span class="t2">11px</span>;
   <span class="t2">--leading-body</span>: <span class="t2">1.6</span>; <span class="t2">--tracking-display</span>: <span class="t2">0.01em</span>;
