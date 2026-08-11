@@ -435,14 +435,14 @@ pre.code .t2 { color: #fbbf24; }
 @keyframes pending-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
 
 /* ── Карточка события · канон «С»: колонки when | body | side ── */
-.ev-when { grid-area: when; padding-right: var(--space-3); border-right: 1px solid var(--border); min-width: 52px; }
+.ev-when { grid-area: when; padding-right: var(--space-4); border-right: 1px solid var(--border); min-width: 52px; }
 .ev-when .ev-day { display: block; font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.01em; color: var(--meta); }
 .ev-when .ev-time { display: block; font-family: var(--font-body); font-size: var(--fs-time); font-weight: 500; line-height: 1.1; color: var(--fg); font-variant-numeric: tabular-nums; margin-top: var(--space-1); }
 .ev-body { grid-area: body; min-width: 0; }
-.ev-place { margin: var(--space-1) 0 0; font-size: var(--fs-caption); line-height: 1.4; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ev-place { margin: var(--space-2) 0 0; font-size: var(--fs-caption); line-height: 1.4; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ev-side { grid-area: side; display: flex; align-items: center; gap: var(--space-2); }
 .ev-card .ev-title { font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600; letter-spacing: 0; text-wrap: pretty; }
-.ev-fmt { display: block; font-weight: 500; color: var(--muted); margin-top: var(--space-1); }
+.ev-fmt { display: block; font-weight: 500; color: var(--meta); margin-top: var(--space-1); }
 .ev-status {
   flex: none; display: inline-flex; align-items: center; gap: var(--space-1);
   font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 600;
@@ -491,6 +491,7 @@ pre.code .t2 { color: #fbbf24; }
 /* ── Карточка события · канон «С»: колонки when | body | side ── */
 .cards { display: grid; gap: var(--space-3); }
 .ev-card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--c, var(--border));
@@ -502,6 +503,17 @@ pre.code .t2 { color: #fbbf24; }
   align-items: center;
   column-gap: var(--space-4);
 }
+.ev-card .ev-menu {
+  position: absolute; top: var(--space-2); right: var(--space-2); z-index: 1;
+  display: grid; place-items: center; padding: 0;
+  border: none; border-radius: 0; background: transparent;
+  color: var(--meta); cursor: pointer;
+  transition: color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+.ev-card .ev-menu svg { width: 20px; height: 20px; }
+.ev-card .ev-menu:hover { color: var(--fg); background: none; }
+.ev-card .ev-menu:active { transform: scale(0.92); }
+.ev-card .ev-menu:focus-visible { outline: none; }
 .ev-title { margin: 0; font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600; letter-spacing: 0.01em; color: var(--fg); }
 .ev-menu {
   grid-area: menu; flex: none; position: relative;
@@ -539,10 +551,10 @@ pre.code .t2 { color: #fbbf24; }
 .goal-ring .fill { stroke: var(--success); stroke-linecap: round; filter: drop-shadow(0 0 12px var(--accent-mint-glow)); }
 .goal-ring .pct {
   position: absolute; inset: 0; display: grid; place-items: center;
-  font-family: var(--font-mono); font-size: var(--fs-title); font-weight: 700; color: var(--fg);
+  font-family: var(--font-body); font-size: var(--fs-title); font-weight: 500; color: var(--fg); font-variant-numeric: tabular-nums;
 }
 .dash-ring-info { flex: 1; min-width: 0; }
-.dash-ring-value { font-family: var(--font-mono); font-size: var(--fs-display); font-weight: 700; color: var(--fg); line-height: 1; font-variant-numeric: tabular-nums; }
+.dash-ring-value { font-family: var(--font-body); font-size: var(--fs-display); font-weight: 500; color: var(--fg); line-height: 1; font-variant-numeric: tabular-nums; }
 .dash-ring-value small { font-size: var(--fs-meta); color: var(--muted); font-weight: 500; }
 .dash-ring-label { margin-top: var(--space-1); font-size: var(--fs-meta); color: var(--muted); }
 .goal-badges { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-3); }
@@ -573,7 +585,7 @@ pre.code .t2 { color: #fbbf24; }
 .metric-ic svg { width: var(--icon-md); height: var(--icon-md); }
 .stat-tile-val, .stat-rating-val {
   flex: none; display: flex; flex-direction: column; align-items: flex-end;
-  font-family: var(--font-mono); font-size: var(--fs-title); font-weight: 700; color: var(--fg);
+  font-family: var(--font-body); font-size: var(--fs-title); font-weight: 500; color: var(--fg);
   line-height: 1; font-variant-numeric: tabular-nums;
 }
 .stat-tile-val .stat-tile-val-tx, .stat-rating-val .stat-tile-val-tx { line-height: 1; }
@@ -892,13 +904,13 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 }
 .rating-row .place {
   flex: none; width: 28px; text-align: center;
-  font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 600; color: var(--meta);
+  font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--meta);
 }
 .rating-row .ava-32 { flex: none; width: var(--h-sm); height: var(--h-sm); border-radius: 50%; display: grid; place-items: center; font-size: var(--fs-meta); font-weight: 700; color: var(--accent-on); background: var(--accent); }
 .rating-row .tx { flex: 1; min-width: 0; }
 .rating-row b { display: block; font-size: var(--fs-meta); font-weight: 600; }
 .rating-row small { display: block; font-size: var(--fs-meta); color: var(--meta); }
-.rating-row .pts { flex: none; font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 600; color: var(--fg); }
+.rating-row .pts { flex: none; font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 500; color: var(--fg); font-variant-numeric: tabular-nums; }
 
 /* ── Пустое состояние ── */
 .empty {
@@ -1271,7 +1283,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .task-name { display: block; font-size: var(--fs-body); font-weight: 600; }
 .task-meta { display: block; margin-top: var(--space-1); font-size: var(--fs-meta); color: var(--muted); line-height: 1.4; }
 .task-badges { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
-.pts-badge { font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 600; color: var(--yellow-ink-strong); background: var(--yellow); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); }
+.pts-badge { font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 600; color: var(--yellow-ink-strong); background: var(--yellow); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-3); }
 .chk-badge { font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0.04em; color: var(--fg-2); background: var(--surface-2); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-2); }
 .task-st { font-size: var(--fs-caption); font-weight: 600; border-radius: var(--radius-pill); padding: var(--space-1) var(--space-2); white-space: nowrap; }
 .task-st.conf { color: var(--success); background: color-mix(in srgb, var(--success) 16%, var(--surface)); }
@@ -1296,7 +1308,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .lg-tx b { display: block; font-size: var(--fs-meta); font-weight: 600; }
 .lg-tx small { display: block; margin-top: var(--space-1); font-size: var(--fs-meta); color: var(--muted); line-height: 1.4; }
 .lg-side { flex: none; text-align: right; }
-.lg-pts { display: block; font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 600; }
+.lg-pts { display: block; font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 500; font-variant-numeric: tabular-nums; }
 .lg-pts.pos { color: var(--success); }
 .lg-pts.neg { color: var(--danger); }
 .season { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4) var(--space-4); margin-bottom: var(--space-3); }
@@ -1349,7 +1361,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .stat { background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: var(--space-4); }
 .stat-top, .stat-label { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-caption); font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--meta); }
 .stat-top svg, .stat-label svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--accent); }
-.stat-val, .stat-value { display: block; margin-top: var(--space-2); font-family: var(--font-mono); font-size: var(--fs-title); font-weight: 600; letter-spacing: -0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-val, .stat-value { display: block; margin-top: var(--space-2); font-family: var(--font-body); font-size: var(--fs-title); font-weight: 500; letter-spacing: -0.01em; line-height: 1; font-variant-numeric: tabular-nums; }
 .stat-val small { font-size: var(--fs-meta); font-weight: 500; color: var(--muted); }
 .stat-sub { display: block; margin-top: var(--space-2); font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
 .stat-sub.is-up { color: var(--success); }
@@ -1385,13 +1397,13 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .gto-progress { flex: none; width: 64px; text-align: right; }
 .gto-bar { display: block; height: 5px; border-radius: var(--radius-pill); background: var(--surface-2); overflow: hidden; }
 .gto-bar span { display: block; height: 100%; background: var(--accent); }
-.gto-progress small { display: block; margin-top: var(--space-1); font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--muted); }
+.gto-progress small { display: block; margin-top: var(--space-1); font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 /* ── Тренировки: неделя, сегодня ── */
 .week-card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: var(--space-4) var(--space-5); }
 .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-2); text-align: center; }
 .wk-dow { font-size: var(--fs-caption); font-weight: 700; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--meta); margin-bottom: var(--space-1); }
-.wk-day { display: grid; place-items: center; width: 36px; height: 36px; margin: 0 auto; border-radius: 50%; font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 600; color: var(--fg-2); background: var(--surface-2); border: 1px solid transparent; }
+.wk-day { display: grid; place-items: center; width: 36px; height: 36px; margin: 0 auto; border-radius: 50%; font-family: var(--font-body); font-size: var(--fs-meta); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--fg-2); background: var(--surface-2); border: 1px solid transparent; }
 .wk-day.is-done { background: color-mix(in srgb, var(--type-training) 16%, var(--surface)); color: var(--type-training); }
 .wk-day.is-today { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
 .wk-day.is-miss { color: var(--meta); opacity: 0.5; }
@@ -1406,7 +1418,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .today-meta { margin: var(--space-1) 0 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
 .today-ex { margin: var(--space-4) 0 0; padding: 0; list-style: none; display: grid; gap: var(--space-2); }
 .today-ex li { display: flex; align-items: baseline; gap: var(--space-3); font-size: var(--fs-body); line-height: 1.4; }
-.today-ex .ex-num { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 600; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.today-ex .ex-num { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 500; color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
 .today-ex .ex-name { flex: 1; min-width: 0; color: var(--fg); }
 .today-ex .ex-sets { flex: none; font-size: var(--fs-meta); color: var(--meta); font-variant-numeric: tabular-nums; }
 
@@ -2080,14 +2092,14 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub">Типографика</h3>
-    <p class="ds-desc">Шрифтовая сетка — ровно 5 размеров: <code>--fs-display</code> 34 · <code>--fs-title</code> 20 · <code>--fs-body</code> 15 · <code>--fs-meta</code> 13 · <code>--fs-caption</code> 11. Меньше 11px не используем. Цифры (баллы, время, рейтинг, прогресс) — Inter 800 либо JetBrains Mono с <code>tabular-nums</code>, из той же сетки или из отведённых под числа размеров.</p>
+    <p class="ds-desc">Шрифтовая сетка — ровно 5 размеров: <code>--fs-display</code> 34 · <code>--fs-title</code> 20 · <code>--fs-body</code> 15 · <code>--fs-meta</code> 13 · <code>--fs-caption</code> 11. Меньше 11px не используем. Моно-шрифтов нет — всё, включая цифры (баллы, время, рейтинг, прогресс), набирается Inter с <code>font-variant-numeric: tabular-nums</code>, из той же сетки или из отведённых под числа размеров.</p>
     <div class="ds-grid">
       <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-display); font-weight:700; letter-spacing:var(--tracking-tight); line-height:1.1">Inter 34/700 — заголовки · Заголовок 1</div>
       <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-title); font-weight:600">Inter 20/600 — заголовок карточки события</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-body)">Inter 15 — основной текст инпутов · Абзац основного текста</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-meta); color:var(--muted)">Inter 13 — метаданные, подписи</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-caption); color:var(--muted)">Inter 11 — бейджи, чипы-статусы, таббар</div>
-      <div class="ds-card" style="font-family:var(--font-mono); font-size:var(--fs-body)">JetBrains Mono — цифры: 2490 · 74% · 12-е место</div>
+      <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-body); font-variant-numeric:tabular-nums; font-weight:500">Inter — цифры (как время в карточке события): 2490 · 74% · 12-е место</div>
     </div>
 
     <h3 class="ds-sub">Отступы — шкала <code>--space-*</code></h3>
@@ -2381,7 +2393,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 06 · КАРТОЧКИ ════════════════ -->
   <section class="ds-sec" id="cards" data-od-id="sec-cards">
     <h2 class="ds-h2"><span class="n">06</span>Карточка события · ev-card</h2>
-    <p class="ds-desc">Канон «С»: фон <code>--surface</code>, рамка 1px + цветная дорожка слева 3px (переменная <code>--c</code>), радиус <code>--radius-md</code> 12px, паддинг <code>var(--space-4)</code> (16px), без тени. Три колонки: <code>when | body | side</code>. Весь текст — Inter на токенах сетки; время крупно 700; формат (Личная · С тренером · Групповая · Онлайн) — серым на отдельной строке под названием, без точки-разделителя; статус — короткая пилюля справа. День обычным регистром: <code>Сегодня</code> · <code>Суб.</code> · <code>Завтра</code>.</p>
+    <p class="ds-desc">Канон «С»: фон <code>--surface</code>, рамка 1px + цветная дорожка слева 3px (переменная <code>--c</code>), радиус <code>--radius-md</code> 12px, паддинг <code>var(--space-4)</code> (16px), без тени. Три колонки: <code>when | body | side</code>. Весь текст — Inter на токенах сетки; время крупно 700; формат (личная · с тренером · групповая · онлайн) — серым на отдельной строке под названием, без точки-разделителя; статус — короткая пилюля справа по центру. Меню «⋯» — отдельные точки в правом верхнем углу карточки (поверх, без обводки/фона). День обычным регистром: <code>Сегодня</code> · <code>Суб.</code> · <code>Завтра</code>.</p>
     <p class="ds-note"><b>Эталон.</b> Карточки этой секции — канонический источник правды для карточки события во всех экранах: главная (14), листы (17), тап → деталь (24), меню (25), типы и статусы (26) и всё остальное строится с оглядкой на них. При расхождении правит секция 06.</p>
     <h3 class="ds-sub">Канон «С» — все категории и форматы</h3>
     <p class="ds-desc">Цвет дорожки — из категории: Тренировка <code>--type-training</code> · Ивент <code>--type-event</code> · Аренда <code>--type-rental</code> · Клуб <code>--type-club</code>. Формат — текстом после названия. Статусы: <code>Подтв.</code> · <code>Запись</code> · <code>Идёт</code> · <code>Ожид.</code> · <code>Заверш.</code> · <code>Отм.</code>. Турнир может идти несколько дней — тогда записи нет, вместо «Запись» пилюля <code>Идёт</code>. Карточка без бейджей — <code>.ev-card.is-plain</code> (вариант для афиши/даты без статуса).</p>
@@ -2389,90 +2401,100 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
       <article class="ev-card" style="--c:var(--type-training)">
         <div class="ev-when"><span class="ev-day">Сегодня</span><span class="ev-time">05:40</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Утренняя пробежка<span class="ev-fmt">Личная</span></h3>
+          <h3 class="ev-title">Утренняя пробежка<span class="ev-fmt">личная</span></h3>
           <div class="ev-place">парк у&nbsp;спорткомплекса</div>
         </div>
         <span class="ev-status" style="--c:var(--st-confirmed)">Подтв.</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-training)">
         <div class="ev-when"><span class="ev-day">Сегодня</span><span class="ev-time">19:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Онлайн-тренировка<span class="ev-fmt">Онлайн</span></h3>
+          <h3 class="ev-title">Онлайн-тренировка<span class="ev-fmt">онлайн</span></h3>
           <div class="ev-place">видеозвонок</div>
         </div>
         <span class="ev-status" style="--c:var(--st-open)">Запись</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-training)">
         <div class="ev-when"><span class="ev-day">Суб.</span><span class="ev-time">10:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Групповое занятие<span class="ev-fmt">Групповая</span></h3>
+          <h3 class="ev-title">Групповое занятие<span class="ev-fmt">групповая</span></h3>
           <div class="ev-place">зал №&nbsp;1</div>
         </div>
         <span class="ev-status" style="--c:var(--st-open)">Запись</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-training)">
         <div class="ev-when"><span class="ev-day">Завтра</span><span class="ev-time">08:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Силовая<span class="ev-fmt">С тренером</span></h3>
+          <h3 class="ev-title">Силовая<span class="ev-fmt">с тренером</span></h3>
           <div class="ev-place">зал №&nbsp;2 ·&nbsp;А.&nbsp;Соколов</div>
         </div>
         <span class="ev-status" style="--c:var(--st-pending)">Ожид.</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-rental)">
         <div class="ev-when"><span class="ev-day">Суб.</span><span class="ev-time">12:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Аренда корта<span class="ev-fmt">Аренда</span></h3>
+          <h3 class="ev-title">Аренда корта<span class="ev-fmt">аренда</span></h3>
           <div class="ev-place">теннисные корты</div>
         </div>
         <span class="ev-status" style="--c:var(--st-confirmed)">Подтв.</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-club)">
         <div class="ev-when"><span class="ev-day">Завтра</span><span class="ev-time">18:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Сборы клуба<span class="ev-fmt">Клуб</span></h3>
+          <h3 class="ev-title">Сборы клуба<span class="ev-fmt">клуб</span></h3>
           <div class="ev-place">секция футбола</div>
         </div>
         <span class="ev-status is-org" style="--c:var(--type-club)"><svg class="star" aria-hidden="true"><use href="#ic-star-fill"></use></svg>Админ</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-event)">
         <div class="ev-when"><span class="ev-day">Суб.–Вс.</span><span class="ev-time">12:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Кубок района по&nbsp;теннису<span class="ev-fmt">Турнир</span></h3>
+          <h3 class="ev-title">Кубок района по&nbsp;теннису<span class="ev-fmt">турнир</span></h3>
           <div class="ev-place">теннисные корты</div>
         </div>
         <span class="ev-status" style="--c:var(--st-ongoing)">Идёт</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-training)">
         <div class="ev-when"><span class="ev-day">Вс.</span><span class="ev-time">09:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Пробежка на&nbsp;стадионе<span class="ev-fmt">Личная</span></h3>
+          <h3 class="ev-title">Пробежка на&nbsp;стадионе<span class="ev-fmt">личная</span></h3>
           <div class="ev-place">стадион</div>
         </div>
         <span class="ev-status" style="--c:var(--st-done)">Заверш.</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card" style="--c:var(--type-event)">
         <div class="ev-when"><span class="ev-day">Суб.</span><span class="ev-time">17:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">Летний фестиваль спорта<span class="ev-fmt">Ивент</span></h3>
+          <h3 class="ev-title">Летний фестиваль спорта<span class="ev-fmt">ивент</span></h3>
           <div class="ev-place">стадион</div>
         </div>
         <span class="ev-status" style="--c:var(--st-cancelled)">Отм.</span>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
 
       <article class="ev-card is-plain" style="--c:var(--type-event)">
         <div class="ev-when"><span class="ev-day">Пт.</span><span class="ev-time">18:00</span></div>
         <div class="ev-body">
-          <h3 class="ev-title">День открытых дверей<span class="ev-fmt">Ивент</span></h3>
+          <h3 class="ev-title">День открытых дверей<span class="ev-fmt">ивент</span></h3>
           <div class="ev-place">главный вход</div>
         </div>
+        <button class="ev-menu" type="button" aria-label="Меню карточки"><svg aria-hidden="true"><use href="#ic-dots"></use></svg></button>
       </article>
     </div>
 
@@ -2700,7 +2722,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 07 · ДАШБОРДЫ ════════════════ -->
   <section class="ds-sec" id="stats" data-od-id="sec-stats">
     <h2 class="ds-h2"><span class="n">07</span>Дашборды</h2>
-    <p class="ds-desc">Плитки <code>.stat-tile</code> (2 колонки), строка рейтинга <code>.stat-rating</code> (на всю ширину сетки) и карточка цели с кольцом прогресса. Метрические строки — единый паттерн: цветной квадрат со скруглением <code>.metric-ic</code> (40px, <code>--radius-md</code>, канон <code>.ct-ic</code>) слева → подпись → число с дельтой по правому краю; шевронов нет. Фон квадрата — тон цвета <code>--c</code> (<code>color-mix(in srgb, var(--c) 16%, var(--surface))</code>), иконка — <code>--icon-md</code> 20px, числа — JetBrains Mono (табулярный моноширинный), <code>--fs-title</code>. Цвета — по ролям: Баллы <code>--amber</code>, Достижения <code>--success</code>, Рейтинг <code>--accent</code>; квадраты обводные <code>.metric-ic.is-outline</code>. Обводка плиток — 1px <code>--border-soft</code> (как у <code>.status-strip</code>), кольцо цели — <code>--success</code> со свечением <code>drop-shadow</code>. Статусный чип «В процессе» — янтарный <code>.gchip.is-progress</code> (тон <code>--amber</code> 12%, семантика «ожидает действия», как <code>--st-pending</code>, без пульсации).</p>
+    <p class="ds-desc">Плитки <code>.stat-tile</code> (2 колонки), строка рейтинга <code>.stat-rating</code> (на всю ширину сетки) и карточка цели с кольцом прогресса. Метрические строки — единый паттерн: цветной квадрат со скруглением <code>.metric-ic</code> (40px, <code>--radius-md</code>, канон <code>.ct-ic</code>) слева → подпись → число с дельтой по правому краю; шевронов нет. Фон квадрата — тон цвета <code>--c</code> (<code>color-mix(in srgb, var(--c) 16%, var(--surface))</code>), иконка — <code>--icon-md</code> 20px, числа — Inter 500 с <code>tabular-nums</code> (рецепт <code>.ev-when .ev-time</code>), <code>--fs-title</code>. Цвета — по ролям: Баллы <code>--amber</code>, Достижения <code>--success</code>, Рейтинг <code>--accent</code>; квадраты обводные <code>.metric-ic.is-outline</code>. Обводка плиток — 1px <code>--border-soft</code> (как у <code>.status-strip</code>), кольцо цели — <code>--success</code> со свечением <code>drop-shadow</code>. Статусный чип «В процессе» — янтарный <code>.gchip.is-progress</code> (тон <code>--amber</code> 12%, семантика «ожидает действия», как <code>--st-pending</code>, без пульсации).</p>
     <div class="ds-grid ds-2">
       <div class="dash-card">
         <div class="goal-top">
@@ -2778,7 +2800,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
       <span class="complex-row"><svg aria-hidden="true"><use href="#ic-rain"></use></svg>Дождь · -3°C</span>
     </button>
     <p class="ds-note">Компактный вариант <code>.status-strip</code> на главной (после шапки): режим работы и погода слева, между ними разделитель <code>.status-strip-sep</code> (разные сущности), погода одной строкой «<code>Дождь, -3°C</code>», шеврон в конце строки (<code>margin-left: auto</code>) — кликабельная плашка на экран «Спорткомплекс».</p>
-    <p class="ds-note">Числа — <code>--font-mono</code> с <code>font-variant-numeric: tabular-nums</code>. Цветные акценты: баллы — янтарная звезда (<code>--amber</code>), рост — <code>--success</code>.</p>
+    <p class="ds-note">Числа — Inter (<code>--font-body</code>) с <code>font-variant-numeric: tabular-nums</code>, вес 500 — как время в карточке события. Цветные акценты: баллы — янтарная звезда (<code>--amber</code>), рост — <code>--success</code>.</p>
   </section>
 
   <!-- ════════════════ 08 · ИНПУТЫ ════════════════ -->
@@ -3555,7 +3577,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 25 · МЕНЮ «⋯» ════════════════ -->
   <section class="ds-sec" id="menu-dots" data-od-id="sec-menu-dots">
     <h2 class="ds-h2"><span class="n">25</span>Меню «⋯» — быстрые действия карточки</h2>
-    <p class="ds-desc">Кнопка <code>.ev-menu</code> (32px, круглая, иконка <code>#ic-dots</code>) в шапке карточки открывает нижний лист <code>.sheet</code> со списком <code>.sheet-list</code> / <code>.sheet-item</code>. Каждый пункт — иконка <code>.sheet-ic</code> + текст <code>.sheet-it</code> (название <code>.sheet-il</code> + подсказка <code>.sheet-ih</code>). Недоступный пункт получает <code>.is-off</code> с причиной в подсказке. Состав меню зависит от роли в событии и его типа.</p>
+    <p class="ds-desc">Кнопка <code>.ev-menu</code> с иконкой <code>#ic-dots</code> открывает нижний лист <code>.sheet</code> со списком <code>.sheet-list</code> / <code>.sheet-item</code>. Каждый пункт — иконка <code>.sheet-ic</code> + текст <code>.sheet-it</code> (название <code>.sheet-il</code> + подсказка <code>.sheet-ih</code>). Недоступный пункт получает <code>.is-off</code> с причиной в подсказке. Состав меню зависит от роли в событии и его типа. Вид кнопки: в карточке события <code>.ev-card .ev-menu</code> — отдельные точки в правом верхнем углу карточки (поверх, 20px, без обводки и фона, на ховере — только смена цвета); в карточке цели (<code>.goal-top</code>) — круглая 32px с рамкой.</p>
 
     <div class="ds-grid ds-2">
       <div>
