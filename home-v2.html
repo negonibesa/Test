@@ -410,7 +410,7 @@ body.no-scroll { overflow: hidden; }
 .ev-card .ev-menu svg { width: 20px; height: 20px; }
 .ev-card .ev-menu:hover { color: var(--fg); background: none; }
 .ev-card .ev-menu:active { transform: scale(0.92); }
-.ev-card .ev-menu:focus-visible { outline: none; }
+.ev-card .ev-menu:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .ev-card.is-plain { grid-template-areas: "when body"; grid-template-columns: auto minmax(0, 1fr); }
 
 /* ── 06b · Скелетон карточки события (loading) ──────────────────── */
@@ -1299,6 +1299,7 @@ select.input {
   transition: background var(--motion-fast) var(--ease-standard);
 }
 .club-card:hover { background: var(--surface-2); }
+.club-card:active { transform: scale(0.97); }
 .club-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .club-ic {
   width: 40px; height: 40px; border-radius: var(--radius-md);
@@ -1445,6 +1446,7 @@ select.input {
 
 /* Резина: контейнер до --container-max (700px) по центру, каноничные отступы */
 .body { padding-left: var(--space-4); padding-right: var(--space-4); }
+@media (max-width: 559px) { .hd { padding-left: var(--space-4); padding-right: var(--space-4); } }
 
 /* Единый вертикальный ритм блоков: 8px между всеми */
 .body > * + * { margin-top: var(--space-2); }
@@ -1565,7 +1567,7 @@ select.input {
 <div class="app">
   <header class="hd" data-od-id="home-header">
     <span class="avatar is-photo" aria-hidden="true"><img src="/api/projects/70f2c5f4-fba6-4067-84f7-ae1f37d6970f/raw/assets/ava-1.png?workspaceId=dd2n7ydj2v65r2v24rls2lxe&amp;workspaceMemberId=vlsaw47smfcyrq6outx9stha" alt=""></span>
-    <span class="hd-txt"><h1>Привет, Андрей</h1></span>
+    <div class="hd-txt"><h1>Привет, Андрей</h1></div>
     <span class="hd-acts">
       <a class="icon-btn" href="search.html" aria-label="Поиск"><svg aria-hidden="true"><use href="#ic-search"></use></svg></a>
       <a class="icon-btn" href="notifications.html" aria-label="Уведомления"><svg aria-hidden="true"><use href="#ic-bell"></use></svg><span class="notif" aria-hidden="true">2</span></a>
@@ -1574,16 +1576,16 @@ select.input {
 
   <main class="body" data-od-id="home-body">
     <button class="cv cv-a cv-weather" type="button" data-od-id="home-complex-a" style="--c:var(--st-ongoing)">
-      <span class="cv-a-cat">Спорткомплекс</span>
+      <span class="cv-a-cat" style="font-size: 12px;">Спорткомплекс</span>
       <span class="cv-a-head">
-        <span class="cv-a-title"><span class="dot" aria-hidden="true"></span>«СП Петровское»</span>
+        <span class="cv-a-title" style="font-size: 17px;"><span class="dot" aria-hidden="true"></span>«СП Петровское»</span>
         <span class="cv-go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
       </span>
     </button>
 
-    <button class="cv cv-a goal-card" type="button" data-od-id="home-goal" aria-label="Открыть дневник ГТО">
+    <button class="cv cv-a goal-card" type="button" data-od-id="home-goal" aria-label="Открыть дневник ГТО, прогресс 4 из 5 нормативов, 85%">
       <span class="cv-a-head">
-        <span class="cv-a-title">Моя цель</span>
+        <span class="cv-a-title" style="font-size: 17px;">Моя цель</span>
         <span class="gchip is-sign goal-head-sign" style="--c: var(--gto-silver)"><span class="dot" aria-hidden="true"></span>Знак ГТО · Серебро</span>
         <span class="cv-go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
       </span>
@@ -1614,14 +1616,14 @@ select.input {
 
     <section class="sec" data-od-id="home-events">
       <div class="sec-head">
-        <h2 style="font-weight: 600;">Ближ. События</h2>
+        <h2 style="font-size: 17px;">Ближ. События</h2>
         <a class="sec-all" href="schedule-calendar.html">все<svg aria-hidden="true"><use href="#ic-chev"></use></svg></a>
       </div>
       <div class="cards">
         <article class="ev-card" style="--c:var(--type-training)" data-od-id="ev-1">
-          <div class="ev-when" style="font-weight: 500;"><span class="ev-day">Сегодня</span><span class="ev-time" style="font-weight: 500;">05:40</span></div>
+          <div class="ev-when"><span class="ev-day">Сегодня</span><span class="ev-time">05:40</span></div>
           <div class="ev-body">
-            <h3 class="ev-title" style="font-weight: 600;">Утренняя пробежка<span class="ev-fmt" style="font-weight: 500;">личная</span></h3>
+            <h3 class="ev-title">Утренняя пробежка<span class="ev-fmt">личная</span></h3>
             <div class="ev-place">парк у&nbsp;спорткомплекса</div>
           </div>
           <span class="ev-status" style="--c:var(--st-confirmed)">Подтв.</span>
