@@ -57,17 +57,17 @@
   --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 
-  --fs-display: 34px;
-  --fs-title: 20px;
+  --fs-display: 28px;
+  --fs-title: 18px;
   --fs-title-sm: 17px;   /* компактный заголовок карточек и секций */
   --fs-time: 17px;   /* крупное время в карточке события */
-  --fs-body: 15px;
+  --fs-body: 16px;
   --fs-meta: 13px;
   --fs-caption: 11px;
 
-  --leading-body: 1.6;
-  --tracking-display: 0.01em;
-  --tracking-caps: 0.05em;
+  --leading-body: 1.5;
+  --tracking-display: 0.06em;
+  --tracking-caps: 0.08em;
   --tracking-tight: -0.02em;
 
   /* ── Отступы (чётные, шкала 4pt) ───────────────────────────────── */
@@ -83,6 +83,7 @@
 
   --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-lg: 20px;   /* крупные карточки (cv, goal-card) */
   --radius-pill: 980px;
 
   /* ── Высоты контролов (4 уровня) ──────────────────────────────── */
@@ -486,7 +487,7 @@ pre.code .t2 { color: #fbbf24; }
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .avatar svg { width: 100%; height: 100%; display: block; border-radius: 50%; }
-.avatar.is-photo { background: transparent; box-shadow: none; }
+.avatar.is-photo { background: #fff; padding: 3px; box-shadow: 0 0 0 2px var(--surface); }
 .avatar-sm { width: var(--h-sm); height: var(--h-sm); font-size: var(--fs-body); }
 
 /* ── Карточка события · канон «С»: колонки when | body | side ── */
@@ -496,7 +497,7 @@ pre.code .t2 { color: #fbbf24; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--c, var(--border));
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   padding: var(--space-4);
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -539,7 +540,7 @@ pre.code .t2 { color: #fbbf24; }
 .av { width: 100%; height: 100%; display: block; border-radius: 50%; }
 
 /* ── Стат-плитки / цель ── */
-.dash-card { background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: var(--space-5); transition: border-color var(--motion-fast) var(--ease-standard); }
+.dash-card { margin-top: var(--space-3); background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-5); transition: border-color var(--motion-fast) var(--ease-standard); }
 .dash-card:hover { border-color: var(--border-strong); }
 .dash-title { margin: 0; font-family: var(--font-body); font-size: var(--fs-title); font-weight: 700; letter-spacing: var(--tracking-tight); }
 .goal-top { display: flex; align-items: center; gap: var(--space-3); }
@@ -565,10 +566,10 @@ pre.code .t2 { color: #fbbf24; }
   background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius-pill); padding: var(--space-1) var(--space-4);
 }
 .gchip.is-sign { color: var(--muted); background: var(--surface); }
+.gchip .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
 .gchip.is-progress { color: var(--amber); background: color-mix(in srgb, var(--amber) 12%, var(--surface)); border-color: color-mix(in srgb, var(--amber) 20%, transparent); }
 .dash-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-top: var(--space-2); }
-@media (max-width: 520px) { .dash-stats { grid-template-columns: 1fr; } }
-.dash-stats .dash-card { padding: var(--space-5) var(--space-4); }
+.dash-stats .dash-card { margin-top: 0; padding: var(--space-5) var(--space-4); position: relative; }
 .stat-tile {
   display: flex; align-items: center; gap: var(--space-3); text-align: left;
   padding: var(--space-3) var(--space-4);
@@ -598,12 +599,15 @@ pre.code .t2 { color: #fbbf24; }
 .stat-tile-val .is-up, .stat-rating-val .is-up { color: var(--success); font-weight: 600; }
 .stat-tile-main { flex: 1; min-width: 0; }
 .stat-rating {
-  display: flex; align-items: center; gap: var(--space-3);
-  width: 100%; grid-column: 1 / -1; padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--border-soft); border-radius: var(--radius-md);
-  background: var(--surface); font: inherit; color: inherit; text-decoration: none; text-align: left; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+  width: 100%; grid-column: 1 / -1; padding: var(--space-4);
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--surface); font: inherit; font-size: var(--fs-meta); font-weight: 500;
+  color: inherit; text-decoration: none; text-align: center; cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.04);
   transition: all var(--motion-fast) var(--ease-standard);
 }
+.stat-rating-ic { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--success); }
 .stat-rating:hover { background: var(--surface-2); border-color: var(--border-strong); }
 .stat-rating:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
@@ -670,6 +674,76 @@ pre.code .t2 { color: #fbbf24; }
   margin-top: var(--space-2); font-size: var(--fs-meta); font-weight: 500; color: var(--fg-2);
 }
 .complex-row + .complex-row { margin-top: var(--space-1); }
+
+/* ── Главная v2: карточки .cv (поверхность · рамка · hover-подъём) ── */
+.cv {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font: inherit; color: inherit; text-align: left; cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+.cv:hover { background: var(--surface-2); transform: translateY(-1px); }
+.cv:active { transform: scale(0.985); }
+.cv:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.cv .cv-go { flex: none; display: grid; place-items: center; color: var(--meta); }
+.cv .cv-go svg { width: 12px; height: 12px; }
+.cv-a { padding: var(--space-4); }
+.cv-a-cat { display: block; margin: 0 0 var(--space-1); font-size: var(--fs-meta); font-weight: 500; letter-spacing: 0; color: var(--muted); }
+.cv-a-head {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding-bottom: var(--space-2); border-bottom: 1px solid var(--border-soft);
+}
+.cv-weather .cv-a-head { border-bottom: none; }
+.cv-a-title {
+  flex: 1; min-width: 0;
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: var(--fs-title-sm); font-weight: 600; color: var(--fg);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cv-a-title svg { flex: none; width: var(--icon-md); height: var(--icon-md); color: var(--muted); }
+.cv-a-title .dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--success)); }
+
+/* ── Главная v2: цель — карточка .goal-card с прогресс-баром ── */
+.goal-card .goal-count { flex: none; display: inline-flex; align-items: baseline; gap: var(--space-1); font-size: var(--fs-meta); font-weight: 500; color: var(--muted); white-space: nowrap; }
+.goal-card .goal-count-n { font-size: var(--fs-display); font-weight: 500; line-height: 1; color: var(--fg); font-variant-numeric: tabular-nums; }
+.goal-head-sign { flex: none; }
+.goal-progress {
+  position: relative; display: flex;
+  width: 100%; height: 36px; margin-top: var(--space-4);
+  background: #e6f3f2; border-radius: var(--radius-pill); overflow: hidden;
+  pointer-events: none;
+}
+.goal-progress-fill {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: flex-end; padding: 3px;
+  width: 85%;
+  background: linear-gradient(90deg, #48c4bd, #2c9b95);
+  border-radius: var(--radius-pill);
+}
+.goal-progress-pct {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 100%; padding: 0 12px;
+  background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill); color: #fff;
+  font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.goal-meta {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3);
+  margin-top: auto; padding-top: var(--space-4);
+}
+.goal-meta-note { font-size: var(--fs-meta); font-weight: 500; color: var(--muted); }
+
+/* ── Главная v2: статистика — .dash-stats (2 ячейки + кнопка рейтинга) ── */
+.dash-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-top: var(--space-2); }
+.dash-cell { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); min-width: 0; }
+.dash-cell .dc-top { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--fs-meta); font-weight: 500; letter-spacing: 0; color: var(--muted); }
+.dash-cell .dc-top svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--c); }
+.dash-cell .dc-val { display: inline-flex; align-items: center; gap: var(--space-1); font-family: var(--font-body); font-size: var(--fs-title); font-weight: 500; letter-spacing: -0.01em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--fg); }
+.dash-cell .dc-val svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--c); }
+.dash-stats .st-delta { flex: none; display: inline-flex; align-items: center; gap: var(--space-1); font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0; color: color-mix(in oklab, var(--success), var(--fg) 25%); background: color-mix(in srgb, var(--success) 14%, var(--surface)); border-radius: var(--radius-pill); padding: var(--space-1) 11px; white-space: nowrap; }
 
 /* ── Экран «Спорткомплекс Петровское»: зоны и особенности ── */
 .zone-list { display: grid; gap: var(--space-2); }
@@ -879,7 +953,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   display: flex; flex-direction: column; gap: var(--space-2);
   padding: var(--space-4);
   background: var(--surface);
-  border: 0; border-radius: var(--radius-md);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
   font: inherit; color: inherit; text-align: left;
   cursor: pointer;
   transition: background var(--motion-fast) var(--ease-standard);
@@ -887,30 +961,51 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .club-card:hover { background: var(--surface-2); }
 .club-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .club-ic {
-  width: 40px; height: 40px; border-radius: var(--radius-md);
-  display: grid; place-items: center;
-  background: color-mix(in srgb, var(--c) 22%, var(--surface));
-  color: var(--c);
+  flex: none;
+  width: auto; height: auto; border-radius: 0;
+  display: flex; justify-content: flex-start;
+  background: none; color: var(--c);
 }
 .club-ic svg { width: var(--icon-md); height: var(--icon-md); }
+.club-ic img { width: 64px; height: 64px; object-fit: contain; }
 .club-card b { font-size: var(--fs-meta); font-weight: 600; color: var(--fg); }
 .club-card small { font-size: var(--fs-meta); line-height: 1.35; color: var(--meta); }
 
-.news-card { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); width: 100%; text-align: left; font: inherit; cursor: pointer; }
+.news-list { display: grid; gap: var(--space-3); }
+.news-card {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--motion-fast) var(--ease-standard);
+}
 .news-card:hover { background: var(--surface-2); }
 .news-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.news-card .pic {
-  flex: none; width: 64px; height: 64px; border-radius: var(--radius-md);
-  background: color-mix(in srgb, var(--type-club) 14%, var(--surface));
-  color: var(--type-club);
-  display: grid; place-items: center;
+.news-card-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.news-date {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: var(--fs-caption); font-weight: 600;
+  letter-spacing: var(--tracking-caps); text-transform: uppercase;
+  color: var(--meta);
 }
-.news-card .pic svg { width: var(--icon-lg); height: var(--icon-lg); }
-.news-card .tx { flex: 1; min-width: 0; }
-.news-card .tx h4 { margin: 0 0 var(--space-1); font-size: var(--fs-meta); font-weight: 600; line-height: 1.35; }
-.news-card .tx p { margin: 0; font-size: var(--fs-meta); line-height: 1.4; color: var(--muted); }
-.news-card .meta { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-meta); color: var(--meta); }
-.news-card .meta svg { width: var(--icon-sm); height: var(--icon-sm); }
+.news-date svg { width: var(--icon-sm); height: var(--icon-sm); }
+.news-media {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption); font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) 8px;
+}
+.news-media svg { width: 14px; height: 14px; }
+.news-card h3 { margin: var(--space-2) 0 0; font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600; letter-spacing: 0; line-height: 1.3; color: var(--fg); }
+.news-card p { margin: var(--space-1) 0 0; font-size: var(--fs-meta); line-height: 1.45; color: var(--muted); }
 
 .ach-item {
   display: flex; align-items: center; gap: var(--space-3);
@@ -968,8 +1063,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .hd-txt { flex: 1; min-width: 0; }
 .hd h1 {
   margin: 0;
-  font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600;
-  letter-spacing: 0.01em; line-height: 1.3; color: var(--fg);
+  font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600;
+  letter-spacing: 0; line-height: 1.3; color: var(--fg);
   overflow-wrap: anywhere; hyphens: none;
 }
 .hd .sub { margin: var(--space-1) 0 0; font-size: var(--fs-meta); color: var(--muted); }
@@ -1044,8 +1139,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .sec-head { display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-1) var(--space-4); }
 .sec-head h2 {
   margin: 0; flex: 1;
-  font-family: var(--font-display); font-size: var(--fs-title); font-weight: 600;
-  letter-spacing: var(--tracking-display); text-transform: uppercase;
+  font-family: var(--font-body); font-size: var(--fs-title-sm); font-weight: 600;
+  letter-spacing: 0; text-transform: none;
 }
 .sec-all {
   flex: none; display: inline-flex; align-items: center; gap: var(--space-1);
@@ -1863,6 +1958,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <symbol id="ic-home" viewBox="0 0 24 24"><path d="M20 17.3702V10.3353C20 9.24543 19.5203 8.21325 18.6935 7.52387L14.249 3.81841C12.9402 2.72719 11.0598 2.7272 9.75099 3.81841L5.30654 7.52387C4.47968 8.21325 4 9.24543 4 10.3353V17.3702C4 19.3749 5.59188 21 7.55556 21H16.4444C18.4081 21 20 19.3749 20 17.3702Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path><path d="M10 17H14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
   <symbol id="ic-events" viewBox="0 0 24 24"><path d="M8.4 5.7L7.5 3M15.6 5.7L16.5 3M20.55 9.3H3.45M3 9.9003C3 6.834 5.4174 4.35 8.4 4.35H15.6C18.5826 4.35 21 6.834 21 9.9003V15.4497C21 18.516 18.5826 21 15.6 21H8.4C5.4174 21 3 18.516 3 15.4497V9.9003Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
   <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-trend-up" viewBox="0 0 24 24"><path d="M3.5 17l6-6 4 4 7-7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14.5 7.5h6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
   <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M17.5554 11.9999H15.4686C15.3868 11.9999 15.3133 12.0497 15.2829 12.1256L13.3609 16.9308C13.287 17.1155 13.0181 17.0908 12.9791 16.8957L11.0207 7.10406C10.9817 6.90899 10.7128 6.8843 10.6389 7.069L8.71685 11.8742C8.68647 11.9501 8.61293 11.9999 8.53115 11.9999H6.44434" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path><path d="M2 12C2 7.28556 2 4.92889 3.46444 3.46444C4.92889 2 7.28667 2 12 2C16.7133 2 19.0711 2 20.5356 3.46444C22 4.92889 22 7.28667 22 12C22 16.7133 22 19.0711 20.5356 20.5356C19.0711 22 16.7133 22 12 22C7.28667 22 4.92889 22 3.46444 20.5356C2 19.0711 2 16.7133 2 12Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
   <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
   <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
@@ -2124,22 +2220,22 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub">Типографика</h3>
-    <p class="ds-desc">Шрифтовая сетка — 6 размеров от 34 до 11px (см. шкалу). Меньше 11px не используем. Моно-шрифтов нет — всё, включая цифры (баллы, время, рейтинг, прогресс), набирается Inter с <code>font-variant-numeric: tabular-nums</code>, из той же сетки или из отведённых под числа размеров.</p>
+    <p class="ds-desc">Шрифтовая сетка — 6 размеров от 28 до 11px (см. шкалу). Меньше 11px не используем. Моно-шрифтов нет — всё, включая цифры (баллы, время, рейтинг, прогресс), набирается Inter с <code>font-variant-numeric: tabular-nums</code>, из той же сетки или из отведённых под числа размеров.</p>
     <div class="fs-scale">
-      <div class="fs-row"><span class="fs-name">--fs-display</span><span class="fs-val">34px</span><span class="fs-sample" style="font-size:34px;font-weight:700;line-height:1.1;letter-spacing:var(--tracking-tight)">Заголовок 1 · дисплейный</span></div>
-      <div class="fs-row"><span class="fs-name">--fs-title</span><span class="fs-val">20px</span><span class="fs-sample" style="font-size:20px;font-weight:600">Заголовок карточки события</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-display</span><span class="fs-val">28px</span><span class="fs-sample" style="font-size:28px;font-weight:700;line-height:1.1;letter-spacing:var(--tracking-tight)">Заголовок 1 · дисплейный</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-title</span><span class="fs-val">18px</span><span class="fs-sample" style="font-size:18px;font-weight:600">Заголовок карточки события</span></div>
       <div class="fs-row"><span class="fs-name">--fs-title-sm</span><span class="fs-val">17px</span><span class="fs-sample" style="font-size:17px;font-weight:600">Компактный заголовок карточек и секций</span></div>
       <div class="fs-row"><span class="fs-name">--fs-time</span><span class="fs-val">17px</span><span class="fs-sample" style="font-size:17px;font-weight:500">05:40 · 10:00 — крупное время события</span></div>
-      <div class="fs-row"><span class="fs-name">--fs-body</span><span class="fs-val">15px</span><span class="fs-sample" style="font-size:15px">Основной текст инпутов</span></div>
+      <div class="fs-row"><span class="fs-name">--fs-body</span><span class="fs-val">16px</span><span class="fs-sample" style="font-size:16px">Основной текст инпутов</span></div>
       <div class="fs-row"><span class="fs-name">--fs-meta</span><span class="fs-val">13px</span><span class="fs-sample" style="font-size:13px;color:var(--muted)">Метаданные, подписи</span></div>
       <div class="fs-row"><span class="fs-name">--fs-caption</span><span class="fs-val">11px</span><span class="fs-sample" style="font-size:11px;color:var(--muted)">Бейджи, чипы-статусы, таббар</span></div>
     </div>
     <div class="ds-grid">
-      <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-display); font-weight:700; letter-spacing:var(--tracking-tight); line-height:1.1">Inter 34/700 — заголовки · Заголовок 1</div>
-      <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-title); font-weight:600">Inter 20/600 — заголовок карточки события</div>
+      <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-display); font-weight:700; letter-spacing:var(--tracking-tight); line-height:1.1">Inter 28/700 — заголовки · Заголовок 1</div>
+      <div class="ds-card" style="font-family:var(--font-display); font-size:var(--fs-title); font-weight:600">Inter 18/600 — заголовок карточки события</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-title-sm); font-weight:600">Inter 17/600 — компактный заголовок карточек и секций</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-time); font-weight:500">Inter 17 — крупное время в карточке события: 05:40 · 10:00</div>
-      <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-body)">Inter 15 — основной текст инпутов · Абзац основного текста</div>
+      <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-body)">Inter 16 — основной текст инпутов · Абзац основного текста</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-meta); color:var(--muted)">Inter 13 — метаданные, подписи</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-caption); color:var(--muted)">Inter 11 — бейджи, чипы-статусы, таббар</div>
       <div class="ds-card" style="font-family:var(--font-body); font-size:var(--fs-body); font-variant-numeric:tabular-nums; font-weight:500">Inter — цифры (как время в карточке события): 2490 · 74% · 12-е место</div>
@@ -2169,8 +2265,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     <p class="ds-desc" style="margin-top:var(--space-3)">Радиусы: <code>--radius-sm</code> 8px (аватары, чипы, сегменты) · <code>--radius-md</code> 12px (инпуты, строки, карточки, листы) · <code>--radius-pill</code> 980px (кнопки, пилюли, тосты).</p>
     <div class="ds-grid ds-2" style="margin-top:var(--space-3)">
       <div class="ds-card"><h4>Прочие токены</h4>
-        <p class="ds-card-sub">--font-display / --font-body / --font-mono (Inter + JetBrains Mono) · --tracking-display 0.01em · --tracking-caps 0.05em · --tracking-tight -0.02em · --leading-body 1.6</p>
-        <p class="ds-card-sub">--radius-sm 8 · --radius-md 12 · --radius-pill 980 · --h-sm 32 · --h-md 40 · --h-base 44 · --h-lg 56</p>
+        <p class="ds-card-sub">--font-display / --font-body / --font-mono (Inter + JetBrains Mono) · --tracking-display 0.06em · --tracking-caps 0.08em · --tracking-tight -0.02em · --leading-body 1.5</p>
+        <p class="ds-card-sub">--radius-sm 8 · --radius-md 12 · --radius-lg 20 · --radius-pill 980 · --h-sm 32 · --h-md 40 · --h-base 44 · --h-lg 56</p>
         <p class="ds-card-sub">--icon-sm 16 · --icon-md 20 · --icon-lg 24</p>
         <p class="ds-card-sub">--space-1 4 … --space-12 48 · --elev-card 0 2px 12px rgba(0,0,0,.06) · --elev-raised 0 8px 32px rgba(0,0,0,.08)</p>
         <p class="ds-card-sub">--focus-ring 0 0 0 3px rgba(59,123,255,.30) · --motion-fast 150ms / --motion-base 220ms · --ease-standard cubic-bezier(.28,0,.22,1)</p>
@@ -2204,12 +2300,12 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <span class="t2">--font-display</span>: <span class="t2">"Inter", "Helvetica Neue", Arial, sans-serif</span>;
   <span class="t2">--font-body</span>: <span class="t2">"Inter", "Helvetica Neue", Arial, sans-serif</span>;
   <span class="t2">--font-mono</span>: <span class="t2">"JetBrains Mono", ui-monospace, Menlo, monospace</span>;
-  <span class="t2">--fs-display</span>: <span class="t2">34px</span>; <span class="t2">--fs-title</span>: <span class="t2">20px</span>;
+  <span class="t2">--fs-display</span>: <span class="t2">28px</span>; <span class="t2">--fs-title</span>: <span class="t2">18px</span>;
   <span class="t2">--fs-title-sm</span>: <span class="t2">17px</span>; <span class="t2">--fs-time</span>: <span class="t2">17px</span>;
-  <span class="t2">--fs-body</span>: <span class="t2">15px</span>; <span class="t2">--fs-meta</span>: <span class="t2">13px</span>;
+  <span class="t2">--fs-body</span>: <span class="t2">16px</span>; <span class="t2">--fs-meta</span>: <span class="t2">13px</span>;
   <span class="t2">--fs-caption</span>: <span class="t2">11px</span>;
-  <span class="t2">--leading-body</span>: <span class="t2">1.6</span>; <span class="t2">--tracking-display</span>: <span class="t2">0.01em</span>;
-  <span class="t2">--tracking-caps</span>: <span class="t2">0.05em</span>; <span class="t2">--tracking-tight</span>: <span class="t2">-0.02em</span>;
+  <span class="t2">--leading-body</span>: <span class="t2">1.5</span>; <span class="t2">--tracking-display</span>: <span class="t2">0.06em</span>;
+  <span class="t2">--tracking-caps</span>: <span class="t2">0.08em</span>; <span class="t2">--tracking-tight</span>: <span class="t2">-0.02em</span>;
   <span class="t2">--space-0</span>: <span class="t2">0</span>; <span class="t2">--space-1</span>: <span class="t2">4px</span>;
   <span class="t2">--space-2</span>: <span class="t2">8px</span>; <span class="t2">--space-3</span>: <span class="t2">12px</span>;
   <span class="t2">--space-4</span>: <span class="t2">16px</span>; <span class="t2">--space-5</span>: <span class="t2">20px</span>;
@@ -2218,7 +2314,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <span class="t2">--h-sm</span>: <span class="t2">32px</span>; <span class="t2">--h-md</span>: <span class="t2">40px</span>;
   <span class="t2">--h-base</span>: <span class="t2">44px</span>; <span class="t2">--h-lg</span>: <span class="t2">56px</span>;
   <span class="t2">--radius-sm</span>: <span class="t2">8px</span>; <span class="t2">--radius-md</span>: <span class="t2">12px</span>;
-  <span class="t2">--radius-pill</span>: <span class="t2">980px</span>;
+  <span class="t2">--radius-lg</span>: <span class="t2">20px</span>; <span class="t2">--radius-pill</span>: <span class="t2">980px</span>;
   <span class="t2">--icon-sm</span>: <span class="t2">16px</span>; <span class="t2">--icon-md</span>: <span class="t2">20px</span>;
   <span class="t2">--icon-lg</span>: <span class="t2">24px</span>;
   <span class="t2">--elev-card</span>: <span class="t2">0 2px 12px rgba(0,0,0,.06)</span>;
@@ -2241,6 +2337,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
       <div class="ic-tile"><svg><use href="#ic-events"></use></svg><code>ic-events</code></div>
       <div class="ic-tile"><svg><use href="#ic-user"></use></svg><code>ic-user</code></div>
       <div class="ic-tile"><svg><use href="#ic-trend"></use></svg><code>ic-trend</code></div>
+      <div class="ic-tile"><svg><use href="#ic-trend-up"></use></svg><code>ic-trend-up</code></div>
       <div class="ic-tile"><svg><use href="#ic-clock"></use></svg><code>ic-clock</code></div>
       <div class="ic-tile"><svg><use href="#ic-bell"></use></svg><code>ic-bell</code></div>
       <div class="ic-tile"><svg><use href="#ic-edit"></use></svg><code>ic-edit</code></div>
@@ -2766,64 +2863,46 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 07 · ДАШБОРДЫ ════════════════ -->
   <section class="ds-sec" id="stats" data-od-id="sec-stats">
     <h2 class="ds-h2"><span class="n">07</span>Дашборды</h2>
-    <p class="ds-desc">Плитки <code>.stat-tile</code> (2 колонки), строка рейтинга <code>.stat-rating</code> (на всю ширину сетки) и карточка цели с кольцом прогресса. Метрические строки — единый паттерн: цветной квадрат со скруглением <code>.metric-ic</code> (40px, <code>--radius-md</code>, канон <code>.ct-ic</code>) слева → подпись → число с дельтой по правому краю; шевронов нет. Фон квадрата — тон цвета <code>--c</code> (<code>color-mix(in srgb, var(--c) 16%, var(--surface))</code>), иконка — <code>--icon-md</code> 20px, числа — Inter 500 с <code>tabular-nums</code> (рецепт <code>.ev-when .ev-time</code>), <code>--fs-title</code>. Цвета — по ролям: Баллы <code>--amber</code>, Достижения <code>--success</code>, Рейтинг <code>--accent</code>; квадраты обводные <code>.metric-ic.is-outline</code>. Обводка плиток — 1px <code>--border-soft</code> (как у <code>.status-strip</code>), кольцо цели — <code>--success</code> со свечением <code>drop-shadow</code>. Статусный чип «В процессе» — янтарный <code>.gchip.is-progress</code> (тон <code>--amber</code> 12%, семантика «ожидает действия», как <code>--st-pending</code>, без пульсации).</p>
-    <div class="ds-grid ds-2">
-      <div class="dash-card">
-        <div class="goal-top">
-          <h3 class="dash-title">Моя цель</h3>
-          <button class="ev-menu" type="button" aria-label="Меню"><svg><use href="#ic-dots"></use></svg></button>
-        </div>
-        <div class="dash-ring-row">
-          <div class="goal-ring" aria-hidden="true">
-            <svg viewBox="0 0 112 112">
-              <circle class="trk" cx="56" cy="56" r="48"></circle>
-              <circle class="fill" cx="56" cy="56" r="48" stroke-dasharray="301.6" stroke-dashoffset="75"></circle>
-            </svg>
-            <span class="pct">75%</span>
-          </div>
-          <div class="dash-ring-info">
-            <div class="dash-ring-value">18<small> / 24</small></div>
-            <div class="dash-ring-label">из 24 тренировок</div>
-            <div class="goal-badges">
-              <span class="gchip is-progress">В процессе</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="dash-stats" style="margin-top:0">
-        <button class="stat-tile" type="button">
-          <span class="metric-ic is-outline" aria-hidden="true" style="--c:var(--amber)"><svg><use href="#ic-star-solar"></use></svg></span>
-          <span class="stat-tile-main">
-            <span class="stat-tile-top">Баллы</span>
-          </span>
-          <span class="stat-tile-val">
-            <span class="stat-tile-val-tx">2490</span>
-            <span class="stat-tile-val-sub"><span class="is-up">+1 233</span> за 7 дн.</span>
-          </span>
-        </button>
-        <button class="stat-tile" type="button">
-          <span class="metric-ic is-outline" aria-hidden="true" style="--c:var(--success)"><svg><use href="#ic-medal-solar"></use></svg></span>
-          <span class="stat-tile-main">
-            <span class="stat-tile-top">Достижения</span>
-          </span>
-          <span class="stat-tile-val">
-            <span class="stat-tile-val-tx">14</span>
-            <span class="stat-tile-val-sub"><span class="is-up">+1</span> за 7 дн.</span>
-          </span>
-        </button>
-        <button class="stat-rating" type="button">
-          <span class="metric-ic is-outline" aria-hidden="true" style="--c:var(--accent)"><svg><use href="#ic-cup-solar"></use></svg></span>
-          <span class="stat-tile-main">
-            <span class="stat-tile-top">Рейтинг</span>
-          </span>
-          <span class="stat-tile-val">
-            <span class="stat-tile-val-tx">12</span>
-            <span class="stat-tile-val-sub">место в регионе</span>
-          </span>
-        </button>
-      </div>
+    <p class="ds-desc">Дашборд главной: карточка комплекса <code>.cv.cv-a.cv-weather</code>, карточка цели <code>.goal-card</code> с прогресс-баром <code>.goal-progress</code> и сетка <code>.dash-stats</code> — две ячейки <code>.cv.cv-a.dash-card</code> (Баллы, Достижения) + кнопка рейтинга <code>.stat-rating</code> на всю ширину. Ячейки — паттерн <code>.dash-cell</code>: подпись <code>.dc-top</code> с иконкой (цвет <code>--c</code>), число <code>.dc-val</code> с дельтой <code>.st-delta</code> — чип <code>--success</code> в тон 14%. Числа — Inter 500 с <code>tabular-nums</code>, <code>--fs-title</code>. Карточки — <code>--bg-card</code> с blur 12px, обводка 1px <code>--border</code>, скругление <code>--radius-lg</code>. Прогресс цели — бар 36px на фоне <code>#e6f3f2</code>, заливка градиент <code>#48c4bd → #2c9b95</code> с плавающим процентом на blur-пилюле; чип знака — <code>.gchip.is-sign</code> (Серебро).</p>
+    <div class="cv cv-a cv-weather" style="--c:var(--st-ongoing)">
+      <span class="cv-a-cat">Спорткомплекс</span>
+      <span class="cv-a-head">
+        <span class="cv-a-title"><span class="dot" aria-hidden="true"></span>«СП Петровское»</span>
+        <span class="cv-go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
+      </span>
     </div>
+
+    <div class="cv cv-a goal-card" style="margin-top:var(--space-3)" aria-label="Открыть дневник ГТО, прогресс 4 из 5 нормативов, 85%">
+      <span class="cv-a-head">
+        <span class="cv-a-title">Моя цель</span>
+        <span class="gchip is-sign goal-head-sign" style="--c: var(--gto-silver)"><span class="dot" aria-hidden="true"></span>Знак ГТО · Серебро</span>
+        <span class="cv-go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
+      </span>
+      <span class="goal-progress" aria-hidden="true">
+        <span class="goal-progress-fill" style="width: 85%"><span class="goal-progress-pct">85%</span></span>
+      </span>
+      <span class="goal-meta">
+        <span class="goal-meta-note">Ваш прогресс за 7 дн.</span>
+        <span class="goal-count" aria-hidden="true"><span class="goal-count-n">4</span>/ 5 нормативов</span>
+      </span>
+    </div>
+
+    <div class="dash-stats" style="margin-top:var(--space-3)">
+      <button class="cv cv-a dash-card" type="button" style="--c:var(--amber)">
+        <span class="dash-cell">
+          <span class="dc-top"><svg class="dc-ic" aria-hidden="true"><use href="#ic-star-solar"></use></svg>Баллы</span>
+          <span class="dc-val">2 400<span class="st-delta">+ 125</span></span>
+        </span>
+      </button>
+      <button class="cv cv-a dash-card" type="button" style="--c:var(--amber)">
+        <span class="dash-cell">
+          <span class="dc-top"><svg class="dc-ic" aria-hidden="true"><use href="#ic-medal-solar"></use></svg>Достижения</span>
+          <span class="dc-val">14<span class="st-delta">+1</span></span>
+        </span>
+      </button>
+      <button class="btn btn-accent btn-block stat-rating" type="button"><svg class="stat-rating-ic" aria-hidden="true"><use href="#ic-trend-up"></use></svg>12 место в&nbsp;рейтинге</button>
+    </div>
+    <p class="ds-note">Главная v2: те же карточки идут одна под другой — комплекс → цель → статистика → «Ближ. События». Ячейки <code>.dash-card</code> в <code>.dash-stats</code> — кликабельные <code>button.cv.cv-a</code> с заливкой <code>--bg-card</code> и blur 12px, без подъёма при hover (обводка <code>--border → --border-strong</code>); кнопка рейтинга — акцентная <code>.btn.btn-accent.btn-block</code> с иконкой роста <code>.stat-rating-ic</code>.</p>
 
     <h3 class="ds-sub" style="margin-top:var(--space-4)">Вариант 2 — единая карточка «Баллы · Достижения · Рейтинг»</h3>
     <p class="ds-desc">Одна карточка вместо трёх плиток: сетка 2 колонки с вертикальным разделителем и строка рейтинга на всю ширину снизу. Иконки — перед подписью, обе янтарные (<code>--amber</code>), как на главной. Числа — Inter 500 с <code>tabular-nums</code>, размер <code>--fs-title</code>. Обводка — единая <code>--border</code>, как у всех карточек главной.</p>
@@ -2855,14 +2934,13 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub" style="margin-top:var(--space-4)">Карточка «Спорткомплекс Петровское»</h3>
-    <p class="ds-desc"><code>.complex-card</code> — кликабельная карточка на главной под статистикой: заголовок + шеврон, статус работы и погода. Ведёт на экран «Спорткомплекс» (секция 27), оттуда — на схему (секция 28).</p>
-    <button class="complex-card" type="button" style="max-width:480px">
-      <span class="complex-head">
-        <span class="complex-title"><svg aria-hidden="true"><use href="#ic-court"></use></svg>Спорткомплекс Петровское</span>
-        <span class="complex-go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
+    <p class="ds-desc"><code>.cv.cv-a.cv-weather</code> — кликабельная карточка на главной после шапки: категория <code>.cv-a-cat</code>, заголовок <code>.cv-a-head</code> с точкой-статусом (<code>--c</code>), шеврон. Ведёт на экран «Спорткомплекс» (секция 27), оттуда — на схему (секция 28). Легаси <code>.complex-card</code> (без категории, с <code>.complex-title/.complex-row</code>) остаётся для обратной совместимости.</p>
+    <button class="cv cv-a cv-weather" type="button" style="--c:var(--st-ongoing)">
+      <span class="cv-a-cat">Спорткомплекс</span>
+      <span class="cv-a-head">
+        <span class="cv-a-title"><span class="dot" aria-hidden="true"></span>«СП Петровское»</span>
+        <span class="cv-go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
       </span>
-      <span class="complex-row">Открыто · до 23:00</span>
-      <span class="complex-row"><svg aria-hidden="true"><use href="#ic-rain"></use></svg>Дождь · -3°C</span>
     </button>
     <p class="ds-note">Компактный вариант <code>.status-strip</code> на главной (после шапки): режим работы и погода слева, между ними разделитель <code>.status-strip-sep</code> (разные сущности), погода одной строкой «<code>Дождь, -3°C</code>», шеврон в конце строки (<code>margin-left: auto</code>) — кликабельная плашка на экран «Спорткомплекс».</p>
     <p class="ds-note">Числа — Inter (<code>--font-body</code>) с <code>font-variant-numeric: tabular-nums</code>, вес 500 — как время в карточке события. Цветные акценты: баллы — янтарная звезда (<code>--amber</code>), рост — <code>--success</code>.</p>
@@ -2959,12 +3037,12 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
         <span class="go" aria-hidden="true"><svg><use href="#ic-chev"></use></svg></span>
       </div>
       <div class="news-card">
-        <span class="pic"><svg><use href="#ic-photo"></use></svg></span>
-        <span class="tx">
-          <h4>Новое расписание бассейна с сентября</h4>
-          <p>С 1 сентября меняется расписание дорожек в будни.</p>
-          <span class="meta"><svg><use href="#ic-clock"></use></svg>12 авг</span>
+        <span class="news-card-head">
+          <span class="news-date"><svg><use href="#ic-clock"></use></svg>12 авг</span>
+          <span class="news-media" aria-label="3 фотографии"><svg><use href="#ic-photo"></use></svg>3</span>
         </span>
+        <h3>Новое расписание бассейна с сентября</h3>
+        <p>С 1 сентября меняется расписание дорожек в будни.</p>
       </div>
       <div class="ach-item">
         <span class="medal" style="background:var(--gto-gold)"><svg><use href="#ic-medal"></use></svg></span>
@@ -2982,7 +3060,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
         <span>По этому фильтру событий нет.</span>
       </div>
     </div>
-    <p class="ds-note">Правило тайлов: логотипы и иконки-тайлы (<code>.logo</code>, <code>.club-ic</code>, <code>.ct-ic</code>, <code>.n-ic</code>, <code>.row-ic</code>, <code>.lg-ic</code>, <code>.today-ic</code>, <code>.norm-ic</code>, <code>.task-ic</code>, <code>.streak-ic</code>, <code>.sheet-ic</code>, <code>.news-card .pic</code>) — квадратные плитки со скруглением <code>--radius-md</code> (12px), как аватар организации. Круглыми остаются только аватары людей и медали.</p>
+    <p class="ds-note">Правило тайлов: логотипы и иконки-тайлы (<code>.logo</code>, <code>.club-ic</code>, <code>.ct-ic</code>, <code>.n-ic</code>, <code>.row-ic</code>, <code>.lg-ic</code>, <code>.today-ic</code>, <code>.norm-ic</code>, <code>.task-ic</code>, <code>.streak-ic</code>, <code>.sheet-ic</code>) — квадратные плитки со скруглением <code>--radius-md</code> (12px), как аватар организации. Круглыми остаются только аватары людей и медали.</p>
   </section>
 
   <!-- ════════════════ 13 · СПОРТ И КЛУБЫ ════════════════ -->
@@ -3002,7 +3080,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub">Карточка клуба вида спорта · club-card</h3>
-    <p class="ds-desc">Кнопка 136px в горизонтальном скролле <code>.club-row</code>. Цвет вида задаётся через <code>--c</code>, иконка — из stroke-набора. Подпись — число участников.</p>
+    <p class="ds-desc">Кнопка 136px в горизонтальном скролле <code>.club-row</code>. На главной иконка — PNG-лого 64px (<code>.club-ic img</code>, без подложки, прижато влево). SVG-вариант (<code>.club-ic svg</code>, тон <code>--c</code> 22%) — запасной для видов без логотипа. Подпись — число участников.</p>
     <div class="club-row">
       <button type="button" class="club-card" style="--c:var(--sport-run)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-running-shoe"></use></svg></span><b>Бег</b><small>28 участников</small></button>
       <button type="button" class="club-card" style="--c:var(--sport-swim)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-swimming-cap"></use></svg></span><b>Плавание</b><small>41 участник</small></button>
@@ -3077,12 +3155,12 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 14 · ШАПКА ════════════════ -->
   <section class="ds-sec" id="header" data-od-id="sec-header">
     <h2 class="ds-h2"><span class="n">14</span>Шапка</h2>
-    <p class="ds-desc">Два типа шапок. <code>.hd</code> — главная и лендинги: аватар 48, заголовок в дисплей-шрифте, действия справа — кружки <code>.icon-btn</code> с бейджем <code>.notif</code>. <code>.topbar</code> — экраны-процессы: назад · заголовок · действие (деталь ниже). Подзаголовок — <code>.sub</code>.</p>
+    <p class="ds-desc">Два типа шапок. <code>.hd</code> — главная и лендинги: аватар 48 (фото <code>.is-photo</code> с белой окантовкой или буква), заголовок-приветствие 16/600 (как заголовок карточки события), действия справа — кружки <code>.icon-btn</code> с бейджем <code>.notif</code>. <code>.topbar</code> — экраны-процессы: назад · заголовок · действие (деталь ниже). Подзаголовок — <code>.sub</code>.</p>
     <div class="ds-grid ds-2">
       <div>
         <header class="hd">
-          <span class="avatar">И</span>
-          <span class="hd-txt"><h1>Привет, Иван</h1></span>
+          <span class="avatar is-photo" aria-hidden="true"><svg><use href="#ic-user"></use></svg></span>
+          <span class="hd-txt"><h1>Привет, Андрей</h1></span>
           <span class="hd-acts">
             <a class="icon-btn" href="#" aria-label="Поиск"><svg><use href="#ic-search"></use></svg></a>
             <a class="icon-btn" href="#" aria-label="Уведомления"><svg><use href="#ic-bell"></use></svg><span class="notif">2</span></a>
@@ -3096,7 +3174,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
       </div>
       <div class="ds-grid ds-1">
         <span class="gchip"><b>.hd</b> padding 28/12 · gap 14</span>
-        <span class="gchip"><b>.avatar</b> 48 круг · дисплей-шрифт</span>
+        <span class="gchip"><b>.avatar</b> 48 круг · фото или буква</span>
         <span class="gchip"><b>.icon-btn</b> 48 круг · surface</span>
         <span class="gchip"><b>.notif</b> красный, pill, <code>top:-4 right:-4</code> в <code>.icon-btn</code></span>
       </div>
@@ -3833,7 +3911,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 27 · СПОРТКОМПЛЕКС ════════════════ -->
   <section class="ds-sec" id="complex" data-od-id="sec-complex">
     <h2 class="ds-h2"><span class="n">27</span>Спорткомплекс Петровское</h2>
-    <p class="ds-desc">Экран, куда ведёт карточка <code>.complex-card</code> (секция 07): статус работы комплекса и погода, список зон <code>.zone-card</code> с кнопкой «<svg class="txt-ic" aria-hidden="true"><use href="#ic-pin"></use></svg>Показать на схеме» и блок особенностей <code>.feat-row</code>.</p>
+    <p class="ds-desc">Экран, куда ведёт карточка <code>.cv.cv-a.cv-weather</code> (секция 07): статус работы комплекса и погода, список зон <code>.zone-card</code> с кнопкой «<svg class="txt-ic" aria-hidden="true"><use href="#ic-pin"></use></svg>Показать на схеме» и блок особенностей <code>.feat-row</code>.</p>
 
     <div class="dash-card" style="max-width:480px">
       <div class="status-strip" style="border:0;padding:0 0 var(--space-4)">
