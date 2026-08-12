@@ -58,6 +58,12 @@
   --text-lg:   21px;
   --text-xl:   28px;
 
+  --fs-body: 16px;
+  --fs-meta: 13px;
+
+  --h-base: 44px;
+  --icon-md: 20px;
+
   --leading-body:  1.47;
   --leading-tight: 1.05;
   --tracking-display: -0.015em;
@@ -112,34 +118,51 @@ a { color: inherit; }
   min-height: 100vh;
 }
 
-/* ── Шапка ─────────────────────────────────────────────────────────── */
-.hd {
+/* ── Экранная шапка · назад / заголовок / действие ─────────────────── */
+.topbar {
+  flex: none;
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 24px 16px 16px;
+  gap: var(--space-1);
+  padding: var(--space-2);
 }
-@media (min-width: 560px) { .hd { padding: 36px 24px 20px; } }
-.back {
-  position: relative;
+.topbar-ic {
   flex: none;
+  width: var(--h-base);
+  height: var(--h-base);
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border-soft);
+  border: 0;
   border-radius: 50%;
-  background: var(--bg);
+  background: transparent;
   color: var(--fg-2);
+  cursor: pointer;
   text-decoration: none;
   transition: background var(--motion-fast) var(--ease-standard);
 }
-.back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
-.back:hover { background: var(--surface); }
-.back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.back svg { width: 17px; height: 17px; }
-.hd-txt { flex: 1; min-width: 0; }
-.eyebrow {
+.topbar-ic:hover { background: var(--surface-2); }
+.topbar-ic:active { background: var(--border-soft); }
+.topbar-ic:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.topbar-ic svg { width: 20px; height: 20px; }
+.topbar-tx {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0 var(--space-2);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Лид-блок (eyebrow · подзаголовок) ─────────────────────────────── */
+.lead {
+  padding: var(--space-1) var(--space-4) var(--space-3);
+}
+.lead .eyebrow {
   margin: 0 0 3px;
   font-size: 12px;
   font-weight: 600;
@@ -147,15 +170,8 @@ a { color: inherit; }
   text-transform: uppercase;
   color: var(--meta);
 }
-.hd h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-display);
-  line-height: 1.15;
-}
-.hd .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.lead .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+@media (min-width: 560px) { .lead { padding-left: var(--space-6); padding-right: var(--space-6); } }
 
 /* ── Чипы нормативов ───────────────────────────────────────────────── */
 .ntabs {
@@ -434,23 +450,23 @@ a { color: inherit; }
 <body data-od-id="gto-plan">
 
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <symbol id="ic-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-back" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-doc" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4V20a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 12h6M9 15.5h6M9 8.5h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="ic-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="app">
-  <header class="hd" data-od-id="gto-plan-header">
-    <a class="back" href="gto.html" aria-label="Назад к нормативам ГТО"><svg><use href="#ic-back"/></svg></a>
-    <div class="hd-txt">
-      <div class="eyebrow">Петровское СП · Дневник ГТО</div>
-      <h1>План подготовки к ГТО</h1>
-      <p class="sub">Норматив → группа мышц → упражнения по дням · черновик для согласования</p>
-    </div>
+  <header class="topbar" data-od-id="gto-plan-header">
+    <a class="topbar-ic is-back" href="gto.html" aria-label="Назад к нормативам ГТО"><svg aria-hidden="true"><use href="#ic-back"/></svg></a>
+    <h4 class="topbar-tx">План подготовки к ГТО</h4>
   </header>
 
   <main class="body">
+    <div class="lead" data-od-id="gto-plan-lead">
+      <div class="eyebrow">Петровское СП · Дневник ГТО</div>
+      <p class="sub">Норматив → группа мышц → упражнения по дням · черновик для согласования</p>
+    </div>
     <div class="ntabs" id="ntabs" data-od-id="gto-plan-tabs"></div>
     <div id="panel" data-od-id="gto-plan-panel"></div>
 

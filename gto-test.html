@@ -52,6 +52,18 @@
   --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 
+  --fs-body: 16px;
+  --fs-meta: 13px;
+  --h-base: 44px;
+  --icon-md: 20px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
   /* ─── Radius ────────────────────────────────────────────────────── */
   --radius-sm:   10px;
   --radius-md:   14px;
@@ -88,34 +100,51 @@ a { color: inherit; }
   min-height: 100vh;
 }
 
-/* ── Шапка ─────────────────────────────────────────────────────────── */
-.hd {
+/* ── Экранная шапка · назад / заголовок / действие ─────────────────── */
+.topbar {
+  flex: none;
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 24px 16px 16px;
+  gap: var(--space-1);
+  padding: var(--space-2);
 }
-@media (min-width: 560px) { .hd { padding: 36px 24px 20px; } }
-.back {
-  position: relative;
+.topbar-ic {
   flex: none;
+  width: var(--h-base);
+  height: var(--h-base);
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border-soft);
+  border: 0;
   border-radius: 50%;
-  background: var(--bg);
+  background: transparent;
   color: var(--fg-2);
+  cursor: pointer;
   text-decoration: none;
   transition: background var(--motion-fast) var(--ease-standard);
 }
-.back::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
-.back:hover { background: var(--surface); }
-.back:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.back svg { width: 17px; height: 17px; }
-.hd-txt { flex: 1; min-width: 0; }
-.eyebrow {
+.topbar-ic:hover { background: var(--surface-2); }
+.topbar-ic:active { background: var(--border-soft); }
+.topbar-ic:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.topbar-ic svg { width: 20px; height: 20px; }
+.topbar-tx {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0 var(--space-2);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Лид-блок (eyebrow · подзаголовок) ─────────────────────────────── */
+.lead {
+  padding: var(--space-1) var(--space-4) var(--space-3);
+}
+.lead .eyebrow {
   margin: 0 0 3px;
   font-size: 12px;
   font-weight: 600;
@@ -123,15 +152,8 @@ a { color: inherit; }
   text-transform: uppercase;
   color: var(--meta);
 }
-.hd h1 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: var(--tracking-display, -0.015em);
-  line-height: 1.15;
-}
-.hd .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.lead .sub { margin: 5px 0 0; font-size: 13px; line-height: 1.4; color: var(--muted); }
+@media (min-width: 560px) { .lead { padding-left: var(--space-6); padding-right: var(--space-6); } }
 
 /* ── Карточка норматива ────────────────────────────────────────────── */
 .card {

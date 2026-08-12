@@ -607,7 +607,9 @@ pre.code .t2 { color: #fbbf24; }
   box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.04);
   transition: all var(--motion-fast) var(--ease-standard);
 }
-.stat-rating-ic { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--success); }
+.stat-rating-ic { flex: none; width: var(--icon-md); height: var(--icon-md); color: var(--accent); }
+.stat-rating.is-up .stat-rating-ic { color: var(--success); }
+.stat-rating.is-down .stat-rating-ic { color: var(--danger); }
 .stat-rating:hover { background: var(--surface-2); border-color: var(--border-strong); }
 .stat-rating:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
@@ -712,21 +714,19 @@ pre.code .t2 { color: #fbbf24; }
 .goal-progress {
   position: relative; display: flex;
   width: 100%; height: 36px; margin-top: var(--space-4);
-  background: #e6f3f2; border-radius: var(--radius-pill); overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: var(--radius-pill); overflow: hidden;
   pointer-events: none;
 }
 .goal-progress-fill {
-  position: absolute; top: 0; left: 0; bottom: 0;
-  display: flex; align-items: center; justify-content: flex-end; padding: 3px;
+  position: absolute; top: 2px; left: 2px; bottom: 2px;
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 12px;
   width: 85%;
-  background: linear-gradient(90deg, #48c4bd, #2c9b95);
+  background: linear-gradient(90deg, var(--accent), var(--accent-purple));
   border-radius: var(--radius-pill);
 }
 .goal-progress-pct {
-  display: inline-flex; align-items: center; justify-content: center;
-  height: 100%; padding: 0 12px;
-  background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  border-radius: var(--radius-pill); color: #fff;
+  color: #fff;
   font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -740,7 +740,7 @@ pre.code .t2 { color: #fbbf24; }
 .dash-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin-top: var(--space-2); }
 .dash-cell { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); min-width: 0; }
 .dash-cell .dc-top { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--fs-meta); font-weight: 500; letter-spacing: 0; color: var(--muted); }
-.dash-cell .dc-top svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--c); }
+.dash-cell .dc-top svg { flex: none; width: var(--icon-md); height: var(--icon-md); color: var(--c); transform: translateY(-1px); }
 .dash-cell .dc-val { display: inline-flex; align-items: center; gap: var(--space-1); font-family: var(--font-body); font-size: var(--fs-title); font-weight: 500; letter-spacing: -0.01em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--fg); }
 .dash-cell .dc-val svg { flex: none; width: var(--icon-sm); height: var(--icon-sm); color: var(--c); }
 .dash-stats .st-delta { flex: none; display: inline-flex; align-items: center; gap: var(--space-1); font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 600; letter-spacing: 0; color: color-mix(in oklab, var(--success), var(--fg) 25%); background: color-mix(in srgb, var(--success) 14%, var(--surface)); border-radius: var(--radius-pill); padding: var(--space-1) 11px; white-space: nowrap; }
@@ -914,16 +914,18 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .toast-row { display: flex; flex-direction: column; gap: var(--space-2); }
 .toast {
   display: flex; align-items: center; gap: var(--space-2);
-  background: var(--fg); color: var(--bg);
-  font-size: var(--fs-meta); font-weight: 500; line-height: 1.35;
+  background: var(--surface-2); color: var(--fg);
+  font-size: var(--fs-meta); font-weight: 500; line-height: 1.4;
   border-radius: var(--radius-pill); padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
 }
 .toast .t-ico { flex: none; display: grid; place-items: center; }
 .toast .t-ico svg { width: var(--icon-sm); height: var(--icon-sm); }
-.toast-success { background: var(--st-confirmed); color: var(--accent-on); }
-.toast-error { background: var(--st-cancelled); color: var(--accent-on); }
-.toast-warn { background: var(--st-pending); color: var(--yellow-on); }
-.toast-info { background: var(--st-open); color: var(--accent-on); }
+.toast-success { background: color-mix(in srgb, var(--success) 16%, var(--surface)); border-color: color-mix(in srgb, var(--success) 30%, transparent); color: var(--success); }
+.toast-error { background: color-mix(in srgb, var(--danger) 16%, var(--surface)); border-color: color-mix(in srgb, var(--danger) 30%, transparent); color: var(--danger); }
+.toast-warn { background: color-mix(in srgb, var(--warn) 16%, var(--surface)); border-color: color-mix(in srgb, var(--warn) 30%, transparent); color: var(--warn); }
+.toast-info { background: color-mix(in srgb, var(--accent) 16%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 30%, transparent); color: var(--accent); }
 
 /* ── Карточка организации / новость / достижение / рейтинг ── */
 .org-card {
@@ -961,6 +963,18 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 .club-card:hover { background: var(--surface-2); }
 .club-card:active { transform: scale(0.97); }
 .club-card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.club-card.is-joined::after {
+  content: "";
+  position: absolute; top: var(--space-2); right: var(--space-2);
+  width: 20px; height: 20px;
+  background-color: var(--accent);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='white' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  pointer-events: none;
+}
 .club-ic {
   flex: none;
   width: auto; height: auto; border-radius: 0;
@@ -998,13 +1012,12 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   flex: none;
   font-family: var(--font-mono);
   font-size: var(--fs-caption); font-weight: 600;
-  line-height: 1;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
-  border-radius: var(--radius-pill);
-  padding: var(--space-1) 8px;
+  line-height: 14px;
+  color: var(--muted);
 }
-.news-likes svg { width: 14px; height: 14px; flex: none; display: block; }
+.news-likes svg { width: 14px; height: 14px; flex: none; display: block; margin-top: -2px; }
+.site-foot { padding: var(--space-5) var(--space-2) var(--space-6); text-align: center; }
+.site-foot p { margin: 0; font-size: var(--fs-meta); line-height: 1.5; color: var(--muted); }
 .news-card h3 { margin: var(--space-2) 0 0; font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600; letter-spacing: 0; line-height: 1.3; color: var(--fg); }
 .news-card p { margin: var(--space-1) 0 0; font-size: var(--fs-meta); line-height: 1.45; color: var(--muted); }
 .news-tags { display: flex; flex-wrap: wrap; gap: var(--space-1); }
@@ -1409,6 +1422,9 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
 @keyframes od-spin { to { transform: rotate(360deg); } }
 .btn-social { display: flex; align-items: center; justify-content: center; gap: var(--space-3); width: 100%; height: var(--h-lg); border-radius: var(--radius-pill); background: var(--surface); border: 1px solid var(--border); color: var(--fg); font-family: var(--font-body); font-size: var(--fs-body); font-weight: 600; cursor: pointer; transition: background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard); }
 .btn-social:hover { background: var(--surface-warm); border-color: var(--meta); }
+.btn-social img { flex: 0 0 auto; display: block; height: 26px; }
+.btn-social .vk-logo { width: 26px; }
+.btn-social .gosuslugi-logo { width: auto; }
 .cta { display: block; width: 100%; margin-top: var(--space-4); border: 0; border-radius: var(--radius-pill); height: var(--h-lg); background: var(--type-training); color: var(--accent-on); font-size: var(--fs-body); font-weight: 700; padding: 0; cursor: pointer; transition: background var(--motion-fast) var(--ease-standard); }
 .cta:hover { background: color-mix(in srgb, var(--type-training) 88%, var(--bg)); }
 
@@ -2025,6 +2041,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <symbol id="ic-events" viewBox="0 0 24 24"><path d="M8.4 5.7L7.5 3M15.6 5.7L16.5 3M20.55 9.3H3.45M3 9.9003C3 6.834 5.4174 4.35 8.4 4.35H15.6C18.5826 4.35 21 6.834 21 9.9003V15.4497C21 18.516 18.5826 21 15.6 21H8.4C5.4174 21 3 18.516 3 15.4497V9.9003Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
   <symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5.5 19.5c0-3.1 2.9-5.2 6.5-5.2s6.5 2.1 6.5 5.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
   <symbol id="ic-trend-up" viewBox="0 0 24 24"><path d="M3.5 17l6-6 4 4 7-7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14.5 7.5h6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
+  <symbol id="ic-trend-down" viewBox="0 0 24 24"><path d="M3.5 7l6 6 4-4 7 7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14.5 16.5h6v-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
   <symbol id="ic-trend" viewBox="0 0 24 24"><path d="M17.5554 11.9999H15.4686C15.3868 11.9999 15.3133 12.0497 15.2829 12.1256L13.3609 16.9308C13.287 17.1155 13.0181 17.0908 12.9791 16.8957L11.0207 7.10406C10.9817 6.90899 10.7128 6.8843 10.6389 7.069L8.71685 11.8742C8.68647 11.9501 8.61293 11.9999 8.53115 11.9999H6.44434" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path><path d="M2 12C2 7.28556 2 4.92889 3.46444 3.46444C4.92889 2 7.28667 2 12 2C16.7133 2 19.0711 2 20.5356 3.46444C22 4.92889 22 7.28667 22 12C22 16.7133 22 19.0711 20.5356 20.5356C19.0711 22 16.7133 22 12 22C7.28667 22 4.92889 22 3.46444 20.5356C2 19.0711 2 16.7133 2 12Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path></symbol>
   <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 7.5V12l3 2.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
   <symbol id="ic-bell" viewBox="0 0 24 24"><path d="M18 9.5a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 19.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></symbol>
@@ -2930,7 +2947,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 07 · ДАШБОРДЫ ════════════════ -->
   <section class="ds-sec" id="stats" data-od-id="sec-stats">
     <h2 class="ds-h2"><span class="n">07</span>Дашборды</h2>
-    <p class="ds-desc">Дашборд главной: карточка комплекса <code>.cv.cv-a.cv-weather</code>, карточка цели <code>.goal-card</code> с прогресс-баром <code>.goal-progress</code> и сетка <code>.dash-stats</code> — две ячейки <code>.cv.cv-a.dash-card</code> (Баллы, Достижения) + кнопка рейтинга <code>.stat-rating</code> на всю ширину. Ячейки — паттерн <code>.dash-cell</code>: подпись <code>.dc-top</code> с иконкой (цвет <code>--c</code>), число <code>.dc-val</code> с дельтой <code>.st-delta</code> — чип <code>--success</code> в тон 14%. Числа — Inter 500 с <code>tabular-nums</code>, <code>--fs-title</code>. Карточки — <code>--bg-card</code> с blur 12px, обводка 1px <code>--border</code>, скругление <code>--radius-lg</code>. Прогресс цели — бар 36px на фоне <code>#e6f3f2</code>, заливка градиент <code>#48c4bd → #2c9b95</code> с плавающим процентом на blur-пилюле; чип знака — <code>.gchip.is-sign</code> (Серебро).</p>
+    <p class="ds-desc">Дашборд главной: карточка комплекса <code>.cv.cv-a.cv-weather</code>, карточка цели <code>.goal-card</code> с прогресс-баром <code>.goal-progress</code> и сетка <code>.dash-stats</code> — две ячейки <code>.cv.cv-a.dash-card</code> (Баллы, Достижения) + кнопка рейтинга <code>.stat-rating</code> на всю ширину. Ячейки — паттерн <code>.dash-cell</code>: подпись <code>.dc-top</code> с иконкой (цвет <code>--c</code>), число <code>.dc-val</code> с дельтой <code>.st-delta</code> — чип <code>--success</code> в тон 14%. Числа — Inter 500 с <code>tabular-nums</code>, <code>--fs-title</code>. Карточки — <code>--bg-card</code> с blur 12px, обводка 1px <code>--border</code>, скругление <code>--radius-lg</code>. Прогресс цели — «пилюля в пилюле»: трек 36px с обводкой 1px <code>color-mix(in srgb, var(--accent) 30%, transparent)</code>, внутри с отступом 2px заливка градиент <code>var(--accent) → var(--accent-purple)</code> и процентом белым текстом без подложки; чип знака — <code>.gchip.is-sign</code> (Серебро).</p>
     <div class="cv cv-a cv-weather" style="--c:var(--st-ongoing)">
       <span class="cv-a-cat">Спорткомплекс</span>
       <span class="cv-a-head">
@@ -2967,7 +2984,8 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
           <span class="dc-val">14<span class="st-delta">+1</span></span>
         </span>
       </button>
-      <button class="btn btn-accent btn-block stat-rating" type="button"><svg class="stat-rating-ic" aria-hidden="true"><use href="#ic-trend-up"></use></svg>12 место в&nbsp;рейтинге</button>
+      <button class="btn btn-accent btn-block stat-rating is-up" type="button"><svg class="stat-rating-ic" aria-hidden="true"><use href="#ic-trend-up"></use></svg>12 место в&nbsp;рейтинге</button>
+      <button class="btn btn-accent btn-block stat-rating is-down" type="button" style="margin-top:var(--space-2)"><svg class="stat-rating-ic" aria-hidden="true"><use href="#ic-trend-down"></use></svg>34 место в&nbsp;рейтинге</button>
     </div>
     <p class="ds-note">Главная v2: те же карточки идут одна под другой — комплекс → цель → статистика → «Ближ. События». Ячейки <code>.dash-card</code> в <code>.dash-stats</code> — кликабельные <code>button.cv.cv-a</code> с заливкой <code>--bg-card</code> и blur 12px, без подъёма при hover (обводка <code>--border → --border-strong</code>); кнопка рейтинга — акцентная <code>.btn.btn-accent.btn-block</code> с иконкой роста <code>.stat-rating-ic</code>.</p>
 
@@ -3083,7 +3101,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
   <!-- ════════════════ 11 · ТОСТЫ ════════════════ -->
   <section class="ds-sec" id="toast" data-od-id="sec-toast">
     <h2 class="ds-h2"><span class="n">11</span>Тосты</h2>
-    <p class="ds-desc">Капсула, выезжает снизу/сверху. Четыре тональности; у «успеха» и «ошибки» — тёмная иконка в круге.</p>
+    <p class="ds-desc">Капсула, выезжает снизу/сверху. Четыре тональности в стиле DeepSeek: полупрозрачная подложка <code>color-mix(цвет 16%)</code>, цветная рамка 30%, иконка и текст в тоне статуса, лёгкий blur.</p>
     <div class="ds-row">
       <div class="ds-grid ds-2" style="flex:1">
         <div class="toast toast-success"><span class="t-ico"><svg><use href="#ic-check"></use></svg></span>Запись на событие подтверждена</div>
@@ -3142,7 +3160,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub">Заголовок секции с «Все →» · sec-head + sec-all</h3>
-    <p class="ds-desc">Заголовок секции главной (события, клубы, новости): <code>.sec-head</code> с <code>h2</code> слева и ссылкой <code>.sec-all</code> справа. Для новостей — «Все» с шевроном; дата в карточке пишется словами («12 Августа»), а у свежих — «Пн., 12 Авг.».</p>
+    <p class="ds-desc">Заголовок секции главной (события, клубы, новости): <code>.sec-head</code> с <code>h2</code> слева и ссылкой <code>.sec-all</code> справа. Для новостей — «Все» с шевроном; дата в карточке всегда пишется словами, единый формат «12 Августа».</p>
     <div class="sec-head">
       <h2>Новости сообщества</h2>
       <a class="sec-all" href="#misc">Все<svg aria-hidden="true"><use href="#ic-chev"></use></svg></a>
@@ -3168,9 +3186,9 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
     </div>
 
     <h3 class="ds-sub">Карточка клуба вида спорта · club-card</h3>
-    <p class="ds-desc">Кнопка 136px в горизонтальном скролле <code>.club-row</code>. На главной иконка — PNG-лого 64px (<code>.club-ic img</code>, без подложки, прижато влево). SVG-вариант (<code>.club-ic svg</code>, тон <code>--c</code> 22%) — запасной для видов без логотипа. Подпись — число участников.</p>
+    <p class="ds-desc">Кнопка 136px в горизонтальном скролле <code>.club-row</code>. На главной иконка — PNG-лого 64px (<code>.club-ic img</code>, без подложки, прижато влево). SVG-вариант (<code>.club-ic svg</code>, тон <code>--c</code> 22%) — запасной для видов без логотипа. Подпись — число участников. Верхний правый круглый маркер <code>.is-joined::after</code> (20px, круглый, <code>--accent</code>, белая галочка) — индикатор «я состою в клубе», это не чекбокс.</p>
     <div class="club-row">
-      <button type="button" class="club-card" style="--c:var(--sport-run)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-running-shoe"></use></svg></span><b>Бег</b><small>28 участников</small></button>
+      <button type="button" class="club-card is-joined" style="--c:var(--sport-run)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-running-shoe"></use></svg></span><b>Бег</b><small>28 участников</small></button>
       <button type="button" class="club-card" style="--c:var(--sport-swim)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-swimming-cap"></use></svg></span><b>Плавание</b><small>41 участник</small></button>
       <button type="button" class="club-card" style="--c:var(--sport-bike)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-bicycle"></use></svg></span><b>Велосипед</b><small>19 участников</small></button>
       <button type="button" class="club-card" style="--c:var(--sport-ofp)"><span class="club-ic" aria-hidden="true"><svg><use href="#ic-sport-jump-rope"></use></svg></span><b>ОФП</b><small>36 участников</small></button>
@@ -3423,7 +3441,9 @@ select.input { appearance: none; -webkit-appearance: none; background-image: url
         <div style="height:10px"></div>
         <button type="button" class="btn btn-secondary btn-block is-busy"><span class="spinner"></span>Отправка…</button>
         <div class="divider">или</div>
-        <button type="button" class="btn-social"><span class="mark-box"><svg style="width:16px;height:16px"><use href="#ic-user"></use></svg></span>Войти через Госуслуги</button>
+        <button type="button" class="btn-social"><img class="vk-logo" src="assets/vk-logo.svg" alt="ВКонтакте">Войти через ВКонтакте</button>
+        <div style="height:8px"></div>
+        <button type="button" class="btn-social"><img class="gosuslugi-logo" src="assets/gosuslugi-logo.svg" alt="Госуслуги">Войти через Госуслуги</button>
         <p class="ds-note" style="margin-top:var(--space-3)">Ошибка всей формы — баннер <code>.form-alert.is-show</code>: красная рамка, фон 8% danger.</p>
         <div class="form-alert is-show">Не удалось войти: проверьте телефон и пароль.</div>
       </div>
