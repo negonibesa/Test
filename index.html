@@ -284,13 +284,9 @@ a.l-card:active { background: var(--surface-2); }
 
     <h2 class="l-section">Старт прототипа</h2>
     <div class="l-group">
-      <a class="l-card" href="splash-screen.html" data-od-id="ln-splash" style="--c: var(--accent)">
+      <a class="l-card" href="splash-screen-1.html" data-od-id="ln-splash" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-flag"/></svg></span>
-        <span class="l-body"><span class="l-name">Сплэш-экран</span><span class="l-desc">Заставка с анимацией герба Петровского · автопереход в хаб</span></span>
-      </a>
-      <a class="l-card" href="splash-phone.html" data-od-id="ln-splash-phone" style="--c: var(--accent)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-phone"/></svg></span>
-        <span class="l-body"><span class="l-name">Сплэш · фрейм телефона</span><span class="l-desc">Превью сплэша в рамке смартфона · зациклено</span></span>
+        <span class="l-body"><span class="l-name">Сплэш-экран</span><span class="l-desc">Синий фон · фото лыжника в кольце загрузки · без герба</span></span>
       </a>
       <a class="l-card" href="home-athlete-brand.html" data-od-id="ln-home-brand" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-home"/></svg></span>
@@ -472,7 +468,7 @@ a.l-card:active { background: var(--surface-2); }
     </div>
 
     <div class="l-foot">
-      Сценарии welcome-screen.html (и V2-версии welcome-v2.html) открываются через hash-навигацию: <code>#welcome</code> · <code>#auth</code> · <code>#register</code> · <code>#role</code> · <code>#onboarding</code> · <code>#questionnaire</code> · <code>#home</code>.<br>
+      Сценарии welcome-screen.html (и V2-версии welcome-v2.html) открываются через hash-навигацию: <code>#welcome</code> · <code>#auth</code> · <code>#register</code> · <code>#role</code> · <code>#questionnaire</code> · <code>#home</code> (онбординг только в V1: <code>#onboarding</code>).<br>
       Экран-источник бренда: <code>home-athlete-brand.html</code>. Тренировки: <code>trainings.html</code> → <code>training-active.html</code> → <code>training-report.html</code>. ГТО: <code>gto.html</code> → <code>gto-plan.html</code> → <code>gto-workout.html</code> → <code>gto-test.html</code> → <code>gto-result.html</code>.
     </div>
   </section>
@@ -480,14 +476,14 @@ a.l-card:active { background: var(--surface-2); }
   <section class="l-view" id="view-v2" role="tabpanel" aria-labelledby="tab-v2" hidden>
     <h2 class="l-section">Старт · V2</h2>
     <div class="l-group">
-      <a class="l-card" href="splash-v2.html" data-od-id="ln-splash-v2" style="--c: var(--accent)">
+      <a class="l-card" href="splash-screen-1.html" data-od-id="ln-splash-v2" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-flag"/></svg></span>
-        <span class="l-body"><span class="l-name">Сплэш · V2</span><span class="l-desc">Пересборка по канону: плоский фон, лёгкий герб, wordmark Oswald, автопереход</span></span>
+        <span class="l-body"><span class="l-name">Сплэш · V2</span><span class="l-desc">Синий фон · фото лыжника, кольцо загрузки · без герба</span></span>
         <span class="l-badge is-main">V2</span>
       </a>
       <a class="l-card" href="welcome-v2.html#welcome" data-od-id="ln-welcome-v2" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-welcome"/></svg></span>
-        <span class="l-body"><span class="l-name">Welcome · V2</span><span class="l-desc">Пересборка по новой DS: плоский лёгкий фон, флоу welcome → auth → role → home, «Войти как гость»</span></span>
+        <span class="l-body"><span class="l-name">Welcome · V2</span><span class="l-desc">Анимация спортплощадок, флоу welcome → auth → role → анкета, «Войти как гость»</span></span>
         <span class="l-badge is-main">V2</span>
       </a>
     </div>
@@ -506,12 +502,7 @@ a.l-card:active { background: var(--surface-2); }
       </a>
       <a class="l-card" href="welcome-v2.html#role" data-od-id="ln-role-v2" style="--c: var(--accent)">
         <span class="l-ic"><svg aria-hidden="true"><use href="#ic-role"/></svg></span>
-        <span class="l-body"><span class="l-name">Выбор роли · V2</span><span class="l-desc">Спортсмен / тренер · аватарки ролей · шаг 1 из 3</span></span>
-        <svg class="l-chev"><use href="#ic-chev"/></svg>
-      </a>
-      <a class="l-card" href="welcome-v2.html#onboarding" data-od-id="ln-onboarding-v2" style="--c: var(--accent)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-onboard"/></svg></span>
-        <span class="l-body"><span class="l-name">Онбординг · V2</span><span class="l-desc">4 шага знакомства, точки-индикаторы, пропустить</span></span>
+        <span class="l-body"><span class="l-name">Выбор роли · V2</span><span class="l-desc">Спортсмен / тренер / судья · фото-аватарки ролей · шаг 1 из 3</span></span>
         <svg class="l-chev"><use href="#ic-chev"/></svg>
       </a>
       <a class="l-card" href="welcome-v2.html#questionnaire" data-od-id="ln-questionnaire-v2" style="--c: var(--accent)">
@@ -535,43 +526,6 @@ a.l-card:active { background: var(--surface-2); }
       </a>
     </div>
 
-    <h2 class="l-section">Расписание · тренировки · V2</h2>
-    <div class="l-group">
-      <a class="l-card" href="schedule-calendar.html" data-od-id="ln-schedule-v2" style="--c: var(--accent)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-cal"/></svg></span>
-        <span class="l-body"><span class="l-name">Расписание · Календарь</span><span class="l-desc">Пересборка на base.css: точки под числами, спорт-фильтр, вкладки «Календарь | План», создание события</span></span>
-        <span class="l-badge is-main">V2</span>
-      </a>
-      <a class="l-card" href="trainings.html" data-od-id="ln-trainings-v2" style="--c: var(--success)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-trend"/></svg></span>
-        <span class="l-body"><span class="l-name">Тренировки</span><span class="l-desc">Пересборка на base.css: недельный план, лог прошлых тренировок, старт занятия</span></span>
-        <span class="l-badge is-main">V2</span>
-      </a>
-      <a class="l-card" href="training-active.html" data-od-id="ln-training-active-v2" style="--c: var(--success)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-run"/></svg></span>
-        <span class="l-body"><span class="l-name">Тренировка · активная</span><span class="l-desc">Пересборка на base.css: прогресс по упражнениям, таймер, завершение</span></span>
-        <span class="l-badge is-main">V2</span>
-      </a>
-      <a class="l-card" href="training-report.html" data-od-id="ln-training-report-v2" style="--c: var(--success)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-chat"/></svg></span>
-        <span class="l-body"><span class="l-name">Отчёт о тренировке</span><span class="l-desc">Пересборка на base.css: итоги занятия, чат с тренером</span></span>
-        <span class="l-badge is-main">V2</span>
-      </a>
-    </div>
-
-    <h2 class="l-section">Уведомления · поиск · V2</h2>
-    <div class="l-group">
-      <a class="l-card" href="notifications.html" data-od-id="ln-notifications-v2" style="--c: var(--accent)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-bell"/></svg></span>
-        <span class="l-body"><span class="l-name">Уведомления</span><span class="l-desc">Пересборка на base.css: лента событий, баллы, приглашения · фильтры и настройки</span></span>
-        <span class="l-badge is-main">V2</span>
-      </a>
-      <a class="l-card" href="search.html" data-od-id="ln-search-v2" style="--c: var(--accent)">
-        <span class="l-ic"><svg aria-hidden="true"><use href="#ic-search"/></svg></span>
-        <span class="l-body"><span class="l-name">Поиск</span><span class="l-desc">Пересборка на base.css: события, тренеры, клубы, спортсмены, площадки</span></span>
-        <span class="l-badge is-main">V2</span>
-      </a>
-    </div>
   </section>
 </div>
 

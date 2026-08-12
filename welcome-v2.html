@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<!-- Общий канон: design-system.html → base.css (единственный источник правды).
+     Ниже в <style> только экранная специфика welcome-v2. -->
 <style>
 :root {
   --bg: #eef1f7;
@@ -95,6 +98,8 @@ body {
   min-height: 100dvh;
   background: var(--surface);
   overflow: hidden;
+  padding: 0;
+  z-index: auto;
 }
 @media (min-width: 768px) and (min-height: 680px) {
   .app {
@@ -222,7 +227,7 @@ body {
 }
 .grow { flex: 1 1 auto; min-height: 0; }
 
-.cta {
+.cta-foot {
   flex: 0 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -798,100 +803,10 @@ color: var(--fg);
 .role-card.is-active .role-check { border-color: var(--accent); }
 .role-card.is-active .role-check::after { opacity: 1; transform: scale(1); }
 
-.role-scroll .cta {
+.role-scroll .cta-foot {
   margin-top: 40px;
   padding: 0 0 calc(20px + env(safe-area-inset-bottom, 0px));
 }
-
-/* Onboarding */
-.od {
-  flex: 1;
-  min-height: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.od-viewport {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  touch-action: pan-y;
-}
-.od-track {
-  display: flex;
-  height: 100%;
-  transition: transform var(--motion-base) var(--ease-standard);
-  will-change: transform;
-}
-.od-slide {
-  flex: 0 0 100%;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 40px 0;
-  text-align: center;
-}
-.od-art {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: clamp(160px, 46vw, 220px);
-  height: clamp(160px, 46vw, 220px);
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--accent);
-}
-.od-art svg { display: block; }
-.od-slide h2 {
-  margin: 36px 0 0;
-  font-family: var(--font-display);
-  font-size: var(--fs-title);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--fg);
-}
-.od-slide p {
-  margin: 12px auto 0;
-  max-width: 30ch;
-  font-size: var(--fs-body);
-  line-height: 1.5;
-  color: var(--muted);
-}
-.od-footer {
-  flex: 0 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 20px 24px calc(20px + env(safe-area-inset-bottom, 0px));
-}
-.od-dots { display: flex; gap: 8px; }
-.od-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--border);
-  transition:
-    width var(--motion-fast) var(--ease-standard),
-    background-color var(--motion-fast) var(--ease-standard);
-}
-.od-dot.is-active {
-  width: 24px;
-  border-radius: var(--radius-pill);
-  background: var(--accent);
-}
-.od-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
 /* Questionnaire */
 .q-scroll {
   padding: 12px 24px calc(24px + env(safe-area-inset-bottom, 0px));
@@ -1238,6 +1153,7 @@ color: var(--fg);
   opacity: 0;
   transform: translate(-50%, 16px);
   pointer-events: none;
+  animation: none;
   transition:
     opacity var(--motion-base) var(--ease-standard),
     transform var(--motion-base) var(--ease-standard);
@@ -1254,6 +1170,12 @@ color: var(--fg);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  transform: none;
+  max-width: none;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--motion-base) var(--ease-standard);
@@ -1286,7 +1208,10 @@ color: var(--fg);
   background: var(--border);
   margin: 8px auto 0;
 }
-.sheet-head { margin-top: 16px; }
+.sheet-head {
+  display: block;
+  margin-top: 16px;
+}
 .sheet-head h3 {
   margin: 10px 0 0;
   font-family: var(--font-display);
@@ -1445,7 +1370,7 @@ color: var(--fg);
 
       <div class="grow" aria-hidden="true"></div>
 
-      <footer class="cta r r-4">
+      <footer class="cta-foot r r-4">
         <button type="button" class="btn btn-accent" id="btn-login">Войти</button>
         <button type="button" class="btn btn-ghost" id="btn-register">Зарегистрироваться</button>
         <button type="button" class="link guest-link" id="btn-guest">Войти как гость</button>
@@ -1685,7 +1610,7 @@ color: var(--fg);
         <label class="role-card" data-role="athlete">
           <input type="radio" name="role" value="athlete">
           <span class="role-avatar" aria-hidden="true">
-            <img src="/api/projects/70f2c5f4-fba6-4067-84f7-ae1f37d6970f/raw/assets/avatar-sportsman.svg?workspaceId=dd2n7ydj2v65r2v24rls2lxe&amp;workspaceMemberId=vlsaw47smfcyrq6outx9stha" alt="" width="56" height="56">
+            <img src="assets/role-basketball.png" alt="" width="56" height="56">
           </span>
           <span class="role-body">
             <span class="role-title">Спортсмен</span>
@@ -1699,7 +1624,7 @@ color: var(--fg);
         <label class="role-card" data-role="coach">
           <input type="radio" name="role" value="coach">
           <span class="role-avatar" aria-hidden="true">
-            <img src="/api/projects/70f2c5f4-fba6-4067-84f7-ae1f37d6970f/raw/assets/avatar-trener.svg?workspaceId=dd2n7ydj2v65r2v24rls2lxe&amp;workspaceMemberId=vlsaw47smfcyrq6outx9stha" alt="" width="56" height="56">
+            <img src="assets/role-coach.png" alt="" width="56" height="56">
           </span>
           <span class="role-body">
             <span class="role-title">Тренер</span>
@@ -1709,104 +1634,27 @@ color: var(--fg);
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"></path></svg>
           </span>
         </label>
+
+        <label class="role-card" data-role="referee">
+          <input type="radio" name="role" value="referee">
+          <span class="role-avatar" aria-hidden="true">
+            <img src="assets/role-referee.png" alt="" width="56" height="56">
+          </span>
+          <span class="role-body">
+            <span class="role-title">Судья</span>
+            <span class="role-desc">Контролируйте матчи и фиксируйте результаты</span>
+          </span>
+          <span class="role-check" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5 5.5 10.5 11.5 3.5"></path></svg>
+          </span>
+        </label>
       </div>
 
-      <footer class="cta">
+      <footer class="cta-foot">
         <button type="button" class="btn btn-accent btn-block" id="btn-role-continue" disabled=""><span class="spinner" aria-hidden="true"></span>Продолжить</button>
       </footer>
     </div>
   </section>
-
-  <section class="screen" id="screen-onboarding" data-od-id="onboarding-screen" aria-label="Онбординг" inert="" aria-hidden="true">
-    <div class="statusbar" aria-hidden="true">
-      <span class="time">9:41</span>
-      <svg width="66" height="12" viewBox="0 0 66 12" fill="currentColor" aria-hidden="true">
-        <rect x="0" y="7" width="3" height="5" rx="1"></rect>
-        <rect x="5" y="5" width="3" height="7" rx="1"></rect>
-        <rect x="10" y="3" width="3" height="9" rx="1"></rect>
-        <rect x="15" y="1" width="3" height="11" rx="1"></rect>
-        <path d="M21 3.5 C 25 0.5 29 0.5 33 3.5" fill="none" stroke="currentColor" stroke-width="1.6"></path>
-        <rect x="38" y="1.5" width="20" height="9" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.2"></rect>
-        <path d="M59 4 h1.6 a1 1 0 0 1 0 4 H59 Z" fill="currentColor"></path>
-        <rect x="40" y="3.5" width="12" height="5" rx="1.2" fill="currentColor"></rect>
-      </svg>
-    </div>
-
-    <header class="topbar">
-      <button type="button" class="topbar-ic is-back" id="btn-od-back" aria-label="Назад">
-        <svg aria-hidden="true"><use href="#ic-back"></use></svg>
-      </button>
-      <h4 class="topbar-tx">Знакомство</h4>
-      <button type="button" class="topbar-act" id="od-skip">Пропустить</button>
-    </header>
-
-    <div class="od">
-      <div class="od-viewport" id="od-viewport">
-        <div class="od-track" id="od-track">
-          <section class="od-slide" aria-label="Слайд 1: Расписание тренировок">
-            <span class="od-art" aria-hidden="true">
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3.5" y="5" width="17" height="15.5" rx="2.5"></rect>
-                <path d="M8 2.8v3.2"></path>
-                <path d="M16 2.8v3.2"></path>
-                <path d="M3.5 9.5h17"></path>
-                <path d="M8.5 14.5l2.4 2.4 4.6-4.6"></path>
-              </svg>
-            </span>
-            <h2>Расписание тренировок</h2>
-            <p>Все занятия спортшколы — в одном календаре. Ничего не потеряется.</p>
-          </section>
-
-          <section class="od-slide" aria-label="Слайд 2: Запись и напоминания">
-            <span class="od-art" aria-hidden="true">
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 9.5a6 6 0 0 0-12 0c0 5-2 6.2-2 6.2h16s-2-1.2-2-6.2"></path>
-                <path d="M10.2 19.2a1.9 1.9 0 0 0 3.6 0"></path>
-              </svg>
-            </span>
-            <h2>Запись в один тап</h2>
-            <p>Записывайтесь на тренировки за секунды, напоминания придут вовремя.</p>
-          </section>
-
-          <section class="od-slide" aria-label="Слайд 3: Прогресс и результаты">
-            <span class="od-art" aria-hidden="true">
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4v14.5a1.5 1.5 0 0 0 1.5 1.5H20"></path>
-                <path d="M8 14.5l3.2-3.6 2.8 2.2 4.4-5"></path>
-                <path d="M15.5 8h2.9v2.9"></path>
-              </svg>
-            </span>
-            <h2>Ваш прогресс</h2>
-            <p>Ведите дневник и видите, как растут результаты от тренировки к тренировке.</p>
-          </section>
-
-          <section class="od-slide" aria-label="Слайд 4: Тренер на связи">
-            <span class="od-art" aria-hidden="true">
-              <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v6A2.5 2.5 0 0 1 17.5 15H10l-4.5 3.5V15H6.5"></path>
-                <path d="M8 9.5h8"></path>
-                <path d="M8 12h4.5"></path>
-              </svg>
-            </span>
-            <h2>Тренер на связи</h2>
-            <p>Сообщения, отчёты и советы тренера — прямо в приложении.</p>
-          </section>
-        </div>
-      </div>
-
-      <footer class="od-footer">
-        <div class="od-dots" aria-hidden="true">
-          <span class="od-dot is-active"></span>
-          <span class="od-dot"></span>
-          <span class="od-dot"></span>
-          <span class="od-dot"></span>
-        </div>
-        <p class="od-status" id="od-status" aria-live="polite">Слайд 1 из 4</p>
-        <button type="button" class="btn btn-accent btn-block" id="od-next">Далее</button>
-      </footer>
-    </div>
-  </section>
-
   <section class="screen" id="screen-questionnaire" data-od-id="questionnaire-screen" aria-label="Анкета" inert="" aria-hidden="true">
     <div class="statusbar" aria-hidden="true">
       <span class="time">9:41</span>
@@ -1965,7 +1813,7 @@ color: var(--fg);
         </label>
       </form>
 
-      <footer class="cta">
+      <footer class="cta-foot">
         <button type="submit" form="form-questionnaire" class="btn btn-accent btn-block" id="btn-q-save" disabled=""><span class="spinner" aria-hidden="true"></span>Сохранить и начать</button>
       </footer>
     </div>
@@ -2198,7 +2046,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var isGuest = false;
   $('btn-role-skip').addEventListener('click', function () {
     roleValue = 'athlete';
-    show('screen-onboarding', 'od-skip');
+    goQuestionnaire();
   });
   roleCards.forEach(function (card) {
     var input = card.querySelector('input');
@@ -2219,7 +2067,7 @@ document.addEventListener('DOMContentLoaded', function () {
       roleContinue.classList.remove('is-busy');
       roleContinue.removeAttribute('aria-busy');
       roleContinue.disabled = false;
-      show('screen-onboarding', 'od-skip');
+      goQuestionnaire();
     }, 500);
   });
 
@@ -2227,43 +2075,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fillQuestionnaire();
     show('screen-questionnaire', 'q-fio');
   }
-
-  var odSlides = document.querySelectorAll('.od-slide');
-  var odTrack = $('od-track'), odViewport = $('od-viewport');
-  var odDots = document.querySelectorAll('.od-dot');
-  var odNext = $('od-next');
-  var odIndex = 0;
-
-  function odGo(i) {
-    odIndex = Math.max(0, Math.min(odSlides.length - 1, i));
-    odTrack.style.transform = 'translateX(-' + (odIndex * 100) + '%)';
-    odDots.forEach(function (d, n) { d.classList.toggle('is-active', n === odIndex); });
-    $('od-status').textContent = 'Слайд ' + (odIndex + 1) + ' из ' + odSlides.length;
-    odSlides.forEach(function (s, n) {
-      s.setAttribute('aria-hidden', n !== odIndex ? 'true' : 'false');
-    });
-    var last = odIndex === odSlides.length - 1;
-    odNext.textContent = last ? 'Начать' : 'Далее';
-    odNext.setAttribute('aria-label', last ? 'Начать — перейти к анкете' : 'Следующий слайд');
-  }
-  function odNextStep() {
-    if (odIndex >= odSlides.length - 1) goQuestionnaire();
-    else odGo(odIndex + 1);
-  }
-  odGo(0);
-  odNext.addEventListener('click', odNextStep);
-  $('od-skip').addEventListener('click', goQuestionnaire);
-  $('btn-od-back').addEventListener('click', function () { show('screen-role', 'btn-role-continue'); });
-
-  var odTouchX = null;
-  odViewport.addEventListener('pointerdown', function (e) { odTouchX = e.clientX; });
-  odViewport.addEventListener('pointerup', function (e) {
-    if (odTouchX === null) return;
-    var dx = e.clientX - odTouchX;
-    odTouchX = null;
-    if (Math.abs(dx) < 40) return;
-    if (dx < 0) odNextStep(); else odGo(odIndex - 1);
-  });
 
   var qFio = $('q-fio'), qBirth = $('q-birth'), qExp = $('q-exp'),
       qEmail = $('q-email'), qPhone = $('q-phone'),
@@ -2478,7 +2289,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       var words = qFio.value.trim().split(/\s+/).filter(Boolean);
       $('home-name').textContent = words.length ? words[0] : 'Спортсмен';
-      $('home-role').textContent = 'Роль: ' + (roleValue === 'coach' ? 'тренер' : 'спортсмен');
+      $('home-role').textContent = 'Роль: ' + ({ athlete: 'спортсмен', coach: 'тренер', referee: 'судья' }[roleValue] || 'спортсмен');
       $('home-badge').textContent = 'Анкета готова';
       $('home-badge').classList.remove('is-guest');
       $('home-sub').textContent = 'Анкета сохранена. Поставьте цель — и следите за прогрессом.';
@@ -2506,7 +2317,7 @@ document.addEventListener('DOMContentLoaded', function () {
       enterHome(false);
     }, 600);
   });
-  $('btn-q-back').addEventListener('click', function () { show('screen-onboarding', 'od-skip'); });
+  $('btn-q-back').addEventListener('click', function () { show('screen-role', 'btn-role-continue'); });
   $('btn-home-back').addEventListener('click', function () {
     if (isGuest) show('screen-welcome', 'btn-login');
     else show('screen-questionnaire', 'q-fio');
@@ -2888,8 +2699,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (sheetGoal.classList.contains('is-show')) { closeGoalSheet(); return; }
       if (active.id === 'screen-auth') show('screen-welcome', 'btn-login');
       else if (active.id === 'screen-role') show('screen-auth', 'login-id');
-      else if (active.id === 'screen-onboarding') show('screen-role', 'btn-role-continue');
-      else if (active.id === 'screen-questionnaire') show('screen-onboarding', 'od-skip');
+      else if (active.id === 'screen-questionnaire') show('screen-role', 'btn-role-continue');
       else if (active.id === 'screen-home') show('screen-welcome', 'btn-login');
     } else if (e.key === 'Tab' && sheetGoal.classList.contains('is-show')) {
       var focusables = sheetGoal.querySelectorAll('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])');
@@ -2897,12 +2707,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var first = focusables[0], last = focusables[focusables.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    } else if (e.key === 'ArrowRight' && active.id === 'screen-onboarding') {
-      e.preventDefault();
-      odNextStep();
-    } else if (e.key === 'ArrowLeft' && active.id === 'screen-onboarding') {
-      e.preventDefault();
-      odGo(odIndex - 1);
     }
   });
 
@@ -2913,7 +2717,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var hashMap = {
     welcome: 'screen-welcome', auth: 'screen-auth', register: 'screen-auth', role: 'screen-role',
-    onboarding: 'screen-onboarding', questionnaire: 'screen-questionnaire', home: 'screen-home'
+    questionnaire: 'screen-questionnaire', home: 'screen-home'
   };
   function applyHash() {
     var hashRaw = location.hash.replace('#', '');
@@ -2924,7 +2728,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var hashFocus = hashNav === 'screen-welcome' ? 'btn-login'
       : hashNav === 'screen-auth' ? (hashRaw === 'register' ? 'fio' : 'login-id')
       : hashNav === 'screen-role' ? 'btn-role-back'
-      : hashNav === 'screen-onboarding' ? 'od-skip'
       : hashNav === 'screen-questionnaire' ? 'q-fio'
       : 'btn-home-exit';
     show(hashNav, hashFocus);
